@@ -10,10 +10,10 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { ThemeProvider } from "./styles/ThemeProvider";
 
-// import exampleReducer from "./store/reducers/example";
+import detailReducer from "./store/reducers/detail";
 
 const rootReducer = combineReducers({
-  // example: exampleReducer,
+  detail: detailReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
