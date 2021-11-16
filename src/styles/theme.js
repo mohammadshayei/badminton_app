@@ -19,7 +19,7 @@ const lightTheme = {
   darken_border_color: "",
   borderBlur: "",
   button_disabled: "",
-  hover: "rgba(0, 0, 0, 0.1)",
+  hover: "rgb(210, 210, 210)",
 };
 
 const darkTheme = {
@@ -43,7 +43,7 @@ const darkTheme = {
   darken_border_color: "",
   borderBlur: "",
   button_disabled: "",
-  hover: "rgba(0, 0, 0, 0.1)",
+  hover: "rgb(210, 210, 210)",
 };
 
 const theme = (mode) => (mode === "dark" ? darkTheme : lightTheme);

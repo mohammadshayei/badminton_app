@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App.jsx';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App.jsx";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import { ThemeProvider } from "./styles/ThemeProvider";
 
 // import exampleReducer from "./store/reducers/example";
-
 
 const rootReducer = combineReducers({
   // example: exampleReducer,
@@ -26,14 +26,12 @@ const store = createStore(
 const app = (
   <Provider store={store}>
     <BrowserRouter basename="badminton">
-      {/* <ThemeProvider> */}
+      <ThemeProvider>
         <App />
-      {/* </ThemeProvider> */}
+      </ThemeProvider>
     </BrowserRouter>
   </Provider>
 );
-
-
 
 ReactDOM.render(
   <React.StrictMode>{app}</React.StrictMode>,
