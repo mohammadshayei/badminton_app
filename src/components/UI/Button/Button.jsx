@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTheme } from "../../styles/ThemeProvider";
+import { useTheme } from "../../../styles/ThemeProvider";
 import "./Button.scss";
 
 const Button = (props) => {
