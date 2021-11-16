@@ -8,9 +8,7 @@ function App() {
   // console.log(platform)
   return (
     < Routes>
-      <div className='app-container'>
         <Route path="/refereeing" exact element={<MainPage />}></Route>
-      </div>
     </ Routes>
   );
 }
