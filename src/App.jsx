@@ -20,7 +20,7 @@ function App() {
   window.addEventListener('resize', () => { setSize(window.innerHeight, window.innerWidth) })
 
   return (
-    < Routes>
+    <Routes>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
     </ Routes>
   );
