@@ -12,6 +12,14 @@
   font-family: IRANSans;
   user-select: none;
 }
+.app-container {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  // background-color: lighten($color: $white_color, $amount: 0.7);
+  min-height: 600px;
+  min-width: 800px;
+}
 
 /* width */
 ::-webkit-scrollbar {
