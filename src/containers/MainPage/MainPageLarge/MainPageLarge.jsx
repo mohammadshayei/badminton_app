@@ -1,9 +1,9 @@
 import React from "react";
-import HeaderMainLarge from "../../components/Header/HeaderMain/HeaderMainLarge/HeaderMainLarge";
-import { useTheme } from "../../styles/ThemeProvider";
-import "./MainPage.scss";
+import HeaderMainLarge from "../../../components/Header/HeaderMain/HeaderMainLarge/HeaderMainLarge";
+import { useTheme } from "../../../styles/ThemeProvider";
+import "./MainPageLarge.scss";
 
-const MainPage = () => {
+const MainPageLarge = () => {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -17,4 +17,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default MainPageLarge;
