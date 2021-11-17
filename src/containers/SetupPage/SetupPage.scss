@@ -1,0 +1,27 @@
+.setup-container {
+  height: 100vh;
+  .navigation-component {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    padding-top: 8vh;
+    .page-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid white;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      width: 2em;
+      height: 2em;
+      cursor: pointer;
+    }
+    .line {
+      background-color: white;
+      border-radius: 1em;
+      width: 9%;
+      height: 2px;
+    }
+  }
+}

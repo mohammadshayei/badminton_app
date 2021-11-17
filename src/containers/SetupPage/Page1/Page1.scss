@@ -1,0 +1,45 @@
+.page-container {
+  padding-top: 10vh;
+  text-align: center;
+  .input-line {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: right;
+    justify-content: right;
+    margin: 0 25%;
+    font-size: 0.7em;
+  }
+
+  .selector {
+    position: absolute;
+    background-color: white;
+    width: 55px;
+    height: 40px;
+    border-radius: 50px;
+  }
+
+  Input {
+    margin-bottom: 2vh;
+    font-size: 1.1em;
+    padding: 0.3em 0.75em;
+  }
+
+  p {
+    direction: rtl;
+    width: 30%;
+  }
+
+  img {
+    height: 35px;
+    margin-left: 10px;
+    margin-top: 5px;
+    z-index: 999;
+    cursor: pointer;
+  }
+
+  Button {
+    margin-top: 6vh;
+  }
+}
