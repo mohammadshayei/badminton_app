@@ -1,4 +1,5 @@
 import React from "react";
+import HeaderMainLarge from "../../components/Header/HeaderMain/HeaderMainLarge/HeaderMainLarge";
 import { useTheme } from "../../styles/ThemeProvider";
 import "./MainPage.scss";
 
@@ -11,7 +12,7 @@ const MainPage = () => {
       className="main-container"
       style={{ backgroundColor: theme.background_color }}
     >
-      mainpage
+      <HeaderMainLarge />
     </div>
   );
 };

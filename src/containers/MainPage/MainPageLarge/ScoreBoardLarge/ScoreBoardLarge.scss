@@ -1,0 +1,10 @@
+.scoreboard-large-container{
+    margin-top: .3rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .scoreboard-large-top{
+        width: 100%;
+        display: flex;
+    }
+}
