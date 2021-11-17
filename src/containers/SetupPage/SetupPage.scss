@@ -1,5 +1,6 @@
 .setup-container {
   height: 100vh;
+  overflow-y: auto;
   .navigation-component {
     display: flex;
     flex-direction: row-reverse;
@@ -22,6 +23,17 @@
       border-radius: 1em;
       width: 9%;
       height: 2px;
+    }
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .setup-container {
+    .navigation-component {
+      .page-number {
+        width: 3em;
+        height: 3em;
+      }
     }
   }
 }

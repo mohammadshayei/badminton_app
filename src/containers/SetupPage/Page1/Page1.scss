@@ -1,8 +1,7 @@
 .page-container {
-  padding-top: 10vh;
+  margin-top: 5vh;
   text-align: center;
   .input-line {
-    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -12,12 +11,28 @@
     font-size: 0.7em;
   }
 
-  .selector {
-    position: absolute;
-    background-color: white;
-    width: 55px;
-    height: 40px;
-    border-radius: 50px;
+  .width-fixer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: right;
+    justify-content: right;
+    height: 100%;
+    .selector {
+      position: absolute;
+      background-color: white;
+      width: 55px;
+      height: 40px;
+      border-radius: 50px;
+    }
+    img {
+      height: 35px;
+      margin-left: 10px;
+      margin-top: 5px;
+      z-index: 999;
+      cursor: pointer;
+    }
   }
 
   Input {
@@ -31,15 +46,21 @@
     width: 30%;
   }
 
-  img {
-    height: 35px;
-    margin-left: 10px;
-    margin-top: 5px;
-    z-index: 999;
-    cursor: pointer;
-  }
-
   Button {
-    margin-top: 6vh;
+    margin-top: 5vh;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .page-container {
+    margin-top: 10vh;
+    .input-line {
+      margin: 0 33%;
+      font-size: 0.9em;
+    }
+    Button {
+      margin-top: 15vh;
+      font-size: 1em;
+    }
   }
 }

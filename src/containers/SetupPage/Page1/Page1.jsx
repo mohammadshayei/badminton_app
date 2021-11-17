@@ -6,7 +6,7 @@ import rocket from "../../../assets/images/rocket.png";
 import rockets from "../../../assets/images/rockets.png";
 
 const Page1 = (props) => {
-  const [selector, setSelector] = useState({ left: "26%" });
+  const [selector, setSelector] = useState({ left: "0" });
 
   return (
     <div className="page-container">
@@ -19,17 +19,19 @@ const Page1 = (props) => {
         <p>شماره زمین</p>
       </div>
       <div className="input-line">
-        <div className="selector" style={selector}></div>
-        <img
-          src={rocket}
-          alt="rocket"
-          onClick={() => setSelector({ left: "26%" })}
-        />
-        <img
-          src={rockets}
-          alt="rocket"
-          onClick={() => setSelector({ left: "47%" })}
-        />
+        <div className="width-fixer">
+          <div className="selector" style={selector}></div>
+          <img
+            src={rocket}
+            alt="rocket"
+            onClick={() => setSelector({ left: "0" })}
+          />
+          <img
+            src={rockets}
+            alt="rocket"
+            onClick={() => setSelector({ left: "51px" })}
+          />
+        </div>
         <p>نوع بازی</p>
       </div>
       <Button onClick={() => props.pageSelector(1)}>بعدی</Button>
