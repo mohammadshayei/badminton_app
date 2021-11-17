@@ -1,0 +1,18 @@
+.scoreboard-content {
+    width: 100%;
+    .scoreboard-content-top-setcion {
+        width: 100%;
+        display: flex;
+        background-color: transparent;
+        .scoreboard-content-block-container {
+            flex: 1;
+            padding: 1rem;
+            .scoreboard-content-block {
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                width: 100%;
+                height: 100%;
+                border-radius: 2rem;
+            }
+        }
+    }
+}

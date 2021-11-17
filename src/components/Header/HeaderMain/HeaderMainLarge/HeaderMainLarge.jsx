@@ -1,10 +1,14 @@
 import React from 'react'
 import './HeaderMainLarge.scss'
-import ShowNamePlayer from './ShowNamePlayer/ShowNamePlayer'
+import ShowNamePlayer from '../ShowNamePlayer/ShowNamePlayer'
+import Timer from '../Timer/Timer'
 const HeaderMainLarge = () => {
     return (
-        <div>
-            <ShowNamePlayer />
+        <div className='header-main-large-container'>
+            <ShowNamePlayer title='شماره 1' />
+            <Timer  />
+            <ShowNamePlayer  title='شماره 1'/>
+
         </div>
     )
 }

@@ -2,6 +2,7 @@ import React from "react";
 import HeaderMainLarge from "../../../components/Header/HeaderMain/HeaderMainLarge/HeaderMainLarge";
 import { useTheme } from "../../../styles/ThemeProvider";
 import "./MainPageLarge.scss";
+import ScoreBoardLarge from "./ScoreBoardLarge/ScoreBoardLarge";
 
 const MainPageLarge = () => {
   const themeState = useTheme();
@@ -9,10 +10,11 @@ const MainPageLarge = () => {
 
   return (
     <div
-      className="main-container"
+      className="main-large-container"
       style={{ backgroundColor: theme.background_color }}
     >
       <HeaderMainLarge />
+      <ScoreBoardLarge />
     </div>
   );
 };

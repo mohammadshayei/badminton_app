@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { Route, Routes } from "react-router-dom";
-import MainPage from './containers/MainPage/MainPage';
 import { useDispatch, useSelector } from 'react-redux';
 import * as detailActions from "./store/actions/detail";
 import MainPageLarge from './containers/MainPage/MainPageLarge/MainPageLarge';
@@ -35,10 +34,14 @@ function App() {
         setMainCmp(<MainPageSmall />)
         break;
       default:
-        setMainCmp(<MainPageSmall />)
+        setMainCmp(null)
         break;
     }
+    return () => {
+      setMainCmp(null)
+    }
   }, [sizeMode])
+
   return (
     <Routes>
       <Route path="/scoreboard" exact element={mainCmp}></Route>
