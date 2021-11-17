@@ -3,6 +3,7 @@ import { useTheme } from "../../styles/ThemeProvider";
 import Page1 from "./Page1/Page1";
 import Page2 from "./Page2/Page2";
 import "./SetupPage.scss";
+import { animated, useSpring } from "react-spring";
 
 const SetupPage = () => {
   const [body, setBody] = useState(null);
@@ -13,7 +14,7 @@ const SetupPage = () => {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
-  const selectedStyle = {
+  const styles = {
     background: "white",
     color: theme.primary,
     cursor: "unset",
@@ -58,7 +59,7 @@ const SetupPage = () => {
       <div className="navigation-component">
         <div
           className="page-number"
-          style={pageNumbers[0].selected ? selectedStyle : null}
+          style={pageNumbers[0].selected ? styles : null}
           onClick={() => selector(0)}
         >
           1
@@ -66,7 +67,7 @@ const SetupPage = () => {
         <div className="line"></div>
         <div
           className="page-number"
-          style={pageNumbers[1].selected ? selectedStyle : null}
+          style={pageNumbers[1].selected ? styles : null}
           onClick={() => selector(1)}
         >
           2
