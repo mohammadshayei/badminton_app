@@ -1,49 +1,51 @@
 .setup-container {
-  height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
+  .change-lan-icon {
+    position: fixed;
+    top: 0.3rem;
+    right: 0.3rem;
+    cursor: pointer;
+  }
   .navigation-component {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
-    align-items: center;
-    padding-top: 8vh;
-    .page-number {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid white;
-      border-radius: 50%;
-      margin: 0 0.5em;
-      width: 2em;
-      height: 2em;
-      overflow: hidden;
-      .filler {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: white;
-        border-radius: 50%;
-        height: 100%;
-        top: 0;
-      }
-    }
-    .line {
+    padding-top: 10vh;
+    min-height: 15vh;
+    .page-indicator {
       background-color: white;
-      border-radius: 1em;
-      width: 9%;
-      height: 2px;
+      border-radius: 50%;
+      margin: 0 0.3rem;
+      width: 0.4rem;
+      height: 0.4rem;
+    }
+  }
+  .body-container {
+    display: grid;
+    place-items: center;
+    min-height: 85vh;
+    .page-container {
+      background-color: white;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+      margin-top: -15vh;
+      padding-top: 3rem;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     }
   }
 }
 
 @media only screen and (min-width: 960px) {
+  .change-lan-icon {
+    font-size: 1.8rem;
+  }
   .setup-container {
     .navigation-component {
       .page-number {
-        width: 3em;
-        height: 3em;
+        width: 3rem;
+        height: 3rem;
       }
     }
   }

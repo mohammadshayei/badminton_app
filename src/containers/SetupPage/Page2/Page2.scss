@@ -1,52 +1,116 @@
-.page-container {
-  padding-top: 5vh;
-  text-align: center;
-  .players {
+.players {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 0 1rem;
+  .player-info {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0 0.5em;
-    .player-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 24%;
-      margin: 0 1%;
-      .player-name {
-        font-size: 0.7em;
-      }
-      .player-pic {
-        background-color: gray;
-        overflow: hidden;
-        width: 10vw;
-        height: 10vw;
-        border-radius: 50%;
-        margin: 0.5em;
-      }
-      Input {
-        font-size: 0.7em;
-        padding: 0.1em 0.75em;
-        width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0.5rem;
+    color: black;
+    .team-name {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      margin-top: -2rem;
+      color: white;
+      p {
+        color: black;
       }
     }
+    .player-name {
+      font-size: 0.7em;
+    }
+    .player-pic {
+      position: relative;
+      overflow: hidden;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin: 0.5em;
+      cursor: pointer;
+      img {
+        max-height: 100%;
+      }
+      .avatar-upload-btn {
+        position: absolute;
+        text-align: center;
+        background-color: black;
+        color: white;
+        opacity: 0.7;
+        font-size: 0.7rem;
+        height: 15px;
+        width: 50px;
+        top: 35px;
+        z-index: 99;
+      }
+    }
+    Input {
+      font-size: 0.6rem;
+      padding: 0.15rem 0.5rem;
+      width: 100%;
+    }
+  }
+}
+.btns {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 550px) {
+  .players {
+    display: flex;
+    .player-info {
+      margin-top: 2rem;
+      .player-name {
+        font-size: 0.9rem;
+      }
+      .team-name {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        font-size: 1.2rem;
+        width: 100%;
+        left: -60%;
+      }
+    }
+  }
+  .page-2 {
+    padding: 1rem !important;
   }
 }
 
 @media only screen and (min-width: 960px) {
-  .page-container {
-    .players {
-      .player-info {
-        .player-name {
-          font-size: 1em;
-        }
-        .player-pic {
-          margin: 1.5em;
-        }
-        Input {
-          font-size: 1em;
-          padding: 0.2em 0.75em;
+  .players {
+    .player-info {
+      .team-name {
+        font-size: 2rem;
+      }
+      .player-name {
+        font-size: 1.2rem;
+      }
+      .player-pic {
+        width: 120px;
+        height: 120px;
+        margin: 1.5em;
+        .avatar-upload-btn {
+          font-size: 1.5rem;
+          height: 30px;
+          width: 120px;
+          top: 90px;
         }
       }
+      Input {
+        font-size: 1.2em;
+        padding: 0.2em 0.75em;
+      }
     }
+  }
+  Button {
+    font-size: 1.2rem !important;
   }
 }

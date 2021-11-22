@@ -3,10 +3,12 @@ import { useTheme } from "../../styles/ThemeProvider";
 import Page1 from "./Page1/Page1";
 import Page2 from "./Page2/Page2";
 import "./SetupPage.scss";
-import { animated, useSpring } from "react-spring";
+import { IoLanguageOutline } from "react-icons/io5";
+import { animated, useSprings } from "react-spring";
+import { useGesture } from "@use-gesture/react";
 
 const SetupPage = () => {
-  const [body, setBody] = useState(null);
+  const [page, setPage] = useState(null);
   const [pageNumbers, setPageNumbers] = useState([
     { selected: true },
     { selected: false },
@@ -14,11 +16,14 @@ const SetupPage = () => {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
-  const styles = {
-    background: "white",
-    color: theme.primary,
-    cursor: "unset",
-  };
+  const springs = useSprings(
+    2,
+    pageNumbers.map((item) => ({
+      transform: item.selected ? "scale(1.5)" : "scale(1)",
+      opacity: item.selected ? 1 : 0.8,
+      config: { mass: 0.5, tension: 500, friction: 20 },
+    }))
+  );
 
   const selector = (key) => {
     let updatedPageNumbers = [...pageNumbers];
@@ -29,23 +34,20 @@ const SetupPage = () => {
     setPageNumbers(updatedPageNumbers);
   };
 
-  useEffect(() => {
-    for (let index = 0; index < pageNumbers.length; index++) {
-      if (pageNumbers[index].selected) {
-        switch (index + 1) {
-          case 1:
-            setBody(<Page1 pageSelector={selector} />);
-            break;
-          case 2:
-            setBody(<Page2 pageSelector={selector} />);
-            break;
-
-          default:
-            setBody(<Page1 pageSelector={selector} />);
-            break;
-        }
+  const bind = useGesture({
+    onDragEnd: ({ direction: [directionX] }) => {
+      if (directionX === 1) {
+        selector(1);
       }
-    }
+      if (directionX === -1) {
+        selector(0);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (pageNumbers[0].selected) setPage(<Page1 pageSelector={selector} />);
+    if (pageNumbers[1].selected) setPage(<Page2 pageSelector={selector} />);
   }, [pageNumbers]);
 
   return (
@@ -56,24 +58,23 @@ const SetupPage = () => {
         color: theme.on_primary,
       }}
     >
+      <IoLanguageOutline className="change-lan-icon" />
       <div className="navigation-component">
-        <div
-          className="page-number"
-          style={pageNumbers[0].selected ? styles : null}
-          onClick={() => selector(0)}
-        >
-          1
-        </div>
-        <div className="line"></div>
-        <div
-          className="page-number"
-          style={pageNumbers[1].selected ? styles : null}
-          onClick={() => selector(1)}
-        >
-          2
-        </div>
+        {springs.map((styles) => (
+          <animated.div
+            key={styles.opacity.id}
+            className="page-indicator"
+            style={styles}
+          ></animated.div>
+        ))}
       </div>
-      {body}
+      <div
+        {...bind()}
+        className="body-container"
+        style={{ touchAction: "none" }}
+      >
+        {page}
+      </div>
     </div>
   );
 };

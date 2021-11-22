@@ -2195,6 +2195,18 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
+"@use-gesture/core@10.1.6":
+  version "10.1.6"
+  resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.1.6.tgz#7c1718fdd7fd1a513587ca01a567b06d56a56a12"
+  integrity sha512-19F0aaydRrCi6awVDSz/knY8dQFtYx5UeuRG+g2K880EJpOiKq2R70XBJSF8w2OAZBPmEugBF0RK9s+bw9tfDw==
+
+"@use-gesture/react@^10.1.6":
+  version "10.1.6"
+  resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.1.6.tgz#d30db22d4bd24741cd17862499d50970e1b77586"
+  integrity sha512-ZjUBxbsEVC+QmWvOLEieeCJW+mhfzMdQ0l7isDQyseW4CnhDzWfTPlihG0WHCQqZp0PwHWuPV/TMwrWij1e7aA==
+  dependencies:
+    "@use-gesture/core" "10.1.6"
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"

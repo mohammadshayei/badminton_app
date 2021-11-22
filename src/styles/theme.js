@@ -1,8 +1,8 @@
 const lightTheme = {
   background_color: "#FFF",
   surface: "",
-  primary: "#52BB76",
-  primary_variant: "#69D766",
+  primary: "#48B16C",
+  primary_variant: "#8AFB87",
   secondary: "#005CE6",
   secondary_variant: "",
   error: "#B00020",
