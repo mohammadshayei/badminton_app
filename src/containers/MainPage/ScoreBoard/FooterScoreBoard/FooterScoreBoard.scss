@@ -1,0 +1,57 @@
+.footer-scoreboard-container {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    flex-direction: row-reverse;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    .footer-scoreboard-item {
+        height: 80%;
+        width: 32%;
+        border-radius: 2rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p {
+            font-size: 1.3em;
+        }
+    }
+}
+
+@media screen and (max-width: 1050px) and (min-width: 481px) {
+    .footer-scoreboard-container {
+        display: flex;
+        .footer-scoreboard-item {
+            border-radius: 2rem;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .footer-scoreboard-container {
+        width: 100%;
+        height: 45px;
+        position: absolute;
+        padding: 0.2rem 1rem;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+        bottom: 0;
+        .footer-scoreboard-item {
+            height: 80%;
+            width: 32%;
+            border-radius: 2rem;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            p {
+                font-size: 1.3em;
+            }
+        }
+    }
+}

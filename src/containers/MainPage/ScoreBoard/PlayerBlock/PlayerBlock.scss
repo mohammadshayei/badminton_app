@@ -1,0 +1,91 @@
+.player-block-container {
+    padding: 0.5rem 0.5rem;
+    display: flex;
+    align-items: center;
+    .player-block-action-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .player-block-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 2rem;
+        }
+        .player-block-icon-container {
+            width: 100%;
+            .player-block-icon {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+    .score-place-and-title-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        align-items: center;
+        .score-place-container {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            width: 100%;
+            height: 100%;
+            border-radius: 2rem;
+            display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            .badminton-ball {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 50px;
+                height: 50px;
+            }
+            p {
+                font-size: 13rem;
+                font-weight: 700;
+                margin-top: 2rem;
+            }
+        }
+    }
+}
+@media screen and (max-width: 600px) {
+    .player-block-container {
+        width: auto;
+        padding: 0;
+        justify-content: flex-end;
+        .player-block-icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+        .score-place-and-title-container {
+            margin-right: 2rem;
+            align-items: flex-start;
+            .score-place-container {
+                padding: 0;
+                overflow: hidden;
+                p {
+                    margin-top: 2rem;
+                    line-height: 10rem;
+                }
+                .badminton-ball {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+            .score-place-title {
+                font-size: 1rem;
+                text-align: right;
+                margin-right: 1rem;
+            }
+        }
+    }
+}
