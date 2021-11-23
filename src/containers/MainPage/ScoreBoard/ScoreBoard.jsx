@@ -22,6 +22,7 @@ const ScoreBoard = (props) => {
         score="11"
         scoreColor="blue"
         isBall={true}
+        player={"1"}
       />
       <DetailScoreBoard time="09:21" teamBScore={0} teamAScore={1} />
       <PlayerBlock
@@ -29,6 +30,7 @@ const ScoreBoard = (props) => {
         score="20"
         scoreColor="black"
         isBall={false}
+        player={"2"}
       />
       <FooterScoreBoard />
     </div>

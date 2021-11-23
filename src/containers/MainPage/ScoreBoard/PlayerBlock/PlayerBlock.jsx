@@ -17,48 +17,60 @@ const PlayerBlock = (props) => {
           src={PROFILE_IMAGE}
           alt="badminton player"
         />
-
         <div className="player-block-icon-container">
-          <>
-            <div
-              className="player-block-icon"
-              style={{ justifyContent: "space-around" }}
-            >
-              <RoundedIcon color="rgba(255, 255, 0,.8)" type="plus" />
-              <RoundedIcon color="rgba(255, 0, 0,.6)" type="minus" />
-            </div>
-            <div
-              className="player-block-icon"
-              style={{ justifyContent: "center" }}
-            >
-              <RoundedIcon color="rgba(0, 0, 0,.6)" type="whistle" />
-            </div>
-          </>
-          <>
-            <RoundedIcon color="rgba(255, 255, 255,1)" style={{}} type="plus" />
-            <RoundedIcon color="rgba(255, 255, 255,1)" type="minus" />
-            <RoundedIcon color="rgba(255, 255, 255,1)" type="whistle" />
-          </>
+          <div
+            className="player-block-icon"
+            style={{ justifyContent: "space-around" }}
+          >
+            <RoundedIcon
+              color="rgba(255, 255, 0,.8)"
+              type="plus"
+              style={{ margin: "0.3rem 0" }}
+            />
+            <RoundedIcon
+              color="rgba(255, 0, 0,.6)"
+              type="minus"
+              style={{ margin: "0.3rem 0" }}
+            />
+          </div>
+          <div
+            className="player-block-icon"
+            style={{ justifyContent: "center" }}
+          >
+            <RoundedIcon
+              color="rgba(0, 0, 0,.6)"
+              type="whistle"
+              style={{ margin: "0.3rem 0" }}
+            />
+          </div>
         </div>
       </div>
       <div className="score-place-and-title-container">
-        <p className="score-place-title" style={{ color: theme.on_primary }}>
+        <p
+          className={`score-place-title ${props.player === "2" && "hidden"}`}
+          style={{ color: theme.on_primary }}
+        >
           {props.titleTop}
         </p>
         <div
           className="score-place-container"
           style={{
             backgroundColor: theme.background_color,
-            color: props.scoreColor,
           }}
         >
-          <p>{props.score}</p>
+          <p className="score-text" style={{ color: props.scoreColor }}>
+            {props.score}
+          </p>
           {props.isBall && (
             <img className="badminton-ball" src={BALL_IMAGE} alt="ball" />
           )}
         </div>
-
-        <p className="score-place-title" style={{ color: theme.on_primary }}>
+        <p
+          className={`score-place-title ${
+            props.player === "1" && "hidden"
+          } test`}
+          style={{ color: theme.on_primary }}
+        >
           {props.titleTop}
         </p>
       </div>

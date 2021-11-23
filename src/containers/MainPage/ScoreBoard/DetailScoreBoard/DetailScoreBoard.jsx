@@ -8,39 +8,8 @@ const ResultScoreBoard = (props) => {
 
   return (
     <div className="detail-scoreboard-wrapper">
-      <p
-        className="detail-scoreboard-time"
-        style={{
-          textAlign: "center",
-          fontSize: "5rem",
-          lineHeight: "4rem",
-          color: "red",
-        }}
-      >
-        {props.time}
-      </p>
-
-      <div className="detail-scorebaord-container">
-        <div
-          className="detail-scorebaord"
-          style={{
-            backgroundColor: theme.background_color,
-          }}
-        >
-          <p>{props.teamAScore}</p>
-        </div>
-        <div
-          className="detail-scorebaord"
-          style={{
-            backgroundColor: theme.background_color,
-          }}
-        >
-          <p>{props.teamBScore}</p>
-        </div>
-      </div>
       <div className="detail-scoreboard-content">
         <p className="detail-scoreboard-time">{props.time}</p>
-
         <p
           className="detail-scoreboard-title"
           style={{ color: theme.on_primary }}
@@ -53,6 +22,24 @@ const ResultScoreBoard = (props) => {
         >
           شماره زمین : 3
         </p>
+      </div>
+      <div className="detail-scorebaord-container">
+        <div
+          className="detail-scorebaord"
+          style={{
+            backgroundColor: theme.background_color,
+          }}
+        >
+          <p className="set-score-text">{props.teamAScore}</p>
+        </div>
+        <div
+          className="detail-scorebaord"
+          style={{
+            backgroundColor: theme.background_color,
+          }}
+        >
+          <p className="set-score-text">{props.teamBScore}</p>
+        </div>
       </div>
     </div>
   );

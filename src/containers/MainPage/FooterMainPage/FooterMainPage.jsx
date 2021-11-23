@@ -1,11 +1,8 @@
-import React from 'react'
-import './FooterMainPage.scss'
-const FooterMainPage = () => {
-    return (
-        <div>
-            FooterMainPage
-        </div>
-    )
-}
+import React from "react";
+import "./FooterMainPage.scss";
 
-export default FooterMainPage
+const FooterMainPage = () => {
+  return <div className="footer-main-container">FooterMainPage</div>;
+};
+
+export default FooterMainPage;

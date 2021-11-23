@@ -1,0 +1,12 @@
+.header-main-container {
+  display: none;
+}
+
+@media only screen and (min-width: 550px) {
+}
+
+@media only screen and (min-width: 960px) {
+  .header-main-container {
+    display: block;
+  }
+}

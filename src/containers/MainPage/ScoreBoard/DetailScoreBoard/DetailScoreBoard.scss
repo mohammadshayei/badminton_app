@@ -1,68 +1,92 @@
 .detail-scoreboard-wrapper {
-    width: 100%;
-    .detail-scorebaord-container {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  padding: 0 1rem 0.5rem 1rem;
+  flex: 1;
+  .detail-scorebaord-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    .detail-scorebaord {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 20px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      width: 80%;
+      padding-top: 80%;
+      min-height: 65px;
+      min-width: 65px;
+      margin-top: 0.5rem;
+      .set-score-text {
+        position: absolute;
         display: flex;
         align-items: center;
-        .detail-scorebaord {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-radius: 2rem;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            .detail-scoreboard-time {
-            }
-            .detail-scoreboard-title {
-            }
-        }
+        justify-content: center;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 3rem;
+      }
     }
-    .detail-scoreboard-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .detail.scoreboard-time {
-            font-size: 1.2rem;
-            margin-top: 0.2rem;
-        }
+  }
+  .detail-scoreboard-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    .detail-scoreboard-time {
+      color: crimson;
+      font-size: 4rem;
+      margin-top: 0.2rem;
+      font-weight: bold;
     }
+  }
 }
-@media screen and (max-width: 600px) {
-    .detail-scoreboard-wrapper {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: flex-start;
-        margin: 0.5rem 0;
-        .detail-scorebaord-container {
-            display: flex;
-            flex-direction: column;
-            .detail-scorebaord {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 1rem;
-                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                p {
-                    font-size: 1.5rem;
-                }
-            }
-        }
-        .detail-scoreboard-content {
-            padding: 0.4rem 1rem;
-            padding-right: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            .detail-scoreboard-time {
-                margin-top: 1rem;
-                margin-bottom: 1rem;
-                font-size: 3.8rem;
-                font-weight: 600;
-                line-height: 1.5rem;
-                color: red;
-            }
-            .detail-scoreboard-title {
-                font-size: 0.9rem;
-                margin-top: 0.2rem;
-            }
-        }
-    }
-}
+
+// @media screen and (max-width: 600px) {
+//     .detail-scoreboard-wrapper {
+//         display: flex;
+//         flex-direction: row-reverse;
+//         justify-content: flex-start;
+//         margin: 0.5rem 0;
+//         .detail-scorebaord-container {
+//             display: flex;
+//             flex-direction: column;
+//             .detail-scorebaord {
+//                 display: flex;
+//                 align-items: center;
+//                 justify-content: center;
+//                 border-radius: 1rem;
+//                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+//                 p {
+//                     font-size: 1.5rem;
+//                 }
+//             }
+//         }
+//         .detail-scoreboard-content {
+//             padding: 0.4rem 1rem;
+//             padding-right: 2rem;
+//             display: flex;
+//             flex-direction: column;
+//             align-items: center;
+//             .detail-scoreboard-time {
+//                 margin-top: 1rem;
+//                 margin-bottom: 1rem;
+//                 font-size: 3.8rem;
+//                 font-weight: 600;
+//                 line-height: 1.5rem;
+//                 color: red;
+//             }
+//             .detail-scoreboard-title {
+//                 font-size: 0.9rem;
+//                 margin-top: 0.2rem;
+//             }
+//         }
+//     }
+// }
