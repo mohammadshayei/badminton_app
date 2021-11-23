@@ -1,9 +1,11 @@
 import React from 'react'
-
-const FooterLarge = () => {
+import './FooterLarge.scss'
+const FooterLarge = ({footerHeight}) => {
     return (
-        <div className='footer-larger-container'>
-            
+        <div className='footer-larger-container' style={{height:footerHeight}}>
+            {/* <div className='footer-larger-block'>
+
+            </div> */}
         </div>
     )
 }

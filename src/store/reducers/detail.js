@@ -1,26 +1,38 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-    sizeMode: 0,
-    width: 0,
-    height: 0,
+    widthMode: 0,
+    heightMode: 0,
     os: ''
 };
 
-const SMALL_SIZE = 500
-const MEDIUM_SIZE = 960
+const WIDTH_B_MEDIUM = 600
+const WIDTH_B_LARGE = 900
+
+
+const HEIGHT_B_MEDIUM = 375
+const HEIGHT_B_LARGE = 600
+
 
 
 const setSize = (state, action) => {
-    let sizeMode;
-    if (action.width <= SMALL_SIZE) sizeMode = 1
-    else if (action.width <= MEDIUM_SIZE) sizeMode = 2
-    else sizeMode = 3
+    console.log(action)
+    let widthMode = 1
+    let heightMode = 1;
+    if (action.width > WIDTH_B_MEDIUM) {
+        widthMode = 2;
+        if (action.height > HEIGHT_B_MEDIUM) heightMode = 2
+        else if (action.height > HEIGHT_B_LARGE) heightMode = 3
+    } else if (action.width > WIDTH_B_LARGE) {
+        widthMode = 3;
+        if (action.height > HEIGHT_B_MEDIUM) heightMode = 2
+        else if (action.height > HEIGHT_B_LARGE) heightMode = 3
+    }
+
     return {
         ...state,
-        sizeMode,
-        width: action.width,
-        height: action.height
+        widthMode,
+        heightMode,
     };
 };
 
