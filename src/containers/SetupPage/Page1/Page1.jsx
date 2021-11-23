@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "./Page1.scss";
 import Input from "../../../components/UI/Input/Input";
 import Button from "../../../components/UI/Button/Button";
@@ -6,7 +6,6 @@ import rocket from "../../../assets/images/rocket.png";
 import rockets from "../../../assets/images/rockets.png";
 import { animated, useSpring, useTransition } from "react-spring";
 import { useTheme } from "../../../styles/ThemeProvider";
-import { GrFormPrevious } from "react-icons/gr";
 import { HiCamera } from "react-icons/hi";
 
 const Page1 = (props) => {
@@ -23,7 +22,6 @@ const Page1 = (props) => {
     enter: { transform: "translateX(0)" },
     leave: { transform: "translateX(-20%)" },
   });
-  // transition((tranStyles, item) => style={tranStyles}
 
   return transition((tranStyles, item) => (
     <animated.div className="page-container page-1" style={tranStyles}>

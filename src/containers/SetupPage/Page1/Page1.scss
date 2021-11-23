@@ -116,5 +116,8 @@ p {
         z-index: 99;
       }
     }
+    p {
+      min-width: 100px;
+    }
   }
 }
