@@ -32,6 +32,16 @@
       z-index: 99;
     }
   }
+  p {
+    color: black;
+    direction: rtl;
+    min-width: 70px;
+  }
+  Input {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.75rem;
+    width: 100%;
+  }
 }
 .page-1 {
   padding: 1rem;
@@ -57,18 +67,6 @@
     z-index: 999;
     cursor: pointer;
   }
-}
-
-Input {
-  font-size: 0.6rem;
-  padding: 0.3rem 0.75rem;
-  width: 100%;
-}
-
-p {
-  color: black;
-  direction: rtl;
-  min-width: 70px;
 }
 
 .next-btn {

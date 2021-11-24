@@ -30,7 +30,9 @@ const ResultScoreBoard = (props) => {
             backgroundColor: theme.background_color,
           }}
         >
-          <p className="set-score-text">{props.teamAScore}</p>
+          <p className="set-score-text" style={{ color: theme.on_background }}>
+            {props.teamAScore}
+          </p>
         </div>
         <div
           className="detail-scorebaord"
@@ -38,7 +40,9 @@ const ResultScoreBoard = (props) => {
             backgroundColor: theme.background_color,
           }}
         >
-          <p className="set-score-text">{props.teamBScore}</p>
+          <p className="set-score-text" style={{ color: theme.on_background }}>
+            {props.teamBScore}
+          </p>
         </div>
       </div>
     </div>

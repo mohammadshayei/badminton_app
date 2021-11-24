@@ -8,7 +8,7 @@ const lightTheme = {
   error: "#B00020",
   error_variant: "#9e0420",
   success: "#00ca72",
-  on_background: "",
+  on_background: "#000",
   on_surface: "",
   on_primary: "#FFFFFF",
   on_secondary: "#FFFFFF",

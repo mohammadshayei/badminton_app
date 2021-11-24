@@ -41,6 +41,7 @@ const FooterScoreBoard = (props) => {
             className="footer-scoreboard-item"
             style={{
               backgroundColor: theme.background_color,
+              color: theme.on_background,
             }}
           >
             {item.finished ? (

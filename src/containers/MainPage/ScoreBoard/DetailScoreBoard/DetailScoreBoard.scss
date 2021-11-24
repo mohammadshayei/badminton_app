@@ -31,7 +31,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        font-size: 3rem;
+        font-size: 13vw;
+        font-weight: bold;
       }
     }
   }
@@ -39,54 +40,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 70%;
     .detail-scoreboard-time {
       color: crimson;
-      font-size: 4rem;
-      margin-top: 0.2rem;
+      font-size: 20vw;
+      margin-top: 0.5rem;
+      line-height: 3.5rem;
       font-weight: bold;
     }
   }
 }
-
-// @media screen and (max-width: 600px) {
-//     .detail-scoreboard-wrapper {
-//         display: flex;
-//         flex-direction: row-reverse;
-//         justify-content: flex-start;
-//         margin: 0.5rem 0;
-//         .detail-scorebaord-container {
-//             display: flex;
-//             flex-direction: column;
-//             .detail-scorebaord {
-//                 display: flex;
-//                 align-items: center;
-//                 justify-content: center;
-//                 border-radius: 1rem;
-//                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-//                 p {
-//                     font-size: 1.5rem;
-//                 }
-//             }
-//         }
-//         .detail-scoreboard-content {
-//             padding: 0.4rem 1rem;
-//             padding-right: 2rem;
-//             display: flex;
-//             flex-direction: column;
-//             align-items: center;
-//             .detail-scoreboard-time {
-//                 margin-top: 1rem;
-//                 margin-bottom: 1rem;
-//                 font-size: 3.8rem;
-//                 font-weight: 600;
-//                 line-height: 1.5rem;
-//                 color: red;
-//             }
-//             .detail-scoreboard-title {
-//                 font-size: 0.9rem;
-//                 margin-top: 0.2rem;
-//             }
-//         }
-//     }
-// }

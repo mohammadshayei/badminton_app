@@ -6,18 +6,15 @@
   flex: 1;
   .player-block-action-container {
     display: flex;
-    // flex-direction: column;
     align-items: center;
-    padding: 0 0.5rem;
+    padding: 0.5rem 0.5rem 0 0.5rem;
     .player-block-image {
       display: none;
     }
     .player-block-icon-container {
-      //   width: 100%;
       .player-block-icon {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
       }
     }
   }
@@ -26,7 +23,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: center;
     .score-place-title {
       align-self: center;
       margin: 0.2rem 0;
@@ -38,78 +34,63 @@
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       position: relative;
       border-radius: 30px;
-      min-width: 200px;
-      min-height: 200px;
-      width: 60%;
-      padding-top: 60%; /* 1:1 Aspect Ratio */
-      .back-square {
-        max-width: 100%;
-      }
+      min-width: 140px;
+      min-height: 140px;
+      width: 70%;
+      padding-top: 70%; /* 1:1 Aspect Ratio */
       .badminton-ball {
         position: absolute;
         top: 10px;
         left: 10px;
-        width: 50px;
-        height: 50px;
+        width: 20%;
+        height: 20%;
       }
       .score-text {
         position: absolute;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0 !important;
-        margin: 2rem 0 0 0 !important;
+        margin: 2rem 0 0 0;
         top: 0;
         left: 0;
         bottom: 0;
         right: 0;
-        font-size: 10rem;
+        font-size: 40vw;
         font-weight: 600;
       }
     }
   }
 }
 
-// @media screen and (max-width: 550px) {
-//   .player-block-container {
-//     width: auto;
-//     padding: 0;
-//     justify-content: flex-end;
-//     .player-block-icon-container {
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//       justify-content: space-between;
-//       padding: 1rem 0;
-//     }
-//     .score-place-and-title-container {
-//       margin-right: 2rem;
-//       align-items: flex-start;
-//       .score-place-container {
-//         padding: 0;
-//         overflow: hidden;
-//         p {
-//           margin-top: 2rem;
-//           line-height: 10rem;
-//         }
-//         .badminton-ball {
-//           position: absolute;
-//           top: 10px;
-//           left: 10px;
-//           width: 30px;
-//           height: 30px;
-//         }
-//       }
-//       .score-place-title {
-//         font-size: 1rem;
-//         text-align: right;
-//         margin-right: 1rem;
-//       }
-//     }
-//   }
-// }
+@media only screen and (min-height: 670px) {
+  .player-block-container {
+    .player-block-action-container {
+      padding: 0 0.5rem;
+    }
+    .score-place-and-title-container {
+      .score-place-container {
+        width: 73%;
+        padding-top: 73%;
+        .score-text {
+          font-size: 42vw;
+        }
+      }
+    }
+  }
+}
 
-@media only screen and (min-height: 550px) {
+@media only screen and (min-height: 740px) {
+  .player-block-container {
+    .score-place-and-title-container {
+      .score-place-container {
+        width: 100%;
+        padding-top: 100%;
+        .score-text {
+          font-size: 45vw;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (min-width: 550px) {
