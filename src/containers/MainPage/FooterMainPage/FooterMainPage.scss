@@ -2,11 +2,23 @@
   display: none;
 }
 
-@media only screen and (min-width: 550px) {
+@media only screen and (min-width: 560px) {
+}
+
+@media only screen and (min-width: 560px) and (min-height: 630px) {
+  .footer-main-container {
+    display: flex;
+    flex-direction: row-reverse;
+    min-height: 35vh;
+    padding-right: 1rem;
+    .detail-box {
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      border-radius: 15px;
+      margin: 1rem 0 1rem 1rem;
+      flex: 1;
+    }
+  }
 }
 
 @media only screen and (min-width: 960px) {
-  .footer-main-container {
-    display: block;
-  }
 }

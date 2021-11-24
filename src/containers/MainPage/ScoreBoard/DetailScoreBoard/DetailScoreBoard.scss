@@ -12,6 +12,7 @@
     .detail-scoreboard-title {
       justify-self: center;
       align-self: center;
+      font-size: 6vw;
     }
     .detail-scoreboard-time {
       align-self: flex-end;
@@ -70,6 +71,7 @@
       }
       .detail-scoreboard-title {
         grid-column: 1/3;
+        font-size: 3vw;
       }
       .detail-scorebaord-container {
         grid-column: 1/3;
@@ -89,6 +91,22 @@
             font-size: 8vw;
           }
         }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 560px) and (min-height: 500px) {
+  .detail-scoreboard-wrapper {
+    flex-direction: column-reverse;
+    padding: 0;
+    .detail-scoreboard-content {
+      width: 100%;
+      .detail-scoreboard-time {
+        display: none;
+      }
+      .detail-scorebaord-container {
+        grid-row: 1;
       }
     }
   }

@@ -27,6 +27,7 @@
     .score-place-title {
       align-self: center;
       margin: 0.2rem 0;
+      font-size: 4.5vw;
     }
     .hidden {
       display: none;
@@ -99,6 +100,9 @@
   .player-block-container {
     padding: 0;
     .score-place-and-title-container {
+      .score-place-title {
+        font-size: 4vw;
+      }
       .score-place-container {
         width: 100%;
         padding-top: 100%;
@@ -110,6 +114,17 @@
         display: block;
       }
       .test {
+        display: none;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 560px) and (min-height: 500px) {
+  .player-block-container {
+    padding: 0;
+    .score-place-and-title-container {
+      .score-place-title {
         display: none;
       }
     }
