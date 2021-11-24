@@ -10,7 +10,7 @@ const PlayerBlock = (props) => {
   const theme = themeState.computedTheme;
 
   return (
-    <div className="player-block-container">
+    <div className={`player-block-container ${props.player === "1" && "rev"}`}>
       <div className="player-block-action-container">
         <img
           className="player-block-image"

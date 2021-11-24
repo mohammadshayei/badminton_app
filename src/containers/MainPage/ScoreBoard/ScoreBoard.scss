@@ -4,20 +4,20 @@
   align-items: center;
   padding-top: 0.5rem;
   min-height: 100vh;
+  .main-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+  }
 }
 
-// @media screen and (max-width: 600px) {
-//   .scoreboard-container {
-//     padding-top: 1.5rem;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//   }
-// }
-// @media screen and (max-width: 1050px) and (min-width: 600px) {
-//     .scoreboard-container {
-//         padding-top: 0rem;
-//         display: flex;
-//         align-items: center;
-//     }
-// }
+@media screen and (min-width: 560px) {
+  .scoreboard-container {
+    .main-scoreboard {
+      flex-direction: row-reverse;
+      align-items: center;
+    }
+  }
+}

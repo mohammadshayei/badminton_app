@@ -17,21 +17,23 @@ const ScoreBoard = (props) => {
         color: theme.on_primary,
       }}
     >
-      <PlayerBlock
-        titleTop={"بازیکن شماره 1"}
-        score="11"
-        scoreColor="blue"
-        isBall={true}
-        player={"1"}
-      />
-      <DetailScoreBoard time="09:21" teamBScore={0} teamAScore={1} />
-      <PlayerBlock
-        titleTop={"بازیکن شماره 2"}
-        score="20"
-        scoreColor="black"
-        isBall={false}
-        player={"2"}
-      />
+      <div className="main-scoreboard">
+        <PlayerBlock
+          titleTop={"بازیکن شماره 1"}
+          score="11"
+          scoreColor="blue"
+          isBall={true}
+          player={"1"}
+        />
+        <DetailScoreBoard time="09:21" teamBScore={0} teamAScore={1} />
+        <PlayerBlock
+          titleTop={"بازیکن شماره 2"}
+          score="20"
+          scoreColor="black"
+          isBall={false}
+          player={"2"}
+        />
+      </div>
       <FooterScoreBoard />
     </div>
   );
