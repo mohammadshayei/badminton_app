@@ -17,19 +17,23 @@
   .scoreboard-container {
     .main-scoreboard {
       flex-direction: row-reverse;
-      align-items: center;
     }
-  }
-}
-
-@media only screen and (min-width: 560px) and (min-height: 500px) {
-  .scoreboard-container {
-    min-height: 85vh;
   }
 }
 
 @media only screen and (min-width: 560px) and (min-height: 630px) {
   .scoreboard-container {
     min-height: 50vh;
+    .main-scoreboard {
+      align-items: flex-start;
+    }
+  }
+}
+
+@media only screen and (min-height: 760px) {
+  .scoreboard-container {
+    .main-scoreboard {
+      align-items: center;
+    }
   }
 }

@@ -16,7 +16,6 @@
     margin: 0 0.5rem;
     p {
       font-size: 5vw;
-      font-weight: bold;
     }
   }
 }
@@ -26,8 +25,14 @@
     padding: 0 20%;
     .footer-scoreboard-item {
       p {
-        font-size: 4vw;
+        font-size: 3.5vw;
       }
     }
+  }
+}
+
+@media only screen and (min-width: 960px) and (min-height: 630px) {
+  .footer-scoreboard-container {
+    margin-top: -2.5rem;
   }
 }

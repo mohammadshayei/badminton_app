@@ -2,8 +2,11 @@ import React from "react";
 import "./PlayerBlock.scss";
 import PROFILE_IMAGE from "../../../../assets/images/badminton_player.jfif";
 import BALL_IMAGE from "../../../../assets/images/badminton_ball.png";
-import RoundedIcon from "../../../../components/UI/Button/RoundedIcon/RoundedIcon";
+import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
+import { HiOutlinePlusSm } from "react-icons/hi";
+import { AiOutlineMinus } from "react-icons/ai";
+import { GiWhistle } from "react-icons/gi";
 
 const PlayerBlock = (props) => {
   const themeState = useTheme();
@@ -11,37 +14,54 @@ const PlayerBlock = (props) => {
 
   return (
     <div className={`player-block-container ${props.player === "1" && "rev"}`}>
-      <div className="player-block-action-container">
-        <img
-          className="player-block-image"
-          src={PROFILE_IMAGE}
-          alt="badminton player"
-        />
+      <div
+        className={`player-block-action-container ${
+          props.player === "2" && "up-align"
+        }`}
+      >
+        <div className="player-block-image">
+          <img src={PROFILE_IMAGE} alt="badminton player" />
+        </div>
+        <div className="player-block-image second-player">
+          <img src={PROFILE_IMAGE} alt="badminton second player" />
+        </div>
         <div className="player-block-icon-container">
-          <div
-            className="player-block-icon"
-            style={{ justifyContent: "space-around" }}
-          >
-            <RoundedIcon
-              color="rgba(255, 255, 0,.8)"
-              type="plus"
-              style={{ margin: "0.3rem 0" }}
-            />
-            <RoundedIcon
-              color="rgba(255, 0, 0,.6)"
-              type="minus"
-              style={{ margin: "0.3rem 0" }}
-            />
+          <div className="player-block-icon">
+            <Button
+              back={theme.background_color}
+              hover={theme.hover}
+              ButtonStyle={{
+                borderRadius: "20px",
+                padding: "0.3em 0.4em 0 0.4em",
+              }}
+            >
+              <HiOutlinePlusSm className="btn-icon-img" />
+            </Button>
+            <Button
+              back={theme.background_color}
+              hover={theme.hover}
+              ButtonStyle={{
+                borderRadius: "20px",
+                padding: "0.3em 0.4em 0 0.4em",
+              }}
+            >
+              <AiOutlineMinus className="btn-icon-img" />
+            </Button>
           </div>
           <div
             className="player-block-icon"
             style={{ justifyContent: "center" }}
           >
-            <RoundedIcon
-              color="rgba(0, 0, 0,.6)"
-              type="whistle"
-              style={{ margin: "0.3rem 0" }}
-            />
+            <Button
+              back={theme.background_color}
+              hover={theme.hover}
+              ButtonStyle={{
+                borderRadius: "20px",
+                padding: "0.3em 0.4em 0 0.4em",
+              }}
+            >
+              <GiWhistle className="btn-icon-img" />
+            </Button>
           </div>
         </div>
       </div>
