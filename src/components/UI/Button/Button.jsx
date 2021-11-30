@@ -15,9 +15,13 @@ const Button = (props) => {
   const newStyle = {
     color: theme.on_primary,
     background: isHover
-      ? themeState.isDark
+      ? props.hover
+        ? props.hover
+        : themeState.isDark
         ? theme.surface_12dp
         : theme.primary_variant
+      : props.back
+      ? props.back
       : `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
   };
   return (

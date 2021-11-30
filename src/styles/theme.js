@@ -15,7 +15,7 @@ const lightTheme = {
   on_error: "#FFFFFF",
   star_color: "#FF9F43",
   arrows_color: "#8D8D8D",
-  border_color: "#e6e9ef",
+  border_color: "#9ea7a2",
   darken_border_color: "",
   borderBlur: "",
   button_disabled: "",

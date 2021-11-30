@@ -22,27 +22,33 @@ const ResultScoreBoard = (props) => {
         >
           شماره زمین : 3
         </p>
-      </div>
-      <div className="detail-scorebaord-container">
-        <div
-          className="detail-scorebaord"
-          style={{
-            backgroundColor: theme.background_color,
-          }}
-        >
-          <p className="set-score-text" style={{ color: theme.on_background }}>
-            {props.teamAScore}
-          </p>
-        </div>
-        <div
-          className="detail-scorebaord"
-          style={{
-            backgroundColor: theme.background_color,
-          }}
-        >
-          <p className="set-score-text" style={{ color: theme.on_background }}>
-            {props.teamBScore}
-          </p>
+        <div className="detail-scorebaord-container">
+          <div
+            className="detail-scorebaord"
+            style={{
+              backgroundColor: theme.background_color,
+            }}
+          >
+            <p
+              className="set-score-text"
+              style={{ color: theme.on_background }}
+            >
+              {props.teamAScore}
+            </p>
+          </div>
+          <div
+            className="detail-scorebaord"
+            style={{
+              backgroundColor: theme.background_color,
+            }}
+          >
+            <p
+              className="set-score-text"
+              style={{ color: theme.on_background }}
+            >
+              {props.teamBScore}
+            </p>
+          </div>
         </div>
       </div>
     </div>

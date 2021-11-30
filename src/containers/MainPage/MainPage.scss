@@ -1,8 +1,5 @@
 .main-page-container {
-  // width: 100vw;
-  // height: 100vh;
   direction: rtl;
-  // position: absolute;
   min-height: 100vh;
   .menu-icon {
     display: block;
@@ -20,10 +17,13 @@
   }
 }
 
-// @media screen and (min-width: 1050px) {
-//   .main-page-container {
-//     .menu-icon {
-//       display: none;
-//     }
-//   }
-// }
+@media screen and (min-width: 560px) {
+}
+
+@media only screen and (min-width: 560px) and (min-height: 630px) {
+  .main-page-container {
+    .menu-icon {
+      display: none;
+    }
+  }
+}
