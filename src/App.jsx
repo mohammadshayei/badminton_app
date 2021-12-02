@@ -3,9 +3,12 @@ import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as detailActions from "./store/actions/detail";
+import * as authActions from "./store/actions/auth";
 
 import SetupPage from "./containers/SetupPage/SetupPage";
 import MainPage from "./containers/MainPage/MainPage";
+import Auth from "./containers/Auth/Auth";
+import { useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,11 +25,21 @@ function App() {
   window.addEventListener("resize", () => {
     setSize(window.innerHeight, window.innerWidth);
   });
+  const token = useSelector(state => state.auth.token)
+  const checkAuth = () => dispatch(authActions.authCheckState());
 
+  console.log(token)
+  useEffect(() => {
+    checkAuth();
+  }, []);
   return (
     <Routes>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route path="/setup" exact element={<SetupPage />}></Route>
+      <Route path="/login" exact element={<Auth />}></Route>
+      <Route path="/signup" exact element={<Auth />}></Route>
+
+
     </Routes>
   );
 }

@@ -8,8 +8,30 @@ export const stringFa = {
     land_number: "شماره زمین",
     land_number_error: 'شماره زمین را با اعداد پر کنید',
     game_type: 'نوع بازی',
-    next:"بعدی"
-
+    next: "بعدی",
+    username: 'نام کاربری',
+    username_error: 'نام کاربری باید بیشتر از 2 حرف باشد',
+    password: 'رمز عبور',
+    password_error: 'رمز عبور باید بیشتر از 5 حرف باشد',
+    login: "ورود",
+    not_registerd: 'عضو نشدید؟',
+    register: "ثبت نام",
+    forgot_password: 'فراموشی رمز عبور',
+    phone: 'شماره همراه',
+    phone_error: "شماره وارد شده نا معتبر است",
+    confirm: 'تایید',
+    invalid_code: 'کد وارد شده نامعتبر است',
+    write_code: 'لطفا کد ارسال شده را وارد کنید',
+    registered: 'ثبت نام کردم',
+    national_number: 'شماره ملی',
+    national_number_error: 'شماره ملی باید 10 حرف باشد',
+    send_code: "ارسال کد",
+    phone_exist:"شماره وارد شده تکراری است",
+    code_sended:'کد ارسال شد',
+    error_occured:'خطایی رخ داده است',
+    wrong_code:'کد وارد شده اشتباه است',
+    code_error:'کد باید 5 حرف باشد',
+    registered_successfully:'ثبت نام با موفقیت انجام شد'
 
 
 

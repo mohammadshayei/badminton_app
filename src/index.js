@@ -11,9 +11,12 @@ import thunk from "redux-thunk";
 import { ThemeProvider } from "./styles/ThemeProvider";
 
 import detailReducer from "./store/reducers/detail";
+import authReducer from "./store/reducers/auth";
+
 
 const rootReducer = combineReducers({
   detail: detailReducer,
+  auth: authReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

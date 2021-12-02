@@ -18,11 +18,11 @@ const Button = (props) => {
       ? props.hover
         ? props.hover
         : themeState.isDark
-        ? theme.surface_12dp
-        : theme.primary_variant
+          ? theme.surface_12dp
+          : theme.primary_variant
       : props.back
-      ? props.back
-      : `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
+        ? props.back
+        : `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
   };
   return (
     <button
@@ -33,6 +33,7 @@ const Button = (props) => {
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      {...props.config}
     >
       {props.children}
     </button>
