@@ -2,8 +2,12 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     whoHitsService: '',//کی سرویس را می زند
-    scoreA: 0,
-    scoreB: 0,
+    scoreTeams: [
+        {
+            id: '',
+            score: 0,
+        }
+    ],
     setEvents: [
         {
             timeEvent: new Date(),//زمانی که اتفاق رخداده است
@@ -12,7 +16,7 @@ const initialState = {
         }
     ],
     errors: [{
-        team:'',//چه بازیکن یا تیمی  مرتکب خظا شده است
+        team: '',//چه بازیکن یا تیمی  مرتکب خظا شده است
         timeError: new Date(),
         playerName: '',
         typeError: ''
@@ -21,7 +25,7 @@ const initialState = {
 
 
 
-const setOs = (state, action) => {
+const increaseScore = (state, action) => {
     return {
         ...state,
         os: action.os,

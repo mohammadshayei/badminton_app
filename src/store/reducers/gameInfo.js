@@ -4,22 +4,42 @@ const initialState = {
     competitionNumber: 0,
     landNumber: 0,
     typeGame: 0,
-    playersTeamA: [
-        {
-            id: '',
-            name: '',
-            imagePath: '',
-        }
-    ],
-    playersTeamB: [
-        {
-            id: '',
-            name: '',
-            imagePath: '',
-        }
-    ],
-    refereeName: '',
-    serviceRefereeName: '',
+    teamA: {
+        id: '',
+        name: "",
+        imagePath: '',
+        players: [
+            {
+                id: '',
+                name: '',
+                imagePath: '',
+            }
+        ]
+
+    },
+    teamB: {
+        id: '',
+        name: "",
+        imagePath: '',
+        players: [
+            {
+                id: '',
+                name: '',
+                imagePath: '',
+            }
+        ]
+
+    },
+    refereeName: {
+        id: "",
+        name: "",
+        imagePath: ''
+    },
+    serviceRefereeName: {
+        id: "",
+        name: "",
+        imagePath: ''
+    },
     score: 21, // یعنی گیم چند امتیاز است
     sets: []//اطلاعات کامل هر ست تو این ریخته میشه
 };
