@@ -9,7 +9,7 @@ import SetupPage from "./containers/SetupPage/SetupPage";
 import MainPage from "./containers/MainPage/MainPage";
 import Auth from "./containers/Auth/Auth";
 import { useSelector } from "react-redux";
-
+import HomePage from "./containers/HomePage/HomePage";
 function App() {
   const dispatch = useDispatch();
   const setOS = (os) => {
@@ -34,6 +34,7 @@ function App() {
   }, []);
   return (
     <Routes>
+      <Route path="/home" exact element={<HomePage />}></Route>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
