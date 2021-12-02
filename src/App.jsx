@@ -6,6 +6,7 @@ import * as detailActions from "./store/actions/detail";
 
 import SetupPage from "./containers/SetupPage/SetupPage";
 import MainPage from "./containers/MainPage/MainPage";
+import HomePage from "./containers/HomePage/HomePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/home" exact element={<HomePage />}></Route>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route path="/setup" exact element={<SetupPage />}></Route>
     </Routes>
