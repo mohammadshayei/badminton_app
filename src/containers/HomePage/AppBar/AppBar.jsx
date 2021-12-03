@@ -1,18 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./AppBar.scss";
 import umpire from "../../../assets/images/umpire.png";
 import tournament from "../../../assets/images/tournament.png";
 import { MdAdd } from "react-icons/md";
 import { useTheme } from "../../../styles/ThemeProvider";
+import TournamentPage from "../TournamentPage/TournamentPage";
+import GamesPage from "../GamesPage/GamesPage";
 
-const AppBar = () => {
+const AppBar = (props) => {
+  const [pageId, setPageId] = useState(1);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
+
+  useEffect(() => {
+    switch (pageId) {
+      case 1:
+        props.setPage(<TournamentPage />);
+        break;
+      case 2:
+        props.setPage(<GamesPage />);
+        break;
+      default:
+        props.setPage(<TournamentPage />);
+        break;
+    }
+  }, [pageId]);
 
   return (
     <div className="app-bar">
       <div className="page-selector">
-        <img src={tournament} alt="" />
+        <img
+          src={tournament}
+          alt=""
+          onClick={() => setPageId(1)}
+          style={{
+            filter: pageId === 1 ? "grayscale(0%)" : "grayscale(100%)",
+            opacity: pageId === 1 ? "1" : "0.5",
+          }}
+        />
       </div>
       <div
         className="add-tournament"
@@ -31,7 +56,15 @@ const AppBar = () => {
         />
       </svg>
       <div className="page-selector">
-        <img src={umpire} alt="" />
+        <img
+          src={umpire}
+          alt=""
+          onClick={() => setPageId(2)}
+          style={{
+            filter: pageId === 2 ? "grayscale(0%)" : "grayscale(100%)",
+            opacity: pageId === 2 ? "1" : "0.5",
+          }}
+        />
       </div>
     </div>
   );

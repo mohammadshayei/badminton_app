@@ -1,20 +1,6 @@
 .main-page-container {
   direction: rtl;
   min-height: 100vh;
-  .menu-icon {
-    display: block;
-    position: absolute;
-    transform: translate(-80%, 10%);
-    font-size: 1.8rem;
-    cursor: pointer;
-    .fa-times {
-      color: #fff;
-      font-size: 2rem;
-    }
-    .fa-bars {
-      color: #fff;
-    }
-  }
 }
 
 @media screen and (min-width: 560px) {

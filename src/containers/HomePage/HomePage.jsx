@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./HomePage.scss";
 import { useTheme } from "../../styles/ThemeProvider";
 import AppBar from "./AppBar/AppBar";
+import TournamentPage from "./TournamentPage/TournamentPage";
 
 const HomePage = () => {
+  const [clicked, setClicked] = useState(false);
+  const [page, setPage] = useState(<TournamentPage />);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
+  const menuButonClickHandler = () => setClicked(!clicked);
 
   return (
     <div
@@ -15,7 +19,14 @@ const HomePage = () => {
         color: theme.on_primary,
       }}
     >
-      <AppBar />
+      <div className="menu-icon" onClick={menuButonClickHandler}>
+        <i
+          style={{ color: theme.on_primary }}
+          className={clicked ? "fas fa-times" : "fas fa-bars"}
+        />
+      </div>
+      {page}
+      <AppBar setPage={setPage} />
     </div>
   );
 };
