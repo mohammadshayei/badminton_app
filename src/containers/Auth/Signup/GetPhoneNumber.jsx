@@ -35,7 +35,7 @@ const GetPhoneNumber = (props) => {
         },
     })
     let navigate = useNavigate();
-    
+
     const generate_token = (length) => {
         var a =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split(
@@ -86,6 +86,9 @@ const GetPhoneNumber = (props) => {
         return () => {
         }
     }, [])
+    const goToLogin = () => {
+        navigate('/login')
+    }
     return (
         <div className='signup-container'>
             {
@@ -114,6 +117,7 @@ const GetPhoneNumber = (props) => {
                         >
                             {stringFa.send_code}
                         </Button>
+                        <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
                     </>
             }
 

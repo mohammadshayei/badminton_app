@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, } from "react";
 import "./App.scss";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as detailActions from "./store/actions/detail";
 import * as authActions from "./store/actions/auth";
@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import HomePage from "./containers/HomePage/HomePage";
 function App() {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
+
   const setOS = (os) => {
     dispatch(detailActions.setOS(os));
   };
@@ -26,12 +28,27 @@ function App() {
     setSize(window.innerHeight, window.innerWidth);
   });
   const token = useSelector(state => state.auth.token)
-  const checkAuth = () => dispatch(authActions.authCheckState());
+  const checked = useSelector(state => state.auth.checked)
+  const path = useSelector(state => state.auth.authRedirectPath)
 
-  console.log(token)
+  const checkAuth = () => dispatch(authActions.authCheckState());
+  const location = useLocation()
   useEffect(() => {
     checkAuth();
   }, []);
+  useEffect(() => {
+    if (!token && checked) {
+      navigate(`/login`);
+    }
+  }, [token, checked])
+  useEffect(() => {
+    if (path && location.pathname !== path) {
+      navigate(path)
+    }
+  }, [path])
+
+  // localStorage.removeItem("refereeId");
+  // localStorage.removeItem("token");
   return (
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>
@@ -39,6 +56,7 @@ function App() {
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
+
 
 
     </Routes>

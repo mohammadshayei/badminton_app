@@ -38,6 +38,8 @@ export const authFail = (error) => {
 
 export const logout = () => {
   localStorage.removeItem("refereeId");
+  localStorage.removeItem("token");
+
   return {
     type: actionTypes.AUTH_LOGOUT,
   };
@@ -62,7 +64,7 @@ export const auth = (username, password, url) => {
         }
       })
       .catch((err) => {
-        dispatch(authFail(err.response.data.message.loginStatus));
+        dispatch(authFail(`نام کاربری یا رمز عبور اشتباه می باشد`));
       });
   };
 };
@@ -70,6 +72,12 @@ export const setAuthRedirectPath = (path) => {
   return {
     type: actionTypes.SET_AUTH_REDIRECT_PATH,
     path: path,
+  };
+};
+export const setChecked = () => {
+  return {
+    type: actionTypes.SET_CHECKED,
+    checked: true,
   };
 };
 
@@ -80,8 +88,11 @@ export const authCheckState = () => {
 
     if (!token || !refereeId) {
       dispatch(logout());
+      dispatch(setChecked())
     } else {
       dispatch(authSuccess(token, refereeId));
+      dispatch(setChecked())
+
     }
   };
 };

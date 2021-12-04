@@ -42,7 +42,9 @@ const GetPhoneNumber = (props) => {
             alert(stringFa.wrong_code)
         }
     }
-
+    const goToLogin = () => {
+        navigate('/login')
+    }
     return (
         <div className='signup-container'>
             <p className='write-sended-code'>{stringFa.write_code}</p>
@@ -55,7 +57,7 @@ const GetPhoneNumber = (props) => {
                             letterSpacing: '1rem',
                             direction: "ltr",
                             fontSize: '1.4rem',
-                            paddingLeft:'calc( 50% - 6rem )',
+                            paddingLeft: 'calc( 50% - 6rem )',
                         }}
                         errorStyle={{
                             top: '3.2rem'
@@ -77,6 +79,8 @@ const GetPhoneNumber = (props) => {
             >
                 {stringFa.confirm}
             </Button>
+            <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
+
         </div>
     )
 }

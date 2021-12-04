@@ -61,7 +61,7 @@ const Auth = () => {
                 }
                 break;
             default:
-                body = <GetPhoneNumber setTokenId={setTokenId} />;
+                body = <GetPhoneNumber setTokenId={setTokenId} setCode={setCode} />;
                 break;
         }
     } else if (locaiton.pathname === "/login") {
