@@ -10,4 +10,5 @@ export const stringFa = {
   game_type: "نوع بازی",
   next: "بعدی",
   create_tournament: "از اینجا تورنمنت جدیدی ایجاد کنید",
+  game_number: "بازی شماره",
 };

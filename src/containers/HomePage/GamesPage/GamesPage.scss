@@ -1,0 +1,33 @@
+.games-page-wrapper {
+  position: relative;
+  height: 75vh;
+  overflow: auto;
+  .game-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    padding: 1em 1em;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    margin-bottom: 0.7rem;
+    overflow: hidden;
+    .details {
+      width: 100%;
+      padding: 0 0.5em;
+      text-align: right;
+      .title {
+        font-size: 5vw;
+      }
+      .game-number {
+        font-size: 4vw;
+      }
+      .players-name {
+        font-size: 3.2vw;
+      }
+    }
+    img {
+      max-height: 40px;
+    }
+  }
+}

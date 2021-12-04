@@ -28,11 +28,10 @@ const AppBar = (props) => {
 
   return (
     <div className="app-bar">
-      <div className="page-selector">
+      <div className="page-selector" onClick={() => setPageId(1)}>
         <img
           src={tournament}
           alt=""
-          onClick={() => setPageId(1)}
           style={{
             filter: pageId === 1 ? "grayscale(0%)" : "grayscale(100%)",
             opacity: pageId === 1 ? "1" : "0.5",
@@ -55,11 +54,10 @@ const AppBar = (props) => {
           fill={theme.primary_variant}
         />
       </svg>
-      <div className="page-selector">
+      <div className="page-selector" onClick={() => setPageId(2)}>
         <img
           src={umpire}
           alt=""
-          onClick={() => setPageId(2)}
           style={{
             filter: pageId === 2 ? "grayscale(0%)" : "grayscale(100%)",
             opacity: pageId === 2 ? "1" : "0.5",
