@@ -1,4 +1,4 @@
-import React, { useEffect, } from "react";
+import React, { useEffect } from "react";
 import "./App.scss";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -27,12 +27,12 @@ function App() {
   window.addEventListener("resize", () => {
     setSize(window.innerHeight, window.innerWidth);
   });
-  const token = useSelector(state => state.auth.token)
-  const checked = useSelector(state => state.auth.checked)
-  const path = useSelector(state => state.auth.authRedirectPath)
+  const token = useSelector((state) => state.auth.token);
+  const checked = useSelector((state) => state.auth.checked);
+  const path = useSelector((state) => state.auth.authRedirectPath);
 
   const checkAuth = () => dispatch(authActions.authCheckState());
-  const location = useLocation()
+  const location = useLocation();
   useEffect(() => {
     checkAuth();
   }, []);
@@ -40,12 +40,12 @@ function App() {
     if (!token && checked) {
       navigate(`/login`);
     }
-  }, [token, checked])
+  }, [token, checked]);
   useEffect(() => {
     if (path && location.pathname !== path) {
-      navigate(path)
+      navigate(path);
     }
-  }, [path])
+  }, [path]);
 
     // localStorage.removeItem("refereeId");
     // localStorage.removeItem("token");
@@ -56,9 +56,6 @@ function App() {
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
-
-
-
     </Routes>
   );
 }
