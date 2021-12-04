@@ -1,0 +1,80 @@
+.auth-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .header-auth-container {
+        padding-top: 3rem;
+        padding-bottom: 2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .logo {
+            width: 90px;
+            aspect-ratio: 1;
+        }
+        .logo-type {
+            width: 240px;
+            height: 90px;
+        }
+    }
+    .login-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 2rem;
+        position: relative;
+        .forgot-password {
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+            font-weight: 200;
+            text-align: center;
+        }
+        .go-to-register {
+            position: absolute;
+            bottom: 2rem;
+            text-align: center;
+            font-weight: 200;
+            color: rgba($color: #fff, $alpha: 0.9);
+            font-size: 0.9rem;
+            span {
+                margin-right: 0.5rem;
+                font-weight: 500;
+                font-size: 1rem;
+            }
+        }
+    }
+    .signup-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 2rem;
+        position: relative;
+        .write-sended-code {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+        .go-to-login {
+            position: absolute;
+            bottom: 2rem;
+            text-align: center;
+            font-weight: 200;
+            color: rgba($color: #fff, $alpha: 0.9);
+            font-size: 0.9rem;
+            span {
+                margin-right: 0.5rem;
+                font-weight: 500;
+                font-size: 1rem;
+            }
+        }
+    }
+}
