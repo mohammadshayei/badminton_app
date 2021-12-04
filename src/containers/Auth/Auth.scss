@@ -78,3 +78,37 @@
         }
     }
 }
+
+@media only screen and (min-width: 700px) {
+    .auth-container {
+        flex-direction: row-reverse;
+        .header-auth-container {
+            padding-top: 0;
+            padding-bottom: 0;
+            flex: 1;
+            .logo {
+                // width: 60%;
+                width: 150px;
+                // max-width: 200px;
+                aspect-ratio: 1;
+                margin-bottom: 2rem;
+            }
+            .logo-type {
+                // width: 80%;
+                width: 394px;
+                height: 154px;
+                margin-top: 1rem;
+                max-width: 350px;
+                // aspect-ratio: 2.5;
+            }
+        }
+        .login-container {
+            flex: 1;
+            padding-bottom: 0rem;
+            button{
+                margin-top: 1rem;
+                margin-bottom: .7rem;
+            }
+        }
+    }
+}
