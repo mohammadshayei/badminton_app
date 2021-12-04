@@ -34,4 +34,5 @@ export const stringFa = {
   registered_successfully: "ثبت نام با موفقیت انجام شد",
   create_tournament: "از اینجا تورنمنت جدیدی ایجاد کنید",
   game_number: "بازی شماره",
+  add_game: "اضافه کردن بازی",
 };
