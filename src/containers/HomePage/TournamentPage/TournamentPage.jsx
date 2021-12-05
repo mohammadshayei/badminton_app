@@ -90,9 +90,13 @@ const TournamentPage = () => {
         <div className="box-content">
           {content.length > 0 &&
             content.map((item, key) => (
-              <div key={key} className="content-container">
-                <BsThreeDots />
+              <div
+                key={key}
+                className="content-container"
+                style={{ color: theme.on_background }}
+              >
                 <p>{`${item.p1Name} ${item.p1Score} - ${item.p2Score} ${item.p2Name}`}</p>
+                <BsThreeDots />
               </div>
             ))}
         </div>

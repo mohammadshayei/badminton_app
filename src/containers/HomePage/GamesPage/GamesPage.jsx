@@ -44,17 +44,17 @@ const GamesPage = () => {
       {games.length > 0 ? (
         games.map((item, key) => (
           <div key={key} className="game-box">
-            <BsThreeDots />
-            <div className="details">
-              <p className="title">{item.tournament}</p>
-              <p className="game-number">{`${item.number} ${stringFa.game_number}`}</p>
-              <p className="players-name">{`${item.player1} - ${item.player2}`}</p>
-            </div>
             {item.type === "single" ? (
               <img src={rocket} alt="" />
             ) : (
               <img src={rockets} alt="" />
             )}
+            <div className="details">
+              <p className="title">{item.tournament}</p>
+              <p className="game-number">{`${item.number} ${stringFa.game_number}`}</p>
+              <p className="players-name">{`${item.player1} - ${item.player2}`}</p>
+            </div>
+            <BsThreeDots />
           </div>
         ))
       ) : (
