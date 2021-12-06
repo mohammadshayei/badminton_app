@@ -21,6 +21,12 @@ export const getRefereeData = (refereeId, token) => {
   };
 };
 
+export const setRefereeData = (referee) => {
+  return {
+    type: actionTypes.SET_REFEREE_DATA,
+    referee
+  };
+}
 export const authSuccess = (token, refereeId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
@@ -45,11 +51,11 @@ export const logout = () => {
   };
 };
 
-export const auth = (username, password, url) => {
+export const auth = (input, password, url) => {
   return (dispatch) => {
     dispatch(authStart());
     const authData = {
-      username,
+      input,
       password,
     };
     axios
@@ -59,6 +65,11 @@ export const auth = (username, password, url) => {
           localStorage.setItem("token", res.data.message.token);
           localStorage.setItem("refereeId", res.data.message.referee._id);
           dispatch(authSuccess(res.data.message.token, res.data.message.referee._id));
+          dispatch({
+            type: actionTypes.SET_REFEREE_DATA,
+            referee: res.data.message.referee,
+          });
+
         } else {
           dispatch(authFail(`نام کاربری یا رمز عبور اشتباه می باشد`));
         }

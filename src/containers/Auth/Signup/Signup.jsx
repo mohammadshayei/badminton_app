@@ -85,6 +85,9 @@ const Singup = () => {
     const authSuccess = (token, refereeId) => {
         dispatch(actions.authSuccess(token, refereeId));
     };
+    const setRefereeData = (referee) => {
+        dispatch(actions.setRefereeData(referee));
+    };
     const authFail = (error) => {
         dispatch(actions.authFail(error));
     };
@@ -97,6 +100,7 @@ const Singup = () => {
             localStorage.setItem("token", result.message.token);
             localStorage.setItem("refereeId", result.message.referee._id);
             authSuccess(result.message.token, result.message.referee._id)
+            setRefereeData(result.message.referee)
         }
         else {
             alert(stringFa.error_occured)

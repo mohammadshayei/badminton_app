@@ -1,5 +1,5 @@
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
@@ -13,18 +13,18 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
-        username: {
+        input: {
             value: '',
             elementConfig: {
-                placeholder: stringFa.username,
+                placeholder: stringFa.phone_or_nationalnumber,
                 type: 'text',
             },
             elementType: 'input',
-            validationMessage: stringFa.username_error,
+            validationMessage: stringFa.phone_or_nationalnumber_error,
             invalid: false,
             validation: {
                 isRequired: true,
-                minLength: 3,
+                minLength: 10,
             },
             shouldValidate: true,
             isFocused: false,
@@ -50,15 +50,16 @@ const Login = () => {
     })
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const auth = (username, password, url) => {
-        dispatch(authActions.auth(username, password, url));
+    const auth = (input, password, url) => {
+        dispatch(authActions.auth(input, password, url));
     };
     const loading = useSelector(state => state.auth.loading)
+    const error = useSelector(state => state.auth.error)
 
 
     const loginHandler = useCallback(() => {
         auth(
-            order.username.value,
+            order.input.value,
             order.password.value,
             `${baseUrl}api/login_referee`
         );
@@ -66,6 +67,11 @@ const Login = () => {
     const goToSingup = () => {
         navigate('/signup')
     }
+    useEffect(() => {
+        if(error){
+            alert(error)
+        }
+    }, [error])
     return (
         <div className='login-container'>
             {loading ? <Loading /> :

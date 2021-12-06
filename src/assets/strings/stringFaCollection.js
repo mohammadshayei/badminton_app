@@ -35,4 +35,6 @@ export const stringFa = {
   create_tournament: "از اینجا تورنمنت جدیدی ایجاد کنید",
   game_number: "بازی شماره",
   add_game: "اضافه کردن بازی",
+  phone_or_nationalnumber:"شماره همراه یا شماره ملی",
+  phone_or_nationalnumber_error:"متن ورودی نامعتبر است",
 };
