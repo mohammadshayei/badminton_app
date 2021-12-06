@@ -10,8 +10,8 @@
     width: 100%;
     .tournament-box {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
       border-radius: 20px;
       padding: 1em 1.5em;
       font-size: 1.2rem;
@@ -21,6 +21,9 @@
       margin-bottom: 0.7rem;
       overflow: hidden;
       direction: rtl;
+      .icons {
+        display: none;
+      }
       .progress {
         background-color: rgba(0, 0, 0, 0.2);
         position: absolute;
@@ -30,7 +33,8 @@
         z-index: -1;
       }
       p {
-        margin-left: 1em;
+        width: 100%;
+        text-align: center;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -47,6 +51,23 @@
     .tournaments-wrapper {
       .tournament-box {
         font-size: 1rem;
+        max-height: 65px;
+        .icons {
+          display: flex;
+          align-items: center;
+          min-width: 110px;
+          margin-top: 1rem;
+          img {
+            max-height: 20px;
+            margin-left: 0.7rem;
+            opacity: 0.7;
+            filter: grayscale(100%);
+          }
+        }
+      }
+      .selected {
+        transition: max-height 350ms ease-in-out;
+        max-height: 100px;
       }
     }
     .box-container {
