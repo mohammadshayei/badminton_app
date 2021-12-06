@@ -10,7 +10,7 @@ const Input = (props) => {
   const inputStyles = {
     background: themeState.isDark ? theme.surface_1dp : theme.surface,
     color: theme.on_background,
-    borderColor: !props.isValid ? theme.error : focus ? theme.secondary : theme.border_color,
+    border: focus ? `1px solid ${!props.isValid ? theme.error : theme.primary}` : "none",
   };
 
   return (
@@ -32,7 +32,7 @@ const Input = (props) => {
       />
       {
         props.error &&
-        <p>
+        <p style={{ color: theme.error }}>
           {props.error}
         </p>
       }
