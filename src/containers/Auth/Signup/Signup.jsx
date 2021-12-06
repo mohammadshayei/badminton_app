@@ -108,6 +108,9 @@ const Singup = () => {
         return () => {
         }
     }, [])
+    const goToLogin = () => {
+        navigate('/login')
+    }
     return (
         <div className='signup-container'>
             {
@@ -136,7 +139,8 @@ const Singup = () => {
                 {stringFa.register}
             </Button>
 
-            <p className='go-to-login'>{stringFa.registered}<span>{stringFa.login}</span></p>
+            <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
+
         </div>
     )
 }
