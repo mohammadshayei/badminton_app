@@ -37,4 +37,8 @@ export const stringFa = {
   add_game: "اضافه کردن بازی",
   phone_or_nationalnumber:"شماره همراه یا شماره ملی",
   phone_or_nationalnumber_error:"متن ورودی نامعتبر است",
+  add: "اضافه کردن",
+  new_game: "بازی جدید",
+  new_player: "بازیکن جدید",
+  new_gym: "سالن جدید",
 };

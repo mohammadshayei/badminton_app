@@ -15,7 +15,7 @@ const HomePage = () => {
     <div
       className="home-page-wrapper"
       style={{
-        background: `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
+        background: `linear-gradient(210deg,${theme.primary},${theme.primary_variant})`,
         color: theme.on_primary,
       }}
     >
