@@ -30,7 +30,6 @@ function App() {
   const token = useSelector((state) => state.auth.token);
   const checked = useSelector((state) => state.auth.checked);
   const path = useSelector((state) => state.auth.authRedirectPath);
-  const authmb = useSelector((state) => state.auth);
   const checkAuth = () => dispatch(authActions.authCheckState());
   const location = useLocation();
   useEffect(() => {
@@ -46,7 +45,6 @@ function App() {
       navigate(path);
     }
   }, [path]);
-  console.log(authmb)
 
   // localStorage.removeItem("refereeId");
   // localStorage.removeItem("token");

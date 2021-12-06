@@ -12,11 +12,15 @@ import { ThemeProvider } from "./styles/ThemeProvider";
 
 import detailReducer from "./store/reducers/detail";
 import authReducer from "./store/reducers/auth";
+import homeReducer from "./store/reducers/home";
+
 
 
 const rootReducer = combineReducers({
   detail: detailReducer,
   auth: authReducer,
+  home: homeReducer,
+
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

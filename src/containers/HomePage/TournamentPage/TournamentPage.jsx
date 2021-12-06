@@ -5,22 +5,35 @@ import arrow from "../../../assets/images/arrow.png";
 import { stringFa } from "../../../assets/strings/stringFaCollection.js";
 import Button from "../../../components/UI/Button/Button";
 import { BsThreeDots } from "react-icons/bs";
+import { getTournaments } from "../../../api/home";
+import { useSelector } from "react-redux";
 
 const TournamentPage = () => {
   const [tournaments, setTournaments] = useState([]);
   const [content, setContent] = useState([]);
+  const [loading, setLoading] = useState(false)
   const themeState = useTheme();
-  const theme = themeState.computedTheme;
+  const token = useSelector((state) => state.auth.token);
+  const refereeId = useSelector((state) => state.auth.refereeId);
 
+
+  const theme = themeState.computedTheme;
+  useEffect(async () => {
+    if (refereeId && token) {
+      const result = await getTournaments(refereeId, token)
+      if (result.success)
+        setTournaments(result.data)
+    }
+  }, [refereeId, token])
   useEffect(() => {
-    setTournaments([
-      ...tournaments,
-      { title: "مسابقات دهه فجر 1400", progress: "60%" },
-      { title: "مسابقات دهه فجر 1400", progress: "40%" },
-      { title: "مسابقات دهه فجر 1400", progress: "0%" },
-      { title: "مسابقات دهه فجر 1400", progress: "0%" },
-      { title: "مسابقات دهه فجر 1400", progress: "0%" },
-    ]);
+    // setTournaments([
+    //   ...tournaments,
+    //   { title: "مسابقات دهه فجر 1400", progress: "60%" },
+    //   { title: "مسابقات دهه فجر 1400", progress: "40%" },
+    //   { title: "مسابقات دهه فجر 1400", progress: "0%" },
+    //   { title: "مسابقات دهه فجر 1400", progress: "0%" },
+    //   { title: "مسابقات دهه فجر 1400", progress: "0%" },
+    // ]);
     setContent([
       ...content,
       {
@@ -102,14 +115,14 @@ const TournamentPage = () => {
       </div>
       <div className="tournaments-wrapper">
         {tournaments.length > 0 ? (
-          tournaments.map((item, key) => (
-            <div key={key} className="tournament-box">
+          tournaments.map((item) => (
+            <div key={item.tournament._id} className="tournament-box">
               <div
                 className="progress"
-                style={{ width: `${item.progress}` }}
+                style={{ width: `${item.tournament.progress}` }}
               ></div>
               <BsThreeDots />
-              <p>{item.title}</p>
+              <p>{item.tournament.title}</p>
             </div>
           ))
         ) : (
