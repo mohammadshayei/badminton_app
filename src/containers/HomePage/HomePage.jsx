@@ -6,8 +6,10 @@ import TournamentPage from "./TournamentPage/TournamentPage";
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import { MdLanguage, MdDarkMode, MdLogout, MdSettings } from "react-icons/md";
 import pic from "../../assets/images/badminton_player.jfif"
+import Modal from "../../components/UI/Modal/Modal"
 
 const HomePage = () => {
+  const [showModal, setShowModal] = useState(false)
   const [clicked, setClicked] = useState(false);
   const [page, setPage] = useState(<TournamentPage />);
   const themeState = useTheme();
@@ -59,9 +61,9 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
+      {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>test</Modal>}
       {page}
-      <AppBar setPage={setPage} />
+      <AppBar setPage={setPage} setShowModal={setShowModal} />
     </div>
   );
 };
