@@ -3,7 +3,6 @@ import { useTheme } from "../../styles/ThemeProvider";
 import Page1 from "./Page1/Page1";
 import Page2 from "./Page2/Page2";
 import "./SetupPage.scss";
-import { IoLanguageOutline } from "react-icons/io5";
 import { animated, useSprings } from "react-spring";
 import { useGesture } from "@use-gesture/react";
 
@@ -58,7 +57,6 @@ const SetupPage = () => {
         color: theme.on_primary,
       }}
     >
-      <IoLanguageOutline className="change-lan-icon" />
       <div className="navigation-component">
         {springs.map((styles) => (
           <animated.div

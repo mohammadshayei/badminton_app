@@ -1,11 +1,5 @@
 .setup-container {
   min-height: 100vh;
-  .change-lan-icon {
-    position: fixed;
-    top: 0.3rem;
-    right: 0.3rem;
-    cursor: pointer;
-  }
   .navigation-component {
     display: flex;
     flex-direction: row-reverse;
@@ -38,9 +32,6 @@
 }
 
 @media only screen and (min-width: 960px) {
-  .change-lan-icon {
-    font-size: 1.8rem;
-  }
   .setup-container {
     .navigation-component {
       .page-number {
