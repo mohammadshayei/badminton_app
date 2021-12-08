@@ -44,10 +44,12 @@ const AppBar = (props) => {
           background: theme.background_color,
           color: theme.primary,
         }}
+        onClick={() => {
+          props.setShowModal(true)
+        }}
       >
         <MdAdd />
       </div>
-
       <div className="page-selector" onClick={() => setPageId(2)}>
         <img
           src={umpire}

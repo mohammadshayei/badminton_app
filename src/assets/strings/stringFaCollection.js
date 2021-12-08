@@ -41,4 +41,7 @@ export const stringFa = {
   new_game: "بازی جدید",
   new_player: "بازیکن جدید",
   new_gym: "سالن جدید",
+  change_lan: "تغییر زبان",
+  dark_theme: "پوسته تیره",
+  settings: "تنظیمات",
 };

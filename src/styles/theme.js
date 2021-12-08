@@ -1,11 +1,11 @@
 const lightTheme = {
   background_color: "#FFF",
-  surface: "",
-  primary: "#11998E",
-  primary_variant: "#38EF7D",
+  surface: "rgba(0, 0, 0, 0.1)",
+  primary: "#4CA2CD",
+  primary_variant: "#67B26F",
   secondary: "#005CE6",
   secondary_variant: "",
-  // error: "#B00020",
+  error: "#B00020",
   error_variant: "#9e0420",
   success: "#00ca72",
   on_background: "#000",
@@ -20,7 +20,7 @@ const lightTheme = {
   borderBlur: "",
   button_disabled: "",
   hover: "rgb(210, 210, 210)",
-  error:"#a74957",
+  // error: "#a74957",
 };
 
 const darkTheme = {
