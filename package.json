@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@use-gesture/react": "^10.1.6",
     "axios": "^0.24.0",
+    "jalali-react-datepicker": "^1.2.1",
     "live-server": "^1.2.1",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
