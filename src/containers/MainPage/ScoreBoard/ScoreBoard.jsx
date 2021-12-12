@@ -2,8 +2,10 @@ import React from "react";
 import { useTheme } from "../../../styles/ThemeProvider";
 import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
 import PlayerBlock from "./PlayerBlock/PlayerBlock";
-import DetailScoreBoard from "./DetailScoreBoard/DetailScoreBoard";
 import "./ScoreBoard.scss";
+import back from "../../../assets/images/back_scoreboard.jpg"
+import { FaPlayCircle, FaExclamation } from "react-icons/fa";
+import { ImUndo2 } from "react-icons/im";
 
 const ScoreBoard = (props) => {
   const themeState = useTheme();
@@ -13,29 +15,38 @@ const ScoreBoard = (props) => {
     <div
       className="scoreboard-container"
       style={{
-        background: `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
         color: theme.on_primary,
       }}
     >
+      <img className="background" src={back} alt="back" />
       <div className="main-scoreboard">
         <PlayerBlock
-          titleTop={"بازیکن شماره 1"}
-          score="11"
-          scoreColor="blue"
-          isBall={true}
-          player={"1"}
+          playerName={"بازیکن شماره 1"}
+          playerNameD={"بازیکن شماره 1"}
+          setWon="0"
+          score="0"
+          scoreColor="#AB0000" //FF0000
+          isServer="1"
+          position="left"
         />
-        <DetailScoreBoard time="09:21" teamBScore={0} teamAScore={1} />
         <PlayerBlock
-          titleTop={"بازیکن شماره 2"}
-          score="20"
-          scoreColor="black"
-          isBall={false}
-          player={"2"}
+          playerName={"بازیکن شماره 2"}
+          playerNameD={"بازیکن شماره 2"}
+          setWon="0"
+          score="0"
+          scoreColor="#AB0000"
+          isServer="0"
+          position="right"
         />
+        {/* <div className="warm-up">Warm Up!</div>
+        <FaPlayCircle className="play" /> */}
       </div>
-      <FooterScoreBoard />
-    </div>
+      {/* <FooterScoreBoard /> */}
+      <div className="action-buttons">
+        <FaExclamation className="action-btn" style={{ color: theme.primary }} />
+        <ImUndo2 className="action-btn" style={{ color: theme.primary }} />
+      </div>
+    </div >
   );
 };
 

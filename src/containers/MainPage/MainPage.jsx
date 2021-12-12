@@ -14,9 +14,9 @@ const MainPage = () => {
       className="main-page-container"
       style={{ backgroundColor: theme.background_color }}
     >
-      <HeaderMainPage />
+      {/* <HeaderMainPage /> */}
       <ScoreBoard />
-      <FooterMainPage />
+      {/* <FooterMainPage /> */}
     </div>
   );
 };
