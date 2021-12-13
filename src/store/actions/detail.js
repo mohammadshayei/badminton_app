@@ -14,3 +14,10 @@ export const setOS = (os) => {
         os
     };
 };
+export const setMenuStatus = (status) => {
+    return {
+        type: actionTypes.SET_MENU_STATUS,
+        status
+    };
+};
+

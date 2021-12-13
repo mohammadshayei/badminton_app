@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
     tournaments: [],
@@ -24,6 +25,20 @@ const setSelectedContent = (state, action) => {
 const setMode = (state, action) => {
     return updateObject(state, { mode: action.mode });
 };
+const addTournament = (state, action) => {
+    let updatedTournaments = [...state.tournaments]
+    updatedTournaments = [{ tournament: action.tournament, _id: uuidv4().replace(/\-/g, ""), }, ...updatedTournaments]
+    return updateObject(state, { tournaments: updatedTournaments });
+};
+const editTournament = (state, action) => {
+    let updatedTournaments = [...state.tournaments]
+    let findedTournamentIndex = updatedTournaments.findIndex(item => item.tournament._id === action.tournament._id)
+    if (findedTournamentIndex < 0) {
+        return;
+    }
+    updatedTournaments[findedTournamentIndex].tournament = action.tournament;
+    return updateObject(state, { tournaments: updatedTournaments });
+};
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_TOURNAMENTS:
@@ -36,6 +51,10 @@ const reducer = (state = initialState, action) => {
             return setSelectedContent(state, action);
         case actionTypes.SET_MODE_HOME_PAGE:
             return setMode(state, action);
+        case actionTypes.ADD_TOURNAMENT:
+            return addTournament(state, action);
+        case actionTypes.EDIT_TOURNAMENT:
+            return editTournament(state, action);
         default:
             return state;
     }

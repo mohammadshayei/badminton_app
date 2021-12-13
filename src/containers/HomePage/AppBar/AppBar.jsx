@@ -15,13 +15,21 @@ const AppBar = (props) => {
   useEffect(() => {
     switch (pageId) {
       case 1:
-        props.setPage(<TournamentPage />);
+        props.setPage(
+          <TournamentPage
+            setShowModal={props.setShowModal}
+            setEditMode={props.setEditMode}
+          />);
         break;
       case 2:
         props.setPage(<GamesPage />);
         break;
       default:
-        props.setPage(<TournamentPage />);
+        props.setPage(
+          <TournamentPage
+            setShowModal={props.setShowModal}
+            setEditMode={props.setEditMode}
+          />);
         break;
     }
   }, [pageId]);
@@ -46,6 +54,7 @@ const AppBar = (props) => {
         }}
         onClick={() => {
           props.setShowModal(true)
+          props.setEditMode(false)
         }}
       >
         <MdAdd />

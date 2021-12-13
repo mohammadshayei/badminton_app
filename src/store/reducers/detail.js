@@ -4,6 +4,7 @@ const initialState = {
   widthMode: 0,
   heightMode: 0,
   os: "",
+  showMenu: false,
 };
 
 const WIDTH_B_MEDIUM = 600;
@@ -40,12 +41,20 @@ const setOs = (state, action) => {
   };
 };
 
+const setMenuStatus = (state, action) => {
+  return {
+    ...state,
+    showMenu: action.status,
+  };
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_SIZE:
       return setSize(state, action);
     case actionTypes.SET_OS:
       return setOs(state, action);
+    case actionTypes.SET_MENU_STATUS:
+      return setMenuStatus(state, action);
     default:
       return state;
   }

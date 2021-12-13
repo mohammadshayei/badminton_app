@@ -31,4 +31,16 @@ export const setMode = (mode) => {
         mode
     };
 }
+export const addTournament = (tournament) => {
+    return {
+        type: actionTypes.ADD_TOURNAMENT,
+        tournament
+    };
+}
+export const editTournament = (tournament) => {
+    return {
+        type: actionTypes.EDIT_TOURNAMENT,
+        tournament
+    };
+}
 

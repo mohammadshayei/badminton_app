@@ -26,7 +26,7 @@ const Button = (props) => {
   };
   return (
     <button
-      className={`button-component`}
+      className={`button-component ${props.buttonClass}`}
       style={{ ...newStyle, ...props.ButtonStyle }}
       onClick={(e) => {
         if (props.onClick) props.onClick();

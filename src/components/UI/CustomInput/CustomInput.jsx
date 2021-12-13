@@ -1,5 +1,9 @@
 
 import './CustomInput.scss'
+import DatePickerInput from './Inputs/DatePickerInput/DatePickerInput';
+import SwitchInput from './Inputs/SwitchInput/SwitchInput';
+import TitleInput from './Inputs/TitleInput/TitleInput';
+import TitleTextArea from './Inputs/TitleTextArea/TitleTextArea';
 import UnderlineInput from './Inputs/UnderlineInput/UnderlineInput';
 
 const CustomInput = (props) => {
@@ -31,6 +35,18 @@ const CustomInput = (props) => {
         case (elementTypes.underlineInput):
             inputElement = <UnderlineInput {...props} />
             break;
+        case (elementTypes.titleInput):
+            inputElement = <TitleInput {...props} />
+            break;
+        case (elementTypes.datePicker):
+            inputElement = <DatePickerInput {...props} />
+            break;
+        case (elementTypes.switchInput):
+            inputElement = <SwitchInput {...props} />
+            break;
+        case (elementTypes.titleTextarea):
+            inputElement = <TitleTextArea {...props} />
+            break;
         default:
             inputElement = <input
                 className={inputClasses.join(' ')}
@@ -53,5 +69,11 @@ const CustomInput = (props) => {
 export default CustomInput;
 export const elementTypes = {
     input: 'input',
-    underlineInput: 'underlineInput'
+    underlineInput: 'underlineInput',
+    titleInput: 'titleInput',
+    datePicker: 'datePicker',
+    switchInput: 'switchInput',
+    titleTextarea: 'titleTextarea',
+
+
 }
