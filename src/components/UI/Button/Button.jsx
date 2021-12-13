@@ -14,7 +14,7 @@ const Button = (props) => {
   const theme = themeState.computedTheme;
   const newStyle = {
     color: theme.on_primary,
-    background: isHover
+    background: props.disabled ? "gray" : isHover
       ? props.hover
         ? props.hover
         : themeState.isDark
@@ -26,6 +26,7 @@ const Button = (props) => {
   };
   return (
     <button
+      disabled={props.disabled}
       className={`button-component`}
       style={{ ...newStyle, ...props.ButtonStyle }}
       onClick={(e) => {

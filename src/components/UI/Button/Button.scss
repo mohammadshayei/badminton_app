@@ -19,4 +19,7 @@
   img {
     max-height: 100%;
   }
+  &:disabled {
+    transform: scale(1);
+  }
 }
