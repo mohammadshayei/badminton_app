@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../../../styles/ThemeProvider";
-import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
+// import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
 import PlayerBlock from "./PlayerBlock/PlayerBlock";
 import "./ScoreBoard.scss";
 import back from "../../../assets/images/back_scoreboard.jpg"
-import { FaPlayCircle, FaExclamation } from "react-icons/fa";
+import { FaExclamation } from "react-icons/fa"; //FaPlayCircle,
 import { ImUndo2 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
@@ -59,6 +59,7 @@ const ScoreBoard = () => {
           Object.entries(info).map(([k, v], index) =>
             (k === "team1" || k === "team2") &&
             (<PlayerBlock
+              key={k}
               playerName={v.players[0].name}
               playerNameD={v.players[1] && v.players[1].name}
               setWon={v.setWon}

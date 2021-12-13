@@ -1,6 +1,6 @@
 import "./Events.scss"
 import { useTheme } from '../../../styles/ThemeProvider';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
 
 const Events = (props) => {

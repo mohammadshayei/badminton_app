@@ -1,13 +1,13 @@
 import React from "react";
 import "./HeaderMainPage.scss";
-import { useTheme } from "../../../styles/ThemeProvider";
+// import { useTheme } from "../../../styles/ThemeProvider";
 import Events from "../EventsModule/Events"
 import { useSelector } from "react-redux";
 import shuttle from "../../../assets/images/badminton_ball.png";
 
 const HeaderMainPage = () => {
-  const themeState = useTheme();
-  const theme = themeState.computedTheme;
+  // const themeState = useTheme();
+  // const theme = themeState.computedTheme;
   const info = useSelector((state) => state.info);
 
   const eventsStyle = { color: "#fff", flexDirection: "row-reverse", flexWrap: "nowrap", alignItems: "center", opacity: info.isWaiting ? 0 : 1 }
