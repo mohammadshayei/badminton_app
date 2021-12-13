@@ -17,8 +17,10 @@ export const SET_MODE_HOME_PAGE = "SET_MODE_HOME_PAGE";
 export const SET_MENU_STATUS = "SET_MENU_STATUS";
 export const ADD_TOURNAMENT = "ADD_TOURNAMENT";
 export const EDIT_TOURNAMENT = "EDIT_TOURNAMENT";
-
-
+export const SET_OVER = "SET_OVER";
+export const INCREASE_BALL = "INCREASE_BALL";
+export const DECREASE_BALL = "DECREASE_BALL";
+export const SET_AWAIT = "SET_AWAIT";
 
 
 

@@ -1,26 +1,32 @@
 import React from "react";
 import "./HeaderMainPage.scss";
-import { useTheme } from "../../../styles/ThemeProvider";
+// import { useTheme } from "../../../styles/ThemeProvider";
+import Events from "../EventsModule/Events"
+import { useSelector } from "react-redux";
+import shuttle from "../../../assets/images/badminton_ball.png";
 
 const HeaderMainPage = () => {
-  const themeState = useTheme();
-  const theme = themeState.computedTheme;
-  const themeStyle = {
-    background: `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
-    color: theme.on_primary,
-  };
+  // const themeState = useTheme();
+  // const theme = themeState.computedTheme;
+  const info = useSelector((state) => state.info);
+
+  const eventsStyle = { color: "#fff", flexDirection: "row-reverse", flexWrap: "nowrap", alignItems: "center", opacity: info.isWaiting ? 0 : 1 }
+  const eventStyle = { width: "5%", margin: "0.1rem 0.3rem", padding: "0 0.1rem" }
+  const letterStyle = { fontSize: "1.8rem", padding: "0" }
 
   return (
     <div className="header-main-container">
-      <div className="team-name" style={themeStyle}>
-        تیم شماره 1
+      <Events style={eventsStyle} eventStyle={eventStyle}
+        letterStyle={letterStyle}
+        hide={true}
+      />
+      <div className="ball" style={{ opacity: info.isWaiting ? 0 : 1 }}>
+        {info.balls < 7 && [...Array(info.balls)].map((e, i) => (
+          <img key={i} src={shuttle} alt="ball" />
+        )
+        )}
       </div>
-      <div className="timer" style={{ color: theme.primary }}>
-        09:28
-      </div>
-      <div className="team-name" style={themeStyle}>
-        تیم شماره 2
-      </div>
+      <div className="ball-counter" style={{ opacity: info.isWaiting ? 0 : 1 }}>{info.balls}</div>
     </div>
   );
 };
