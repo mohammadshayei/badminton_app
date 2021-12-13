@@ -9,6 +9,11 @@ export const AUTH_LOGOUT = "AUTH_LOGOUT";
 export const SET_AUTH_REDIRECT_PATH = "SET_AUTH_REDIRECT_PATH";
 export const SET_REFEREE_DATA = "SET_REFEREE_DATA";
 export const SET_CHECKED = "SET_CHECKED";
+export const SET_OVER = "SET_OVER";
+export const INCREASE_BALL = "INCREASE_BALL";
+export const DECREASE_BALL = "DECREASE_BALL";
+export const SET_AWAIT = "SET_AWAIT";
+
 
 
 
