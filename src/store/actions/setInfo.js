@@ -26,9 +26,23 @@ export const decreaseBall = () => (dispatch) => {
     });
 };
 
-export const setAwait = ({ waiting }) => (dispatch) => {
+export const foulHappend = ({ foulType }) => (dispatch) => {
     dispatch({
-        type: actionTypes.SET_AWAIT,
-        payload: { waiting },
+        type: actionTypes.FOUL_HAPPEND,
+        payload: { foulType },
+    });
+};
+
+export const addEvent = ({ type, time, by }) => (dispatch) => {
+    dispatch({
+        type: actionTypes.ADD_EVENT,
+        payload: { type, time, by },
+    });
+};
+
+export const switchServer = ({ server }) => (dispatch) => {
+    dispatch({
+        type: actionTypes.SWITCH_SERVER,
+        payload: { server },
     });
 };

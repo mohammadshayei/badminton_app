@@ -16,6 +16,9 @@ const ScoreBoard = () => {
   const info = useSelector((state) => state.info);
   const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"])
   const [eventPicker, setEventPicker] = useState(false);
+  const [breakTime, setBreakTime] = useState(0);
+  const [timer, setTimer] = useState("00:59");
+  const [disable, setDisable] = useState(false);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -25,22 +28,65 @@ const ScoreBoard = () => {
   };
 
   useEffect(() => {
-    if (info.team1.score === 0)
-      setScoreColor(["#AB0000", "#AB0000"])
-    else
-      setScoreColor(["#FF0000", "#AB0000"])
-    if (info.team1.score === 21)
-      setOver({ teamKey: "team1" })
+    switch (info.team1.score) {
+      case 0:
+        setScoreColor(["#AB0000", "#AB0000"])
+        break;
+      case 21:
+        setOver({ teamKey: "team1" })
+        break;
+      case 10:
+        if (info.team2.score < 11) setBreakTime(1);
+        break;
+      case 11:
+        setBreakTime(2);
+        setDisable(true);
+        break;
+
+      default:
+        setScoreColor(["#FF0000", "#AB0000"])
+        break;
+    }
   }, [info.team1.score])
 
   useEffect(() => {
-    if (info.team2.score === 0)
-      setScoreColor(["#AB0000", "#AB0000"])
-    else
-      setScoreColor(["#AB0000", "#FF0000"])
-    if (info.team2.score === 21)
-      setOver({ teamKey: "team2" })
+    switch (info.team2.score) {
+      case 0:
+        setScoreColor(["#AB0000", "#AB0000"])
+        break;
+      case 21:
+        setOver({ teamKey: "team2" });
+        break;
+      case 10:
+        if (info.team1.score < 11) setBreakTime(1);
+        break;
+      case 11:
+        setBreakTime(2);
+        setDisable(true);
+        break;
+
+      default:
+        setScoreColor(["#AB0000", "#FF0000"]);
+        break;
+    }
   }, [info.team2.score])
+
+  useEffect(() => {
+    if (breakTime === 2) {
+      let seconds = 58;
+      const interval = setInterval(() => {
+        setTimer(`00:${seconds}`);
+        seconds--;
+        seconds = seconds < 10 ? `0` + seconds : seconds;
+      }, 1000);
+      setTimeout(() => {
+        setBreakTime(0);
+        setDisable(false);
+        return () => clearInterval(interval);
+      }, 60000);
+    }
+  }, [breakTime]);
+
 
   return (
     <div
@@ -59,6 +105,7 @@ const ScoreBoard = () => {
           Object.entries(info).map(([k, v], index) =>
             (k === "team1" || k === "team2") &&
             (<PlayerBlock
+              disable={disable}
               key={k}
               playerName={v.players[0].name}
               playerNameD={v.players[1] && v.players[1].name}
@@ -74,9 +121,11 @@ const ScoreBoard = () => {
           : "Loading Info..."}
         {/* <div className="warm-up">Warm Up!</div>
         <FaPlayCircle className="play" /> */}
+        {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
+        {breakTime === 2 && <div className="break-timer" >{timer}</div>}
       </div>
       {/* <FooterScoreBoard /> */}
-      <div className="action-buttons" style={{ opacity: info.isWaiting ? 0 : 1 }}>
+      <div disabled={disable} className="action-buttons" style={{ opacity: info.foulHappend ? 0 : 1 }}>
         <FaExclamation className="action-btn" style={{ color: theme.primary }} onClick={() => setEventPicker(true)} />
         <ImUndo2 className="action-btn" style={{ color: theme.primary, filter: "grayscale(10)" }} />
       </div>

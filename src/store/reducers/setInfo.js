@@ -41,9 +41,9 @@ const initialState = {
         fouls: {
         }
     },
-    events: {},
+    events: [],
     balls: 1,
-    isWaiting: false
+    foulHappend: null
 };
 
 
@@ -94,11 +94,50 @@ const decreaseBall = (state) => {
     };
 };
 
-const setAwait = (state, action) => {
-    const { waiting } = action.payload;
+const foulHappend = (state, action) => {
+    const { foulType } = action.payload;
     return {
         ...state,
-        isWaiting: waiting
+        foulHappend: foulType
+    };
+};
+
+const addEvent = (state, action) => {
+    const { type, time, by } = action.payload;
+    return {
+        ...state,
+        events: [
+            ...state.events,
+            {
+                time: time,
+                type: type,
+                by: by
+            }]
+
+    };
+};
+
+const switchServer = (state, action) => {
+    const { server } = action.payload;
+    let teamServer, teamReciver;
+    if (state.team1.server === 0) {
+        teamServer = "team1";
+        teamReciver = "team2";
+    }
+    else {
+        teamServer = "team2";
+        teamReciver = "team1";
+    }
+    return {
+        ...state,
+        [teamServer]: {
+            ...state[teamServer],
+            server: server
+        },
+        [teamReciver]: {
+            ...state[teamReciver],
+            server: 0
+        }
     };
 };
 
@@ -112,8 +151,12 @@ const reducer = (state = initialState, action) => {
             return increaseBall(state);
         case actionTypes.DECREASE_BALL:
             return decreaseBall(state);
-        case actionTypes.SET_AWAIT:
-            return setAwait(state, action);
+        case actionTypes.FOUL_HAPPEND:
+            return foulHappend(state, action);
+        case actionTypes.ADD_EVENT:
+            return addEvent(state, action);
+        case actionTypes.SWITCH_SERVER:
+            return switchServer(state, action);
         default:
             return state;
     }

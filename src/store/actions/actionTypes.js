@@ -12,7 +12,10 @@ export const SET_CHECKED = "SET_CHECKED";
 export const SET_OVER = "SET_OVER";
 export const INCREASE_BALL = "INCREASE_BALL";
 export const DECREASE_BALL = "DECREASE_BALL";
-export const SET_AWAIT = "SET_AWAIT";
+export const FOUL_HAPPEND = "FOUL_HAPPEND";
+export const ADD_EVENT = "ADD_EVENT";
+export const SWITCH_SERVER = "SWITCH_SERVER";
+
 
 
 
