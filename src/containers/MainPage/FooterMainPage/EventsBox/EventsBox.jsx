@@ -14,7 +14,9 @@ const EventsBox = () => {
     left: 0,
     bottom: 0,
     height: "20vh",
-    minWidth: "200px"
+    maxWidth: "25%",
+    minWidth: "25%",
+    borderRight: "none"
   }
 
   const tableRef = useRef();
@@ -24,14 +26,14 @@ const EventsBox = () => {
     let newLog = [];
     info.team1.players.forEach((player, index) => {
       newLog = [...newLog, {
-        content: <div className="name-in-cell"><div>{player.name}</div>
+        content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
           <div>{info.team1.server === index + 1 ? "S" : ''}
             {info.team1.receiver === index + 1 ? "R" : ''}</div></div>
       }]
     });
     info.team2.players.forEach((player, index) => {
       newLog = [...newLog, {
-        content: <div className="name-in-cell"><div>{player.name}</div>
+        content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
           <div>{info.team2.server === index + 1 ? "S" : ''}
             {info.team2.receiver === index + 1 ? "R" : ''}</div></div>
       }]
