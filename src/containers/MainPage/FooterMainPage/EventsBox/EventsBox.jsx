@@ -15,8 +15,7 @@ const EventsBox = () => {
     bottom: 0,
     height: "20vh",
     maxWidth: "25%",
-    minWidth: "25%",
-    borderRight: "none"
+    minWidth: "25%"
   }
 
   const tableRef = useRef();
@@ -40,11 +39,19 @@ const EventsBox = () => {
             {info.team2.receiver === index + 1 ? "R" : ''}</div></div>
       }]
     });
-    setLog([[...newLog],
-    [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
-    { content: `${(info.team1.server === 2 || info.team1.receiver === 2) ? "0" : ''}` },
-    { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
-    { content: `${(info.team2.server === 2 || info.team2.receiver === 2) ? "0" : ''}` }]])
+    if (info.team1.players.length === 2) {
+      setLog([[...newLog],
+      [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
+      { content: `${(info.team1.server === 2 || info.team1.receiver === 2) ? "0" : ''}` },
+      { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
+      { content: `${(info.team2.server === 2 || info.team2.receiver === 2) ? "0" : ''}` }]])
+    }
+    else {
+      setLog([[...newLog],
+      [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
+      { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
+      ]])
+    }
   }, [info.team1.setWon, info.team2.setWon])
 
   useEffect(() => {
@@ -58,13 +65,18 @@ const EventsBox = () => {
             { content: `${index === 3 ? info.events[info.events.length - 1].content : ''}` },
           ]])
       })
+      let newIndex;
       info.team2.players.forEach((player, index) => {
+        if (info.team2.players.length === 2)
+          newIndex = index + 2;
+        else
+          newIndex = index + 1;
         if (info.events[info.events.length - 1].by === player.name)
           setLog([...log, [
-            { content: `${index + 2 === 0 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index + 2 === 1 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index + 2 === 2 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index + 2 === 3 ? info.events[info.events.length - 1].content : ''}` },
+            { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
+            { content: `${newIndex === 1 ? info.events[info.events.length - 1].content : ''}` },
+            { content: `${newIndex === 2 ? info.events[info.events.length - 1].content : ''}` },
+            { content: `${newIndex === 3 ? info.events[info.events.length - 1].content : ''}` },
           ]])
       })
       myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
@@ -79,10 +91,12 @@ const EventsBox = () => {
             style={ci === 0 ? columnStyle : {}}
             ref={ci === info.events.length ? myRef : tableRef}
           >
-            {[...Array(4)].map((e, ri) =>
+            {[...Array(info.team1.players.length * 2)].map((e, ri) =>
               <div key={ri * 5} className="table-cell"
                 style={{
-                  borderBottom: ri === 1 && "5px solid rgb(146, 146, 146)",
+                  borderBottom: (info.team1.players.length === 2 && ri === 1) && "5px solid rgb(146, 146, 146)",
+                  borderBottom: (info.team1.players.length === 1 && ri === 0) && "5px solid rgb(146, 146, 146)",
+                  height: info.team1.players.length === 2 ? '25%' : '50%',
                   padding: ci === 0 && "0 0.5rem"
                 }}
               >

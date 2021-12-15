@@ -37,7 +37,7 @@ const PlayerBlock = (props) => {
   const selectPlayer = (name) => {
     let foul;
     if (info.foulHappend === "Retired")
-      foul = "RET"
+      foul = "Ret"
     else
       foul = info.foulHappend.substring(0, 1)
     addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
@@ -46,30 +46,38 @@ const PlayerBlock = (props) => {
 
   useEffect(() => {
 
-    if (props.server === 1) {
-      if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
-      if (props.score % 2 === 0) {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
-      } else {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
+    if (props.playerNameD) {
+      if (props.server === 1) {
+        if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
+        if (props.score % 2 === 0) {
+          setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
+        } else {
+          setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
+        }
+      } else if (props.server === 2) {
+        if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
+        if (props.score % 2 === 0) {
+          setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
+        } else {
+          setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
+        }
       }
-    } else if (props.server === 2) {
-      if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
-      if (props.score % 2 === 0) {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
-      } else {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
+
+      if (props.score !== 0 && props.server === 0)
+        if (props.score % 2 === 0) {
+          switchServer({ server: 1 })
+          addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
+        } else {
+          switchServer({ server: 2 })
+          addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
+        }
+    } else {
+      if (props.score !== 0) {
+        if (props.server === 0)
+          switchServer({ server: 1 })
+        addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
       }
     }
-
-    if (props.score !== 0 && props.server === 0)
-      if (props.score % 2 === 0) {
-        switchServer({ server: 1 })
-        addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
-      } else {
-        switchServer({ server: 2 })
-        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
-      }
 
   }, [props.score])
 
@@ -86,10 +94,10 @@ const PlayerBlock = (props) => {
           <img src={PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 && "15px solid #F7FF00"
           }} onClick={() => selectPlayer(props.playerName)} />
-          <img src={PROFILE_IMAGE} alt="badminton second player" style={{
+          {props.playerNameD && <img src={PROFILE_IMAGE} alt="badminton second player" style={{
             outline: props.server === 2 && "15px solid #F7FF00"
-          }} onClick={() => selectPlayer(props.playerNameD)} />
-          <p className="player-name">{props.playerNameD}</p>
+          }} onClick={() => selectPlayer(props.playerNameD)} />}
+          {props.playerNameD && <p className="player-name">{props.playerNameD}</p>}
         </div>
         <div className="player-block-icon-container" style={{ opacity: info.foulHappend ? 0 : 1 }}>
           {props.position === "right" && <div className="player-block-icon">
