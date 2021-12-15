@@ -106,18 +106,18 @@ const ScoreBoard = () => {
     if (breakTime === 2) {
       let seconds = 58;
       const interval = setInterval(() => {
-        setTimer(`00:${seconds}`);
-        seconds--;
         seconds = seconds < 10 ? `0` + seconds : seconds;
+        setTimer(`00:${seconds}`);
+        if (seconds > 0) seconds--;
       }, 1000);
       setTimeout(() => {
         setBreakTime(0);
         setDisable(false);
-        return () => clearInterval(interval);
+        setTimer("00:59");
       }, 60000);
+      return () => clearInterval(interval);
     }
   }, [breakTime]);
-
 
   return (
     <div
