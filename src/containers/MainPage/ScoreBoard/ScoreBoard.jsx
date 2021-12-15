@@ -39,8 +39,10 @@ const ScoreBoard = () => {
         if (info.team2.score < 11) setBreakTime(1);
         break;
       case 11:
-        setBreakTime(2);
-        setDisable(true);
+        if (info.team2.score < 11) {
+          setBreakTime(2);
+          setDisable(true);
+        }
         break;
 
       default:
@@ -61,8 +63,10 @@ const ScoreBoard = () => {
         if (info.team1.score < 11) setBreakTime(1);
         break;
       case 11:
-        setBreakTime(2);
-        setDisable(true);
+        if (info.team1.score < 11) {
+          setBreakTime(2);
+          setDisable(true);
+        }
         break;
 
       default:

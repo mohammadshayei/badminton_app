@@ -63,7 +63,7 @@ const EventsBox = () => {
             { content: `${index + 2 === 3 ? info.events[info.events.length - 1].content : ''}` },
           ]])
       })
-      myRef.current.scrollIntoView({ behavior: 'smooth' })
+      myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
     }
   }, [info.events])
 
