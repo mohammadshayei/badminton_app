@@ -27,6 +27,7 @@ div[disabled] {
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 0;
   display: flex;
 }
 *:hover::-webkit-scrollbar {

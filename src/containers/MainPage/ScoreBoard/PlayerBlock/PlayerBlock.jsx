@@ -35,21 +35,26 @@ const PlayerBlock = (props) => {
   };
 
   const selectPlayer = (name) => {
-    addEvent({ type: info.foulHappend, time: "", by: name });
+    let foul;
+    if (info.foulHappend === "Retired")
+      foul = "RET"
+    else
+      foul = info.foulHappend.substring(0, 1)
+    addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
     if (info.foulHappend) foulHappend({ foulType: null });
   }
 
   useEffect(() => {
 
     if (props.server === 1) {
-      if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerName });
+      if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
       if (props.score % 2 === 0) {
         setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
       } else {
         setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
       }
     } else if (props.server === 2) {
-      if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerNameD });
+      if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
       if (props.score % 2 === 0) {
         setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
       } else {
@@ -60,10 +65,10 @@ const PlayerBlock = (props) => {
     if (props.score !== 0 && props.server === 0)
       if (props.score % 2 === 0) {
         switchServer({ server: 1 })
-        addEvent({ type: "score", time: "", by: props.playerName });
+        addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
       } else {
         switchServer({ server: 2 })
-        addEvent({ type: "score", time: "", by: props.playerNameD });
+        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
       }
 
   }, [props.score])

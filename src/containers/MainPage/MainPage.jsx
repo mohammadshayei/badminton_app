@@ -2,7 +2,7 @@ import React from "react";
 import "./MainPage.scss";
 import { useTheme } from "../../styles/ThemeProvider";
 import ScoreBoard from "./ScoreBoard/ScoreBoard";
-// import FooterMainPage from "./FooterMainPage/FooterMainPage";
+import FooterMainPage from "./FooterMainPage/FooterMainPage";
 import HeaderMainPage from "./HeaderMainPage/HeaderMainPage";
 
 const MainPage = () => {
@@ -16,7 +16,7 @@ const MainPage = () => {
     >
       <HeaderMainPage />
       <ScoreBoard />
-      {/* <FooterMainPage /> */}
+      <FooterMainPage />
     </div>
   );
 };

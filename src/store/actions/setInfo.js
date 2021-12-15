@@ -33,10 +33,10 @@ export const foulHappend = ({ foulType }) => (dispatch) => {
     });
 };
 
-export const addEvent = ({ type, time, by }) => (dispatch) => {
+export const addEvent = ({ type, time, by, content }) => (dispatch) => {
     dispatch({
         type: actionTypes.ADD_EVENT,
-        payload: { type, time, by },
+        payload: { type, time, by, content },
     });
 };
 

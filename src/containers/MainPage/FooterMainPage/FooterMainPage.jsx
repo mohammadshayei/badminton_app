@@ -12,11 +12,7 @@ const FooterMainPage = () => {
       className="footer-main-container"
       style={{ color: theme.on_background }}
     >
-      <div className="detail-box">خطاها</div>
-      <div className="detail-box">
-        <EventsBox />
-      </div>
-      <div className="detail-box">داورها</div>
+      <EventsBox />
     </div>
   );
 };

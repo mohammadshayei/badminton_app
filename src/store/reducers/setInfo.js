@@ -35,7 +35,7 @@ const initialState = {
             }],
         isRightTeam: true,
         server: 0,
-        receiver: 2,
+        receiver: 1,
         score: 0,
         setWon: 0,
         fouls: {
@@ -43,7 +43,8 @@ const initialState = {
     },
     events: [],
     balls: 1,
-    foulHappend: null
+    foulHappend: null,
+    eventCounter: 0,
 };
 
 
@@ -76,7 +77,8 @@ const setOver = (state, action) => {
         [otherTeam]: {
             ...state[otherTeam],
             score: 0
-        }
+        },
+        eventCounter: 0,
     };
 };
 
@@ -103,17 +105,20 @@ const foulHappend = (state, action) => {
 };
 
 const addEvent = (state, action) => {
-    const { type, time, by } = action.payload;
+    const { type, time, by, content } = action.payload;
+    let newCounter = state.eventCounter;
+    if (type !== "increaseBall" && type !== "decreaseBall") newCounter++;
     return {
         ...state,
         events: [
             ...state.events,
             {
-                time: time,
-                type: type,
-                by: by
-            }]
-
+                time,
+                type,
+                by,
+                content
+            }],
+        eventCounter: newCounter,
     };
 };
 
