@@ -23,6 +23,8 @@ const EventsBox = () => {
   const myRef = useRef();
 
   useEffect(() => {
+    setLog([]);
+    console.log(log);
     let newLog = [];
     info.team1.players.forEach((player, index) => {
       newLog = [...newLog, {
@@ -38,12 +40,12 @@ const EventsBox = () => {
             {info.team2.receiver === index + 1 ? "R" : ''}</div></div>
       }]
     });
-    setLog([...log, [...newLog],
+    setLog([[...newLog],
     [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
     { content: `${(info.team1.server === 2 || info.team1.receiver === 2) ? "0" : ''}` },
     { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
     { content: `${(info.team2.server === 2 || info.team2.receiver === 2) ? "0" : ''}` }]])
-  }, [])
+  }, [info.team1.setWon, info.team2.setWon])
 
   useEffect(() => {
     if (info.events.length > 0) {

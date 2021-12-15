@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../../../styles/ThemeProvider";
 // import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
 import PlayerBlock from "./PlayerBlock/PlayerBlock";
 import "./ScoreBoard.scss";
 import back from "../../../assets/images/back_scoreboard.jpg"
-import { FaExclamation } from "react-icons/fa"; //FaPlayCircle,
+import { FaPlayCircle, FaExclamation } from "react-icons/fa";
 import { ImUndo2 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
@@ -14,11 +14,12 @@ import Button from "../../../components/UI/Button/Button"
 
 const ScoreBoard = () => {
   const info = useSelector((state) => state.info);
-  const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"])
+  const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"]);
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
   const [timer, setTimer] = useState("00:59");
-  const [disable, setDisable] = useState(false);
+  const [disable, setDisable] = useState(true);
+  const [maxPoint, setMaxPoint] = useState(21);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -26,20 +27,31 @@ const ScoreBoard = () => {
   const setOver = (teamKey) => {
     dispatch(infoActions.setOver(teamKey));
   };
+  const switchSide = () => {
+    dispatch(infoActions.switchSide());
+  };
 
   useEffect(() => {
     switch (info.team1.score) {
       case 0:
         setScoreColor(["#AB0000", "#AB0000"])
         break;
-      case 21:
-        setOver({ teamKey: "team1" })
+      case maxPoint - 1:
+        if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
+          setMaxPoint(maxPoint + 1);
+        }
+        break;
+      case maxPoint:
+        setOver({ teamKey: "team1" });
+        switchSide();
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
         break;
       case 11:
         if (info.team2.score < 11) {
+          if (info.team1.setWon + info.team2.setWon === 2)
+            switchSide();
           setBreakTime(2);
           setDisable(true);
         }
@@ -56,14 +68,22 @@ const ScoreBoard = () => {
       case 0:
         setScoreColor(["#AB0000", "#AB0000"])
         break;
-      case 21:
+      case maxPoint - 1:
+        if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
+          setMaxPoint(maxPoint + 1);
+        }
+        break;
+      case maxPoint:
         setOver({ teamKey: "team2" });
+        switchSide();
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
         break;
       case 11:
         if (info.team1.score < 11) {
+          if (info.team1.setWon + info.team2.setWon === 2)
+            switchSide();
           setBreakTime(2);
           setDisable(true);
         }
@@ -74,6 +94,13 @@ const ScoreBoard = () => {
         break;
     }
   }, [info.team2.score])
+
+  useEffect(() => {
+    if (info.team1.setWon === 2)
+      alert("team1 WON!")
+    else if (info.team2.setWon === 2)
+      alert("team2 WON!")
+  }, [info.team1.setWon, info.team2.setWon])
 
   useEffect(() => {
     if (breakTime === 2) {
@@ -123,8 +150,8 @@ const ScoreBoard = () => {
             />)
           )
           : "Loading Info..."}
-        {/* <div className="warm-up">Warm Up!</div>
-        <FaPlayCircle className="play" /> */}
+        {/* <div className="warm-up">Warm Up!</div> */}
+        {disable && breakTime === 0 && <FaPlayCircle className="play" onClick={() => setDisable(false)} />}
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
         {breakTime === 2 && <div className="break-timer" >{timer}</div>}
       </div>

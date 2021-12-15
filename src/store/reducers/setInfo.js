@@ -42,6 +42,7 @@ const initialState = {
         }
     },
     events: [],
+    totalEvents: [],
     balls: 1,
     foulHappend: null,
     eventCounter: 0,
@@ -67,6 +68,7 @@ const setOver = (state, action) => {
         otherTeam = "team2"
     else
         otherTeam = "team1";
+    const tempEvents = state.events;
     return {
         ...state,
         [teamKey]: {
@@ -79,6 +81,8 @@ const setOver = (state, action) => {
             score: 0
         },
         eventCounter: 0,
+        events: [],
+        totalEvents: tempEvents
     };
 };
 
@@ -146,6 +150,20 @@ const switchServer = (state, action) => {
     };
 };
 
+const switchSide = (state, action) => {
+    return {
+        ...state,
+        team1: {
+            ...state.team1,
+            isRightTeam: !state.team1.isRightTeam
+        },
+        team2: {
+            ...state.team2,
+            isRightTeam: !state.team2.isRightTeam
+        }
+    };
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INCREASE_SCORE:
@@ -162,6 +180,8 @@ const reducer = (state = initialState, action) => {
             return addEvent(state, action);
         case actionTypes.SWITCH_SERVER:
             return switchServer(state, action);
+        case actionTypes.SWITCH_SIDE:
+            return switchSide(state, action);
         default:
             return state;
     }

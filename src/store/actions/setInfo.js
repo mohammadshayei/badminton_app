@@ -46,3 +46,9 @@ export const switchServer = ({ server }) => (dispatch) => {
         payload: { server },
     });
 };
+
+export const switchSide = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.SWITCH_SIDE,
+    });
+};

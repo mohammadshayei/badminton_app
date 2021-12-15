@@ -15,6 +15,7 @@ export const DECREASE_BALL = "DECREASE_BALL";
 export const FOUL_HAPPEND = "FOUL_HAPPEND";
 export const ADD_EVENT = "ADD_EVENT";
 export const SWITCH_SERVER = "SWITCH_SERVER";
+export const SWITCH_SIDE = "SWITCH_SIDE";
 
 
 
