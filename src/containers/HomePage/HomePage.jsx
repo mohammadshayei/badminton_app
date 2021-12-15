@@ -5,7 +5,7 @@ import AppBar from "./AppBar/AppBar";
 import TournamentPage from "./TournamentPage/TournamentPage";
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import { MdLanguage, MdDarkMode, MdLogout, MdSettings } from "react-icons/md";
-import pic from "../../assets/images/badminton_player.jfif"
+import pic from "../../assets/images/avatars/default-avatar.png"
 import Modal from "../../components/UI/Modal/Modal"
 
 const HomePage = () => {

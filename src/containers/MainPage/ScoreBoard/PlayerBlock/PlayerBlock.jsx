@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./PlayerBlock.scss";
-import PROFILE_IMAGE from "../../../../assets/images/badminton_player.jfif";
+import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { HiOutlinePlusSm } from "react-icons/hi";
@@ -79,7 +79,7 @@ const PlayerBlock = (props) => {
       }
     }
 
-  }, [props.score])
+  }, [props.score]);
 
   return (
     <div disabled={props.disable} className={`player-block-container ${props.position === "left" && "rev"}`}>
@@ -91,10 +91,10 @@ const PlayerBlock = (props) => {
           style={dynamicStyle}
         >
           <p className="player-name">{props.playerName}</p>
-          <img src={PROFILE_IMAGE} alt="badminton player" style={{
+          <img src={props.playerImg ? props.playerImg : PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 && "15px solid #F7FF00"
           }} onClick={() => selectPlayer(props.playerName)} />
-          {props.playerNameD && <img src={PROFILE_IMAGE} alt="badminton second player" style={{
+          {props.playerNameD && <img src={props.playerImgD ? props.playerImgD : PROFILE_IMAGE} alt="badminton second player" style={{
             outline: props.server === 2 && "15px solid #F7FF00"
           }} onClick={() => selectPlayer(props.playerNameD)} />}
           {props.playerNameD && <p className="player-name">{props.playerNameD}</p>}

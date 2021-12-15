@@ -6,12 +6,12 @@ const initialState = {
             [{
                 id: "",
                 name: "محمود کاظمی",
-                imageSrc: ""
+                avatar: require('../../assets/images/avatars/1.jpg')
             },
             {
                 id: "",
                 name: "حسن حمیدی",
-                imageSrc: ""
+                avatar: require('../../assets/images/avatars/2.jpg')
             }],
         isRightTeam: false,
         server: 1,
@@ -26,12 +26,12 @@ const initialState = {
             [{
                 id: "",
                 name: "شایان برومند",
-                imageSrc: ""
+                avatar: require('../../assets/images/avatars/3.jpg')
             },
             {
                 id: "",
                 name: "محمد احمدی",
-                imageSrc: ""
+                avatar: ''
             }],
         isRightTeam: true,
         server: 0,

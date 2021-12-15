@@ -23,7 +23,6 @@ const EventsBox = () => {
 
   useEffect(() => {
     setLog([]);
-    console.log(log);
     let newLog = [];
     info.team1.players.forEach((player, index) => {
       newLog = [...newLog, {

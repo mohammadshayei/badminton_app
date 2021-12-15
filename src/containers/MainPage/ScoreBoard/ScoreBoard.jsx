@@ -138,6 +138,8 @@ const ScoreBoard = () => {
             (<PlayerBlock
               disable={disable}
               key={k}
+              playerImg={v.players[0].img}
+              playerImgD={v.players[1] && v.players[1].img}
               playerName={v.players[0].name}
               playerNameD={v.players[1] && v.players[1].name}
               setWon={v.setWon}
