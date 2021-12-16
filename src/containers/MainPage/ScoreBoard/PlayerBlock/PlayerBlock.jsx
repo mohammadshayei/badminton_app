@@ -35,13 +35,15 @@ const PlayerBlock = (props) => {
   };
 
   const selectPlayer = (name) => {
-    let foul;
-    if (info.foulHappend === "Retired")
-      foul = "Ret"
-    else
-      foul = info.foulHappend.substring(0, 1)
-    addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
-    if (info.foulHappend) foulHappend({ foulType: null });
+    if (info.foulHappend) {
+      let foul;
+      if (info.foulHappend === "Retired")
+        foul = "Ret"
+      else
+        foul = info.foulHappend.substring(0, 1)
+      addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
+      foulHappend({ foulType: null });
+    }
   }
 
   useEffect(() => {
