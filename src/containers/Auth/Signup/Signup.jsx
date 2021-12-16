@@ -6,8 +6,8 @@ import { registerReferee } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
-import { onChange } from "../AuthFunction"
 import * as actions from "../../../store/actions/auth";
+import { onChange } from "../../../utils/authFunction"
 
 
 const Singup = () => {

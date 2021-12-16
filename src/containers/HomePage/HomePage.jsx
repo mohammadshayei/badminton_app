@@ -8,6 +8,9 @@ import * as detailActions from "../../store/actions/detail";
 import { useDispatch } from "react-redux";
 import Menu from '../Menu/Menu'
 import CreateTournament from "./CreateTournament/CreateTournament";
+
+
+
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -50,6 +53,7 @@ const HomePage = () => {
         setShowModal={setShowModal}
         setEditMode={setEditMode}
       />
+
     </div>
   );
 };

@@ -21,6 +21,12 @@ export const SET_OVER = "SET_OVER";
 export const INCREASE_BALL = "INCREASE_BALL";
 export const DECREASE_BALL = "DECREASE_BALL";
 export const SET_AWAIT = "SET_AWAIT";
+export const SET_HOME_SHOW_MODAL = "SET_HOME_SHOW_MODAL";
+export const SET_EDIT_MODE = "SET_EDIT_MODE";
+export const ADD_CONTENT = "ADD_CONTENT";
+export const EDIT_CONTENT = "EDIT_CONTENT";
+
+
 
 
 

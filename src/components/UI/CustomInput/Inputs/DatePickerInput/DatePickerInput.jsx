@@ -17,13 +17,17 @@ const DatePickerInput = (props) => {
                 calendar={persian}
                 locale={persian_fa}
                 onChange={props.onChange}
+                // calendarPosition='top'
+                // fixMainPosition ={true}
                 value={props.value}
                 render={(value, openCalendar) => {
                     return (
                         <DatePickerView
                             width={width}
                             onClick={openCalendar}
-                            value={value} />
+                            value={value}
+
+                        />
                     )
                 }}
             />

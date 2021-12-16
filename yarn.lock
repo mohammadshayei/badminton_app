@@ -10002,6 +10002,11 @@ react-spring@^9.3.0:
     "@react-spring/web" "~9.3.0"
     "@react-spring/zdog" "~9.3.0"
 
+react-swipeable-list@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable-list/-/react-swipeable-list-1.4.0.tgz#4c025613de6d4f28386ae8c54fb4752d6543f718"
+  integrity sha512-436dulOK7QoYx9cX2SXcxAbPPX5Z7YUkc1iBfIvQCJeIdMsGXDlOOMbgQ1jfUL0RlrrDuGKFHDIGTvvoTUGKxg==
+
 react-switch@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-6.0.0.tgz#bd4a2dea08f211b8a32e55e8314fd44bc1ec947e"

@@ -5,8 +5,8 @@ import { stringFa } from '../../../assets/strings/stringFaCollection'
 import Button from '../../../components/UI/Button/Button'
 import TransparentButton from '../../../components/UI/Button/TransparentButton/TransparentButton'
 import CustomInput, { elementTypes } from '../../../components/UI/CustomInput/CustomInput'
-import { checkValidaty } from '../../Auth/AuthFunction'
 import * as homeActions from "../../../store/actions/home";
+import { onChangeMultiPage, setUpMultiPage } from '../../../utils/homeFunction'
 import './CreateTournament.scss'
 const CreateTournament = (props) => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -390,34 +390,6 @@ const CreateTournament = (props) => {
 
 
 
-    const onChange = (e, page, key, elementType) => {
-        let updatedOrder = { ...order };
-        let updatedPage = { ...updatedOrder[page] }
-        let upadtedElement = updatedPage[key];
-        if (elementType === elementTypes.datePicker) {
-            upadtedElement.value = new Date(e)
-        }
-        else if (elementType === elementTypes.switchInput) {
-            upadtedElement.value = !upadtedElement.value;
-        }
-        else {
-            upadtedElement.value = e.target.value;
-            upadtedElement.invalid = !checkValidaty(
-                e.target.value,
-                upadtedElement.validation
-            );
-        }
-        upadtedElement.touched = true;
-        let formIsValid = true;
-        for (let inputIdentifier in updatedPage) {
-            formIsValid = !updatedPage[inputIdentifier].invalid && formIsValid;
-        }
-        updatedPage[key] = upadtedElement;
-        setFormIsValid(formIsValid)
-        updatedOrder[page] = updatedPage;
-        setOrder(updatedOrder)
-    }
-
     const onNextClick = () => {
         if (page === 'page1') setPage('page2')
         else if (page === 'page2') setPage('page3')
@@ -518,77 +490,7 @@ const CreateTournament = (props) => {
 
 
     useEffect(() => {
-        let index = 0;
-        let elems = []
-        while (index < Object.entries(order[page]).length) {
-            let secondExist = index + 2 <= Object.entries(order[page]).length
-            let element;
-            const [key1, value1] = Object.entries(order[page])[index]
-            if (!value1.isHalf || !secondExist) {
-                element = (
-                    <div key={key1} className={`pair-item-container ${value1.isHalf && 'pair-half-item-container'}`}>
-                        <CustomInput
-                            {...value1}
-                            onChange={(e) => onChange(e, page, key1, value1.elementType)}
-                            inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{ top: "4.5rem", left: "8%" }}
-                        />
-                    </div>)
-                index += 1;
-            } else {
-                const [key2, value2] = Object.entries(order[page])[index + 1];
-                if (value1.isHalf && !value2.isHalf) {
-                    element = (
-                        <div key={key2}>
-                            <div className={`pair-item-container pair-half-item-container`}>
-                                <CustomInput
-                                    {...value1}
-                                    onChange={(e) => onChange(e, page, key1, value1.elementType)}
-                                    inputContainer={{ marginBottom: '1.4rem' }}
-                                    errorStyle={{ top: "4.5rem", left: "5%" }}
-                                />
-                            </div>
-                            <div className={`pair-item-container`}>
-
-                                <CustomInput
-                                    {...value2}
-                                    onChange={(e) => onChange(e, page, key2, value2.elementType)}
-                                    inputContainer={{ marginBottom: '1.4rem' }}
-                                    errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
-                                />
-                            </div>
-                        </div>
-                    )
-                } else {
-                    element = (
-                        <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf && 'pair-half-item-container'}`}>
-                            <CustomInput
-                                {...value1}
-                                onChange={(e) => onChange(e, page, key1, value1.elementType)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
-                            />
-                            <CustomInput
-                                {...value2}
-                                onChange={(e) => onChange(e, page, key2, value2.elementType)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
-                            />
-                        </div>)
-                }
-
-                index += 2;
-            }
-
-            elems = [...elems, element]
-            setBody(elems)
-        }
+        setUpMultiPage(order,page,setFormIsValid,setOrder,setBody)
     }, [page, order])
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { GoSettings } from "react-icons/go";
-import { useTheme } from "../../../../styles/ThemeProvider";
+import { useTheme } from "../../../../../styles/ThemeProvider";
 
 const GameItem = (props) => {
     const themeState = useTheme();

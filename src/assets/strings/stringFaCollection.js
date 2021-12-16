@@ -70,6 +70,15 @@ export const stringFa = {
   hotel:'محل اقامت',
   free_ranking:"رنکینگ آزاد",
   save_change:'ذخیره تغییرات',
+  new_player:"بازیکن جدید",
+  add:'اضافه',
+  name_family:'نام و نام خانوادگی',
+  name_family_error:'نام و نام خانوادگی بازیکن را تعیین کنید',
+  birth_data:'تاریخ تولد',
+  birth_data_error:'تاریخ تولد بازیکن را تعیین کنید',
+  national_number_player_error:"لطفا شماره ملی بازیکن را تعیین کنید",
+  team_name:"نام تیم",
+  team_name_error:'لطفا نام تیم را تعیین کنید',
 
 
 };

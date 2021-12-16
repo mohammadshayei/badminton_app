@@ -3,12 +3,12 @@ import { useCallback, useEffect, useState } from "react"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
-import { onChange } from "../AuthFunction"
 import * as authActions from "../../../store/actions/auth";
 import { baseUrl } from "../../../constants/Config"
 import { useDispatch, useSelector } from "react-redux"
 import Loading from "../../../components/UI/Loading/Loading"
 import { useNavigate } from "react-router-dom";
+import { onChange } from "../../../utils/authFunction"
 
 const Login = () => {
     const [formIsValid, setFormIsValid] = useState(false)

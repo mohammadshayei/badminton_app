@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
-import { onChange } from "../AuthFunction"
+import { onChange } from "../../../utils/authFunction"
 
 const GetPhoneNumber = (props) => {
     const [formIsValid, setFormIsValid] = useState(false)

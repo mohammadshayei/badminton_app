@@ -43,4 +43,30 @@ export const editTournament = (tournament) => {
         tournament
     };
 }
+export const setShowModal = (showModal) => {
+    return {
+        type: actionTypes.SET_HOME_SHOW_MODAL,
+        showModal
+    };
+}
+export const setEditMode = (editMode) => {
+    return {
+        type: actionTypes.SET_EDIT_MODE,
+        editMode
+    };
+}
+export const addContent = (content,key) => {
+    return {
+        type: actionTypes.ADD_CONTENT,
+        content,
+        key
+    };
+}
+export const editContent = (content,key) => {
+    return {
+        type: actionTypes.EDIT_CONTENT,
+        content,
+        key
 
+    };
+}

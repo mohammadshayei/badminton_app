@@ -11,7 +11,6 @@ import arrow from "../../../../assets/images/arrow.png";
 
 const TournamentsList = (props) => {
     const [loading, setLoading] = useState(false)
-
     const tournaments = useSelector((state) => state.home.tournaments);
     const selectedTournament = useSelector((state) => state.home.selectedTournament);
     const mode = useSelector((state) => state.home.mode);

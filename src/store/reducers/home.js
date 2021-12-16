@@ -7,7 +7,9 @@ const initialState = {
     selectedTournament: null,
     contents: [],
     selectedContent: null,
-    mode: 'games',
+    mode: 'players',
+    showModal: false,
+    editMode: false
 };
 
 const setTournaments = (state, action) => {
@@ -20,7 +22,7 @@ const setContents = (state, action) => {
     return updateObject(state, { contents: action.contents });
 };
 const setSelectedContent = (state, action) => {
-    return updateObject(state, { setSelectedContent: action.content });
+    return updateObject(state, { selectedContent: action.content });
 };
 const setMode = (state, action) => {
     return updateObject(state, { mode: action.mode });
@@ -39,6 +41,28 @@ const editTournament = (state, action) => {
     updatedTournaments[findedTournamentIndex].tournament = action.tournament;
     return updateObject(state, { tournaments: updatedTournaments });
 };
+const setShowModal = (state, action) => {
+    return updateObject(state, { showModal: action.showModal });
+};
+const setEditMode = (state, action) => {
+    return updateObject(state, { editMode: action.editMode });
+};
+const addContent = (state, action) => {
+    let updatedContents = [...state.contents]
+    updatedContents =
+        [{ [action.key]: action.content, _id: uuidv4().replace(/\-/g, ""), },
+        ...updatedContents]
+    return updateObject(state, { contents: updatedContents });
+};
+const editContent = (state, action) => {
+    let updatedContents = [...state.contents]
+    let findedContentIndex = updatedContents.findIndex(item => item[action.key]._id === action.content._id)
+    if (findedContentIndex < 0) {
+        return;
+    }
+    updatedContents[findedContentIndex][action.key] = action.content;
+    return updateObject(state, { contents: updatedContents });
+};
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_TOURNAMENTS:
@@ -55,6 +79,14 @@ const reducer = (state = initialState, action) => {
             return addTournament(state, action);
         case actionTypes.EDIT_TOURNAMENT:
             return editTournament(state, action);
+        case actionTypes.SET_HOME_SHOW_MODAL:
+            return setShowModal(state, action);
+        case actionTypes.SET_EDIT_MODE:
+            return setEditMode(state, action);
+        case actionTypes.ADD_CONTENT:
+            return addContent(state, action);
+        case actionTypes.EDIT_CONTENT:
+            return editContent(state, action);
         default:
             return state;
     }
