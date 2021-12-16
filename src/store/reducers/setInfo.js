@@ -6,12 +6,12 @@ const initialState = {
             [{
                 id: "",
                 name: "محمود کاظمی",
-                imageSrc: ""
+                avatar: require('../../assets/images/avatars/1.jpg')
             },
             {
                 id: "",
                 name: "حسن حمیدی",
-                imageSrc: ""
+                avatar: require('../../assets/images/avatars/2.jpg')
             }],
         isRightTeam: false,
         server: 1,
@@ -26,24 +26,26 @@ const initialState = {
             [{
                 id: "",
                 name: "شایان برومند",
-                imageSrc: ""
+                avatar: require('../../assets/images/avatars/3.jpg')
             },
             {
                 id: "",
                 name: "محمد احمدی",
-                imageSrc: ""
+                avatar: ''
             }],
         isRightTeam: true,
         server: 0,
-        receiver: 2,
+        receiver: 1,
         score: 0,
         setWon: 0,
         fouls: {
         }
     },
-    events: {},
+    events: [],
+    totalEvents: [],
     balls: 1,
-    isWaiting: false
+    foulHappend: null,
+    eventCounter: 0,
 };
 
 
@@ -66,6 +68,7 @@ const setOver = (state, action) => {
         otherTeam = "team2"
     else
         otherTeam = "team1";
+    const tempEvents = state.events;
     return {
         ...state,
         [teamKey]: {
@@ -76,7 +79,10 @@ const setOver = (state, action) => {
         [otherTeam]: {
             ...state[otherTeam],
             score: 0
-        }
+        },
+        eventCounter: 0,
+        events: [],
+        totalEvents: tempEvents
     };
 };
 
@@ -94,11 +100,67 @@ const decreaseBall = (state) => {
     };
 };
 
-const setAwait = (state, action) => {
-    const { waiting } = action.payload;
+const foulHappend = (state, action) => {
+    const { foulType } = action.payload;
     return {
         ...state,
-        isWaiting: waiting
+        foulHappend: foulType
+    };
+};
+
+const addEvent = (state, action) => {
+    const { type, time, by, content } = action.payload;
+    let newCounter = state.eventCounter;
+    if (type !== "increaseBall" && type !== "decreaseBall") newCounter++;
+    return {
+        ...state,
+        events: [
+            ...state.events,
+            {
+                time,
+                type,
+                by,
+                content
+            }],
+        eventCounter: newCounter,
+    };
+};
+
+const switchServer = (state, action) => {
+    const { server } = action.payload;
+    let teamServer, teamReciver;
+    if (state.team1.server === 0) {
+        teamServer = "team1";
+        teamReciver = "team2";
+    }
+    else {
+        teamServer = "team2";
+        teamReciver = "team1";
+    }
+    return {
+        ...state,
+        [teamServer]: {
+            ...state[teamServer],
+            server: server
+        },
+        [teamReciver]: {
+            ...state[teamReciver],
+            server: 0
+        }
+    };
+};
+
+const switchSide = (state, action) => {
+    return {
+        ...state,
+        team1: {
+            ...state.team1,
+            isRightTeam: !state.team1.isRightTeam
+        },
+        team2: {
+            ...state.team2,
+            isRightTeam: !state.team2.isRightTeam
+        }
     };
 };
 
@@ -112,8 +174,14 @@ const reducer = (state = initialState, action) => {
             return increaseBall(state);
         case actionTypes.DECREASE_BALL:
             return decreaseBall(state);
-        case actionTypes.SET_AWAIT:
-            return setAwait(state, action);
+        case actionTypes.FOUL_HAPPEND:
+            return foulHappend(state, action);
+        case actionTypes.ADD_EVENT:
+            return addEvent(state, action);
+        case actionTypes.SWITCH_SERVER:
+            return switchServer(state, action);
+        case actionTypes.SWITCH_SIDE:
+            return switchSide(state, action);
         default:
             return state;
     }

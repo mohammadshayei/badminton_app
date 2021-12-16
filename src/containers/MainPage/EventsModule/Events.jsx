@@ -20,20 +20,20 @@ const Events = (props) => {
     ];
 
     const dispatch = useDispatch();
-    const setAwait = (waiting) => {
-        dispatch(infoActions.setAwait(waiting));
+    const foulHappend = (type) => {
+        dispatch(infoActions.foulHappend(type));
     };
 
-    const eventClick = () => {
+    const eventClick = (type) => {
         props.setClose && props.setClose(false);
-        setAwait({ waiting: true });
+        foulHappend({ foulType: type });
     }
 
     return (
         <div className="events-container" style={props.style}>
             {
                 events.map((item, index) => (
-                    <div className="event" style={props.eventStyle} key={index} onClick={() => eventClick()}>
+                    <div className="event" style={props.eventStyle} key={index} onClick={() => eventClick(item.text)}>
                         <div className={`${item.className}`} style={item.style}>
                             {item.content}
                         </div>

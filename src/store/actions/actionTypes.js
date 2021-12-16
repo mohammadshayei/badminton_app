@@ -28,7 +28,10 @@ export const EDIT_CONTENT = "EDIT_CONTENT";
 
 
 
-
+export const FOUL_HAPPEND = "FOUL_HAPPEND";
+export const ADD_EVENT = "ADD_EVENT";
+export const SWITCH_SERVER = "SWITCH_SERVER";
+export const SWITCH_SIDE = "SWITCH_SIDE";
 
 
 
