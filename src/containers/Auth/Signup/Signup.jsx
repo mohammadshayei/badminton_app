@@ -6,8 +6,8 @@ import { registerReferee } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
-import { onChange } from "../AuthFunction"
 import * as actions from "../../../store/actions/auth";
+import { onChange } from "../../../utils/authFunction"
 
 
 const Singup = () => {
@@ -85,6 +85,9 @@ const Singup = () => {
     const authSuccess = (token, refereeId) => {
         dispatch(actions.authSuccess(token, refereeId));
     };
+    const setRefereeData = (referee) => {
+        dispatch(actions.setRefereeData(referee));
+    };
     const authFail = (error) => {
         dispatch(actions.authFail(error));
     };
@@ -97,6 +100,7 @@ const Singup = () => {
             localStorage.setItem("token", result.message.token);
             localStorage.setItem("refereeId", result.message.referee._id);
             authSuccess(result.message.token, result.message.referee._id)
+            setRefereeData(result.message.referee)
         }
         else {
             alert(stringFa.error_occured)

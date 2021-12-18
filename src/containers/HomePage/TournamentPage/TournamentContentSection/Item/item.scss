@@ -1,0 +1,18 @@
+.user-item-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: .3rem 1.5em;
+    font-size: 1rem;
+    direction: rtl;
+    margin: 1rem 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    img {
+        width: 50px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+        margin-left: 1rem;
+    }
+}

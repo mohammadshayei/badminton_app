@@ -5,8 +5,7 @@ import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import Loading from "../../../components/UI/Loading/Loading"
-import { onChange } from "../AuthFunction"
-
+import { onChange } from "../../../utils/authFunction";
 const GetPhoneNumber = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)

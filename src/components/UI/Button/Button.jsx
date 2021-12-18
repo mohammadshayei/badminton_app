@@ -26,8 +26,8 @@ const Button = (props) => {
   };
   return (
     <button
+      className={`button-component ${props.buttonClass}`}
       disabled={props.disabled}
-      className={`button-component`}
       style={{ ...newStyle, ...props.ButtonStyle }}
       onClick={(e) => {
         if (props.onClick) props.onClick();

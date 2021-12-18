@@ -30,7 +30,6 @@ function App() {
   const token = useSelector((state) => state.auth.token);
   const checked = useSelector((state) => state.auth.checked);
   const path = useSelector((state) => state.auth.authRedirectPath);
-
   const checkAuth = () => dispatch(authActions.authCheckState());
   const location = useLocation();
   useEffect(() => {
@@ -47,8 +46,8 @@ function App() {
     }
   }, [path]);
 
-    // localStorage.removeItem("refereeId");
-    // localStorage.removeItem("token");
+  // localStorage.removeItem("refereeId");
+  // localStorage.removeItem("token");
   return (
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>
