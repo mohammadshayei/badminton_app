@@ -2,38 +2,18 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     team1: {
-        players:
-            [{
-                id: "",
-                name: "محمود کاظمی",
-                avatar: require('../../assets/images/avatars/1.jpg')
-            },
-            {
-                id: "",
-                name: "حسن حمیدی",
-                avatar: require('../../assets/images/avatars/2.jpg')
-            }],
+        players: [],
         isRightTeam: false,
-        server: 1,
-        receiver: 0,
+        server: 0,
+        receiver: 1,
         score: 0,
         setWon: 0,
         fouls: {
         }
     },
     team2: {
-        players:
-            [{
-                id: "",
-                name: "شایان برومند",
-                avatar: require('../../assets/images/avatars/3.jpg')
-            },
-            {
-                id: "",
-                name: "محمد احمدی",
-                avatar: ''
-            }],
-        isRightTeam: true,
+        players: [],
+        isRightTeam: false,
         server: 0,
         receiver: 1,
         score: 0,
@@ -164,6 +144,58 @@ const switchSide = (state, action) => {
     };
 };
 
+const setScoreboardData = (state, action) => {
+    const data = action.payload;
+    let team1Players, team2Players;
+    team1Players = [{ id: "A1", name: data.playerA1, avatar: "" }];
+    team2Players = [{ id: "B1", name: data.playerB1, avatar: "" }];
+    if (data.type === "double") {
+        team1Players = [...team1Players, { id: "A2", name: data.playerA2, avatar: "" }];
+        team2Players = [...team2Players, { id: "B2", name: data.playerB2, avatar: "" }];
+    }
+    return {
+        ...state,
+        team1: {
+            ...state.team1,
+            players: [...team1Players],
+            isRightTeam: false,
+            server: 0,
+            receiver: 1
+        },
+        team2: {
+            ...state.team2,
+            players: [...team2Players],
+            isRightTeam: false,
+            server: 0,
+            receiver: 1
+        }
+    };
+};
+
+const setChosen = (state, action) => {
+    const { id, index } = action.payload;
+    let team, server, receiver = 0, right;
+    if (id.substr(0, 1) === "A")
+        team = "team1";
+    else
+        team = "team2";
+    if (index === 1)
+        right = true;
+    else if (index === 2)
+        server = parseInt(id.substr(1, 1));
+    else if (index === 3)
+        receiver = parseInt(id.substr(1, 1));
+    return {
+        ...state,
+        [team]: {
+            ...state[team],
+            isRightTeam: index === 1 ? right : state[team].isRightTeam,
+            server: index === 2 ? server : state[team].server,
+            receiver: index !== 1 ? receiver : state[team].receiver
+        },
+    };
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INCREASE_SCORE:
@@ -182,6 +214,10 @@ const reducer = (state = initialState, action) => {
             return switchServer(state, action);
         case actionTypes.SWITCH_SIDE:
             return switchSide(state, action);
+        case actionTypes.SET_SCOREBOARD_DATA:
+            return setScoreboardData(state, action);
+        case actionTypes.SET_CHOSEN:
+            return setChosen(state, action);
         default:
             return state;
     }

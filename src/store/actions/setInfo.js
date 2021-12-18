@@ -52,3 +52,17 @@ export const switchSide = () => (dispatch) => {
         type: actionTypes.SWITCH_SIDE,
     });
 };
+
+export const setScoreboardData = (data) => (dispatch) => {
+    dispatch({
+        type: actionTypes.SET_SCOREBOARD_DATA,
+        payload: data,
+    });
+};
+
+export const setChosen = ({ id, index }) => (dispatch) => {
+    dispatch({
+        type: actionTypes.SET_CHOSEN,
+        payload: { id, index },
+    });
+};

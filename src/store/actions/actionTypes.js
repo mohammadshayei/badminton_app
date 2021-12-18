@@ -32,6 +32,9 @@ export const FOUL_HAPPEND = "FOUL_HAPPEND";
 export const ADD_EVENT = "ADD_EVENT";
 export const SWITCH_SERVER = "SWITCH_SERVER";
 export const SWITCH_SIDE = "SWITCH_SIDE";
+export const SET_SCOREBOARD_DATA = "SET_SCOREBOARD_DATA";
+export const SET_CHOSEN = "SET_CHOSEN";
+
 
 
 
