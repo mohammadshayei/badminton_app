@@ -17,7 +17,7 @@ const ScoreBoard = () => {
   const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"]);
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
-  const [timer, setTimer] = useState("00:59");
+  const [timer, setTimer] = useState("00:00");
   const [disable, setDisable] = useState(true);
   const [maxPoint, setMaxPoint] = useState(21);
   const themeState = useTheme();
@@ -44,6 +44,7 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team1" });
         switchSide();
+        setBreakTime(3);
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -53,7 +54,6 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           setBreakTime(2);
-          setDisable(true);
         }
         break;
 
@@ -76,6 +76,7 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team2" });
         switchSide();
+        setBreakTime(3);
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -85,7 +86,6 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           setBreakTime(2);
-          setDisable(true);
         }
         break;
 
@@ -102,19 +102,30 @@ const ScoreBoard = () => {
       alert("team2 WON!")
   }, [info.team1.setWon, info.team2.setWon])
 
+
+
   useEffect(() => {
-    if (breakTime === 2) {
-      let seconds = 58;
+    if (breakTime === 2 || breakTime === 3) {
+      setDisable(true);
+      const startingMinute = breakTime - 1;
+      let time = (startingMinute * 60) - 1;
+      let seconds = time % 60;
+      let minutes = Math.floor(time / 60);
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
+      seconds = seconds < 10 ? `0${seconds}` : seconds;
+      setTimer(`${minutes}:${seconds}`);
       const interval = setInterval(() => {
-        seconds = seconds < 10 ? `0` + seconds : seconds;
-        setTimer(`00:${seconds}`);
-        if (seconds > 0) seconds--;
+        time--;
+        seconds = time % 60;
+        minutes = Math.floor(time / 60);
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        setTimer(`${minutes}:${seconds}`);
       }, 1000);
       setTimeout(() => {
         setBreakTime(0);
         setDisable(false);
-        setTimer("00:59");
-      }, 60000);
+      }, (breakTime - 1) * 60000);
       return () => clearInterval(interval);
     }
   }, [breakTime]);
@@ -155,7 +166,7 @@ const ScoreBoard = () => {
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && <FaPlayCircle className="play" onClick={() => setDisable(false)} />}
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
-        {breakTime === 2 && <div className="break-timer" >{timer}</div>}
+        {(breakTime === 2 || breakTime === 3) && <div className="break-timer" >{timer}</div>}
       </div>
       {/* <FooterScoreBoard /> */}
       <div disabled={disable} className="action-buttons" style={{ opacity: info.foulHappend ? 0 : 1 }}>
