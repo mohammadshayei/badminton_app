@@ -154,6 +154,14 @@ const PlayerBlock = (props) => {
         </div>
       </div>
       <div className="score-place-and-set-container" style={{ opacity: info.foulHappend ? 0 : 1 }}>
+        {props.scores &&
+          <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}>
+            {props.scores.map((s) =>
+              <p>
+                {s}
+              </p>
+            )}
+          </div>}
         <p
           className={`set ${props.position === "right" && "set-rev"}`}
         >

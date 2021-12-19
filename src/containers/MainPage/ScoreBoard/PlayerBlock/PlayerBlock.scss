@@ -36,11 +36,11 @@
       text-shadow: 0 0 20px #0fe600;
       font-size: 10vw;
       line-height: 10vw;
-      padding: 0 3vw 0 0;
+      padding: 0 6vw 0 0;
     }
     .set-rev {
       align-self: flex-end;
-      padding: 0 0 0 3vw;
+      padding: 0 0 0 6vw;
     }
     .hidden {
       display: none;
@@ -178,6 +178,27 @@
     .score-place-and-set-container {
       flex: 1;
       justify-content: center;
+      .prev-score {
+        background-color: #313131;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0.3rem 1rem;
+        top: 0;
+        right: 50%;
+        border-bottom-left-radius: 15px;
+        font-size: 3vh;
+        color: #f7ff00;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+      .rev-prev-score {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 15px;
+        left: 50%;
+        right: unset;
+      }
     }
   }
 }

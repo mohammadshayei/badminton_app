@@ -7,6 +7,7 @@ const initialState = {
         server: 0,
         receiver: 1,
         score: 0,
+        scores: [],
         setWon: 0,
         fouls: {
         }
@@ -17,6 +18,7 @@ const initialState = {
         server: 0,
         receiver: 1,
         score: 0,
+        scores: [],
         setWon: 0,
         fouls: {
         }
@@ -48,21 +50,23 @@ const setOver = (state, action) => {
         otherTeam = "team2"
     else
         otherTeam = "team1";
-    const tempEvents = state.events;
+    const tempEvents = [...state.events];
     return {
         ...state,
         [teamKey]: {
             ...state[teamKey],
             setWon: state[teamKey].setWon + 1,
+            scores: [...state[teamKey].scores, state[teamKey].score],
             score: 0
         },
         [otherTeam]: {
             ...state[otherTeam],
+            scores: [...state[otherTeam].scores, state[otherTeam].score],
             score: 0
         },
         eventCounter: 0,
         events: [],
-        totalEvents: tempEvents
+        totalEvents: [...state.totalEvents, ...tempEvents]
     };
 };
 
@@ -160,14 +164,22 @@ const setScoreboardData = (state, action) => {
             players: [...team1Players],
             isRightTeam: false,
             server: 0,
-            receiver: 1
+            receiver: 1,
+            score: 0,
+            setWon: 0,
+            fouls: {
+            }
         },
         team2: {
             ...state.team2,
             players: [...team2Players],
             isRightTeam: false,
             server: 0,
-            receiver: 1
+            receiver: 1,
+            score: 0,
+            setWon: 0,
+            fouls: {
+            }
         }
     };
 };
