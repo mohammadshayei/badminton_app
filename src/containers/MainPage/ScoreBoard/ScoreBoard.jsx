@@ -18,6 +18,7 @@ const ScoreBoard = () => {
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
   const [timer, setTimer] = useState("00:00");
+  const [halfTime, setHalfTime] = useState(false);
   const [disable, setDisable] = useState(true);
   const [maxPoint, setMaxPoint] = useState(21);
   const themeState = useTheme();
@@ -44,7 +45,9 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team1" });
         switchSide();
+        setDisable(true);
         setBreakTime(3);
+        setHalfTime(false);
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -53,7 +56,10 @@ const ScoreBoard = () => {
         if (info.team2.score < 11) {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
-          setBreakTime(2);
+          if (!halfTime) {
+            setDisable(true);
+            setBreakTime(2);
+          }
         }
         break;
 
@@ -76,7 +82,9 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team2" });
         switchSide();
+        setDisable(true);
         setBreakTime(3);
+        setHalfTime(false);
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -85,7 +93,10 @@ const ScoreBoard = () => {
         if (info.team1.score < 11) {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
-          setBreakTime(2);
+          if (!halfTime) {
+            setDisable(true);
+            setBreakTime(2);
+          }
         }
         break;
 
@@ -104,7 +115,6 @@ const ScoreBoard = () => {
 
   useEffect(() => {
     if (breakTime === 2 || breakTime === 3) {
-      setDisable(true);
       const startingMinute = breakTime - 1;
       let time = (startingMinute * 60) - 1;
       let seconds = time % 60;
@@ -123,6 +133,7 @@ const ScoreBoard = () => {
       setTimeout(() => {
         setBreakTime(0);
         setDisable(false);
+        setHalfTime(true);
       }, (breakTime - 1) * 60000);
       return () => clearInterval(interval);
     }
@@ -153,6 +164,7 @@ const ScoreBoard = () => {
               playerNameD={v.players[1] && v.players[1].name}
               setWon={v.setWon}
               score={v.score}
+              scores={v.scores}
               scoreColor={scoreColor[index]}
               server={v.server}
               receiver={v.receiver}
