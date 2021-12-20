@@ -100,9 +100,7 @@ const ScoreBoard = () => {
       alert("team1 WON!")
     else if (info.team2.setWon === 2)
       alert("team2 WON!")
-  }, [info.team1.setWon, info.team2.setWon])
-
-
+  }, [info.team1.setWon, info.team2.setWon]);
 
   useEffect(() => {
     if (breakTime === 2 || breakTime === 3) {
@@ -169,7 +167,8 @@ const ScoreBoard = () => {
         {(breakTime === 2 || breakTime === 3) && <div className="break-timer" >{timer}</div>}
       </div>
       {/* <FooterScoreBoard /> */}
-      <div disabled={disable} className="action-buttons" style={{ opacity: info.foulHappend ? 0 : 1 }}>
+      <div disabled={disable} className="action-buttons"
+        style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
         <FaExclamation className="action-btn" style={{ color: theme.primary }} onClick={() => setEventPicker(true)} />
         <ImUndo2 className="action-btn" style={{ color: theme.primary, filter: "grayscale(10)" }} />
       </div>
