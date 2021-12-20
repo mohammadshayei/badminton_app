@@ -1,6 +1,6 @@
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import { MdLanguage, MdDarkMode, MdLogout, MdSettings } from "react-icons/md";
-import pic from "../../assets/images/avatars/1.jpg"
+import pic from "../../assets/images/avatars/3.jpg"
 import { useTheme } from "../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as detailActions from "../../store/actions/detail";

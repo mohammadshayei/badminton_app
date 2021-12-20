@@ -134,35 +134,35 @@ const TournamentContentSection = (props) => {
             className="tournament-content-section-wrapper"
             style={{ backgroundColor: theme.background_color }}
         >
-            {/* <div className="tournament-content-section-content"> */}
-            <SwipeableList
-                className="swipeable-list "
-                threshold={.9}
-            >
-                {
-                    contents.map((item, key) => {
-                        return (
-                            <SwipeableListItem
-                                leadingActions={leadingActions(item.player._id)}
-                                trailingActions={trailingActions(item.player._id)}
-                                onSwipeStart={() => { setSwipedStatus(item.player._id) }}
-                                onSwipeEnd={() => { setSwipedStatus('') }}
-                                onSwipeProgress={setProgress}
-                                key={item._id}
-                            >
-                                <UserItem
-                                    style={{
-                                        borderRadius: swipedStatus === item.player._id
-                                            ? '0px' : '25px'
-                                    }}
-                                    {...item.player}
-                                />
-                            </SwipeableListItem>
-                        )
-                    })
-                }
-            </SwipeableList>
-            {/* </div> */}
+            <div className="tournament-content-section-content">
+                <SwipeableList
+                    className="swipeable-list "
+                    threshold={.9}
+                >
+                    {
+                        contents.map((item, key) => {
+                            return (
+                                <SwipeableListItem
+                                    leadingActions={leadingActions(item.player._id)}
+                                    trailingActions={trailingActions(item.player._id)}
+                                    onSwipeStart={() => { setSwipedStatus(item.player._id) }}
+                                    onSwipeEnd={() => { setSwipedStatus('') }}
+                                    onSwipeProgress={setProgress}
+                                    key={item._id}
+                                >
+                                    <UserItem
+                                        style={{
+                                            borderRadius: swipedStatus === item.player._id
+                                                ? '0px' : '25px'
+                                        }}
+                                        {...item.player}
+                                    />
+                                </SwipeableListItem>
+                            )
+                        })
+                    }
+                </SwipeableList>
+            </div>
             {
                 footer
             }
