@@ -21,6 +21,7 @@ const ScoreBoard = () => {
   const [halfTime, setHalfTime] = useState(false);
   const [disable, setDisable] = useState(true);
   const [maxPoint, setMaxPoint] = useState(21);
+  const [teamWon, setTeamWon] = useState(null);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -31,6 +32,28 @@ const ScoreBoard = () => {
   const switchSide = () => {
     dispatch(infoActions.switchSide());
   };
+
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+    if (!teamWon) {
+      if (window.confirm("Do you want to go back ?")) {
+        setTeamWon("walk over");
+        // your logic
+        // props.history.push("/");
+      } else {
+        window.history.pushState(null, null, window.location.pathname);
+        setTeamWon(null);
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', onBackButtonEvent);
+    return () => {
+      window.removeEventListener('popstate', onBackButtonEvent);
+    };
+  }, []);
 
   useEffect(() => {
     switch (info.team1.score) {
@@ -108,9 +131,10 @@ const ScoreBoard = () => {
 
   useEffect(() => {
     if (info.team1.setWon === 2)
-      alert("team1 WON!")
+      setTeamWon("team1");
     else if (info.team2.setWon === 2)
-      alert("team2 WON!")
+      setTeamWon("team2");
+    if (teamWon) alert(`${teamWon} WON!`);
   }, [info.team1.setWon, info.team2.setWon]);
 
   useEffect(() => {
@@ -152,14 +176,14 @@ const ScoreBoard = () => {
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
       </Modal>
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}>
-        {info ?
+        {info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
           Object.entries(info).map(([k, v], index) =>
             (k === "team1" || k === "team2") &&
             (<PlayerBlock
               disable={disable}
               key={k}
-              playerImg={v.players[0].img}
-              playerImgD={v.players[1] && v.players[1].img}
+              playerImg={v.players[0].avatar}
+              playerImgD={v.players[1] && v.players[1].avatar}
               playerName={v.players[0].name}
               playerNameD={v.players[1] && v.players[1].name}
               setWon={v.setWon}
@@ -171,7 +195,7 @@ const ScoreBoard = () => {
               position={v.isRightTeam ? "right" : "left"}
               teamKey={k}
             />)
-          )
+          ) : "Loading Info..."
           : "Loading Info..."}
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && <FaPlayCircle className="play" onClick={() => setDisable(false)} />}
