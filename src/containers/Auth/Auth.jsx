@@ -1,6 +1,6 @@
 import './Auth.scss'
 import { useTheme } from '../../styles/ThemeProvider';
-import HeaderAuth from './HeaderAuth/HeaderAuth';
+import GlobalSection from './GlobalSection/GlobalSection';
 import Login from './Login/Login';
 import GetPhoneNumber from './Signup/GetPhoneNumber';
 import VerifyCode from './Signup/VerifyCode';
@@ -78,7 +78,7 @@ const Auth = () => {
                 color: theme.on_primary,
             }}
         >
-            <HeaderAuth />
+            <GlobalSection />
             {body}
         </div >
     )
