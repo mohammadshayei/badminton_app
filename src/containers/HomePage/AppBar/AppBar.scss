@@ -1,37 +1,43 @@
 .app-bar {
-  background-color: white;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  .add-tournament {
-    position: absolute;
-    bottom: 50px;
-    transform: translateY(50%);
-    display: flex;
-    align-items: center;
-    background-color: white;
-    z-index: 99;
-    border-radius: 50%;
-    font-size: 2rem;
-    padding: 0.3em;
-    cursor: pointer;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-  }
-  .page-selector {
-    align-self: stretch;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60%;
-    img {
-      max-height: 45px;
-    }
-  }
+	background-color: white;
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 50px;
+	.add-tournament {
+		position: absolute;
+		bottom: 50px;
+		transform: translateY(50%);
+		display: flex;
+		align-items: center;
+		background-color: white;
+		z-index: 99;
+		border-radius: 50%;
+		font-size: 2rem;
+		padding: 0.3em;
+		cursor: pointer;
+		box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+			rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+	}
+	.page-selector {
+		align-self: stretch;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 60%;
+		img {
+			max-height: 45px;
+		}
+	}
+}
+
+@media only screen and (min-width: 780px) and (min-height: 500px) {
+	.app-bar {
+		display: none;
+	}
 }

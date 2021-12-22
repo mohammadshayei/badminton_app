@@ -46,7 +46,11 @@ const HomePage = () => {
           className="fas fa-bars"
         />
       </div>
-      <Menu />
+      <Menu
+        setPage={setPage}
+        setShowModal={setShowModal}
+        setEditMode={setEditMode}
+      />
       <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         <CreateTournament editMode={editMode} modalClosed={() => setShowModal(false)} />
       </Modal>
