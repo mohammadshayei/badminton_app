@@ -3,13 +3,10 @@ import "./HomePage.scss";
 import { useTheme } from "../../styles/ThemeProvider";
 import AppBar from "./AppBar/AppBar";
 import TournamentPage from "./TournamentPage/TournamentPage";
-import { stringFa } from "../../assets/strings/stringFaCollection";
-import { MdLanguage, MdDarkMode, MdLogout, MdSettings } from "react-icons/md";
-import pic from "../../assets/images/avatars/default-avatar.png"
-import Modal from "../../components/UI/Modal/Modal"
+import Modal from "../../components/UI/Modal/Modal";
 import * as detailActions from "../../store/actions/detail";
 import { useDispatch } from "react-redux";
-import Menu from '../Menu/Menu'
+import Menu from '../Menu/Menu';
 import CreateTournament from "./CreateTournament/CreateTournament";
 
 

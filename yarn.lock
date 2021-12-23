@@ -10979,6 +10979,11 @@ split@0.3:
   dependencies:
     through "2"
 
+springframes@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/springframes/-/springframes-0.5.4.tgz#e6d181d74b10d384f1ee689e5fa2cc5649f9d908"
+  integrity sha512-PShyUcpcSSc3ax37pBdZtF3bulBVjt8BknMQpHvLv2Nb0u21LJV7fDtxCLWh4dfcDP47qKCyRtBKuiZa9SbjCQ==
+
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
@@ -11858,6 +11863,13 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-animate-presence@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/use-animate-presence/-/use-animate-presence-0.5.2.tgz#bca34a542ab86d931ed26b94ad765d31da63190e"
+  integrity sha512-oUmguxsNwx2otDuV4ujUuZBqnHVKzocbLYN1qaakxr7TJ16WvtUwME+7wQ0I8BL8FjqbqgUpOqjLEyKSpn/+eg==
+  dependencies:
+    springframes "^0.5.4"
 
 use@^3.1.0:
   version "3.1.1"
