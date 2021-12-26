@@ -25,15 +25,14 @@ export const SET_HOME_SHOW_MODAL = "SET_HOME_SHOW_MODAL";
 export const SET_EDIT_MODE = "SET_EDIT_MODE";
 export const ADD_CONTENT = "ADD_CONTENT";
 export const EDIT_CONTENT = "EDIT_CONTENT";
-
-
-
 export const FOUL_HAPPEND = "FOUL_HAPPEND";
 export const ADD_EVENT = "ADD_EVENT";
 export const SWITCH_SERVER = "SWITCH_SERVER";
 export const SWITCH_SIDE = "SWITCH_SIDE";
 export const SET_SCOREBOARD_DATA = "SET_SCOREBOARD_DATA";
 export const SET_CHOSEN = "SET_CHOSEN";
+export const REMOVE_ITEM = "REMOVE_ITEM";
+
 
 
 

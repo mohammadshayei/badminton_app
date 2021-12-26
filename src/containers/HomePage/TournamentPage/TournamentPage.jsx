@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Modal from "../../../components/UI/Modal/Modal";
 import { useEffect, useState } from "react";
 import PlayerModal from "./InputForms/PlayerModal/PlayerModal";
+import GymModal from "./InputForms/GymModal/GymModal";
 
 const TournamentPage = (props) => {
   const [modalContent, setModalContent] = useState(null)
@@ -22,6 +23,9 @@ const TournamentPage = (props) => {
     switch (mode) {
       case 'players':
         setModalContent(<PlayerModal />)
+        break;
+      case 'gyms':
+        setModalContent(<GymModal />)
         break;
 
       default:

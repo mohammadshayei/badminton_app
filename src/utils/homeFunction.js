@@ -103,15 +103,20 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
         setBody(elems)
     }
 }
-export const onChangeSinglePage = (e, key, elementType, order, setFormIsValid, setOrder) => {
+export const onChangeSinglePage = (e, key, elementType, order, setFormIsValid, setOrder, index) => {
     let updatedOrder = { ...order };
     let upadtedElement = updatedOrder[key];
     if (elementType === elementTypes.datePicker) {
-        upadtedElement.value = new Date(e)
+        upadtedElement.value = e
         upadtedElement.invalid = !checkValidaty(
-            new Date(e),
+            e.target.value,
             upadtedElement.validation
         );
+    }
+    else if (elementType === elementTypes.multiInputTitle) {
+        upadtedElement.value[index] = e.target.value
+        let findError = upadtedElement.value.findIndex(item => item === '')
+        upadtedElement.invalid = findError < 0 ? false : true;
     }
     else {
         upadtedElement.value = e.target.value;
@@ -119,6 +124,15 @@ export const onChangeSinglePage = (e, key, elementType, order, setFormIsValid, s
             e.target.value,
             upadtedElement.validation
         );
+        if (key === 'landCount') {
+            if (!upadtedElement.invalid) {
+                order.landNumbers.count = e.target.value;
+                order.landNumbers.value = Array(parseInt(e.target.value)).fill('');
+            }
+            else
+                order.landNumbers.count = 0
+
+        }
     }
     upadtedElement.touched = true;
     if (upadtedElement.shouldValidate) {
@@ -132,76 +146,77 @@ export const onChangeSinglePage = (e, key, elementType, order, setFormIsValid, s
     updatedOrder[key] = upadtedElement;
     setOrder(updatedOrder)
 }
-export const setUpSinglePage = (order, setFormIsValid, setOrder, setBody) => {
-    let index = 0;
-    let elems = []
-    while (index < Object.entries(order).length) {
-        let secondExist = index + 2 <= Object.entries(order).length
-        let element;
-        const [key1, value1] = Object.entries(order)[index]
-        if (!value1.isHalf || !secondExist) {
-            element = (
-                <div key={key1} className={`pair-item-container ${value1.isHalf && 'pair-half-item-container'}`}>
-                    <CustomInput
-                        {...value1}
-                        onChange={(e) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder)}
-                        inputContainer={{ marginBottom: '1.4rem' }}
-                        errorStyle={{ top: "4.5rem", left: "8%" }}
-                    />
-                </div>)
-            index += 1;
-        } else {
-            const [key2, value2] = Object.entries(order)[index + 1];
-            if (value1.isHalf && !value2.isHalf) {
+export const setUpSinglePage =
+    (order, setFormIsValid, setOrder, setBody) => {
+        let index = 0;
+        let elems = []
+        while (index < Object.entries(order).length) {
+            let secondExist = index + 2 <= Object.entries(order).length
+            let element;
+            const [key1, value1] = Object.entries(order)[index]
+            if (!value1.isHalf || !secondExist) {
                 element = (
-                    <div key={key2}>
-                        <div className={`pair-item-container pair-half-item-container`}>
-                            <CustomInput
-                                {...value1}
-                                onChange={(e) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
-                            />
-                        </div>
-                        <div className={`pair-item-container`}>
-
-                            <CustomInput
-                                {...value2}
-                                onChange={(e) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
-                            />
-                        </div>
-                    </div>
-                )
-            } else {
-                element = (
-                    <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf && 'pair-half-item-container'}`}>
+                    <div key={key1} className={`pair-item-container ${value1.isHalf && 'pair-half-item-container'}`}>
                         <CustomInput
                             {...value1}
-                            onChange={(e) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder)}
+                            onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
                             inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
-                        />
-                        <CustomInput
-                            {...value2}
-                            onChange={(e) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder)}
-                            inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
+                            errorStyle={{ top: "4.5rem", left: "8%" }}
                         />
                     </div>)
+                index += 1;
+            } else {
+                const [key2, value2] = Object.entries(order)[index + 1];
+                if (value1.isHalf && !value2.isHalf) {
+                    element = (
+                        <div key={key2}>
+                            <div className={`pair-item-container pair-half-item-container`}>
+                                <CustomInput
+                                    {...value1}
+                                    onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
+                                    inputContainer={{ marginBottom: '1.4rem' }}
+                                    errorStyle={{ top: "4.5rem", left: "5%" }}
+                                />
+                            </div>
+                            <div className={`pair-item-container`}>
+
+                                <CustomInput
+                                    {...value2}
+                                    onChange={(e, indexArray) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder, indexArray)}
+                                    inputContainer={{ marginBottom: '1.4rem' }}
+                                    errorStyle={{ top: "4.5rem", left: "5%" }}
+
+
+                                />
+                            </div>
+                        </div>
+                    )
+                } else {
+                    element = (
+                        <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf && 'pair-half-item-container'}`}>
+                            <CustomInput
+                                {...value1}
+                                onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
+                                inputContainer={{ marginBottom: '1.4rem' }}
+                                errorStyle={{ top: "4.5rem", left: "5%" }}
+
+
+                            />
+                            <CustomInput
+                                {...value2}
+                                onChange={(e, indexArray) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder, indexArray)}
+                                inputContainer={{ marginBottom: '1.4rem' }}
+                                errorStyle={{ top: "4.5rem", left: "5%" }}
+
+
+                            />
+                        </div>)
+                }
+
+                index += 2;
             }
 
-            index += 2;
+            elems = [...elems, element]
+            setBody(elems)
         }
-
-        elems = [...elems, element]
-        setBody(elems)
     }
-}

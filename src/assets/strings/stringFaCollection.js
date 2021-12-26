@@ -79,6 +79,21 @@ export const stringFa = {
   national_number_player_error:"لطفا شماره ملی بازیکن را تعیین کنید",
   team_name:"نام تیم",
   team_name_error:'لطفا نام تیم را تعیین کنید',
+  player_remove_successfully:'بازیکن با موفقیت حذف شد',
+  player_added:"بازیکن اضافه شد",
+  player_not_found:"بازیکن یافت نشد",
+  add_gym:"سالن جدید",
+  gym_title:"عنوان سالن",
+  gym_title_error:"لطفا عنوان سالن را تعیین کنید",
+  land_count:"تعداد زمین",
+  land_count_error:"لطقا تعداد زمین را با عدد تعیین کنید",
+  land_numbers:'شماره زمین ها',
+  land_numbers_error:"لظفا شماره زمین ها را نعیین کنید",
+  capacity:'ظرفیت',
+  options_situation:"وضعیت و امکانات",
+  address:'آدرس',
+  address_error:'لطفا آدرس را تعیین کنید',
+  
 
 
 };

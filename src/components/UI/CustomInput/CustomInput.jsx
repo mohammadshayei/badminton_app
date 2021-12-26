@@ -1,6 +1,7 @@
 
 import './CustomInput.scss'
 import DatePickerInput from './Inputs/DatePickerInput/DatePickerInput';
+import MultiInputTitle from './Inputs/MultiInputTitle/MultiInputTitle';
 import SwitchInput from './Inputs/SwitchInput/SwitchInput';
 import TitleInput from './Inputs/TitleInput/TitleInput';
 import TitleTextArea from './Inputs/TitleTextArea/TitleTextArea';
@@ -47,6 +48,9 @@ const CustomInput = (props) => {
         case (elementTypes.titleTextarea):
             inputElement = <TitleTextArea {...props} />
             break;
+        case (elementTypes.multiInputTitle):
+            inputElement = <MultiInputTitle {...props} />
+            break;
         default:
             inputElement = <input
                 className={inputClasses.join(' ')}
@@ -74,6 +78,8 @@ export const elementTypes = {
     datePicker: 'datePicker',
     switchInput: 'switchInput',
     titleTextarea: 'titleTextarea',
+    multiInputTitle: 'multiInputTitle',
+
 
 
 }

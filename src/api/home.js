@@ -11,6 +11,7 @@ export const fetchItems = async (id, token, fetchWord) => {
     else
         return { success: false, data: null, error: result.data.message }
 }
+
 export const createTournament = async (data, token) => {
     const result = await axios.post(`${baseUrl}api/create_tournament`, { ...data },
         { headers: { 'auth-token': token } });
@@ -20,6 +21,7 @@ export const createTournament = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+
 export const editTournament = async (data, token) => {
     const result = await axios.post(`${baseUrl}api/edit_tournament`, { ...data },
         { headers: { 'auth-token': token } });
@@ -134,3 +136,41 @@ export const updatePlayer = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+export const removePlayer = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/remove_player_from_tournament`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const searchPlayer = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/search_player`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.player }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const addGym = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/define_gym`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.gym }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+
+

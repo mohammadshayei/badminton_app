@@ -7,7 +7,7 @@ const initialState = {
     selectedTournament: null,
     contents: [],
     selectedContent: null,
-    mode: 'players',
+    mode: 'gyms',
     showModal: false,
     editMode: false
 };
@@ -63,6 +63,15 @@ const editContent = (state, action) => {
     updatedContents[findedContentIndex][action.key] = action.content;
     return updateObject(state, { contents: updatedContents });
 };
+const removeItemContent = (state, action) => {
+    let updatedContents = [...state.contents]
+    let findedContentIndex = updatedContents.findIndex(item => item[action.key]._id === action.id)
+    if (findedContentIndex < 0) {
+        return;
+    }
+    updatedContents.splice(findedContentIndex, 1)
+    return updateObject(state, { contents: updatedContents });
+};
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_TOURNAMENTS:
@@ -87,6 +96,8 @@ const reducer = (state = initialState, action) => {
             return addContent(state, action);
         case actionTypes.EDIT_CONTENT:
             return editContent(state, action);
+        case actionTypes.REMOVE_ITEM:
+            return removeItemContent(state, action);
         default:
             return state;
     }

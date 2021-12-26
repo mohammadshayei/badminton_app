@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from '../../../../styles/ThemeProvider';
 import './TournamentContentSection.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItems } from '../../../../api/home';
+import { fetchItems, removePlayer } from '../../../../api/home';
 import * as homeActions from "../../../../store/actions/home";
 import PlayerFooter from './Footer/PlayerFooter';
 import GameItem from './Item/GameItem'
@@ -16,6 +16,11 @@ import {
     TrailingActions,
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
+import { stringFa } from '../../../../assets/strings/stringFaCollection';
+import SimpleFooter from './Footer/SimpleFooter';
+import GymItem from './Item/GymItem';
+
+
 
 
 const TournamentContentSection = (props) => {
@@ -23,6 +28,7 @@ const TournamentContentSection = (props) => {
     const [footer, setFooter] = useState(null)
     const [progress, setProgress] = useState(0)
     const [swipedStatus, setSwipedStatus] = useState('')
+    const [body, setBody] = useState(null)
     const contents = useSelector((state) => state.home.contents);
     const mode = useSelector((state) => state.home.mode);
     const selectedTournament = useSelector((state) => state.home.selectedTournament);
@@ -42,6 +48,9 @@ const TournamentContentSection = (props) => {
     const setEditMode = (editMode) => {
         dispatch(homeActions.setEditMode(editMode));
     };
+    const removeItemContent = (id, key) => {
+        dispatch(homeActions.removeItemContent(id, key));
+    };
     const setShowModal = (showModal) => {
         dispatch(homeActions.setShowModal(showModal));
     };
@@ -50,8 +59,16 @@ const TournamentContentSection = (props) => {
         setEditMode(true)
         setShowModal(true)
     }
-    const deleteClickHandler = id => {
-
+    const deleteClickHandler = async id => {
+        setLoading(true)
+        const result = await removePlayer({ tournamentId: selectedTournament, playerId: id }, token)
+        if (result.success) {
+            alert(stringFa.player_remove_successfully)
+            removeItemContent(id, 'player')
+        } else {
+            alert(result.error)
+        }
+        setLoading(false)
     }
     const leadingActions = (id) => (
         <LeadingActions >
@@ -111,7 +128,9 @@ const TournamentContentSection = (props) => {
             case 'players':
                 setFooter(<PlayerFooter />)
                 break;
-
+            case 'gyms':
+                setFooter(<SimpleFooter titleButton={stringFa.add_gym} />)
+                break;
             default:
                 setFooter(null)
                 break;
@@ -128,41 +147,54 @@ const TournamentContentSection = (props) => {
 
     }, [selectedTournament, mode]);
 
+    useEffect(() => {
+        if (contents.length > 0) {
+            setBody(
+                contents.map((item, key) => {
+                    return (
+                        <SwipeableListItem
+                            leadingActions={leadingActions(item[mode.substring(0, mode.length - 1)]._id)}
+                            trailingActions={trailingActions(item[mode.substring(0, mode.length - 1)]._id)}
+                            onSwipeStart={() => { setSwipedStatus(item[mode.substring(0, mode.length - 1)]._id) }}
+                            onSwipeEnd={() => { setSwipedStatus('') }}
+                            onSwipeProgress={setProgress}
+                            key={item[mode.substring(0, mode.length - 1)]._id}
+                        >
+                            {
+                                mode === 'gyms' ?
+                                    <GymItem
+                                        style={{
+                                            borderRadius: swipedStatus === item[mode.substring(0, mode.length - 1)]._id
+                                                ? '0px' : '25px'
+                                        }}
+                                        {...item[mode.substring(0, mode.length - 1)]}
+                                    />
+                                    :
+                                    <UserItem
+                                        {...item[mode.substring(0, mode.length - 1)]}
+                                    />
+                            }
+                        </SwipeableListItem>
+                    )
+                })
+            )
+        }
+    }, [contents])
 
     return (
         <div
             className="tournament-content-section-wrapper"
             style={{ backgroundColor: theme.background_color }}
         >
-            <div className="tournament-content-section-content">
-                <SwipeableList
-                    className="swipeable-list "
-                    threshold={.9}
-                >
-                    {
-                        contents.map((item, key) => {
-                            return (
-                                <SwipeableListItem
-                                    leadingActions={leadingActions(item.player._id)}
-                                    trailingActions={trailingActions(item.player._id)}
-                                    onSwipeStart={() => { setSwipedStatus(item.player._id) }}
-                                    onSwipeEnd={() => { setSwipedStatus('') }}
-                                    onSwipeProgress={setProgress}
-                                    key={item._id}
-                                >
-                                    <UserItem
-                                        style={{
-                                            borderRadius: swipedStatus === item.player._id
-                                                ? '0px' : '25px'
-                                        }}
-                                        {...item.player}
-                                    />
-                                </SwipeableListItem>
-                            )
-                        })
-                    }
-                </SwipeableList>
-            </div>
+            <SwipeableList
+                threshold={.5}
+                // style={{ backgroundColor: "red" }}
+                className='tournament-content-section-content'
+            >
+                {
+                    body
+                }
+            </SwipeableList>
             {
                 footer
             }

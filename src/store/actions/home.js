@@ -55,17 +55,25 @@ export const setEditMode = (editMode) => {
         editMode
     };
 }
-export const addContent = (content,key) => {
+export const addContent = (content, key) => {
     return {
         type: actionTypes.ADD_CONTENT,
         content,
         key
     };
 }
-export const editContent = (content,key) => {
+export const editContent = (content, key) => {
     return {
         type: actionTypes.EDIT_CONTENT,
         content,
+        key
+
+    };
+}
+export const removeItemContent = (id, key) => {
+    return {
+        type: actionTypes.REMOVE_ITEM,
+        id,
         key
 
     };
