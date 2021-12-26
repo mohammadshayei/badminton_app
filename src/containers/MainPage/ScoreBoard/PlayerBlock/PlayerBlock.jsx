@@ -44,6 +44,11 @@ const PlayerBlock = (props) => {
       addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
       foulHappend({ foulType: null });
     }
+  };
+
+  const cancelFoul = () => {
+    if (info.foulHappend)
+      foulHappend({ foulType: null });
   }
 
   useEffect(() => {
@@ -84,12 +89,14 @@ const PlayerBlock = (props) => {
   }, [props.score]);
 
   return (
-    <div disabled={props.disable} className={`player-block-container ${props.position === "left" && "rev"}`}>
+    <div disabled={props.disable} className={`player-block-container ${props.position === "left" && "rev"}`}
+      onClick={cancelFoul}
+    >
       <div
         className={`player-block-action-container ${props.position === "right" && "action-rev"
           }`}
       >
-        <div className="player-block-image-and-title"
+        <div className={`player-block-image-and-title ${info.foulHappend && 'blink'}`}
           style={dynamicStyle}
         >
           <p className="player-name">{props.playerName}</p>
@@ -101,7 +108,8 @@ const PlayerBlock = (props) => {
           }} onClick={() => selectPlayer(props.playerNameD)} />}
           {props.playerNameD && <p className="player-name">{props.playerNameD}</p>}
         </div>
-        <div className="player-block-icon-container" style={{ opacity: info.foulHappend ? 0 : 1 }}>
+        <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
+          style={{ opacity: info.foulHappend ? 0 : 1 }}>
           {props.position === "right" && <div className="player-block-icon">
             <Button
               back={theme.primary}
@@ -153,7 +161,16 @@ const PlayerBlock = (props) => {
           </div>
         </div>
       </div>
-      <div className="score-place-and-set-container" style={{ opacity: info.foulHappend ? 0 : 1 }}>
+      <div disabled={info.foulHappend ? 1 : 0} className="score-place-and-set-container"
+        style={{ opacity: info.foulHappend ? 0 : 1 }}>
+        {props.scores.length > 0 &&
+          <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}>
+            {props.scores.map((s) =>
+              <p>
+                {s}
+              </p>
+            )}
+          </div>}
         <p
           className={`set ${props.position === "right" && "set-rev"}`}
         >

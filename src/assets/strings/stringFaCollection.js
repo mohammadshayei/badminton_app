@@ -32,7 +32,7 @@ export const stringFa = {
   wrong_code: "کد وارد شده اشتباه است",
   code_error: "کد باید 5 حرف باشد",
   registered_successfully: "ثبت نام با موفقیت انجام شد",
-  create_tournament: "از اینجا تورنمنت جدیدی ایجاد کنید",
+  create_tournament: "تورنمنت جدیدی ایجاد کنید",
   game_number: "بازی شماره",
   add_game: "اضافه کردن بازی",
   phone_or_nationalnumber: "شماره همراه یا شماره ملی",
@@ -64,6 +64,7 @@ export const stringFa = {
   province: 'استان',
   city: 'شهرستان',
   town: 'شهر',
+
   service:'سرویس / امکانات',
   transportation:'ایاب و ذهاب',
   catering:'پذیرایی',
@@ -93,6 +94,9 @@ export const stringFa = {
   options_situation:"وضعیت و امکانات",
   address:'آدرس',
   address_error:'لطفا آدرس را تعیین کنید',
+  new_tournament: "تونمنت جدید",
+  my_games: "بازی های من",
+  tournaments: "تورنمنت ها",
   
 
 

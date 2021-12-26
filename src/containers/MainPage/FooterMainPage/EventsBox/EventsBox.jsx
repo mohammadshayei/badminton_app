@@ -54,7 +54,7 @@ const EventsBox = () => {
   }, [info.team1.setWon, info.team2.setWon])
 
   useEffect(() => {
-    if (info.events.length > 0) {
+    if (info.eventCounter > 0) {
       info.team1.players.forEach((player, index) => {
         if (info.events[info.events.length - 1].by === player.name)
           setLog([...log, [
@@ -80,7 +80,7 @@ const EventsBox = () => {
       })
       myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
     }
-  }, [info.events])
+  }, [info.eventCounter])
 
   return (
     <div className="events-wrapper">
@@ -88,7 +88,7 @@ const EventsBox = () => {
         {[...Array(70)].map((e, ci) =>
           <div key={ci} className="table-column"
             style={ci === 0 ? columnStyle : {}}
-            ref={ci === info.events.length ? myRef : tableRef}
+            ref={ci === info.eventCounter ? myRef : tableRef}
           >
             {[...Array(info.team1.players.length * 2)].map((e, ri) =>
               <div key={ri * 5} className="table-cell"

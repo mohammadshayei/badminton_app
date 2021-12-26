@@ -17,9 +17,11 @@ const ScoreBoard = () => {
   const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"]);
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
-  const [timer, setTimer] = useState("00:59");
+  const [timer, setTimer] = useState("00:00");
+  const [halfTime, setHalfTime] = useState(false);
   const [disable, setDisable] = useState(true);
   const [maxPoint, setMaxPoint] = useState(21);
+  const [teamWon, setTeamWon] = useState(null);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -30,6 +32,28 @@ const ScoreBoard = () => {
   const switchSide = () => {
     dispatch(infoActions.switchSide());
   };
+
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+    if (!teamWon) {
+      if (window.confirm("Do you want to go back ?")) {
+        setTeamWon("walk over");
+        // your logic
+        // props.history.push("/");
+      } else {
+        window.history.pushState(null, null, window.location.pathname);
+        setTeamWon(null);
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', onBackButtonEvent);
+    return () => {
+      window.removeEventListener('popstate', onBackButtonEvent);
+    };
+  }, []);
 
   useEffect(() => {
     switch (info.team1.score) {
@@ -44,6 +68,9 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team1" });
         switchSide();
+        setDisable(true);
+        setBreakTime(3);
+        setHalfTime(false);
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -52,8 +79,10 @@ const ScoreBoard = () => {
         if (info.team2.score < 11) {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
-          setBreakTime(2);
-          setDisable(true);
+          if (!halfTime) {
+            setDisable(true);
+            setBreakTime(2);
+          }
         }
         break;
 
@@ -76,6 +105,9 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team2" });
         switchSide();
+        setDisable(true);
+        setBreakTime(3);
+        setHalfTime(false);
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -84,8 +116,10 @@ const ScoreBoard = () => {
         if (info.team1.score < 11) {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
-          setBreakTime(2);
-          setDisable(true);
+          if (!halfTime) {
+            setDisable(true);
+            setBreakTime(2);
+          }
         }
         break;
 
@@ -97,24 +131,34 @@ const ScoreBoard = () => {
 
   useEffect(() => {
     if (info.team1.setWon === 2)
-      alert("team1 WON!")
+      setTeamWon("team1");
     else if (info.team2.setWon === 2)
-      alert("team2 WON!")
-  }, [info.team1.setWon, info.team2.setWon])
+      setTeamWon("team2");
+    if (teamWon) alert(`${teamWon} WON!`);
+  }, [info.team1.setWon, info.team2.setWon]);
 
   useEffect(() => {
-    if (breakTime === 2) {
-      let seconds = 58;
+    if (breakTime === 2 || breakTime === 3) {
+      const startingMinute = breakTime - 1;
+      let time = (startingMinute * 60) - 1;
+      let seconds = time % 60;
+      let minutes = Math.floor(time / 60);
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
+      seconds = seconds < 10 ? `0${seconds}` : seconds;
+      setTimer(`${minutes}:${seconds}`);
       const interval = setInterval(() => {
-        seconds = seconds < 10 ? `0` + seconds : seconds;
-        setTimer(`00:${seconds}`);
-        if (seconds > 0) seconds--;
+        time--;
+        seconds = time % 60;
+        minutes = Math.floor(time / 60);
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        setTimer(`${minutes}:${seconds}`);
       }, 1000);
       setTimeout(() => {
         setBreakTime(0);
         setDisable(false);
-        setTimer("00:59");
-      }, 60000);
+        setHalfTime(true);
+      }, (breakTime - 1) * 60000);
       return () => clearInterval(interval);
     }
   }, [breakTime]);
@@ -132,33 +176,35 @@ const ScoreBoard = () => {
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
       </Modal>
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}>
-        {info ?
+        {info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
           Object.entries(info).map(([k, v], index) =>
             (k === "team1" || k === "team2") &&
             (<PlayerBlock
               disable={disable}
               key={k}
-              playerImg={v.players[0].img}
-              playerImgD={v.players[1] && v.players[1].img}
+              playerImg={v.players[0].avatar}
+              playerImgD={v.players[1] && v.players[1].avatar}
               playerName={v.players[0].name}
               playerNameD={v.players[1] && v.players[1].name}
               setWon={v.setWon}
               score={v.score}
+              scores={v.scores}
               scoreColor={scoreColor[index]}
               server={v.server}
               receiver={v.receiver}
               position={v.isRightTeam ? "right" : "left"}
               teamKey={k}
             />)
-          )
+          ) : "Loading Info..."
           : "Loading Info..."}
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && <FaPlayCircle className="play" onClick={() => setDisable(false)} />}
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
-        {breakTime === 2 && <div className="break-timer" >{timer}</div>}
+        {(breakTime === 2 || breakTime === 3) && <div className="break-timer" >{timer}</div>}
       </div>
       {/* <FooterScoreBoard /> */}
-      <div disabled={disable} className="action-buttons" style={{ opacity: info.foulHappend ? 0 : 1 }}>
+      <div disabled={disable} className="action-buttons"
+        style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
         <FaExclamation className="action-btn" style={{ color: theme.primary }} onClick={() => setEventPicker(true)} />
         <ImUndo2 className="action-btn" style={{ color: theme.primary, filter: "grayscale(10)" }} />
       </div>

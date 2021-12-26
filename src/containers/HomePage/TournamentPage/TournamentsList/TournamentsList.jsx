@@ -7,7 +7,7 @@ import { FaMedal, FaBalanceScale } from 'react-icons/fa'
 import { MdOutlineEmojiTransportation, MdOutlineSportsHandball } from 'react-icons/md'
 import { GoSettings } from "react-icons/go";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
-import arrow from "../../../../assets/images/arrow.png";
+// import arrow from "../../../../assets/images/arrow.png";
 
 const TournamentsList = (props) => {
     const [loading, setLoading] = useState(false)
@@ -117,7 +117,7 @@ const TournamentsList = (props) => {
             ) : (
                 <div className="hint">
                     {stringFa.create_tournament}
-                    <img src={arrow} alt="arrow_down" />
+                    {/* <img src={arrow} alt="arrow_down" /> */}
                 </div>
             )}
         </div>

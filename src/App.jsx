@@ -10,6 +10,8 @@ import MainPage from "./containers/MainPage/MainPage";
 import Auth from "./containers/Auth/Auth";
 import { useSelector } from "react-redux";
 import HomePage from "./containers/HomePage/HomePage";
+import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
+
 function App() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -52,6 +54,7 @@ function App() {
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
+      <Route path="/scoreboard_view" exact element={<ScoreboardView />}></Route>
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>

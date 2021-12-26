@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./AppBar.scss";
 import umpire from "../../../assets/images/umpire.png";
 import tournament from "../../../assets/images/tournament.png";

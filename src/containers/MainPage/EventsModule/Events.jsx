@@ -1,10 +1,10 @@
 import "./Events.scss"
 import { useTheme } from '../../../styles/ThemeProvider';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
 
 const Events = (props) => {
-    // const info = useSelector((state) => state.info);
+    const info = useSelector((state) => state.info);
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const events = [
@@ -31,16 +31,27 @@ const Events = (props) => {
 
     return (
         <div className="events-container" style={props.style}>
-            {
-                events.map((item, index) => (
+            {events.map((item, index) => (
+                (info.foulHappend) ?
+                    (info.foulHappend === item.text) ?
+                        <div className="event" style={props.eventStyle} key={index}>
+                            <div className={`${item.className}`} style={item.style}>
+                                {item.content}
+                            </div>
+                            {!props.hide && item.text}
+                        </div> :
+                        <div className="event" style={props.eventStyle} key={index}>
+                            <div style={item.style}>
+                            </div>
+                        </div>
+                    :
                     <div className="event" style={props.eventStyle} key={index} onClick={() => eventClick(item.text)}>
                         <div className={`${item.className}`} style={item.style}>
                             {item.content}
                         </div>
                         {!props.hide && item.text}
                     </div>
-                ))
-            }
+            ))}
 
         </div>
     )
