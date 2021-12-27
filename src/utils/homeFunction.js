@@ -161,7 +161,10 @@ export const setUpSinglePage =
                             {...value1}
                             onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
                             inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{ top: "4.5rem", left: "8%" }}
+                            errorStyle={{
+                                top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
+                                left: "8%"
+                            }}
                         />
                     </div>)
                 index += 1;
@@ -175,7 +178,10 @@ export const setUpSinglePage =
                                     {...value1}
                                     onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
                                     inputContainer={{ marginBottom: '1.4rem' }}
-                                    errorStyle={{ top: "4.5rem", left: "5%" }}
+                                    errorStyle={{
+                                        top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
+                                        left: "8%"
+                                    }}
                                 />
                             </div>
                             <div className={`pair-item-container`}>
@@ -184,7 +190,10 @@ export const setUpSinglePage =
                                     {...value2}
                                     onChange={(e, indexArray) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder, indexArray)}
                                     inputContainer={{ marginBottom: '1.4rem' }}
-                                    errorStyle={{ top: "4.5rem", left: "5%" }}
+                                    errorStyle={{
+                                        top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
+                                        left: "8%"
+                                    }}
 
 
                                 />
@@ -198,7 +207,10 @@ export const setUpSinglePage =
                                 {...value1}
                                 onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
                                 inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
+                                errorStyle={{
+                                    top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
+                                    left: "8%"
+                                }}
 
 
                             />
@@ -206,7 +218,10 @@ export const setUpSinglePage =
                                 {...value2}
                                 onChange={(e, indexArray) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder, indexArray)}
                                 inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
+                                errorStyle={{
+                                    top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
+                                    left: "8%"
+                                }}
 
 
                             />

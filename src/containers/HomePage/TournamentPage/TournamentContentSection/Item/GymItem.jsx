@@ -3,7 +3,6 @@ import { useTheme } from "../../../../../styles/ThemeProvider";
 const GymItem = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme
-    console.log(props.land_numbers.map(item => item.number))
     let landNumbers = ''
     if (props.land_numbers && props.land_numbers.length > 0) {
         props.land_numbers.forEach((item, index) => {

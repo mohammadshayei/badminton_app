@@ -97,7 +97,7 @@ export const stringFa = {
   new_tournament: "تونمنت جدید",
   my_games: "بازی های من",
   tournaments: "تورنمنت ها",
-  
-
-
+  remove_successfully:'با موفقیت حذف شد',
+  national_number_or_phone:'شماره ملی یا شماره همراه',
+  referee_added:"داور اضافه شد",
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from '../../../../styles/ThemeProvider';
 import './TournamentContentSection.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItems, removePlayer } from '../../../../api/home';
+import { fetchItems, removeContent } from '../../../../api/home';
 import * as homeActions from "../../../../store/actions/home";
 import PlayerFooter from './Footer/PlayerFooter';
 import GameItem from './Item/GameItem'
@@ -19,6 +19,7 @@ import 'react-swipeable-list/dist/styles.css';
 import { stringFa } from '../../../../assets/strings/stringFaCollection';
 import SimpleFooter from './Footer/SimpleFooter';
 import GymItem from './Item/GymItem';
+import RefereeFooter from './Footer/RefereeFooter';
 
 
 
@@ -61,10 +62,23 @@ const TournamentContentSection = (props) => {
     }
     const deleteClickHandler = async id => {
         setLoading(true)
-        const result = await removePlayer({ tournamentId: selectedTournament, playerId: id }, token)
+        let payload, url;
+        switch (mode) {
+            case 'players':
+                payload = { tournamentId: selectedTournament, playerId: id }
+                url = 'remove_player_from_tournament'
+                break;
+            case 'gyms':
+                payload = { tournamentId: selectedTournament, gymId: id }
+                url = 'remove_gym'
+                break;
+            default:
+                break;
+        }
+        const result = await removeContent(payload, token, url)
         if (result.success) {
-            alert(stringFa.player_remove_successfully)
-            removeItemContent(id, 'player')
+            alert(stringFa.remove_successfully)
+            removeItemContent(id, mode.substring(0, mode.length - 1))
         } else {
             alert(result.error)
         }
@@ -131,12 +145,14 @@ const TournamentContentSection = (props) => {
             case 'gyms':
                 setFooter(<SimpleFooter titleButton={stringFa.add_gym} />)
                 break;
+            case 'referees':
+                setFooter(<RefereeFooter />)
+                break;
             default:
                 setFooter(null)
                 break;
         }
     }, [mode, selectedTournament])
-
     useEffect(async () => {
         setLoading(true)
         const result = await fetchItems(selectedTournament, token, mode)
@@ -146,14 +162,13 @@ const TournamentContentSection = (props) => {
         setLoading(false)
 
     }, [selectedTournament, mode]);
-
     useEffect(() => {
         if (contents.length > 0) {
             setBody(
                 contents.map((item, key) => {
                     return (
                         <SwipeableListItem
-                            leadingActions={leadingActions(item[mode.substring(0, mode.length - 1)]._id)}
+                            leadingActions={mode !== 'referees' && leadingActions(item[mode.substring(0, mode.length - 1)]._id)}
                             trailingActions={trailingActions(item[mode.substring(0, mode.length - 1)]._id)}
                             onSwipeStart={() => { setSwipedStatus(item[mode.substring(0, mode.length - 1)]._id) }}
                             onSwipeEnd={() => { setSwipedStatus('') }}
@@ -178,6 +193,8 @@ const TournamentContentSection = (props) => {
                     )
                 })
             )
+        } else {
+            setBody(null)
         }
     }, [contents])
 
@@ -203,29 +220,3 @@ const TournamentContentSection = (props) => {
 }
 
 export default TournamentContentSection
-{/* {contents.length > 0 &&
-                        contents.map((item, key) => {
-                            let body;
-                            switch (mode) {
-                                case 'games':
-                                    body = <GameItem key={item.game._id} {...item.game} />
-                                    break;
-                                case 'players':
-                                    body = <UserItem key={item._id} {...item.player} />
-                                    break;
-                                case 'referees':
-                                    body = <UserItem key={item._id} {...item.referee} />
-                                    break;
-                                default:
-                                    break;
-                            }
-                            return (
-                                <SwipeableListItem
-                                    leadingActions={leadingActions()}
-                                    trailingActions={trailingActions()}
-                                >
-                                    Item content
-                                </SwipeableListItem>
-                            )
-                        }
-                        )} */}

@@ -136,9 +136,9 @@ export const updatePlayer = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
-export const removePlayer = async (data, token) => {
+export const removeContent = async (data, token, url) => {
     const result = await axios.post(
-        `${baseUrl}api/remove_player_from_tournament`,
+        `${baseUrl}api/${url}`,
         { ...data },
         { headers: { 'auth-token': token } }
     );
@@ -172,5 +172,29 @@ export const addGym = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+export const updateGym = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/update_gym`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.gym }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
 
+export const addReferee = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/add_referee_with_phone_nationalnumber`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.referee }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
 

@@ -7,7 +7,7 @@ const initialState = {
     selectedTournament: null,
     contents: [],
     selectedContent: null,
-    mode: 'gyms',
+    mode: 'referees',
     showModal: false,
     editMode: false
 };

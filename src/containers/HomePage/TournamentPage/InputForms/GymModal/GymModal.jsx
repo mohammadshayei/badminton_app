@@ -6,7 +6,7 @@ import './GymModal.scss'
 import { AiFillCamera } from 'react-icons/ai'
 import { elementTypes } from '../../../../../components/UI/CustomInput/CustomInput';
 import { setUpSinglePage } from '../../../../../utils/homeFunction';
-import { addGym } from '../../../../../api/home';
+import { addGym, updateGym } from '../../../../../api/home';
 import { useDispatch, useSelector } from 'react-redux';
 import * as homeActions from "../../../../../store/actions/home";
 import { baseUrl } from '../../../../../constants/Config';
@@ -155,21 +155,44 @@ const GymModal = () => {
         setShowModal(false)
     }
     const onUpdateClickHandler = async () => {
+        setLoading(true)
+        let payload = {
+            title: order.gymTitle.value,
+            landCount: order.landCount.value,
+            landNumbers: order.landNumbers.value,
+            capacity: order.capacity.value,
+            options: order.optionsSituation.value,
+            address: order.address.value,
+            tournamentId: selectedTournament,
+            gymId: selectedContent
+        }
 
+        let result = await updateGym(payload, token)
+        if (!result.success) {
+            alert(result.error)
+        } else {
+            alert('با موفقیت به روز رسانی شد')
+            editContent(result.data, 'gym')
+        }
+        setLoading(false)
+        setShowModal(false)
     }
     useEffect(() => {
         setUpSinglePage(order, setFormIsValid, setOrder, setBody)
     }, [order])
+   
     useEffect(() => {
         if (editMode) {
-            let findedPlayer = contents.find(item => item.player._id === selectedContent).player
+            let findedGym = contents.find(item => item.gym._id === selectedContent).gym
             let updatedOrder = { ...order }
-            updatedOrder.nameFamily.value = findedPlayer.username;
-            updatedOrder.teamName.value = findedPlayer.team_name;
-            updatedOrder.nationalNumber.value = findedPlayer.national_number;
-            updatedOrder.birthDate.value = findedPlayer.birth_date;
-            // if (findedPlayer.image !== '')
-            //     setImageSrc(`${baseUrl}uploads/players/${findedPlayer.image}`)
+            console.log(findedGym.land_numbers.map(item => item.number))
+            updatedOrder.gymTitle.value = findedGym.title;
+            updatedOrder.landCount.value = findedGym.land_count;
+            updatedOrder.landNumbers.count=findedGym.land_count;
+            updatedOrder.landNumbers.value = findedGym.land_numbers.map(item => item.number);
+            updatedOrder.capacity.value = findedGym.capacity;
+            updatedOrder.optionsSituation.value = findedGym.options;
+            updatedOrder.address.value = findedGym.address;
             setOrder(updatedOrder)
         }
     }, [editMode])
