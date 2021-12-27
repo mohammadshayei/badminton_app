@@ -160,6 +160,18 @@ export const searchPlayer = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+export const addPlayerWithPhone = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/add_player_with_phone`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.player }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
 export const addGym = async (data, token) => {
     const result = await axios.post(
         `${baseUrl}api/define_gym`,
@@ -197,4 +209,3 @@ export const addReferee = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
-
