@@ -68,6 +68,10 @@ const TournamentContentSection = (props) => {
                 payload = { tournamentId: selectedTournament, gymId: id }
                 url = 'remove_gym'
                 break;
+            case 'referees':
+                payload = { tournamentId: selectedTournament, refereeId: id }
+                url = 'remove_referee_to_tournament'
+                break;
             default:
                 break;
         }
@@ -203,7 +207,7 @@ const TournamentContentSection = (props) => {
             setBody(null)
         }
     }, [contents])
-
+    console.log(contents)
     return (
         <div
             className="tournament-content-section-wrapper"

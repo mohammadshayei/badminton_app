@@ -1,6 +1,6 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPlayer } from '../../../../../api/home';
+import { addPlayerWithPhone, searchPlayer } from '../../../../../api/home';
 import { stringFa } from '../../../../../assets/strings/stringFaCollection'
 import Button from "../../../../../components/UI/Button/Button";
 import * as homeActions from "../../../../../store/actions/home";
@@ -11,6 +11,7 @@ const PlayerFooter = () => {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch();
     const token = useSelector(state => state.auth.token)
+    const selectedTournament = useSelector(state => state.home.selectedTournament)
     const setShowModal = (showModal) => {
         dispatch(homeActions.setShowModal(showModal));
     };
@@ -29,15 +30,11 @@ const PlayerFooter = () => {
     }
     const onAddPlayer = async () => {
         setLoading(true)
-        const result = await searchPlayer({ nationalNumber: value }, token)
+        const result = await addPlayerWithPhone({ tournamentId: selectedTournament, nationalNumber: value }, token)
         if (result.success) {
-            if (result.data) {
-                alert(stringFa.player_added)
-                addContent(result.data, 'player')
-            }
-            else {
-                alert(stringFa.player_not_found)
-            }
+            alert(stringFa.player_added)
+            addContent(result.data, 'player')
+
         } else {
             alert(result.error)
         }

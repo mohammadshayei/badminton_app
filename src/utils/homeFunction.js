@@ -108,10 +108,7 @@ export const onChangeSinglePage = (e, key, elementType, order, setFormIsValid, s
     let upadtedElement = updatedOrder[key];
     if (elementType === elementTypes.datePicker) {
         upadtedElement.value = e
-        upadtedElement.invalid = !checkValidaty(
-            e.target.value,
-            upadtedElement.validation
-        );
+        upadtedElement.invalid = false;
     }
     else if (elementType === elementTypes.multiInputTitle) {
         upadtedElement.value[index] = e.target.value
