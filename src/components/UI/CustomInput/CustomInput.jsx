@@ -6,6 +6,7 @@ import SwitchInput from './Inputs/SwitchInput/SwitchInput';
 import TitleInput from './Inputs/TitleInput/TitleInput';
 import TitleTextArea from './Inputs/TitleTextArea/TitleTextArea';
 import UnderlineInput from './Inputs/UnderlineInput/UnderlineInput';
+import DropDown from './Inputs/DropDown/DropDown';
 
 const CustomInput = (props) => {
 
@@ -51,6 +52,9 @@ const CustomInput = (props) => {
         case (elementTypes.multiInputTitle):
             inputElement = <MultiInputTitle {...props} />
             break;
+        case (elementTypes.dropDown):
+            inputElement = <DropDown {...props} />
+            break;
         default:
             inputElement = <input
                 className={inputClasses.join(' ')}
@@ -79,7 +83,5 @@ export const elementTypes = {
     switchInput: 'switchInput',
     titleTextarea: 'titleTextarea',
     multiInputTitle: 'multiInputTitle',
-
-
-
+    dropDown: 'dropDown',
 }
