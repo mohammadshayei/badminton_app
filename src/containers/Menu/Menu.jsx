@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import './Menu.scss'
 import { stringFa } from "../../assets/strings/stringFaCollection";
-import { MdLanguage, MdDarkMode, MdLogout, MdSettings, MdAdd } from "react-icons/md";
+import { MdLanguage, MdDarkMode, MdLogout } from "react-icons/md"; //, MdSettings
 import pic from "../../assets/images/avatars/3.jpg"
 import { useTheme } from "../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,12 @@ const Menu = (props) => {
     const setMenuStatus = (status) => {
         dispatch(detailActions.setMenuStatus(status));
     };
+
+    const logOut = () => {
+        localStorage.removeItem("refereeId");
+        localStorage.removeItem("token");
+        window.location.reload(false);
+    }
 
     useEffect(() => {
         switch (pageId) {
@@ -50,39 +56,47 @@ const Menu = (props) => {
             <div className={`sidebar-menu-icon ${showMenu && "open"}`} onClick={() => setMenuStatus(!showMenu)}>
                 <div className="burger-icon"></div>
             </div>
-            <ul>
-                <li className='app-bar-item'>
-                    <MdAdd className="list-icon" />
+            <div className="sidebar-menu-items">
+                <ul className="pages">
+                    <li className={`app-bar-item ${pageId === 1 && "selected-page"}`} onClick={() => setPageId(1)}>
+                        <img src={tournament} className="list-icon img-icon" />
+                        <span className="menu-item">{stringFa.tournaments}</span>
+                    </li>
+                    <li className={`app-bar-item seprator ${pageId === 2 && "selected-page"}`} onClick={() => setPageId(2)}>
+                        <img src={umpire} className="list-icon img-icon" />
+                        <span className="menu-item">{stringFa.my_games}</span>
+                    </li>
+                </ul>
+                <div className='app-bar-item center-btn'
+                    onClick={() => props.setShowModal(true)}
+                    style={{ backgroundColor: theme.primary }}
+                >
                     <span className="menu-item">{stringFa.new_tournament}</span>
-                </li>
-                <li className={`app-bar-item ${pageId === 1 && "selected-page"}`} onClick={() => setPageId(1)}>
-                    <img src={tournament} className="list-icon img-icon" />
-                    <span className="menu-item">{stringFa.tournaments}</span>
-                </li>
-                <li className={`app-bar-item seprator ${pageId === 2 && "selected-page"}`} onClick={() => setPageId(2)}>
-                    <img src={umpire} className="list-icon img-icon" />
-                    <span className="menu-item">{stringFa.my_games}</span>
-                </li>
-                <li>
-                    <MdLanguage className="list-icon" />
-                    <span className="menu-item">{stringFa.change_lan}</span>
-                </li>
-                <li>
-                    <MdDarkMode className="list-icon" />
-                    <span className="menu-item">{stringFa.dark_theme}</span>
-                </li>
-                <li>
+                </div>
+                <ul className="settings">
+                    <li>
+                        <MdLanguage className="list-icon" />
+                        <span className="menu-item">{stringFa.change_lan}</span>
+                    </li>
+                    <li>
+                        <MdDarkMode className="list-icon" />
+                        <span className="menu-item">{stringFa.dark_theme}</span>
+                    </li>
+                    {/* <li>
                     <MdSettings className="list-icon" />
                     <span className="menu-item">{stringFa.settings}</span>
-                </li>
-            </ul>
+                </li> */}
+                </ul>
+            </div>
             <div className="profile-content">
                 <div className="profile">
                     <div className="profile-details">
                         <img src={pic} alt="pic" />
                         <div className="name">سید</div>
                     </div>
-                    <div className="log-out"><MdLogout /></div>
+                    <div className="log-out"
+                        onClick={logOut}
+                    ><MdLogout /></div>
                 </div>
             </div>
         </div>

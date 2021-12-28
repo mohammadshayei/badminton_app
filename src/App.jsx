@@ -48,8 +48,6 @@ function App() {
     }
   }, [path]);
 
-  // localStorage.removeItem("refereeId");
-  // localStorage.removeItem("token");
   return (
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>
