@@ -68,7 +68,7 @@ const Login = () => {
         navigate('/signup')
     }
     useEffect(() => {
-        if(error){
+        if (error) {
             alert(error)
         }
     }, [error])

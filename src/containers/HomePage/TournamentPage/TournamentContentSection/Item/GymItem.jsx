@@ -23,7 +23,6 @@ const GymItem = (props) => {
             <div className="gym-detail-wrapper">
                 <p style={{ marginLeft: "2rem" }}>{`تعداد زمین : ${props.land_count}`}</p>
                 <p>{`شماره زمین ها : ${landNumbers}`}</p>
-
             </div>
         </div>
     )
