@@ -207,7 +207,6 @@ const TournamentContentSection = (props) => {
             setBody(null)
         }
     }, [contents])
-    console.log(contents)
     return (
         <div
             className="tournament-content-section-wrapper"

@@ -9,8 +9,7 @@ const initialState = {
         score: 0,
         scores: [],
         setWon: 0,
-        fouls: {
-        }
+       
     },
     team2: {
         players: [],
@@ -20,8 +19,7 @@ const initialState = {
         score: 0,
         scores: [],
         setWon: 0,
-        fouls: {
-        }
+       
     },
     events: [],
     totalEvents: [],
@@ -151,11 +149,30 @@ const switchSide = (state, action) => {
 const setScoreboardData = (state, action) => {
     const data = action.payload;
     let team1Players, team2Players;
-    team1Players = [{ id: "A1", name: data.playerA1, avatar: "" }];
-    team2Players = [{ id: "B1", name: data.playerB1, avatar: "" }];
-    if (data.type === "double") {
-        team1Players = [...team1Players, { id: "A2", name: data.playerA2, avatar: "" }];
-        team2Players = [...team2Players, { id: "B2", name: data.playerB2, avatar: "" }];
+    team1Players = [{
+        id: data.teamA.players[0].player._id,
+        name: data.teamA.players[0].player.username,
+        avatar: data.teamA.players[0].player.image
+    }];
+    team2Players = [{
+        id: data.teamB.players[0].player._id,
+        name: data.teamB.players[0].player.username,
+        avatar: data.teamB.players[0].player.image
+    }];
+    if (data.game_type === "double") {
+        team1Players = [...team1Players,
+        {
+            id: data.teamA.players[1].player._id,
+            name: data.teamA.players[1].player.username,
+            avatar: data.teamA.players[1].player.image
+        }
+        ];
+        team2Players = [...team2Players,
+        {
+            id: data.teamB.players[1].player._id,
+            name: data.teamB.players[1].player.username,
+            avatar: data.teamB.players[1].player.image
+        }];
     }
     return {
         ...state,
@@ -167,8 +184,7 @@ const setScoreboardData = (state, action) => {
             receiver: 1,
             score: 0,
             setWon: 0,
-            fouls: {
-            }
+         
         },
         team2: {
             ...state.team2,
@@ -178,8 +194,7 @@ const setScoreboardData = (state, action) => {
             receiver: 1,
             score: 0,
             setWon: 0,
-            fouls: {
-            }
+          
         }
     };
 };
