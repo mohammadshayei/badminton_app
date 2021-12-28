@@ -9,7 +9,7 @@ const initialState = {
         score: 0,
         scores: [],
         setWon: 0,
-       
+
     },
     team2: {
         players: [],
@@ -19,7 +19,6 @@ const initialState = {
         score: 0,
         scores: [],
         setWon: 0,
-       
     },
     events: [],
     totalEvents: [],
@@ -184,7 +183,7 @@ const setScoreboardData = (state, action) => {
             receiver: 1,
             score: 0,
             setWon: 0,
-         
+
         },
         team2: {
             ...state.team2,
@@ -194,7 +193,7 @@ const setScoreboardData = (state, action) => {
             receiver: 1,
             score: 0,
             setWon: 0,
-          
+
         }
     };
 };
@@ -202,16 +201,15 @@ const setScoreboardData = (state, action) => {
 const setChosen = (state, action) => {
     const { id, index } = action.payload;
     let team, server, receiver = 0, right;
-    if (id.substr(0, 1) === "A")
-        team = "team1";
-    else
-        team = "team2";
+    team = state.team1.players.find(item => item.id === id) ? 'team1' : "team2"
     if (index === 1)
         right = true;
-    else if (index === 2)
-        server = parseInt(id.substr(1, 1));
-    else if (index === 3)
-        receiver = parseInt(id.substr(1, 1));
+    else if (index === 2) {
+        server = state[team].players.findIndex(item => item.id === id) + 1
+    }
+    else if (index === 3){
+        receiver = state[team].players.findIndex(item => item.id === id) + 1
+    }
     return {
         ...state,
         [team]: {

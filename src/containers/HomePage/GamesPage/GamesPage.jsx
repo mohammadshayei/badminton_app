@@ -15,7 +15,7 @@ import Loading from "../../../components/UI/Loading/Loading";
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
   const [games, setGames] = useState([]);
-
+  const [selectedGame, setSelectedGame] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const token = useSelector(state => state.auth.token)
   const refereeId = useSelector(state => state.auth.refereeId)
@@ -38,13 +38,14 @@ const GamesPage = () => {
   const gameClickHandler = (i) => {
     let game = games.find(item => item.game._id === i).game
     setScoreboard(game);
+    setSelectedGame(game)
     setShowModal(true);
   }
 
   return (
     <div className="games-page-wrapper">
       <Modal show={showModal} modalClosed={() => setShowModal(false)}>
-        <Selector show={setShowModal} />
+        <Selector show={setShowModal} selectedGame={selectedGame} />
       </Modal>
       {
         loading ?

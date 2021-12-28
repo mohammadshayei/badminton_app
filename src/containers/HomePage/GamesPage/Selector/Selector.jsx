@@ -6,16 +6,20 @@ import { useTheme } from "../../../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
 import { Navigate } from "react-router-dom";
+import { createSet } from "../../../../api/home";
+import Loading from "../../../../components/UI/Loading/Loading";
 
 const Selector = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const [options, setOptions] = useState([]);
+    const [loading, setloading] = useState(false)
     const [title, setTitle] = useState(null);
     const [index, setIndex] = useState(1);
     const [max, setMax] = useState(2);
     const [redirect, setRedirect] = useState(null);
     const info = useSelector((state) => state.info);
+    const token = useSelector(state => state.auth.token)
 
     const dispatch = useDispatch();
     const setChosen = (items) => {
@@ -94,7 +98,33 @@ const Selector = (props) => {
                 break;
         }
     }, [index]);
-
+    useEffect(async () => {
+        if (index > max && (info.team1.receiver === 0 || info.team2.receiver === 0)) {
+            setloading(true)
+            const payload = {
+                gameId: props.selectedGame._id,
+                teamA: {
+                    isRightTeam: info.team1.isRightTeam,
+                    server: info.team1.server,
+                    receiver: info.team1.receiver,
+                    players: info.team1.players.map(item => { return { player: item.id } })
+                },
+                teamB: {
+                    isRightTeam: info.team2.isRightTeam,
+                    server: info.team2.server,
+                    receiver: info.team2.receiver,
+                    players: info.team2.players.map(item => { return { player: item.id } })
+                }
+            }
+            const result = await createSet(payload, token)
+            if (result.success) {
+                setRedirect(<Navigate to="/scoreboard" />)
+            } else {
+                alert(result.error)
+            }
+            setloading(false)
+        }
+    }, [index, info.team1, info.team2])
     const optionClick = (i) => {
         let updatedOptions = [...options];
         updatedOptions.forEach(option => {
@@ -114,7 +144,6 @@ const Selector = (props) => {
         });
         nextClick();
     }
-
     const nextClick = () => {
         let valid = false;
         options.forEach(item => {
@@ -123,16 +152,32 @@ const Selector = (props) => {
             };
         });
         if (valid) {
-            if (index < max)
-                setIndex(index + 1);
-            else {
-                setRedirect(<Navigate to="/scoreboard" />)
+            setIndex(index + 1);
+            if (index >= max) {
+                setloading(true)
+                const payload = {
+                    gameId: props.selectedGame._id,
+                    teamA: {
+                        isRightTeam: info.team1.isRightTeam,
+                        server: info.team1.server,
+                        receiver: info.team1.receiver,
+                        players: info.team1.players.map(item => { return { player: item.id } })
+                    },
+                    teamB: {
+                        isRightTeam: info.team2.isRightTeam,
+                        server: info.team2.server,
+                        receiver: info.team2.receiver,
+                        players: info.team2.players.map(item => { return { player: item.id } })
+                    }
+                }
+                // const result = await createSet({},token)
+                setloading(false)
+                // setRedirect(<Navigate to="/scoreboard" />)
             }
         } else {
             alert("لطفا یک گزینه را انتخاب کنید");
         }
     }
-
     const backClick = () => {
         if (index > 1)
             setIndex(index - 1);
@@ -144,19 +189,22 @@ const Selector = (props) => {
         <div className="selector-component">
             {redirect}
             <p className="title">{title}</p>
-            <div className="options-container">
-                {options.map((item, i) =>
-                    <div key={i} className="option-box" onClick={() => optionClick(i)}
-                        style={{
-                            borderColor: theme.primary,
-                            backgroundColor: item.selected ? theme.primary : "transparent",
-                            color: item.selected ? theme.on_primary : theme.on_background
-                        }}
-                    >
-                        {item.text}
+            {
+                loading ? <Loading /> :
+                    <div className="options-container">
+                        {options.map((item, i) =>
+                            <div key={i} className="option-box" onClick={() => optionClick(i)}
+                                style={{
+                                    borderColor: theme.primary,
+                                    backgroundColor: item.selected ? theme.primary : "transparent",
+                                    color: item.selected ? theme.on_primary : theme.on_background
+                                }}
+                            >
+                                {item.text}
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+            }
             <div className="action-btns">
                 <p className="prev" onClick={backClick}>بازگشت</p>
                 <Button onClick={nextClick}>{index === max ? "ذخیره" : stringFa.next}</Button>
