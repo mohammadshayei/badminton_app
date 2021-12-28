@@ -8,77 +8,75 @@ import { GoSettings } from "react-icons/go";
 import Modal from "../../../components/UI/Modal/Modal"
 import Selector from "./Selector/Selector";
 import * as infoActions from "../../../store/actions/setInfo"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getRefereeGames } from "../../../api/home";
+import Loading from "../../../components/UI/Loading/Loading";
 
 const GamesPage = () => {
+  const [loading, setLoading] = useState(false)
   const [games, setGames] = useState([]);
+
   const [showModal, setShowModal] = useState(false);
+  const token = useSelector(state => state.auth.token)
+  const refereeId = useSelector(state => state.auth.refereeId)
 
   const dispatch = useDispatch();
   const setScoreboard = (data) => {
     dispatch(infoActions.setScoreboardData(data));
   };
-
-  useEffect(() => {
-    setGames([
-      ...games,
-      {
-        tournament: "مسابقات دهه فجر 1400",
-        number: "5",
-        type: "single",
-        playerA1: "احمد حسنی",
-        playerB1: "حمید کاظمی",
-      },
-      {
-        tournament: "مسابقات دهه فجر 1400",
-        number: "5",
-        type: "double",
-        playerA1: "احمد حسنی",
-        playerA2: "مرتضی شکوری زاده",
-        playerB1: "محمدحسن حسینی",
-        playerB2: "حمید کاظمی"
-      },
-    ]);
-  }, []);
+  useEffect(async () => {
+    setLoading(true)
+    const result = await getRefereeGames({ id: refereeId }, token)
+    if (result.success) {
+      setGames(result.data)
+    } else {
+      alert(result.error)
+    }
+    setLoading(false)
+  }, [])
 
   const gameClickHandler = (i) => {
-    setScoreboard(games[i]);
+    let game = games.find(item => item.game._id === i).game
+    setScoreboard(game);
     setShowModal(true);
   }
 
   return (
     <div className="games-page-wrapper">
-      {showModal &&
-        <Modal show={showModal} modalClosed={() => setShowModal(false)}>
-          <Selector show={setShowModal} />
-        </Modal>}
-      {games.length > 0 ? (
-        games.map((item, key) => (
-          <div key={key} className="game-box" onClick={() => gameClickHandler(key)}>
-            {item.type === "single" ? (
-              <img src={rocket} alt="" />
-            ) : (
-              <img src={rockets} alt="" />
-            )}
-            <div className="details">
-              <p className="title">{item.tournament}</p>
-              <p className="game-number">{`${stringFa.game_number} ${item.number}`}</p>
-              {<p className="players-name">
-                {`${item.playerA1}
-                 ${item.type === "double" ? "," + item.playerA2 : ""} - 
-                 ${item.playerB1}
-                 ${item.type === "double" ? "," + item.playerB2 : ""}`}
-              </p>}
+      <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+        <Selector show={setShowModal} />
+      </Modal>
+      {
+        loading ?
+          <Loading /> :
+          games.length > 0 ? (
+            games.map((item, key) => (
+              <div key={item.game._id} className="game-box" onClick={() => gameClickHandler(item.game._id)}>
+                {item.game.game_type === "single" ? (
+                  <img src={rocket} alt="" />
+                ) : (
+                  <img src={rockets} alt="" />
+                )}
+                <div className="details">
+                  <p className="title">{item.game.tournament.title}</p>
+                  <p className="game-number">{`${stringFa.game_number} ${item.game.game_number}`}</p>
+                  {<p className="players-name">
+                    {`${item.game.teamA.players[0].player.username}
+                   ${item.game.game_type === "double" ? "," + item.game.teamA.players[1].player.username : ""} - 
+                   ${item.game.teamB.players[0].player.username}
+                   ${item.game.game_type === "double" ? "," + item.game.teamB.players[1].player.username : ""}`}
+                  </p>}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="hint">
+              {stringFa.create_tournament}
+              <img src={arrow} alt="arrow_down" />
             </div>
-            <GoSettings fontSize="1.5rem" />
-          </div>
-        ))
-      ) : (
-        <div className="hint">
-          {stringFa.create_tournament}
-          <img src={arrow} alt="arrow_down" />
-        </div>
-      )}
+          )
+      }
+
     </div>
   );
 };

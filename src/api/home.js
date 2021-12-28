@@ -209,3 +209,15 @@ export const addReferee = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+export const getRefereeGames = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/get_referee_games    `,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.games }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}

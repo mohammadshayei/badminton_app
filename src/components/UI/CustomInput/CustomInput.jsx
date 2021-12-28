@@ -79,7 +79,4 @@ export const elementTypes = {
     switchInput: 'switchInput',
     titleTextarea: 'titleTextarea',
     multiInputTitle: 'multiInputTitle',
-
-
-
 }
