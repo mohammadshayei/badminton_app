@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import * as detailActions from "./store/actions/detail";
 import * as authActions from "./store/actions/auth";
+import socketIOClient from "socket.io-client";
 
 import SetupPage from "./containers/SetupPage/SetupPage";
 import MainPage from "./containers/MainPage/MainPage";
@@ -47,7 +48,6 @@ function App() {
       navigate(path);
     }
   }, [path]);
-
   return (
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>

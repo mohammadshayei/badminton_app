@@ -11,7 +11,6 @@ export const fetchItems = async (id, token, fetchWord) => {
     else
         return { success: false, data: null, error: result.data.message }
 }
-
 export const createTournament = async (data, token) => {
     const result = await axios.post(`${baseUrl}api/create_tournament`, { ...data },
         { headers: { 'auth-token': token } });
@@ -21,7 +20,6 @@ export const createTournament = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
-
 export const editTournament = async (data, token) => {
     const result = await axios.post(`${baseUrl}api/edit_tournament`, { ...data },
         { headers: { 'auth-token': token } });
@@ -196,7 +194,6 @@ export const updateGym = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
-
 export const addReferee = async (data, token) => {
     const result = await axios.post(
         `${baseUrl}api/add_referee_with_phone_nationalnumber`,
@@ -217,6 +214,49 @@ export const getRefereeGames = async (data, token) => {
     );
     if (result.data.success) {
         return { success: true, data: result.data.message.games }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const createSet = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/create_set    `,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const createGame = async (data, token) => {
+    // {
+    //     "competitionType": "tak hazfi",
+    //     "gameType": "double",
+    //     "gameNumber": "3",
+    //     "gymId": "dc644302101b4b578b42cda04aae0907",
+    //     "landNumber": "1",
+    //     "date": "2012-04-23T18:25:43.511Z",
+    //     "teamNameA": "teama",
+    //     "playersTeamA": [
+    //         "ea8369a4d1064119b1cfcd1260091793",
+    //         "48fac8eb17304c7f9692fe4423b7ed7a"
+    //     ],
+    //     "teamNameB": "teamb",
+    //     "playersTeamB": [
+    //         "2d5d264b7bf74fe99d9cb1a6622bd937",
+    //         "e37914d2976d467786400bcb14851c3e"
+    //     ],
+    //     "tournamentId": "bab08b91ca234a84af37e2dae929fcc6"
+    // }
+    const result = await axios.post(
+        `${baseUrl}api/create_game    `,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.game }
     }
     else
         return { success: false, data: null, error: result.data.message.error }

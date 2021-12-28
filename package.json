@@ -26,6 +26,7 @@
     "react-use-measure": "^2.0.4",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.0",
+    "socket.io-client": "^4.4.0",
     "use-animate-presence": "^0.5.2",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4",
