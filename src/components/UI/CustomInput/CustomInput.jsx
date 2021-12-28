@@ -7,6 +7,7 @@ import TitleInput from './Inputs/TitleInput/TitleInput';
 import TitleTextArea from './Inputs/TitleTextArea/TitleTextArea';
 import UnderlineInput from './Inputs/UnderlineInput/UnderlineInput';
 import DropDown from './Inputs/DropDown/DropDown';
+import RadioImageButton from './Inputs/RadioImageButton/RadioImageButton';
 
 const CustomInput = (props) => {
 
@@ -55,6 +56,9 @@ const CustomInput = (props) => {
         case (elementTypes.dropDown):
             inputElement = <DropDown {...props} />
             break;
+        case (elementTypes.radioImageButton):
+            inputElement = <RadioImageButton {...props} />
+            break;
         default:
             inputElement = <input
                 className={inputClasses.join(' ')}
@@ -84,4 +88,5 @@ export const elementTypes = {
     titleTextarea: 'titleTextarea',
     multiInputTitle: 'multiInputTitle',
     dropDown: 'dropDown',
+    radioImageButton: 'radioImageButton'
 }
