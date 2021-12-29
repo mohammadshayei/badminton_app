@@ -9,10 +9,14 @@ const initialState = {
   loading: false,
   authRedirectPath: null,
   checked: false,
+  socket: null
 };
 
 const authStart = (state, action) => {
   return updateObject(state, { error: null, loading: true });
+};
+const setSocket = (state, action) => {
+  return updateObject(state, { socket: action.socket });
 };
 const setRefereeData = (state, action) => {
   return updateObject(state, {
@@ -66,6 +70,8 @@ const reducer = (state = initialState, action) => {
       return setRefereeData(state, action);
     case actionTypes.SET_CHECKED:
       return setChecked(state, action);
+    case actionTypes.SET_SOCKET:
+      return setSocket(state, action);
     default:
       return state;
   }

@@ -12,6 +12,8 @@ import TournamentPage from "../HomePage/TournamentPage/TournamentPage";
 import GamesPage from "../HomePage/GamesPage/GamesPage";
 import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 
+import LiveGames from "../LiveGames/LiveGames";
+
 const Menu = (props) => {
     const [pageId, setPageId] = useState(1);
     const themeState = useTheme();
@@ -41,6 +43,9 @@ const Menu = (props) => {
             case 2:
                 props.setPage(<GamesPage />);
                 break;
+            case 3:
+                props.setPage(<LiveGames />);
+                break;
             default:
                 props.setPage(
                     <TournamentPage
@@ -62,9 +67,13 @@ const Menu = (props) => {
                         <img src={tournament} className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.tournaments}</span>
                     </li>
-                    <li className={`app-bar-item seprator ${pageId === 2 && "selected-page"}`} onClick={() => setPageId(2)}>
+                    <li className={`app-bar-item  ${pageId === 2 && "selected-page"}`} onClick={() => setPageId(2)}>
                         <img src={umpire} className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.my_games}</span>
+                    </li>
+                    <li className={`app-bar-item seprator ${pageId === 3 && "selected-page"}`} onClick={() => setPageId(3)}>
+                        <img src={umpire} className="list-icon img-icon" />
+                        <span className="menu-item">{stringFa.live_games}</span>
                     </li>
                 </ul>
                 <div className='app-bar-item center-btn'

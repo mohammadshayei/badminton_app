@@ -12,6 +12,7 @@ import Auth from "./containers/Auth/Auth";
 import { useSelector } from "react-redux";
 import HomePage from "./containers/HomePage/HomePage";
 import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
+import { baseUrl } from "./constants/Config";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ function App() {
 
   const setOS = (os) => {
     dispatch(detailActions.setOS(os));
+  };
+  const setSocket = (socket) => {
+    dispatch(authActions.setSocket(socket));
   };
   const setSize = (height, width) => {
     dispatch(detailActions.setSize(height, width));
@@ -37,6 +41,7 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     checkAuth();
+    setSocket(socketIOClient(baseUrl))
   }, []);
   useEffect(() => {
     if (!token && checked) {
@@ -48,6 +53,7 @@ function App() {
       navigate(path);
     }
   }, [path]);
+ 
   return (
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>

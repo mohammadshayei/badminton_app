@@ -34,7 +34,12 @@ export const authSuccess = (token, refereeId) => {
     refereeId
   };
 };
-
+export const setSocket = (socket) => {
+  return {
+    type: actionTypes.SET_SOCKET,
+    socket,
+  };
+};
 export const authFail = (error) => {
   return {
     type: actionTypes.AUTH_FAIL,
