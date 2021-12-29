@@ -38,13 +38,24 @@ const ScoreboardView = () => {
         }
     }, [game])
 
-    if(socket && game && data){
+    if (socket && game && data) {
         socket.on('get_change_score_set', (payload => {
             const { scoreA, scoreB, gameId } = payload;
             if (gameId === game._id) {
-                let updatedGame = {...data}
-                updatedGame.teamA.score=scoreA
-                updatedGame.teamB.score=scoreB
+                let updatedGame = { ...data }
+                updatedGame.teamA.score = scoreA
+                updatedGame.teamB.score = scoreB
+                setData(updatedGame)
+            }
+        }))
+        socket.on('get_winner_team', (payload => {
+            const { teamName,gameId } = payload;
+            if (gameId === game._id) {
+                let updatedGame = { ...data }
+                if (teamName = 'team1')
+                    updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
+                else
+                    updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
                 setData(updatedGame)
             }
         }))

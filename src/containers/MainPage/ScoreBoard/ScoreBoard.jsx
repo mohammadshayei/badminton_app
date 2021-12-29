@@ -101,6 +101,9 @@ const ScoreBoard = () => {
   }
   const endSet = async (teamName) => {
     //balls , score and setwon in team ,events 
+    if (socket) {
+      socket.emit('set_winner_team', { teamName, gameId })
+    }
     let payload = {
       setId,
       balls: info.balls,
@@ -234,7 +237,7 @@ const ScoreBoard = () => {
     }
     if (socket)
       socket.emit('set_change_score_set', payload)
-   
+
   }, [info.team2.score, info.team1.score])
 
   useEffect(() => {
