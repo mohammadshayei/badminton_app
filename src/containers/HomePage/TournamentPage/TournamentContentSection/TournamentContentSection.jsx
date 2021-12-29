@@ -21,7 +21,8 @@ import SimpleFooter from './Footer/SimpleFooter';
 import GymItem from './Item/GymItem';
 import RefereeFooter from './Footer/RefereeFooter';
 import ErrorDialog from '../../../../components/UI/Error/ErrorDialog'
-
+import Modal from '../../../../components/UI/Modal/Modal'
+import AssignReferee from './AssignReferee/AssignReferee';
 
 const TournamentContentSection = (props) => {
     const [loading, setLoading] = useState(false)
@@ -29,6 +30,7 @@ const TournamentContentSection = (props) => {
     const [footer, setFooter] = useState(null)
     const [swipedStatus, setSwipedStatus] = useState('')
     const [body, setBody] = useState(null)
+    const [assignModal, setAssignModal] = useState(null)
     const contents = useSelector((state) => state.home.contents);
     const mode = useSelector((state) => state.home.mode);
     const selectedTournament = useSelector((state) => state.home.selectedTournament);
@@ -97,10 +99,14 @@ const TournamentContentSection = (props) => {
         }
         setLoading(false)
     }
+    const assignClickHandler = (id) => {
+        setSelectedContent(id)
+        setAssignModal(true)
+    }
 
     const leadingActions = (id) => (
         <LeadingActions >
-            <SwipeAction onClick={() => console.log("referee")}>
+            <SwipeAction onClick={() => assignClickHandler(id)}>
                 <div
                     className='swipe-action-btn'
                     style={{
@@ -258,6 +264,9 @@ const TournamentContentSection = (props) => {
             style={{ backgroundColor: theme.background_color }}
         >
             {dialog}
+            <Modal show={assignModal} modalClosed={() => setAssignModal(false)}>
+                <AssignReferee setShowModal={assignModal} />
+            </Modal>
             <SwipeableList
                 type={ListType.IOS}
                 className='tournament-content-section-content'

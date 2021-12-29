@@ -1,0 +1,14 @@
+.assign-referee-wrapper {
+	.input-wrapper {
+		display: flex;
+		padding: 1rem 1rem;
+		flex-direction: column;
+		direction: rtl;
+	}
+	.action-wrapper {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
