@@ -225,7 +225,7 @@ export const createSet = async (data, token) => {
         { headers: { 'auth-token': token } }
     );
     if (result.data.success) {
-        return { success: true, }
+        return { success: true, data: result.data.message.set }
     }
     else
         return { success: false, data: null, error: result.data.message.error }
@@ -257,6 +257,38 @@ export const createGame = async (data, token) => {
     );
     if (result.data.success) {
         return { success: true, data: result.data.message.game }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const assignReferee = async (payload, token) => {
+    // {
+    // refereeId:"69e12a8337e04038910bd3ac3ff5a6f2",
+    // serviceRefereeId:"72373d842d8e4b7fb890e1f0abd97062",
+    // gameId:"1145911b0e184bb38d47f4358d25134c"
+    // }
+    const result = await axios.post(
+        `${baseUrl}api/assign_game    `,
+        { ...payload },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const deleteGame = async (payload, token) => {
+    // {
+    // id:"49e30d604c2a428eabac8741153efa3b",
+    // }
+    const result = await axios.post(
+        `${baseUrl}api/delete_game    `,
+        { ...payload },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true }
     }
     else
         return { success: false, data: null, error: result.data.message.error }
