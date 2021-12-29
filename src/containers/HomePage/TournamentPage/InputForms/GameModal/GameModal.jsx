@@ -23,7 +23,7 @@ const GameModal = () => {
             title: stringFa.gym,
             elementType: elementTypes.dropDown,
             items: [],
-            validationMessage: '',
+            validationMessage: stringFa.gym_title_error,
             invalid: true,
             validation: {
                 required: true,
@@ -38,7 +38,7 @@ const GameModal = () => {
             title: stringFa.land_numbers,
             elementType: elementTypes.dropDown,
             items: [],
-            validationMessage: '',
+            validationMessage: stringFa.land_number_error,
             invalid: true,
             validation: {
                 required: true,
@@ -52,7 +52,7 @@ const GameModal = () => {
             value: null,
             title: stringFa.date,
             elementType: elementTypes.datePicker,
-            validationMessage: '',
+            validationMessage: stringFa.date_error,
             invalid: true,
             validation: {
                 bdRequired: true,
@@ -70,7 +70,7 @@ const GameModal = () => {
                 type: 'text',
             },
             elementType: elementTypes.titleInput,
-            validationMessage: '',
+            validationMessage: stringFa.number_of_game_error,
             invalid: true,
             validation: {
                 required: true,
@@ -88,7 +88,7 @@ const GameModal = () => {
                 type: 'text',
             },
             elementType: elementTypes.titleInput,
-            validationMessage: '',
+            validationMessage: stringFa.competition_type_error,
             invalid: true,
             validation: {
                 required: true,
@@ -116,7 +116,7 @@ const GameModal = () => {
             title: stringFa.player1_teamA,
             elementType: elementTypes.dropDown,
             items: [],
-            validationMessage: '',
+            validationMessage: stringFa.player1_teamA_error,
             invalid: true,
             validation: {
                 required: true,
@@ -133,7 +133,7 @@ const GameModal = () => {
             title: stringFa.player1_teamB,
             elementType: elementTypes.dropDown,
             items: [],
-            validationMessage: '',
+            validationMessage: stringFa.player1_teamB_error,
             invalid: true,
             validation: {
                 required: true,
@@ -153,12 +153,12 @@ const GameModal = () => {
                 disabled: false
             },
             items: [],
-            validationMessage: '',
+            validationMessage: stringFa.player2_teamA_error,
             invalid: true,
             validation: {
-                required: true,
+                required: false,
             },
-            shouldValidate: true,
+            shouldValidate: false,
             isFocused: false,
             touched: false,
             isHalf: true
@@ -172,12 +172,12 @@ const GameModal = () => {
                 disabled: false
             },
             items: [],
-            validationMessage: '',
+            validationMessage: stringFa.player2_teamB_error,
             invalid: true,
             validation: {
-                required: true,
+                required: false,
             },
-            shouldValidate: true,
+            shouldValidate: false,
             isFocused: false,
             touched: false,
             isHalf: true
@@ -205,6 +205,8 @@ const GameModal = () => {
             let updatedOrder = { ...order };
             for (let inputIdentifier in updatedOrder) {
                 updatedOrder[inputIdentifier].touched = true;
+                if (updatedOrder[inputIdentifier].elementConfig)
+                    updatedOrder[inputIdentifier].touched = !updatedOrder[inputIdentifier].elementConfig.disabled && true;
             }
             setOrder(updatedOrder)
             return;
@@ -339,10 +341,18 @@ const GameModal = () => {
         if (order.type.double) {
             updatedOrder.player3.elementConfig.disabled = false;
             updatedOrder.player4.elementConfig.disabled = false;
+            updatedOrder.player3.required = true;
+            updatedOrder.player4.required = true;
+            updatedOrder.player3.shouldValidate = true;
+            updatedOrder.player4.shouldValidate = true;
         }
         else {
             updatedOrder.player3.elementConfig.disabled = true;
             updatedOrder.player4.elementConfig.disabled = true;
+            updatedOrder.player3.required = false;
+            updatedOrder.player4.required = false;
+            updatedOrder.player3.shouldValidate = false;
+            updatedOrder.player4.shouldValidate = false;
         }
         setOrder(updatedOrder)
     }, [order.type.double])

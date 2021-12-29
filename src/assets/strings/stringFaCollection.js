@@ -109,4 +109,13 @@ export const stringFa = {
   player2_teamA: "بازیکن دوم تیم یک",
   player1_teamB: "بازیکن اول تیم دو",
   player2_teamB: "بازیکن دوم تیم دو",
+  player1_teamA_error: "بازیکن اول تیم یک را مشخص کنید",
+  player2_teamA_error: "بازیکن دوم تیم یک را مشخص کنید",
+  player1_teamB_error: "بازیکن اول تیم دو را مشخص کنید",
+  player2_teamB_error: "بازیکن دوم تیم دو را مشخص کنید",
+  land_number_error: "لظفا شماره زمین را نعیین کنید",
+  date_error: "لطفا تاریخ را مشخص کنید",
+  number_of_game_error: "لطفا شماره بازی را تعیین کنید",
+  competition_type_error: "لطفا نوع مسابقه را تعیین کنید",
+
 };

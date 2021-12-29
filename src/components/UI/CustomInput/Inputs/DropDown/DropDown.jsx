@@ -47,7 +47,8 @@ const DropDown = (props) => {
 
     return (
         <div {...props.elementConfig} className='dropdown-container' >
-            <p className='title-class-name'>{props.title}</p>
+            <p className='title-class-name'>{props.title}
+                {(props.validation) && (props.validation.required && <p className="required">*</p>)}</p>
             <div ref={inRef} className='dropdown-input'
                 onClick={() => setDrop(!drop)}
             >
