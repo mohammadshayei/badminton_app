@@ -66,3 +66,9 @@ export const setChosen = ({ id, index }) => (dispatch) => {
         payload: { id, index },
     });
 };
+export const setSetId = (id) => {
+    return {
+        type: actionTypes.SET_SET_ID,
+        id
+    };
+};

@@ -32,6 +32,8 @@ export const SWITCH_SIDE = "SWITCH_SIDE";
 export const SET_SCOREBOARD_DATA = "SET_SCOREBOARD_DATA";
 export const SET_CHOSEN = "SET_CHOSEN";
 export const REMOVE_ITEM = "REMOVE_ITEM";
+export const SET_GAME_ID = "SET_GAME_ID";
+export const SET_SET_ID = "SET_SET_ID";
 
 
 

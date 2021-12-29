@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
+    _id: "",
     team1: {
         players: [],
         isRightTeam: false,
@@ -73,6 +74,13 @@ const increaseBall = (state) => {
         balls: state.balls + 1
     };
 };
+const setSetId = (state, action) => {
+    return {
+        ...state,
+        _id: action.id
+    };
+};
+
 
 const decreaseBall = (state) => {
     return {
@@ -207,7 +215,7 @@ const setChosen = (state, action) => {
     else if (index === 2) {
         server = state[team].players.findIndex(item => item.id === id) + 1
     }
-    else if (index === 3){
+    else if (index === 3) {
         receiver = state[team].players.findIndex(item => item.id === id) + 1
     }
     return {
@@ -243,6 +251,8 @@ const reducer = (state = initialState, action) => {
             return setScoreboardData(state, action);
         case actionTypes.SET_CHOSEN:
             return setChosen(state, action);
+        case actionTypes.SET_SET_ID:
+            return setSetId(state, action);
         default:
             return state;
     }

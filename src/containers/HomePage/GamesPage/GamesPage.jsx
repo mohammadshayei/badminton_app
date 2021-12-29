@@ -8,6 +8,8 @@ import { GoSettings } from "react-icons/go";
 import Modal from "../../../components/UI/Modal/Modal"
 import Selector from "./Selector/Selector";
 import * as infoActions from "../../../store/actions/setInfo"
+import * as gameActions from "../../../store/actions/gameInfo"
+
 import { useDispatch, useSelector } from "react-redux";
 import { getRefereeGames } from "../../../api/home";
 import Loading from "../../../components/UI/Loading/Loading";
@@ -24,6 +26,9 @@ const GamesPage = () => {
   const setScoreboard = (data) => {
     dispatch(infoActions.setScoreboardData(data));
   };
+  const setGameId = (id) => {
+    dispatch(gameActions.setGameId(id));
+  };
   useEffect(async () => {
     setLoading(true)
     const result = await getRefereeGames({ id: refereeId }, token)
@@ -39,6 +44,7 @@ const GamesPage = () => {
     let game = games.find(item => item.game._id === i).game
     setScoreboard(game);
     setSelectedGame(game)
+    setGameId(game._id)
     setShowModal(true);
   }
 

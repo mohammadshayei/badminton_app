@@ -14,6 +14,8 @@ import detailReducer from "./store/reducers/detail";
 import authReducer from "./store/reducers/auth";
 import homeReducer from "./store/reducers/home";
 import infoReducer from "./store/reducers/setInfo"
+import gameReducer from "./store/reducers/gameInfo"
+
 
 
 
@@ -21,7 +23,9 @@ const rootReducer = combineReducers({
   detail: detailReducer,
   auth: authReducer,
   home: homeReducer,
-  info: infoReducer
+  info: infoReducer,
+  gameInfo: gameReducer
+
 
 });
 

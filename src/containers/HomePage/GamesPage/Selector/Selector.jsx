@@ -25,7 +25,9 @@ const Selector = (props) => {
     const setChosen = (items) => {
         dispatch(infoActions.setChosen(items));
     };
-
+    const setSetId = (id) => {
+        dispatch(infoActions.setSetId(id));
+    };
     useEffect(() => {
         if (info.team1.players.length === 1) {
             setMax(2);
@@ -118,7 +120,9 @@ const Selector = (props) => {
             }
             const result = await createSet(payload, token)
             if (result.success) {
+                setSetId(result.data)
                 setRedirect(<Navigate to="/scoreboard" />)
+
             } else {
                 alert(result.error)
             }
@@ -153,27 +157,6 @@ const Selector = (props) => {
         });
         if (valid) {
             setIndex(index + 1);
-            if (index >= max) {
-                setloading(true)
-                const payload = {
-                    gameId: props.selectedGame._id,
-                    teamA: {
-                        isRightTeam: info.team1.isRightTeam,
-                        server: info.team1.server,
-                        receiver: info.team1.receiver,
-                        players: info.team1.players.map(item => { return { player: item.id } })
-                    },
-                    teamB: {
-                        isRightTeam: info.team2.isRightTeam,
-                        server: info.team2.server,
-                        receiver: info.team2.receiver,
-                        players: info.team2.players.map(item => { return { player: item.id } })
-                    }
-                }
-                // const result = await createSet({},token)
-                setloading(false)
-                // setRedirect(<Navigate to="/scoreboard" />)
-            }
         } else {
             alert("لطفا یک گزینه را انتخاب کنید");
         }
@@ -191,24 +174,26 @@ const Selector = (props) => {
             <p className="title">{title}</p>
             {
                 loading ? <Loading /> :
-                    <div className="options-container">
-                        {options.map((item, i) =>
-                            <div key={i} className="option-box" onClick={() => optionClick(i)}
-                                style={{
-                                    borderColor: theme.primary,
-                                    backgroundColor: item.selected ? theme.primary : "transparent",
-                                    color: item.selected ? theme.on_primary : theme.on_background
-                                }}
-                            >
-                                {item.text}
-                            </div>
-                        )}
-                    </div>
+                    <>
+                        <div className="options-container">
+                            {options.map((item, i) =>
+                                <div key={i} className="option-box" onClick={() => optionClick(i)}
+                                    style={{
+                                        borderColor: theme.primary,
+                                        backgroundColor: item.selected ? theme.primary : "transparent",
+                                        color: item.selected ? theme.on_primary : theme.on_background
+                                    }}
+                                >
+                                    {item.text}
+                                </div>
+                            )}
+                        </div>
+                        <div className="action-btns">
+                            <p className="prev" onClick={backClick}>بازگشت</p>
+                            <Button onClick={nextClick}>{index === max ? "ذخیره" : stringFa.next}</Button>
+                        </div>
+                    </>
             }
-            <div className="action-btns">
-                <p className="prev" onClick={backClick}>بازگشت</p>
-                <Button onClick={nextClick}>{index === max ? "ذخیره" : stringFa.next}</Button>
-            </div>
         </div>
     )
 }

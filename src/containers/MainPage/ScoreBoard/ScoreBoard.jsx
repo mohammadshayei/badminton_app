@@ -11,6 +11,8 @@ import * as infoActions from "../../../store/actions/setInfo"
 import Modal from "../../../components/UI/Modal/Modal"
 import Events from "../EventsModule/Events"
 import Button from "../../../components/UI/Button/Button"
+import { endSetHandler, setGameAndSetStatus } from "../../../api/scoreboard";
+import Loading from "../../../components/UI/Loading/Loading";
 
 const ScoreBoard = () => {
   const info = useSelector((state) => state.info);
@@ -22,6 +24,14 @@ const ScoreBoard = () => {
   const [disable, setDisable] = useState(true);
   const [maxPoint, setMaxPoint] = useState(21);
   const [teamWon, setTeamWon] = useState(null);
+  const [loading, setLoading] = useState(false)
+
+
+  const gameId = useSelector(state => state.gameInfo.gameId)
+  const setId = useSelector(state => state.info._id)
+  const token = useSelector(state => state.auth.token)
+
+
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -47,6 +57,41 @@ const ScoreBoard = () => {
     }
   }
 
+
+  const startTheGame = async () => {
+    setLoading(true)
+    const payload = {
+      gameId,
+      gameStatus: 2,
+      setId,
+      setStatus: 2
+    }
+    const result = await setGameAndSetStatus(payload, token)
+    if (result.success) {
+      setDisable(false)
+    } else {
+      alert(result.error)
+    }
+    setLoading(false)
+
+
+  }
+  const endSet = async (teamName) => {
+    //balls , score and setwon in team ,events 
+    const payload = {
+      setId,
+      balls: info.balls,
+      events: info.events,
+      teamA: { score: info.team1.score, setWon: teamName === 'team1' ? true : false },
+      teamB: { score: info.team2.score, setWon: teamName === 'team2' ? true : false }
+    }
+    const result = await endSetHandler(payload, token)
+    if (result.success) {
+      setDisable(false)
+    } else {
+      alert(result.error)
+    }
+  }
   useEffect(() => {
     window.history.pushState(null, null, window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
@@ -71,6 +116,7 @@ const ScoreBoard = () => {
         setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
+        endSet('team1')
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -80,7 +126,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
-            setDisable(true);
+            // setDisable(true);
             setBreakTime(2);
           }
         }
@@ -108,6 +154,7 @@ const ScoreBoard = () => {
         setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
+        endSet('team2')
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -162,7 +209,6 @@ const ScoreBoard = () => {
       return () => clearInterval(interval);
     }
   }, [breakTime]);
-
   return (
     <div
       className="scoreboard-container"
@@ -198,7 +244,10 @@ const ScoreBoard = () => {
           ) : "Loading Info..."
           : "Loading Info..."}
         {/* <div className="warm-up">Warm Up!</div> */}
-        {disable && breakTime === 0 && <FaPlayCircle className="play" onClick={() => setDisable(false)} />}
+        {disable && breakTime === 0 && (
+          loading ? <Loading /> : <FaPlayCircle className="play" onClick={startTheGame} />
+        )
+        }
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
         {(breakTime === 2 || breakTime === 3) && <div className="break-timer" >{timer}</div>}
       </div>
