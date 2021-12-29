@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTheme } from "../../../styles/ThemeProvider";
+import loading_icon from "../../../assets/images/btn_loading.gif"
 import "./Button.scss";
 
 const Button = (props) => {
@@ -36,7 +37,11 @@ const Button = (props) => {
       onMouseLeave={onMouseLeave}
       {...props.config}
     >
-      {props.children}
+      {props.loading ?
+        <div class="loading-spinner">
+          <img src={loading_icon} alt="" />
+        </div>
+        : props.children}
     </button>
   );
 };

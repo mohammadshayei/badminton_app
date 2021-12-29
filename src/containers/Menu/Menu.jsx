@@ -10,14 +10,15 @@ import umpire from "../../assets/images/umpire.png";
 import tournament from "../../assets/images/tournament.png";
 import TournamentPage from "../HomePage/TournamentPage/TournamentPage";
 import GamesPage from "../HomePage/GamesPage/GamesPage";
-
+import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 
 const Menu = (props) => {
     const [pageId, setPageId] = useState(1);
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const showMenu = useSelector(state => state.detail.showMenu);
-
+    const auth = useSelector(state => state.auth);
+    console.log(auth);
     const dispatch = useDispatch();
     const setMenuStatus = (status) => {
         dispatch(detailActions.setMenuStatus(status));
@@ -91,8 +92,14 @@ const Menu = (props) => {
             <div className="profile-content">
                 <div className="profile">
                     <div className="profile-details">
-                        <img src={pic} alt="pic" />
-                        <div className="name">سید</div>
+                        {auth.referee ?
+                            auth.referee.image ? auth.referee.image :
+                                <img src={PROFILE_IMAGE} alt="pic" /> :
+                            <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
+                        <div className="name">
+                            {auth.referee ? auth.referee.username :
+                                <div className="loading-name">...</div>}
+                        </div>
                     </div>
                     <div className="log-out"
                         onClick={logOut}
