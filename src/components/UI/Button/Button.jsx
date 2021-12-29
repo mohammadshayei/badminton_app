@@ -28,7 +28,7 @@ const Button = (props) => {
   return (
     <button
       className={`button-component ${props.buttonClass}`}
-      disabled={props.disabled}
+      disabled={props.loading ? true : props.disabled}
       style={{ ...newStyle, ...props.ButtonStyle }}
       onClick={(e) => {
         if (props.onClick) props.onClick();
@@ -38,7 +38,7 @@ const Button = (props) => {
       {...props.config}
     >
       {props.loading ?
-        <div class="loading-spinner">
+        <div className="loading-spinner">
           <img src={loading_icon} alt="" />
         </div>
         : props.children}
