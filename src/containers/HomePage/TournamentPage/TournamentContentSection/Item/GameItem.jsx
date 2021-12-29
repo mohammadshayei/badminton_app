@@ -6,7 +6,7 @@ const GameItem = (props) => {
     const theme = themeState.computedTheme
     return (
         <div
-            className="content-container"
+            className="game-item-wrapper"
             style={{
                 background:
                     props.status === 2 &&
@@ -17,8 +17,12 @@ const GameItem = (props) => {
                     "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
             }}
         >
-            <p>{`${props.teamA.name} ${props.teamA.score} - ${props.teamB.name} ${props.teamB.score}`}</p>
-            <GoSettings />
+            <div className="game-online-result">
+                <div className="names right">{props.teamA.players.map((player, i) => <p key={i} className="name">{player.player.username}</p>)}</div>
+                <p className="score">{`${props.teamA.score} - ${props.teamB.score}`}</p>
+                <div className="names">{props.teamB.players.map((player, i) => <p key={i} className="name">{player.player.username}</p>)}</div>
+            </div>
+            <div className="game-details">{`شماره زمین : ${props.land_number} - شماره بازی : ${props.game_number}`}</div>
         </div>
     )
 }

@@ -12,6 +12,7 @@ import {
     SwipeableListItem,
     SwipeAction,
     TrailingActions,
+    LeadingActions,
     Type as ListType
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
@@ -85,6 +86,26 @@ const TournamentContentSection = (props) => {
         setLoading(false)
     }
 
+    const leadingActions = (id) => (
+        <LeadingActions >
+            <SwipeAction onClick={() => console.log("referee")}>
+                <div
+                    className='swipe-action-btn'
+                    style={{
+                        backgroundColor: theme.primary_variant,
+                        color: theme.on_primary,
+                        margin: "1rem",
+                        borderRadius: '15px'
+                    }}
+                >
+                    <span>
+                        داورها
+                    </span>
+                </div>
+            </SwipeAction>
+        </LeadingActions >
+    );
+
     const trailingActions = (id) => (
         <TrailingActions >
             <SwipeAction onClick={() => editClickHandler(id)}>
@@ -156,6 +177,9 @@ const TournamentContentSection = (props) => {
             case 'referees':
                 setFooter(<RefereeFooter />)
                 break;
+            case 'games':
+                setFooter(<SimpleFooter titleButton={stringFa.new_game} />)
+                break;
             default:
                 setFooter(null)
                 break;
@@ -178,6 +202,7 @@ const TournamentContentSection = (props) => {
                 contents.map((item, key) => {
                     return (
                         <SwipeableListItem
+                            leadingActions={mode === 'games' ? leadingActions(item[mode.substring(0, mode.length - 1)]._id) : null}
                             trailingActions={mode !== 'referees' ?
                                 trailingActions(item[mode.substring(0, mode.length - 1)]._id) :
                                 trailingActionsRefer(item[mode.substring(0, mode.length - 1)]._id)}
@@ -194,10 +219,18 @@ const TournamentContentSection = (props) => {
                                         }}
                                         {...item[mode.substring(0, mode.length - 1)]}
                                     />
-                                    :
-                                    <UserItem
-                                        {...item[mode.substring(0, mode.length - 1)]}
-                                    />
+                                    : mode === 'games' ?
+                                        <GameItem
+                                            style={{
+                                                borderRadius: swipedStatus === item[mode.substring(0, mode.length - 1)]._id
+                                                    ? '0px' : '25px'
+                                            }}
+                                            {...item[mode.substring(0, mode.length - 1)]}
+                                        />
+                                        :
+                                        <UserItem
+                                            {...item[mode.substring(0, mode.length - 1)]}
+                                        />
                             }
                         </SwipeableListItem>
                     )

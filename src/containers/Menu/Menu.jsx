@@ -18,7 +18,6 @@ const Menu = (props) => {
     const theme = themeState.computedTheme;
     const showMenu = useSelector(state => state.detail.showMenu);
     const auth = useSelector(state => state.auth);
-    console.log(auth);
     const dispatch = useDispatch();
     const setMenuStatus = (status) => {
         dispatch(detailActions.setMenuStatus(status));

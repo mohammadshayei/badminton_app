@@ -107,13 +107,21 @@ export const onChangeSinglePage = (e, key, elementType, order, setFormIsValid, s
     let updatedOrder = { ...order };
     let upadtedElement = updatedOrder[key];
     if (elementType === elementTypes.datePicker) {
-        upadtedElement.value = e
+        upadtedElement.value = new Date(e)
         upadtedElement.invalid = false;
     }
     else if (elementType === elementTypes.multiInputTitle) {
         upadtedElement.value[index] = e.target.value
         let findError = upadtedElement.value.findIndex(item => item === '')
         upadtedElement.invalid = findError < 0 ? false : true;
+    }
+    else if (elementType === elementTypes.dropDown) {
+        upadtedElement.value = e.text
+        upadtedElement.id = e.id
+        upadtedElement.invalid = e.text.length > 0 ? false : true;
+    }
+    else if (elementType === elementTypes.radioImageButton) {
+        upadtedElement.double = e
     }
     else {
         upadtedElement.value = e.target.value;
