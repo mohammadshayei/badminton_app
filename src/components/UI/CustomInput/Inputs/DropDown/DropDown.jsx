@@ -40,9 +40,15 @@ const DropDown = (props) => {
         setDrop(false)
     }
 
+    useEffect(() => {
+        if (drop)
+            divRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+    }, [drop])
+
     return (
-        <div className='dropdown-container' >
-            <p className='title-class-name'>{props.title}</p>
+        <div {...props.elementConfig} className='dropdown-container' >
+            <p className='title-class-name'>{props.title}
+                {(props.validation) && (props.validation.required && <p className="required">*</p>)}</p>
             <div ref={inRef} className='dropdown-input'
                 onClick={() => setDrop(!drop)}
             >
@@ -53,9 +59,9 @@ const DropDown = (props) => {
             </div>
             <div ref={divRef} className={`dropdown-list ${drop && "drop"}`}>
                 <ul>
-                    {props.items ?
+                    {props.items.length > 0 ?
                         (props.items.map((i, k) =>
-                            <li key={k} onClick={() => itemClickHandler(i)}>{i}</li>))
+                            <li key={k} onClick={() => itemClickHandler(i)}>{i.text}</li>))
                         :
                         <p className="no-item">موردی تعریف نشده</p>
                     }

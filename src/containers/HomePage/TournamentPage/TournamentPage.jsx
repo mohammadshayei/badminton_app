@@ -8,6 +8,7 @@ import Modal from "../../../components/UI/Modal/Modal";
 import { useEffect, useState } from "react";
 import PlayerModal from "./InputForms/PlayerModal/PlayerModal";
 import GymModal from "./InputForms/GymModal/GymModal";
+import GameModal from "./InputForms/GameModal/GameModal";
 
 const TournamentPage = (props) => {
   const [modalContent, setModalContent] = useState(null)
@@ -26,6 +27,9 @@ const TournamentPage = (props) => {
         break;
       case 'gyms':
         setModalContent(<GymModal />)
+        break;
+      case 'games':
+        setModalContent(<GameModal />)
         break;
 
       default:

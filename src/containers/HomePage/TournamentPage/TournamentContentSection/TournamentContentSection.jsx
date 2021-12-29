@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTheme } from '../../../../styles/ThemeProvider';
 import './TournamentContentSection.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchItems, removeContent } from '../../../../api/home';
+import { fetchItems, removeContent, deleteGame } from '../../../../api/home';
 import * as homeActions from "../../../../store/actions/home";
 import PlayerFooter from './Footer/PlayerFooter';
 import GameItem from './Item/GameItem'
@@ -12,6 +12,7 @@ import {
     SwipeableListItem,
     SwipeAction,
     TrailingActions,
+    LeadingActions,
     Type as ListType
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
@@ -19,10 +20,12 @@ import { stringFa } from '../../../../assets/strings/stringFaCollection';
 import SimpleFooter from './Footer/SimpleFooter';
 import GymItem from './Item/GymItem';
 import RefereeFooter from './Footer/RefereeFooter';
+import ErrorDialog from '../../../../components/UI/Error/ErrorDialog'
 
 
 const TournamentContentSection = (props) => {
     const [loading, setLoading] = useState(false)
+    const [dialog, setDialog] = useState(null)
     const [footer, setFooter] = useState(null)
     const [swipedStatus, setSwipedStatus] = useState('')
     const [body, setBody] = useState(null)
@@ -72,18 +75,48 @@ const TournamentContentSection = (props) => {
                 payload = { tournamentId: selectedTournament, refereeId: id }
                 url = 'remove_referee_to_tournament'
                 break;
+            case 'games':
+                payload = { id: id }
+                break;
             default:
+
                 break;
         }
-        const result = await removeContent(payload, token, url)
+        let result;
+        if (mode === 'games')
+            result = await deleteGame(payload, token)
+        else
+            result = await removeContent(payload, token, url)
         if (result.success) {
-            alert(stringFa.remove_successfully)
+            setDialog(null)
+            setDialog(<ErrorDialog type="success">{stringFa.remove_successfully}</ErrorDialog>)
             removeItemContent(id, mode.substring(0, mode.length - 1))
         } else {
-            alert(result.error)
+            setDialog(null)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         }
         setLoading(false)
     }
+
+    const leadingActions = (id) => (
+        <LeadingActions >
+            <SwipeAction onClick={() => console.log("referee")}>
+                <div
+                    className='swipe-action-btn'
+                    style={{
+                        backgroundColor: theme.primary_variant,
+                        color: theme.on_primary,
+                        margin: "1rem",
+                        borderRadius: '15px'
+                    }}
+                >
+                    <span>
+                        داورها
+                    </span>
+                </div>
+            </SwipeAction>
+        </LeadingActions >
+    );
 
     const trailingActions = (id) => (
         <TrailingActions >
@@ -156,6 +189,9 @@ const TournamentContentSection = (props) => {
             case 'referees':
                 setFooter(<RefereeFooter />)
                 break;
+            case 'games':
+                setFooter(<SimpleFooter titleButton={stringFa.new_game} />)
+                break;
             default:
                 setFooter(null)
                 break;
@@ -178,6 +214,7 @@ const TournamentContentSection = (props) => {
                 contents.map((item, key) => {
                     return (
                         <SwipeableListItem
+                            leadingActions={mode === 'games' ? leadingActions(item[mode.substring(0, mode.length - 1)]._id) : null}
                             trailingActions={mode !== 'referees' ?
                                 trailingActions(item[mode.substring(0, mode.length - 1)]._id) :
                                 trailingActionsRefer(item[mode.substring(0, mode.length - 1)]._id)}
@@ -194,10 +231,18 @@ const TournamentContentSection = (props) => {
                                         }}
                                         {...item[mode.substring(0, mode.length - 1)]}
                                     />
-                                    :
-                                    <UserItem
-                                        {...item[mode.substring(0, mode.length - 1)]}
-                                    />
+                                    : mode === 'games' ?
+                                        <GameItem
+                                            style={{
+                                                borderRadius: swipedStatus === item[mode.substring(0, mode.length - 1)]._id
+                                                    ? '0px' : '25px'
+                                            }}
+                                            {...item[mode.substring(0, mode.length - 1)]}
+                                        />
+                                        :
+                                        <UserItem
+                                            {...item[mode.substring(0, mode.length - 1)]}
+                                        />
                             }
                         </SwipeableListItem>
                     )
@@ -212,6 +257,7 @@ const TournamentContentSection = (props) => {
             className="tournament-content-section-wrapper"
             style={{ backgroundColor: theme.background_color }}
         >
+            {dialog}
             <SwipeableList
                 type={ListType.IOS}
                 className='tournament-content-section-content'
