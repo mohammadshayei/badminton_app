@@ -64,7 +64,7 @@ export const stringFa = {
   province: 'استان',
   city: 'شهرستان',
   town: 'شهر',
-
+  live_games:"بازی ها زنده",
   service:'سرویس / امکانات',
   transportation:'ایاب و ذهاب',
   catering:'پذیرایی',
@@ -100,4 +100,5 @@ export const stringFa = {
   remove_successfully:'با موفقیت حذف شد',
   national_number_or_phone:'شماره ملی یا شماره همراه',
   referee_added:"داور اضافه شد",
+  no_game_to_see:"در حال حاضر بازی ای برای مشاهده نمی باشد"
 };

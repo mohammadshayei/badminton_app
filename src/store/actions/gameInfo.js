@@ -6,3 +6,9 @@ export const setGameId = (id) => {
         id,
     };
 };
+export const setGameView = (game) => {
+    return {
+        type: actionTypes.SET_SELECTED_GAME_VIEW,
+        game,
+    };
+};
