@@ -265,7 +265,8 @@ const GameModal = () => {
             playersTeamB: [
                 order.player2.id
             ],
-            tournamentId: selectedTournament
+            tournamentId: selectedTournament,
+            gameId: selectedContent
         }
         if (order.type.double)
             payload = {
