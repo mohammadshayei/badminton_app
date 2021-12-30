@@ -165,8 +165,8 @@ const PlayerBlock = (props) => {
         style={{ opacity: info.foulHappend ? 0 : 1 }}>
         {props.scores.length > 0 &&
           <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}>
-            {props.scores.map((s) =>
-              <p>
+            {props.scores.map((s, i) =>
+              <p key={i}>
                 {s}
               </p>
             )}

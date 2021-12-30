@@ -14,6 +14,7 @@ import Button from "../../../components/UI/Button/Button"
 import { endSetHandler, setGameAndSetStatus, setStatusGame } from "../../../api/scoreboard";
 import Loading from "../../../components/UI/Loading/Loading";
 import { createSet } from "../../../api/home";
+import WinnerModal from "./WinnerModal/WinnerModal";
 
 const ScoreBoard = () => {
   const info = useSelector((state) => state.info);
@@ -214,7 +215,6 @@ const ScoreBoard = () => {
 
   useEffect(async () => {
     if (teamWon === 'team1' || teamWon === 'team2') {
-      alert(`${teamWon} WON!`);
       const payload = {
         id: gameId,
         status: 3,
@@ -277,6 +277,9 @@ const ScoreBoard = () => {
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
       </Modal>
+      <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => setTeamWon(null)}>
+        <WinnerModal teamWon={teamWon} />
+      </Modal>
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}>
         {info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
           Object.entries(info).map(([k, v], index) =>
@@ -291,7 +294,7 @@ const ScoreBoard = () => {
               setWon={v.setWon}
               score={v.score}
               scores={v.scores}
-              scoreColor={scoreColor[index]}
+              scoreColor={scoreColor[index - 1]}
               server={v.server}
               receiver={v.receiver}
               position={v.isRightTeam ? "right" : "left"}

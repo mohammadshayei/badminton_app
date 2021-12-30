@@ -1,9 +1,11 @@
 .scoreboard-viewers {
 	background-color: #2e454b;
 	padding: 1rem;
+	display: flex;
+	min-height: 100vh;
+	overflow: hidden;
 	.container {
 		display: flex;
-		min-height: calc(100vh - 2rem);
 		border: 15px solid #f7ff00;
 		border-radius: 40px;
 		.player-block-view {

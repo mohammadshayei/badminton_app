@@ -11,7 +11,7 @@ import tournament from "../../assets/images/tournament.png";
 import TournamentPage from "../HomePage/TournamentPage/TournamentPage";
 import GamesPage from "../HomePage/GamesPage/GamesPage";
 import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
-
+import { CgMediaLive } from "react-icons/cg";
 import LiveGames from "../LiveGames/LiveGames";
 
 const Menu = (props) => {
@@ -72,7 +72,7 @@ const Menu = (props) => {
                         <span className="menu-item">{stringFa.my_games}</span>
                     </li>
                     <li className={`app-bar-item seprator ${pageId === 3 && "selected-page"}`} onClick={() => setPageId(3)}>
-                        <img src={umpire} className="list-icon img-icon" />
+                        <CgMediaLive className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.live_games}</span>
                     </li>
                 </ul>
