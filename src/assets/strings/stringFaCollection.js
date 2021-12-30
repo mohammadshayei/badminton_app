@@ -115,4 +115,9 @@ export const stringFa = {
   competition_type_error: "لطفا نوع مسابقه را تعیین کنید",
   assign_refereee_error: "نام داور بازی را انتخاب کنید",
   assign_referee_service_error: "نام داور سرویس را انتخاب کنید",
+  gym:"نام سالن",
+  date:"تاریخ",
+  number_of_game:"شماره بازی",
+  game_type:"نوع بازی",
+  
 };
