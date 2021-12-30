@@ -1,0 +1,23 @@
+.winner-modal-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.title {
+		font-size: 2rem;
+	}
+	.winner-name {
+		font-size: 3rem;
+		font-weight: 500;
+		margin: 1rem;
+		animation: textglow 0.8s infinite alternate;
+	}
+}
+
+@keyframes textglow {
+	from {
+		text-shadow: 0 0 -10px #4ca2cd;
+	}
+	to {
+		text-shadow: 0 0 20px #4ca2cd;
+	}
+}
