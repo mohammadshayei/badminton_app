@@ -36,17 +36,19 @@ const LiveGames = () => {
         setLoading(false)
     }, [])
     useEffect(() => {
-    }, [])
-    socket.on('get_change_score_set', (payload => {
-        const { scoreA, scoreB, gameId } = payload;
-        let updatedGames = [...games]
-        let gameIndex = updatedGames.findIndex(item => item._id === gameId)
-        if (gameIndex > 0) {
-            updatedGames[gameIndex].teamA.score = scoreA;
-            updatedGames[gameIndex].teamB.score = scoreB;
-            setGames(updatedGames)
+        if (socket) {
+            socket.on('get_change_score_set', (payload => {
+                const { scoreA, scoreB, gameId } = payload;
+                let updatedGames = [...games]
+                let gameIndex = updatedGames.findIndex(item => item._id === gameId)
+                if (gameIndex >= 0) {
+                    updatedGames[gameIndex].teamA.score = scoreA;
+                    updatedGames[gameIndex].teamB.score = scoreB;
+                    setGames(updatedGames)
+                }
+            }))
         }
-    }))
+    }, [socket,games])
     return (
         <div className="live-games-page-wrapper">
             {

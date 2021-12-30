@@ -41,7 +41,7 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     checkAuth();
-    setSocket(socketIOClient(baseUrl))
+    setSocket(socketIOClient(baseUrl, { transports: ["websocket"] }))
   }, []);
   useEffect(() => {
     if (!token && checked) {
@@ -53,7 +53,7 @@ function App() {
       navigate(path);
     }
   }, [path]);
- 
+
   return (
     <Routes>
       <Route path="/home" exact element={<HomePage />}></Route>

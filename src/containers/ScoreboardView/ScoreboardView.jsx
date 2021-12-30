@@ -6,8 +6,6 @@ import { baseUrl } from "../../constants/Config";
 
 const ScoreboardView = () => {
     const [data, setData] = useState(null);
-    const [gameData, setGameData] = useState(null);
-
     const game = useSelector(state => state.gameInfo.gameView)
     const socket = useSelector(state => state.auth.socket)
 
@@ -38,28 +36,31 @@ const ScoreboardView = () => {
         }
     }, [game])
 
-    if (socket && game && data) {
-        socket.on('get_change_score_set', (payload => {
-            const { scoreA, scoreB, gameId } = payload;
-            if (gameId === game._id) {
-                let updatedGame = { ...data }
-                updatedGame.teamA.score = scoreA
-                updatedGame.teamB.score = scoreB
-                setData(updatedGame)
-            }
-        }))
-        socket.on('get_winner_team', (payload => {
-            const { teamName,gameId } = payload;
-            if (gameId === game._id) {
-                let updatedGame = { ...data }
-                if (teamName = 'team1')
-                    updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
-                else
-                    updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
-                setData(updatedGame)
-            }
-        }))
-    }
+    useEffect(() => {
+        if (socket && game && data) {
+            socket.on('get_change_score_set', (payload => {
+                const { scoreA, scoreB, gameId } = payload;
+                if (gameId === game._id) {
+                    let updatedGame = { ...data }
+                    updatedGame.teamA.score = scoreA
+                    updatedGame.teamB.score = scoreB
+                    setData(updatedGame)
+                }
+            }))
+            socket.on('get_winner_team', (payload => {
+                const { teamName, gameId } = payload;
+                if (gameId === game._id) {
+                    let updatedGame = { ...data }
+                    if (teamName = 'team1')
+                        updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
+                    else
+                        updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
+                    setData(updatedGame)
+                }
+            }))
+        }
+    }, [socket,game])
+
     return (
         <div className="scoreboard-viewers">
             <div className="container">
@@ -67,7 +68,7 @@ const ScoreboardView = () => {
                     Object.entries(data).map(([k, v]) =>
                         (v.players.length > 0) &&
                         (<div
-                            className={`player-block-view ${k === "team2" && "rev-block"}`}
+                            className={`player-block-view ${k === "teamB" && "rev-block"}`}
                             key={k}
                         >
                             <div className="player-name-and-image"
