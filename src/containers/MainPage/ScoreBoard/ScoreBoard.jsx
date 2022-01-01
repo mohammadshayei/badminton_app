@@ -3,9 +3,9 @@ import { useTheme } from "../../../styles/ThemeProvider";
 // import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
 import PlayerBlock from "./PlayerBlock/PlayerBlock";
 import "./ScoreBoard.scss";
-import back from "../../../assets/images/back_scoreboard.jpg"
+// import back from "../../../assets/images/back_scoreboard.jpg"
 import { FaPlayCircle, FaExclamation } from "react-icons/fa";
-import { ImUndo2 } from "react-icons/im";
+import { ImUndo2, ImCancelCircle } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
 import Modal from "../../../components/UI/Modal/Modal"
@@ -59,6 +59,7 @@ const ScoreBoard = () => {
       }
     }
   }
+
   const startTheGame = async () => {
     setLoading(true)
     const payload = {
@@ -74,9 +75,8 @@ const ScoreBoard = () => {
       alert(result.error)
     }
     setLoading(false)
-
-
   }
+
   const createNewSet = async () => {
     const payload = {
       gameId,
@@ -143,7 +143,8 @@ const ScoreBoard = () => {
         setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
-        endSet('team1')
+        endSet('team1');
+        setMaxPoint(21);
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -181,7 +182,8 @@ const ScoreBoard = () => {
         setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
-        endSet('team2')
+        endSet('team2');
+        setMaxPoint(21);
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -272,7 +274,7 @@ const ScoreBoard = () => {
         color: theme.on_primary,
       }}
     >
-      <img className="background" src={back} alt="back" />
+      <div className="background" />
       <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
@@ -281,34 +283,39 @@ const ScoreBoard = () => {
         <WinnerModal teamWon={teamWon} />
       </Modal>
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}>
-        {info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
-          Object.entries(info).map(([k, v], index) =>
-            (k === "team1" || k === "team2") &&
-            (<PlayerBlock
-              disable={disable}
-              key={k}
-              playerImg={v.players[0].avatar}
-              playerImgD={v.players[1] && v.players[1].avatar}
-              playerName={v.players[0].name}
-              playerNameD={v.players[1] && v.players[1].name}
-              setWon={v.setWon}
-              score={v.score}
-              scores={v.scores}
-              scoreColor={scoreColor[index - 1]}
-              server={v.server}
-              receiver={v.receiver}
-              position={v.isRightTeam ? "right" : "left"}
-              teamKey={k}
-            />)
-          ) : "Loading Info..."
-          : "Loading Info..."}
+        {!loading &&
+          (info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
+            Object.entries(info).map(([k, v], index) =>
+              (k === "team1" || k === "team2") &&
+              (<PlayerBlock
+                disable={disable}
+                key={k}
+                playerImg={v.players[0].avatar}
+                playerImgD={v.players[1] && v.players[1].avatar}
+                playerName={v.players[0].name}
+                playerNameD={v.players[1] && v.players[1].name}
+                setWon={v.setWon}
+                score={v.score}
+                scores={v.scores}
+                scoreColor={scoreColor[index - 1]}
+                server={v.server}
+                receiver={v.receiver}
+                position={v.isRightTeam ? "right" : "left"}
+                teamKey={k}
+              />)
+            ) : <Loading />
+            : <Loading />)}
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && (
           loading ? <Loading /> : <FaPlayCircle className="play" onClick={startTheGame} />
         )
         }
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
-        {(breakTime === 2 || breakTime === 3) && <div className="break-timer" >{timer}</div>}
+        {(breakTime === 2 || breakTime === 3) &&
+          <div className="break-timer" >{timer}
+            <ImCancelCircle className="cancel-timer" color={theme.error}
+              onClick={() => { setDisable(false); setBreakTime(0); }} />
+          </div>}
       </div>
       {/* <FooterScoreBoard /> */}
       <div disabled={disable} className="action-buttons"

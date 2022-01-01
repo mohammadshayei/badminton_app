@@ -89,7 +89,7 @@ const PlayerBlock = (props) => {
   }, [props.score]);
 
   return (
-    <div disabled={props.disable} className={`player-block-container ${props.position === "left" && "rev"}`}
+    <div className={`player-block-container ${props.position === "left" && "rev"}`}
       onClick={cancelFoul}
     >
       <div
@@ -144,7 +144,7 @@ const PlayerBlock = (props) => {
               <img src={shuttle_image} alt="shuttle" />
             </Button>
           </div>}
-          <div className="player-block-icon up-btn">
+          <div disabled={props.disable} className="player-block-icon up-btn">
             <Button
               back={theme.primary}
               hover={theme.primary}
