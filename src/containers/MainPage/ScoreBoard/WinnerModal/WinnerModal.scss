@@ -9,11 +9,11 @@
 		font-size: 3rem;
 		font-weight: 500;
 		margin: 1rem;
-		animation: textglow 0.8s infinite alternate;
+		animation: winnerglow 0.8s infinite alternate;
 	}
 }
 
-@keyframes textglow {
+@keyframes winnerglow {
 	from {
 		text-shadow: 0 0 -10px #4ca2cd;
 	}
