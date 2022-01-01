@@ -27,8 +27,13 @@ const ScoreBoard = () => {
   const [maxPoint, setMaxPoint] = useState(21);
   const [teamWon, setTeamWon] = useState(null);
   const [loading, setLoading] = useState(false)
+  const [endSetRequestSended, setEndSetRequestSended] = useState(false)
+  const [gameStarted, setGameStarted] = useState(false)
+
 
   const gameId = useSelector(state => state.gameInfo.gameId)
+  const game = useSelector(state => state.gameInfo.gameReferee)
+
   const setId = useSelector(state => state.info._id)
   const token = useSelector(state => state.auth.token)
   const socket = useSelector(state => state.auth.socket)
@@ -70,12 +75,11 @@ const ScoreBoard = () => {
     const result = await setGameAndSetStatus(payload, token)
     if (result.success) {
       setDisable(false)
+      setGameStarted(true)
     } else {
       alert(result.error)
     }
     setLoading(false)
-
-
   }
   const createNewSet = async () => {
     const payload = {
@@ -114,11 +118,24 @@ const ScoreBoard = () => {
     }
     let resultEnd = await endSetHandler(payload, token)
     if (resultEnd.success) {
-      setDisable(true)
+      setEndSetRequestSended(true)
+      // setDisable(true)
     } else {
       alert(resultEnd.error)
     }
   }
+
+  useEffect(() => {
+    if (socket && gameStarted && game) {
+      const payload = {
+        game
+      }
+      socket.emit('add_live_game', payload)
+      setGameStarted(false)
+    }
+
+  }, [gameStarted, socket, game])
+
   useEffect(() => {
     window.history.pushState(null, null, window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
@@ -140,7 +157,7 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team1" });
         switchSide();
-        setDisable(true);
+        // setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
         endSet('team1')
@@ -153,7 +170,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
-            setDisable(true);
+            // setDisable(true);
             setBreakTime(2);
           }
         }
@@ -178,7 +195,7 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team2" });
         switchSide();
-        setDisable(true);
+        // setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
         endSet('team2')
@@ -191,7 +208,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
-            setDisable(true);
+            // setDisable(true);
             setBreakTime(2);
           }
         }
@@ -204,14 +221,16 @@ const ScoreBoard = () => {
   }, [info.team2.score])
 
   useEffect(async () => {
-    if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) && (info.team1.setWon !== 2 && info.team2.setWon !== 2)) {
+    if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
+      (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
       createNewSet()
+      setEndSetRequestSended(false)
     }
     if (info.team1.setWon === 2)
       setTeamWon("team1");
     else if (info.team2.setWon === 2)
       setTeamWon("team2");
-  }, [info.team1.setWon, info.team2.setWon]);
+  }, [info.team1.setWon, info.team2.setWon, endSetRequestSended]);
 
   useEffect(async () => {
     if (teamWon === 'team1' || teamWon === 'team2') {
@@ -235,8 +254,9 @@ const ScoreBoard = () => {
       scoreB: info.team2.score,
       gameId,
     }
-    if (socket)
+    if (socket) {
       socket.emit('set_change_score_set', payload)
+    }
 
   }, [info.team2.score, info.team1.score])
 

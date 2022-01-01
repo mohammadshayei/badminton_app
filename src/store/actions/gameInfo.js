@@ -12,3 +12,9 @@ export const setGameView = (game) => {
         game,
     };
 };
+export const setGameReferee = (game) => {
+    return {
+        type: actionTypes.SET_SELECTED_GAME_REFEREE,
+        game,
+    };
+};

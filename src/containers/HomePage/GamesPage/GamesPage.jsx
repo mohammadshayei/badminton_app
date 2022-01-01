@@ -29,6 +29,9 @@ const GamesPage = () => {
   const setGameId = (id) => {
     dispatch(gameActions.setGameId(id));
   };
+  const setSelectedGameReferee = (game) => {
+    dispatch(gameActions.setGameReferee(game));
+  };
   useEffect(async () => {
     setLoading(true)
     const result = await getRefereeGames({ id: refereeId }, token)
@@ -44,6 +47,7 @@ const GamesPage = () => {
     let game = games.find(item => item.game._id === i).game
     setScoreboard(game);
     setSelectedGame(game)
+    setSelectedGameReferee(game)
     setGameId(game._id)
     setShowModal(true);
   }

@@ -36,6 +36,8 @@ export const SET_GAME_ID = "SET_GAME_ID";
 export const SET_SET_ID = "SET_SET_ID";
 export const SET_SOCKET = "SET_SOCKET";
 export const SET_SELECTED_GAME_VIEW = "SET_SELECTED_GAME_VIEW";
+export const SET_SELECTED_GAME_REFEREE = "SET_SELECTED_GAME_REFEREE";
+
 
 
 

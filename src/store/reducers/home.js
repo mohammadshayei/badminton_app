@@ -7,7 +7,7 @@ const initialState = {
     selectedTournament: null,
     contents: [],
     selectedContent: null,
-    mode: 'referees',
+    mode: 'games',
     showModal: false,
     editMode: false
 };
