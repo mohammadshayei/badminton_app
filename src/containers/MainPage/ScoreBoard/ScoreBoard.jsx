@@ -282,7 +282,11 @@ const ScoreBoard = () => {
       <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => setTeamWon(null)}>
         <WinnerModal teamWon={teamWon} />
       </Modal>
-      <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}>
+      <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}
+        style={{
+          alignItems: loading && "center"
+        }}
+      >
         {!loading &&
           (info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
             Object.entries(info).map(([k, v], index) =>
@@ -303,11 +307,11 @@ const ScoreBoard = () => {
                 position={v.isRightTeam ? "right" : "left"}
                 teamKey={k}
               />)
-            ) : <Loading />
-            : <Loading />)}
+            ) : <Loading style={{ direction: "ltr" }} />
+            : <Loading style={{ direction: "ltr" }} />)}
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && (
-          loading ? <Loading /> : <FaPlayCircle className="play" onClick={startTheGame} />
+          loading ? <Loading style={{ direction: "ltr" }} /> : <FaPlayCircle className="play" onClick={startTheGame} />
         )
         }
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}

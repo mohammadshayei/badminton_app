@@ -28,14 +28,16 @@ const EventsBox = () => {
       newLog = [...newLog, {
         content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
           <div>{info.team1.server === index + 1 ? "S" : ''}
-            {info.team1.receiver === index + 1 ? "R" : ''}</div></div>
+            {(info.team1.players.length > 1 &&
+              info.team1.receiver === index + 1) ? "R" : ''}</div></div>
       }]
     });
     info.team2.players.forEach((player, index) => {
       newLog = [...newLog, {
         content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
           <div>{info.team2.server === index + 1 ? "S" : ''}
-            {info.team2.receiver === index + 1 ? "R" : ''}</div></div>
+            {info.team2.players.length > 1 &&
+              info.team2.receiver === index + 1 ? "R" : ''}</div></div>
       }]
     });
     if (info.team1.players.length === 2) {
@@ -90,18 +92,24 @@ const EventsBox = () => {
             style={ci === 0 ? columnStyle : {}}
             ref={ci === info.eventCounter ? myRef : tableRef}
           >
-            {[...Array(info.team1.players.length * 2)].map((e, ri) =>
-              <div key={ri * 5} className="table-cell"
-                style={{
-                  borderBottom: (info.team1.players.length === 2 && ri === 1) && "5px solid rgb(146, 146, 146)",
-                  borderBottom: (info.team1.players.length === 1 && ri === 0) && "5px solid rgb(146, 146, 146)",
-                  height: info.team1.players.length === 2 ? '25%' : '50%',
-                  padding: ci === 0 && "0 0.5rem"
-                }}
-              >
-                {(log[ci]) && log[ci][ri].content}
-              </div>
-            )}
+            {info.team1.players.length > 0 &&
+              ([...Array(4)].map((e, ri) =>
+                <div key={ri} className="table-cell"
+                  style={{
+                    borderBottom: (ri === 1) && "5px solid rgb(146, 146, 146)",
+                    height: '25%',
+                    padding: ci === 0 && "0 0.5rem",
+                    background: ri > 1 && "rgba(200, 200, 200, 0.2)"
+                  }}
+                >
+                  {(log[ci]) && (info.team1.players.length === 2 ?
+                    log[ci][ri].content :
+                    (ri % 2 === 0 ? (ri === 0 ?
+                      log[ci][0].content :
+                      log[ci][1].content) :
+                      ""))}
+                </div>
+              ))}
           </div>
         )}
       </div>

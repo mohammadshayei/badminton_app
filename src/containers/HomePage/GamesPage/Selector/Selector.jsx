@@ -173,7 +173,8 @@ const Selector = (props) => {
             {redirect}
             <p className="title">{title}</p>
             {
-                loading ? <Loading /> :
+                loading ?
+                    <Loading style={{ color: theme.on_background }} /> :
                     <>
                         <div className="options-container">
                             {options.map((item, i) =>
