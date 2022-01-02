@@ -119,5 +119,5 @@ export const stringFa = {
   date:"تاریخ",
   number_of_game:"شماره بازی",
   game_type:"نوع بازی",
-  
+  competition_type:"نوع مسابقه"
 };

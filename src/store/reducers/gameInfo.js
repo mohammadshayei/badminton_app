@@ -3,6 +3,7 @@ import { updateObject } from "../utility";
 
 const initialState = {
     gameId: '',
+    gameReferee: null,
     gameView: null
 };
 
@@ -16,6 +17,11 @@ const setSelectedGameView = (state, action) => {
     return updateObject(state, {
         gameView: action.game,
     });
+}
+const setSelectedGameReferee = (state, action) => {
+    return updateObject(state, {
+        gameReferee: action.game,
+    });
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +30,8 @@ const reducer = (state = initialState, action) => {
             return setGameId(state, action);
         case actionTypes.SET_SELECTED_GAME_VIEW:
             return setSelectedGameView(state, action);
+        case actionTypes.SET_SELECTED_GAME_REFEREE:
+            return setSelectedGameReferee(state, action);
         default:
             return state;
     }

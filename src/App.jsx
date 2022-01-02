@@ -41,7 +41,7 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     checkAuth();
-    setSocket(socketIOClient(baseUrl, { transports: ["websocket"] }))
+    setSocket(socketIOClient(baseUrl))
   }, []);
   useEffect(() => {
     if (!token && checked) {

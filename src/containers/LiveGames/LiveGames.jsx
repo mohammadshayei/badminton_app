@@ -36,19 +36,32 @@ const LiveGames = () => {
         setLoading(false)
     }, [])
     useEffect(() => {
-        if (socket) {
-            socket.on('get_change_score_set', (payload => {
-                const { scoreA, scoreB, gameId } = payload;
+        if (socket && games) {
+            socket.on('get_winner_team', (payload => {
+                let { teamName, gameId } = payload;
                 let updatedGames = [...games]
                 let gameIndex = updatedGames.findIndex(item => item._id === gameId)
                 if (gameIndex >= 0) {
-                    updatedGames[gameIndex].teamA.score = scoreA;
-                    updatedGames[gameIndex].teamB.score = scoreB;
+                    if (teamName === 'team1')
+                        updatedGames[gameIndex].teamA.setWon =
+                            updatedGames[gameIndex].teamA.setWon + 1
+                    else
+                        updatedGames[gameIndex].teamB.setWon =
+                            updatedGames[gameIndex].teamB.setWon + 1
                     setGames(updatedGames)
                 }
+
             }))
+            socket.on('get_live_game', (payload => {
+                let { game } = payload;
+                let updatedGames = [...games]
+                updatedGames.push(game)
+                setGames(updatedGames)
+            }
+
+            ))
         }
-    }, [socket,games])
+    }, [socket, games])
     return (
         <div className="live-games-page-wrapper">
             {
@@ -71,7 +84,7 @@ const LiveGames = () => {
                                         ${game.game_type === "double" ? "  ,  " + game.teamA.players[1].player.username : "  "}`}
                                         </span>
                                         <span className='span-score'>
-                                            {`${game.teamA.score}    :   ${game.teamB.score}`}
+                                            {`${game.teamA.setWon}    :   ${game.teamB.setWon}`}
                                         </span>
                                         <span> {`${game.teamB.players[0].player.username}
                                         ${game.game_type === "double" ? "  ,  " + game.teamB.players[1].player.username : "  "}`}

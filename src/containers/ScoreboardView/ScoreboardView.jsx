@@ -6,22 +6,20 @@ import { baseUrl } from "../../constants/Config";
 
 const ScoreboardView = () => {
     const [data, setData] = useState(null);
+    const [timer, setTimer] = useState(0)
+    const [gameWonner, setGameWonner] = useState('')
     const game = useSelector(state => state.gameInfo.gameView)
     const socket = useSelector(state => state.auth.socket)
+
 
     useEffect(() => {
         if (game) {
             let updatedData = {}
-            let setWonA = 0, setWonB = 0
-            game.sets.forEach(item => {
-                setWonA = item.set.teamA.setWon ? setWonA + 1 : setWonA;
-                setWonB = item.set.teamB.setWon ? setWonB + 1 : setWonB;
-            });
             updatedData = {
                 teamA: {
                     players: game.teamA.players,
                     score: game.teamA.score,
-                    setWon: setWonA
+                    setWon: game.teamA.setWon
                 }
             }
             updatedData = {
@@ -29,7 +27,7 @@ const ScoreboardView = () => {
                 teamB: {
                     players: game.teamB.players,
                     score: game.teamB.score,
-                    setWon: setWonB
+                    setWon: game.teamB.setWon
                 }
             }
             setData(updatedData);
@@ -38,28 +36,47 @@ const ScoreboardView = () => {
 
     useEffect(() => {
         if (socket && game && data) {
-            socket.on('get_change_score_set', (payload => {
-                const { scoreA, scoreB, gameId } = payload;
-                if (gameId === game._id) {
-                    let updatedGame = { ...data }
-                    updatedGame.teamA.score = scoreA
-                    updatedGame.teamB.score = scoreB
-                    setData(updatedGame)
-                }
-            }))
+            if (timer === 0) {
+                socket.on('get_change_score_set', (payload => {
+                    const { scoreA, scoreB, gameId } = payload;
+                    if (gameId === game._id) {
+                        setTimer(200)
+                        let updatedGame = { ...data }
+                        updatedGame.teamA.score = scoreA
+                        updatedGame.teamB.score = scoreB
+                        setData(updatedGame)
+                        setTimeout(() => {
+                            setTimer(0)
+                        }, 200)
+                    }
+                }))
+            }
+
+        }
+    }, [socket, game, data, timer])
+    useEffect(() => {
+        if (socket && game) {
             socket.on('get_winner_team', (payload => {
-                const { teamName, gameId } = payload;
+                let { teamName, gameId } = payload;
                 if (gameId === game._id) {
-                    let updatedGame = { ...data }
-                    if (teamName = 'team1')
-                        updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
-                    else
-                        updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
-                    setData(updatedGame)
+                    setGameWonner(teamName)
                 }
             }))
         }
-    }, [socket,game])
+    }, [socket, game])
+    useEffect(() => {
+        if (gameWonner !== '' ) {
+            let updatedGame = { ...data }
+            if (gameWonner === 'team1')
+                updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
+            else
+                updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
+            updatedGame.teamA.score = 0
+            updatedGame.teamB.score = 0
+            setData(updatedGame)
+            setGameWonner('')
+        }
+    }, [gameWonner])
 
     return (
         <div className="scoreboard-viewers">
