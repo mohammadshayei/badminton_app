@@ -27,21 +27,22 @@ const EventsBox = () => {
     info.team1.players.forEach((player, index) => {
       newLog = [...newLog, {
         content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
-          <div>{info.team1.server === index + 1 ? "S" : ''}
-            {(info.team1.players.length > 1 &&
-              info.team1.receiver === index + 1) ? "R" : ''}</div></div>
+        </div>
       }]
     });
     info.team2.players.forEach((player, index) => {
       newLog = [...newLog, {
         content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
-          <div>{info.team2.server === index + 1 ? "S" : ''}
-            {info.team2.players.length > 1 &&
-              info.team2.receiver === index + 1 ? "R" : ''}</div></div>
+        </div>
       }]
     });
+
     if (info.team1.players.length === 2) {
       setLog([[...newLog],
+      [{ content: `${info.team1.server === 1 ? "S" : (info.team1.receiver === 1) ? "R" : ''}` },
+      { content: `${info.team1.server === 2 ? "S" : (info.team1.receiver === 2) ? "R" : ''}` },
+      { content: `${info.team2.server === 1 ? "S" : (info.team2.receiver === 1) ? "R" : ''}` },
+      { content: `${info.team2.server === 2 ? "S" : (info.team2.receiver === 2) ? "R" : ''}` }],
       [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
       { content: `${(info.team1.server === 2 || info.team1.receiver === 2) ? "0" : ''}` },
       { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
@@ -49,6 +50,8 @@ const EventsBox = () => {
     }
     else {
       setLog([[...newLog],
+      [{ content: `${info.team1.server === 1 ? "S" : (info.team1.receiver === 1) ? "R" : ''}` },
+      { content: `${info.team2.server === 1 ? "S" : (info.team2.receiver === 1) ? "R" : ''}` }],
       [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
       { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
       ]])

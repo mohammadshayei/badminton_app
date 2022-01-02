@@ -42,6 +42,12 @@ const PlayerBlock = (props) => {
       else
         foul = info.foulHappend.substring(0, 1)
       addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
+      if (info.foulHappend === "Fault") {
+        if (props.teamKey === "team1")
+          increaseScore({ teamKey: "team2" })
+        else
+          increaseScore({ teamKey: "team1" })
+      }
       foulHappend({ foulType: null });
     }
   };
