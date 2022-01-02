@@ -116,8 +116,8 @@ const addEvent = (state, action) => {
 };
 
 const switchServer = (state, action) => {
-    const { server } = action.payload;
-    let teamServer, teamReciver;
+    const { rev, left } = action.payload;
+    let teamServer, teamReciver, server;
     if (state.team1.server === 0) {
         teamServer = "team1";
         teamReciver = "team2";
@@ -126,6 +126,21 @@ const switchServer = (state, action) => {
         teamServer = "team2";
         teamReciver = "team1";
     }
+    console.log(state.team1.players.length);
+    if (state.team1.players.length > 1)
+        if (state[teamServer].score % 2 === 0) {
+            if (left)
+                if (rev) server = 1; else server = 2;
+            else
+                if (rev) server = 2; else server = 1;
+        } else {
+            if (left)
+                if (rev) server = 2; else server = 1;
+            else
+                if (rev) server = 1; else server = 2;
+        }
+    else
+        server = 1;
     return {
         ...state,
         [teamServer]: {

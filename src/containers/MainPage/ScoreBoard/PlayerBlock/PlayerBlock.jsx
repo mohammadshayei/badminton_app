@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
 
 const PlayerBlock = (props) => {
-  const [dynamicStyle, setdynamicStyle] = useState(null)
+  const [dynamicStyle, setdynamicStyle] = useState({ flexDirection: "column" })
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const info = useSelector(state => state.info)
@@ -53,36 +53,33 @@ const PlayerBlock = (props) => {
 
   useEffect(() => {
 
-    if (props.playerNameD) {
-      if (props.server === 1) {
-        if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
-        if (props.score % 2 === 0) {
-          setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
-        } else {
-          setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
-        }
-      } else if (props.server === 2) {
-        if (props.score !== 0) addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
-        if (props.score % 2 === 0) {
-          setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
-        } else {
-          setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
-        }
-      }
-
-      if (props.score !== 0 && props.server === 0)
-        if (props.score % 2 === 0) {
-          switchServer({ server: 1 })
-          addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
-        } else {
-          switchServer({ server: 2 })
-          addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
-        }
-    } else {
-      if (props.score !== 0) {
-        if (props.server === 0)
-          switchServer({ server: 1 })
+    if (props.score !== 0 && props.server === 0) {
+      switchServer({
+        rev: dynamicStyle.flexDirection === "column-reverse" && true,
+        left: props.position === "left" && true
+      })
+      if (props.playerNameD) {
+        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
+      } else {
         addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
+      }
+    }
+
+    if (props.server === 1) {
+      if (props.score !== 0)
+        addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
+      if (props.score % 2 === 0) {
+        setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
+      } else {
+        setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
+      }
+    } else if (props.server === 2) {
+      if (props.score !== 0)
+        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
+      if (props.score % 2 === 0) {
+        setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
+      } else {
+        setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
       }
     }
 
@@ -103,9 +100,14 @@ const PlayerBlock = (props) => {
           <img src={props.playerImg ? props.playerImg : PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 && "15px solid #F7FF00"
           }} onClick={() => selectPlayer(props.playerName)} />
-          {props.playerNameD && <img src={props.playerImgD ? props.playerImgD : PROFILE_IMAGE} alt="badminton second player" style={{
-            outline: props.server === 2 && "15px solid #F7FF00"
-          }} onClick={() => selectPlayer(props.playerNameD)} />}
+          {props.playerNameD &&
+            <img src={props.playerImgD ?
+              props.playerImgD :
+              PROFILE_IMAGE}
+              alt="badminton second player"
+              style={{
+                outline: props.server === 2 && "15px solid #F7FF00"
+              }} onClick={() => selectPlayer(props.playerNameD)} />}
           {props.playerNameD && <p className="player-name">{props.playerNameD}</p>}
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"

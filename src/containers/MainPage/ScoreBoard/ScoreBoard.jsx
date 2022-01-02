@@ -159,7 +159,7 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team1" });
         switchSide();
-        // setDisable(true);
+        setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
         endSet('team1');
@@ -173,7 +173,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
-            // setDisable(true);
+            setDisable(true);
             setBreakTime(2);
           }
         }
@@ -198,7 +198,7 @@ const ScoreBoard = () => {
       case maxPoint:
         setOver({ teamKey: "team2" });
         switchSide();
-        // setDisable(true);
+        setDisable(true);
         setBreakTime(3);
         setHalfTime(false);
         endSet('team2');
@@ -212,7 +212,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
-            // setDisable(true);
+            setDisable(true);
             setBreakTime(2);
           }
         }

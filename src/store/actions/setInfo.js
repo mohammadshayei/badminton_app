@@ -40,10 +40,10 @@ export const addEvent = ({ type, time, by, content }) => (dispatch) => {
     });
 };
 
-export const switchServer = ({ server }) => (dispatch) => {
+export const switchServer = ({ rev, left }) => (dispatch) => {
     dispatch({
         type: actionTypes.SWITCH_SERVER,
-        payload: { server },
+        payload: { rev, left },
     });
 };
 

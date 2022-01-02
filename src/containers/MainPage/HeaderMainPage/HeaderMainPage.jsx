@@ -11,12 +11,14 @@ const HeaderMainPage = () => {
   const info = useSelector((state) => state.info);
 
   const eventsStyle = { color: "#fff", flexDirection: "row-reverse", flexWrap: "nowrap", alignItems: "center" }
-  const eventStyle = { width: "5%", margin: "0.1rem 0.3rem", padding: "0 0.1rem" }
-  const letterStyle = { fontSize: "1.8rem", padding: "0" }
+  const eventStyle = { margin: "0.1rem 0.3rem", padding: "0 0.1rem" }
+  const letterStyle = { fontSize: "1.75rem", padding: "0" }
 
   return (
     <div className="header-main-container">
-      <Events style={eventsStyle} eventStyle={eventStyle}
+      <Events
+        style={eventsStyle}
+        eventStyle={eventStyle}
         letterStyle={letterStyle}
         hide={true}
       />
