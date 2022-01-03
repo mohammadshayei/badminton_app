@@ -55,12 +55,16 @@ const setOver = (state, action) => {
             ...state[teamKey],
             setWon: state[teamKey].setWon + 1,
             scores: [...state[teamKey].scores, state[teamKey].score],
-            score: 0
+            score: 0,
+            server: 0,
+            receiver: 0
         },
         [otherTeam]: {
             ...state[otherTeam],
             scores: [...state[otherTeam].scores, state[otherTeam].score],
-            score: 0
+            score: 0,
+            server: 0,
+            receiver: 0
         },
         eventCounter: 0,
         events: [],
@@ -126,7 +130,6 @@ const switchServer = (state, action) => {
         teamServer = "team2";
         teamReciver = "team1";
     }
-    console.log(state.team1.players.length);
     if (state.team1.players.length > 1)
         if (state[teamServer].score % 2 === 0) {
             if (left)

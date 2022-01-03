@@ -29,6 +29,8 @@ const Selector = (props) => {
         dispatch(infoActions.setSetId(id));
     };
     useEffect(() => {
+        if (!props.exitable)
+            setIndex(2);
         if (info.team1.players.length === 1) {
             setMax(2);
         } else {
@@ -103,28 +105,31 @@ const Selector = (props) => {
     useEffect(async () => {
         if (index > max && (info.team1.receiver === 0 || info.team2.receiver === 0)) {
             setloading(true)
-            const payload = {
-                gameId: props.selectedGame._id,
-                teamA: {
-                    isRightTeam: info.team1.isRightTeam,
-                    server: info.team1.server,
-                    receiver: info.team1.receiver,
-                    players: info.team1.players.map(item => { return { player: item.id } })
-                },
-                teamB: {
-                    isRightTeam: info.team2.isRightTeam,
-                    server: info.team2.server,
-                    receiver: info.team2.receiver,
-                    players: info.team2.players.map(item => { return { player: item.id } })
+            if (window.location.pathname === "/badminton/scoreboard")
+                props.setShow(false);
+            else {
+                const payload = {
+                    gameId: props.selectedGameId,
+                    teamA: {
+                        isRightTeam: info.team1.isRightTeam,
+                        server: info.team1.server,
+                        receiver: info.team1.receiver,
+                        players: info.team1.players.map(item => { return { player: item.id } })
+                    },
+                    teamB: {
+                        isRightTeam: info.team2.isRightTeam,
+                        server: info.team2.server,
+                        receiver: info.team2.receiver,
+                        players: info.team2.players.map(item => { return { player: item.id } })
+                    }
                 }
-            }
-            const result = await createSet(payload, token)
-            if (result.success) {
-                setSetId(result.data)
-                setRedirect(<Navigate to="/scoreboard" />)
-
-            } else {
-                alert(result.error)
+                const result = await createSet(payload, token)
+                if (result.success) {
+                    setSetId(result.data)
+                    setRedirect(<Navigate to="/scoreboard" />)
+                } else {
+                    alert(result.error)
+                }
             }
             setloading(false)
         }
@@ -190,7 +195,9 @@ const Selector = (props) => {
                             )}
                         </div>
                         <div className="action-btns">
-                            <p className="prev" onClick={backClick}>بازگشت</p>
+                            {props.exitable && <p className="prev" onClick={backClick}>
+                                {index === 1 ? "خروج" : "بازگشت"}
+                            </p>}
                             <Button onClick={nextClick}>{index === max ? "ذخیره" : stringFa.next}</Button>
                         </div>
                     </>

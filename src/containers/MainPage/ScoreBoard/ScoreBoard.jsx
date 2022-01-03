@@ -15,6 +15,7 @@ import { endSetHandler, setGameAndSetStatus, setStatusGame } from "../../../api/
 import Loading from "../../../components/UI/Loading/Loading";
 import { createSet } from "../../../api/home";
 import WinnerModal from "./WinnerModal/WinnerModal";
+import Selector from "../../HomePage/GamesPage/Selector/Selector";
 
 const ScoreBoard = () => {
   const info = useSelector((state) => state.info);
@@ -28,8 +29,8 @@ const ScoreBoard = () => {
   const [teamWon, setTeamWon] = useState(null);
   const [loading, setLoading] = useState(false)
   const [endSetRequestSended, setEndSetRequestSended] = useState(false)
-  const [gameStarted, setGameStarted] = useState(false)
-
+  const [gameStarted, setGameStarted] = useState(false);
+  const [chooseServer, setChooseServer] = useState(false);
 
   const gameId = useSelector(state => state.gameInfo.gameId)
   const game = useSelector(state => state.gameInfo.gameReferee)
@@ -227,6 +228,7 @@ const ScoreBoard = () => {
   useEffect(async () => {
     if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
       (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
+      setChooseServer(true);
       createNewSet()
       setEndSetRequestSended(false)
     }
@@ -289,6 +291,7 @@ const ScoreBoard = () => {
       return () => clearInterval(interval);
     }
   }, [breakTime]);
+
   return (
     <div
       className="scoreboard-container"
@@ -303,6 +306,9 @@ const ScoreBoard = () => {
       </Modal>
       <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => setTeamWon(null)}>
         <WinnerModal teamWon={teamWon} />
+      </Modal>
+      <Modal show={chooseServer} >
+        <Selector setShow={setChooseServer} selectedGame={gameId} />
       </Modal>
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}
         style={{

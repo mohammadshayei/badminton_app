@@ -4,7 +4,6 @@ import arrow from "../../../assets/images/arrow.png";
 import { stringFa } from "../../../assets/strings/stringFaCollection.js";
 import rocket from "../../../assets/images/rocket.png";
 import rockets from "../../../assets/images/rockets.png";
-import { GoSettings } from "react-icons/go";
 import Modal from "../../../components/UI/Modal/Modal"
 import Selector from "./Selector/Selector";
 import * as infoActions from "../../../store/actions/setInfo"
@@ -17,10 +16,10 @@ import Loading from "../../../components/UI/Loading/Loading";
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
   const [games, setGames] = useState([]);
-  const [selectedGame, setSelectedGame] = useState(null)
   const [showModal, setShowModal] = useState(false);
   const token = useSelector(state => state.auth.token)
   const refereeId = useSelector(state => state.auth.refereeId)
+  const gameId = useSelector(state => state.gameInfo.gameId)
 
   const dispatch = useDispatch();
   const setScoreboard = (data) => {
@@ -46,7 +45,6 @@ const GamesPage = () => {
   const gameClickHandler = (i) => {
     let game = games.find(item => item.game._id === i).game
     setScoreboard(game);
-    setSelectedGame(game)
     setSelectedGameReferee(game)
     setGameId(game._id)
     setShowModal(true);
@@ -55,7 +53,7 @@ const GamesPage = () => {
   return (
     <div className="games-page-wrapper">
       <Modal show={showModal} modalClosed={() => setShowModal(false)}>
-        <Selector show={setShowModal} selectedGame={selectedGame} />
+        <Selector exitable={true} show={setShowModal} selectedGameId={gameId} />
       </Modal>
       {
         loading ?
