@@ -228,7 +228,6 @@ const ScoreBoard = () => {
   useEffect(async () => {
     if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
       (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
-      setChooseServer(true);
       createNewSet()
       setEndSetRequestSended(false)
     }
@@ -287,6 +286,8 @@ const ScoreBoard = () => {
         setBreakTime(0);
         setDisable(false);
         setHalfTime(true);
+        if (info.team1.players.length > 1 && breakTime === 3)
+          setChooseServer(true);
       }, (breakTime - 1) * 60000);
       return () => clearInterval(interval);
     }

@@ -57,28 +57,57 @@ const Selector = (props) => {
             case 2:
                 let players;
                 setTitle("زننده سرویس را انتخاب کنید");
-                players = [{
-                    id: info.team1.players[0].id,
-                    text: info.team1.players[0].name,
-                    selected: false
-                }]
-                if (max === 3)
-                    players = [...players, {
-                        id: info.team1.players[1].id,
-                        text: info.team1.players[1].name,
+                if (props.exitable) {
+                    players = [{
+                        id: info.team1.players[0].id,
+                        text: info.team1.players[0].name,
                         selected: false
                     }]
-                players = [...players, {
-                    id: info.team2.players[0].id,
-                    text: info.team2.players[0].name,
-                    selected: false
-                }]
-                if (max === 3)
+                    if (max === 3)
+                        players = [...players, {
+                            id: info.team1.players[1].id,
+                            text: info.team1.players[1].name,
+                            selected: false
+                        }]
                     players = [...players, {
-                        id: info.team2.players[1].id,
-                        text: info.team2.players[1].name,
+                        id: info.team2.players[0].id,
+                        text: info.team2.players[0].name,
                         selected: false
                     }]
+                    if (max === 3)
+                        players = [...players, {
+                            id: info.team2.players[1].id,
+                            text: info.team2.players[1].name,
+                            selected: false
+                        }]
+                } else {
+                    if (info.team1.setWon > 0) {
+                        players = [{
+                            id: info.team1.players[0].id,
+                            text: info.team1.players[0].name,
+                            selected: false
+                        }]
+                        if (max === 3)
+                            players = [...players, {
+                                id: info.team1.players[1].id,
+                                text: info.team1.players[1].name,
+                                selected: false
+                            }]
+                    }
+                    else if (info.team2.setWon > 0) {
+                        players = [{
+                            id: info.team2.players[0].id,
+                            text: info.team2.players[0].name,
+                            selected: false
+                        }]
+                        if (max === 3)
+                            players = [...players, {
+                                id: info.team2.players[1].id,
+                                text: info.team2.players[1].name,
+                                selected: false
+                            }]
+                    }
+                }
                 setOptions(players);
                 break;
             case 3:
@@ -195,7 +224,7 @@ const Selector = (props) => {
                             )}
                         </div>
                         <div className="action-btns">
-                            {props.exitable && <p className="prev" onClick={backClick}>
+                            {(props.exitable || index > 2) && <p className="prev" onClick={backClick}>
                                 {index === 1 ? "خروج" : "بازگشت"}
                             </p>}
                             <Button onClick={nextClick}>{index === max ? "ذخیره" : stringFa.next}</Button>

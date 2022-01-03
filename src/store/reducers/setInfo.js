@@ -56,15 +56,15 @@ const setOver = (state, action) => {
             setWon: state[teamKey].setWon + 1,
             scores: [...state[teamKey].scores, state[teamKey].score],
             score: 0,
-            server: 0,
-            receiver: 0
+            server: state[teamKey].players.length > 1 ? 0 : state[teamKey].server,
+            receiver: state[teamKey].players.length > 1 ? 0 : state[teamKey].receiver,
         },
         [otherTeam]: {
             ...state[otherTeam],
             scores: [...state[otherTeam].scores, state[otherTeam].score],
             score: 0,
-            server: 0,
-            receiver: 0
+            server: state[otherTeam].players.length > 1 ? 0 : state[otherTeam].server,
+            receiver: state[otherTeam].players.length > 1 ? 0 : state[otherTeam].receiver,
         },
         eventCounter: 0,
         events: [],
