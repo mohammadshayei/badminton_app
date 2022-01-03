@@ -148,9 +148,9 @@ const PlayerBlock = (props) => {
         },
       }
       if (props.server === 1)
-        addEvent({ type: "score", time: "", by: props.playerName, content: props.score, detail });
+        addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
       else if (props.server === 2)
-        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score, detail });
+        addEvent({ type: "score", time: "", by: props.playerD.id, content: props.score, detail });
     }
   }, [props.server, props.receiver]);
 
