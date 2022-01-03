@@ -55,17 +55,6 @@ const PlayerBlock = (props) => {
     if (info.foulHappend)
       foulHappend({ foulType: null });
   }
-  // if (info.undoMode) return;
-  //   const detail = {
-  //     server: {
-  //       number: info.team1.server === 0 ? info.team2.server : info.team1.server,
-  //       teamName: info.team1.server === 0 ? 'team2' : 'team1'
-  //     },
-  //     receiver: {
-  //       number: info.team1.receiver === 0 ? info.team2.receiver : info.team1.receiver,
-  //       teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
-  //     },
-  //   }
   useEffect(() => {
     if (info.undoMode) return;
     const detail = {
