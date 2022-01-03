@@ -13,7 +13,6 @@ const PlayerBlock = (props) => {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const info = useSelector(state => state.info)
-
   const dispatch = useDispatch();
   const increaseScore = (teamKey) => {
     dispatch(infoActions.increaseScore(teamKey));
@@ -56,9 +55,19 @@ const PlayerBlock = (props) => {
     if (info.foulHappend)
       foulHappend({ foulType: null });
   }
+  // if (info.undoMode) return;
+  //   const detail = {
+  //     server: {
+  //       number: info.team1.server === 0 ? info.team2.server : info.team1.server,
+  //       teamName: info.team1.server === 0 ? 'team2' : 'team1'
+  //     },
+  //     receiver: {
+  //       number: info.team1.receiver === 0 ? info.team2.receiver : info.team1.receiver,
+  //       teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
+  //     },
+  //   }
   useEffect(() => {
     if (info.undoMode) return;
-    console.log(info)
     const detail = {
       server: {
         number: info.team1.server === 0 ? info.team2.server : info.team1.server,
@@ -69,19 +78,14 @@ const PlayerBlock = (props) => {
         teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
       },
     }
-    if (props.score !== 0 && props.server === 0) {
-      switchServer({
-        rev: dynamicStyle.flexDirection === "column-reverse" && true,
-        left: props.position === "left" && true
-      })
-      if (props.playerD) {
-        addEvent({ type: "score", time: "", by: props.playerD.id, content: props.score, detail });
-      } else {
-        addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
+    if (props.server === 0) {
+      if (props.score !== 0) {
+        switchServer({
+          rev: dynamicStyle.flexDirection === "column-reverse" && true,
+          left: props.position === "left" && true
+        })
       }
-    }
-
-    if (props.server === 1) {
+    } else if (props.server === 1) {
       if (props.score !== 0)
         addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
       if (props.score % 2 === 0) {
@@ -100,6 +104,55 @@ const PlayerBlock = (props) => {
     }
 
   }, [props.score, info.undoMode]);
+
+  useEffect(() => {
+    if (props.score === 0) {
+      if (props.server === 0) {
+        let team = "team1";
+        if (props.teamKey === "team1") team = "team2";
+        if (props.receiver === 1) {
+          if (info[team].server === 1) {
+            setdynamicStyle({
+              flexDirection:
+                props.position === "left" ? "column-reverse" : "column",
+            });
+          }
+        } else if (props.receiver === 2) {
+          if (info[team].server === 1 || info[team].server === 2) {
+            setdynamicStyle({
+              flexDirection:
+                props.position === "left" ? "column" : "column-reverse",
+            });
+          }
+        }
+      } else if (props.server === 1) {
+        setdynamicStyle({
+          flexDirection:
+            props.position === "left" ? "column-reverse" : "column",
+        });
+      } else if (props.server === 2) {
+        setdynamicStyle({
+          flexDirection:
+            props.position === "left" ? "column" : "column-reverse",
+        });
+      }
+    } else {
+      const detail = {
+        server: {
+          number: info.team1.server === 0 ? info.team2.server : info.team1.server,
+          teamName: info.team1.server === 0 ? 'team2' : 'team1'
+        },
+        receiver: {
+          number: info.team1.receiver === 0 ? info.team2.receiver : info.team1.receiver,
+          teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
+        },
+      }
+      if (props.server === 1)
+        addEvent({ type: "score", time: "", by: props.playerName, content: props.score, detail });
+      else if (props.server === 2)
+        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score, detail });
+    }
+  }, [props.server, props.receiver]);
 
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}
