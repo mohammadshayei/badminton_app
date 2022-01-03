@@ -26,6 +26,7 @@ const initialState = {
     balls: 1,
     foulHappend: null,
     eventCounter: 0,
+    undoMode: false,
 };
 
 
@@ -37,7 +38,9 @@ const increaseScore = (state, action) => {
         [teamKey]: {
             ...state[teamKey],
             score: state[teamKey].score + 1
-        }
+        },
+        undoMode: false,
+
     };
 };
 
@@ -98,7 +101,13 @@ const foulHappend = (state, action) => {
 };
 
 const addEvent = (state, action) => {
-    const { type, time, by, content } = action.payload;
+    const { type, time, by, content, detail } = action.payload;
+    //detail :{
+    //  server:{
+    //     number:1,
+    //     team1:false,
+    // }
+    //}
     let newCounter = state.eventCounter;
     if (type !== "increaseBall" && type !== "decreaseBall") newCounter++;
     return {
@@ -109,9 +118,62 @@ const addEvent = (state, action) => {
                 time,
                 type,
                 by,
-                content
+                content,
+                detail
             }],
         eventCounter: newCounter,
+        undoMode: false,
+    };
+};
+
+const removeEventFromStack = (state, action) => {
+    let updatedEvents = [...state.events]
+    let event = updatedEvents[updatedEvents.length - 1]
+    let prevEvent = updatedEvents.length > 1 && updatedEvents[updatedEvents.length - 2]
+    let newCounter = state.eventCounter;
+    let team1 = {
+        score: state.team1.score,
+        server: state.team1.server,
+        receiver: state.team1.receiver,
+    };
+    let team2 = {
+        score: state.team1.score,
+        server: state.team1.server,
+        receiver: state.team1.receiver,
+    };
+    if (event.type !== "increaseBall" && event.type !== "decreaseBall") newCounter--;
+    if (event.type === 'score') {
+        let team1ScoreExist = state.team1.players.find(item => item.id === event.by);
+        // let team2ScoreExist = state.team2.players.find(item => item.id === event.by);
+        let team1PrevScoreExist = state.team1.players.find(item => item.id === prevEvent.by);
+        console.log(event)
+        // if (team1ScoreExist) {
+        //     team1 = {
+        //         score: team1.score--,
+        //     }
+        // }
+        // else{
+        //     team2 = {
+        //         score: team2.score--,
+        //     }
+        // } 
+
+    }
+    updatedEvents.splice(updatedEvents.length - 1, 1)
+
+    return {
+        ...state,
+        events: updatedEvents,
+        eventCounter: newCounter,
+        team1: {
+            ...state.team1,
+            ...team1
+        },
+        team2: {
+            ...state.team2,
+            ...team2
+        },
+        undoMode: true
     };
 };
 
@@ -126,7 +188,6 @@ const switchServer = (state, action) => {
         teamServer = "team2";
         teamReciver = "team1";
     }
-    console.log(state.team1.players.length);
     if (state.team1.players.length > 1)
         if (state[teamServer].score % 2 === 0) {
             if (left)
@@ -268,6 +329,8 @@ const reducer = (state = initialState, action) => {
             return setChosen(state, action);
         case actionTypes.SET_SET_ID:
             return setSetId(state, action);
+        case actionTypes.REMOVE_EVENT_FROM_STACK:
+            return removeEventFromStack(state, action);
         default:
             return state;
     }

@@ -33,10 +33,10 @@ export const foulHappend = ({ foulType }) => (dispatch) => {
     });
 };
 
-export const addEvent = ({ type, time, by, content }) => (dispatch) => {
+export const addEvent = ({ type, time, by, content, detail }) => (dispatch) => {
     dispatch({
         type: actionTypes.ADD_EVENT,
-        payload: { type, time, by, content },
+        payload: { type, time, by, content, detail },
     });
 };
 
@@ -70,5 +70,10 @@ export const setSetId = (id) => {
     return {
         type: actionTypes.SET_SET_ID,
         id
+    };
+};
+export const removeEventFromStack = () => {
+    return {
+        type: actionTypes.REMOVE_EVENT_FROM_STACK,
     };
 };

@@ -34,14 +34,14 @@ const PlayerBlock = (props) => {
     dispatch(infoActions.switchServer(server));
   };
 
-  const selectPlayer = (name) => {
+  const selectPlayer = (id) => {
     if (info.foulHappend) {
       let foul;
       if (info.foulHappend === "Retired")
         foul = "Ret"
       else
         foul = info.foulHappend.substring(0, 1)
-      addEvent({ type: info.foulHappend, time: "", by: name, content: foul });
+      addEvent({ type: info.foulHappend, time: "", by: id, content: foul, detail: null });
       if (info.foulHappend === "Fault") {
         if (props.teamKey === "team1")
           increaseScore({ teamKey: "team2" })
@@ -56,24 +56,34 @@ const PlayerBlock = (props) => {
     if (info.foulHappend)
       foulHappend({ foulType: null });
   }
-
   useEffect(() => {
-
+    if (info.undoMode) return;
+    console.log(info)
+    const detail = {
+      server: {
+        number: info.team1.server === 0 ? info.team2.server : info.team1.server,
+        teamName: info.team1.server === 0 ? 'team2' : 'team1'
+      },
+      receiver: {
+        number: info.team1.receiver === 0 ? info.team2.receiver : info.team1.receiver,
+        teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
+      },
+    }
     if (props.score !== 0 && props.server === 0) {
       switchServer({
         rev: dynamicStyle.flexDirection === "column-reverse" && true,
         left: props.position === "left" && true
       })
-      if (props.playerNameD) {
-        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
+      if (props.playerD) {
+        addEvent({ type: "score", time: "", by: props.playerD.id, content: props.score, detail });
       } else {
-        addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
+        addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
       }
     }
 
     if (props.server === 1) {
       if (props.score !== 0)
-        addEvent({ type: "score", time: "", by: props.playerName, content: props.score });
+        addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
       if (props.score % 2 === 0) {
         setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
       } else {
@@ -81,7 +91,7 @@ const PlayerBlock = (props) => {
       }
     } else if (props.server === 2) {
       if (props.score !== 0)
-        addEvent({ type: "score", time: "", by: props.playerNameD, content: props.score });
+        addEvent({ type: "score", time: "", by: props.playerD.id, content: props.score, detail });
       if (props.score % 2 === 0) {
         setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
       } else {
@@ -89,7 +99,7 @@ const PlayerBlock = (props) => {
       }
     }
 
-  }, [props.score]);
+  }, [props.score, info.undoMode]);
 
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}
@@ -102,19 +112,19 @@ const PlayerBlock = (props) => {
         <div className={`player-block-image-and-title ${info.foulHappend && 'blink'}`}
           style={dynamicStyle}
         >
-          <p className="player-name">{props.playerName}</p>
-          <img src={props.playerImg ? props.playerImg : PROFILE_IMAGE} alt="badminton player" style={{
+          <p className="player-name">{props.player && props.player.name}</p>
+          <img src={props.player && props.player.avatar !== '' ? props.player.avatar : PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 && "15px solid #F7FF00"
-          }} onClick={() => selectPlayer(props.playerName)} />
-          {props.playerNameD &&
-            <img src={props.playerImgD ?
-              props.playerImgD :
+          }} onClick={() => selectPlayer(props.player.id)} />
+          {props.playerD &&
+            <img src={props.playerD.avatar ?
+              props.playerD.avatar :
               PROFILE_IMAGE}
               alt="badminton second player"
               style={{
                 outline: props.server === 2 && "15px solid #F7FF00"
-              }} onClick={() => selectPlayer(props.playerNameD)} />}
-          {props.playerNameD && <p className="player-name">{props.playerNameD}</p>}
+              }} onClick={() => selectPlayer(props.playerD.name)} />}
+          {props.playerD && <p className="player-name">{props.playerD.name}</p>}
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
           style={{ opacity: info.foulHappend ? 0 : 1 }}>

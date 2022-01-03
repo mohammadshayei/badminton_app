@@ -17,7 +17,6 @@ import { createSet } from "../../../api/home";
 import WinnerModal from "./WinnerModal/WinnerModal";
 
 const ScoreBoard = () => {
-  const info = useSelector((state) => state.info);
   const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"]);
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
@@ -33,10 +32,11 @@ const ScoreBoard = () => {
 
   const gameId = useSelector(state => state.gameInfo.gameId)
   const game = useSelector(state => state.gameInfo.gameReferee)
-
   const setId = useSelector(state => state.info._id)
   const token = useSelector(state => state.auth.token)
   const socket = useSelector(state => state.auth.socket)
+  const info = useSelector((state) => state.info);
+
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -49,6 +49,9 @@ const ScoreBoard = () => {
   };
   const switchSide = () => {
     dispatch(infoActions.switchSide());
+  };
+  const removeEventFromStack = () => {
+    dispatch(infoActions.removeEventFromStack());
   };
 
   const onBackButtonEvent = (e) => {
@@ -126,7 +129,12 @@ const ScoreBoard = () => {
       alert(resultEnd.error)
     }
   }
-
+  const onUndoClickHandler = () => {
+    if (info.events.length > 0) {
+      removeEventFromStack()
+    }
+  }
+  
   useEffect(() => {
     if (socket && gameStarted && game) {
       const payload = {
@@ -316,10 +324,8 @@ const ScoreBoard = () => {
               (<PlayerBlock
                 disable={disable}
                 key={k}
-                playerImg={v.players[0].avatar}
-                playerImgD={v.players[1] && v.players[1].avatar}
-                playerName={v.players[0].name}
-                playerNameD={v.players[1] && v.players[1].name}
+                player={v.players[0]}
+                playerD={v.players[1] && v.players[1]}
                 setWon={v.setWon}
                 score={v.score}
                 scores={v.scores}
@@ -347,7 +353,13 @@ const ScoreBoard = () => {
       <div disabled={disable} className="action-buttons"
         style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
         <FaExclamation className="action-btn" style={{ color: theme.primary }} onClick={() => setEventPicker(true)} />
-        <ImUndo2 className="action-btn" style={{ color: theme.primary, filter: "grayscale(10)" }} />
+        <ImUndo2
+          className="action-btn"
+          style={{
+            color: theme.primary,
+            filter: info.events.length === 0 && "grayscale(10)"
+          }}
+          onClick={onUndoClickHandler} />
       </div>
     </div >
   );

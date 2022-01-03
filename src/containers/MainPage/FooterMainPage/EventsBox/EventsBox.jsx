@@ -59,9 +59,10 @@ const EventsBox = () => {
   }, [info.team1.setWon, info.team2.setWon])
 
   useEffect(() => {
-    if (info.eventCounter > 0) {
+
+    if (info.eventCounter > 0 && info.eventCounter > log.length - 3) {
       info.team1.players.forEach((player, index) => {
-        if (info.events[info.events.length - 1].by === player.name)
+        if (info.events[info.events.length - 1].by === player.id)
           setLog([...log, [
             { content: `${index === 0 ? info.events[info.events.length - 1].content : ''}` },
             { content: `${index === 1 ? info.events[info.events.length - 1].content : ''}` },
@@ -75,7 +76,7 @@ const EventsBox = () => {
           newIndex = index + 2;
         else
           newIndex = index + 1;
-        if (info.events[info.events.length - 1].by === player.name)
+        if (info.events[info.events.length - 1].by === player.id)
           setLog([...log, [
             { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
             { content: `${newIndex === 1 ? info.events[info.events.length - 1].content : ''}` },
@@ -85,6 +86,12 @@ const EventsBox = () => {
       })
       myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
     }
+    else if (log.length - 3 > info.eventCounter) {
+      let updatedLog = [...log]
+      updatedLog.splice(updatedLog.length - 1, 1)
+      setLog(updatedLog)
+    }
+
   }, [info.eventCounter])
 
   return (
