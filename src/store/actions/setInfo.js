@@ -40,10 +40,9 @@ export const addEvent = ({ type, time, by, content, detail }) => (dispatch) => {
     });
 };
 
-export const switchServer = ({ rev, left }) => (dispatch) => {
+export const switchServer = () => (dispatch) => {
     dispatch({
         type: actionTypes.SWITCH_SERVER,
-        payload: { rev, left },
     });
 };
 
@@ -75,5 +74,12 @@ export const setSetId = (id) => {
 export const removeEventFromStack = () => {
     return {
         type: actionTypes.REMOVE_EVENT_FROM_STACK,
+    };
+};
+
+export const setPlayerPlace = ({ teamKey }) => {
+    return {
+        type: actionTypes.SET_PLAYER_PLACE,
+        payload: { teamKey },
     };
 };
