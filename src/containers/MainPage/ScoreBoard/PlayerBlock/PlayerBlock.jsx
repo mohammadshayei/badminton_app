@@ -41,6 +41,8 @@ const PlayerBlock = (props) => {
       let foul;
       if (info.foulHappend === "Retired")
         foul = "Ret"
+      else if (info.foulHappend === "Disqualified")
+        foul = "Dis"
       else
         foul = info.foulHappend.substring(0, 1)
       addEvent({ type: info.foulHappend, time: "", by: id, content: foul, detail: null });
@@ -139,7 +141,7 @@ const PlayerBlock = (props) => {
               alt="badminton second player"
               style={{
                 outline: props.server === 2 && "15px solid #F7FF00"
-              }} onClick={() => selectPlayer(props.playerD.name)} />}
+              }} onClick={() => selectPlayer(props.playerD.id)} />}
           {props.playerD && <p className="player-name">{props.playerD.name}</p>}
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"

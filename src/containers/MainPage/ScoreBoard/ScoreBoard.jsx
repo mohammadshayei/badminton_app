@@ -303,7 +303,6 @@ const ScoreBoard = () => {
       }
     }
   }, [breakTime]);
-  console.log(info)
   return (
     <div
       className="scoreboard-container"
