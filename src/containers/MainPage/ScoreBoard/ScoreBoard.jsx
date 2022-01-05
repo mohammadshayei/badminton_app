@@ -135,7 +135,7 @@ const ScoreBoard = () => {
       removeEventFromStack()
     }
   }
-  
+
   useEffect(() => {
     if (socket && gameStarted && game) {
       const payload = {
@@ -182,6 +182,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
+            setHalfTime(true);
             setDisable(true);
             setBreakTime(2);
           }
@@ -220,6 +221,7 @@ const ScoreBoard = () => {
           if (info.team1.setWon + info.team2.setWon === 2)
             switchSide();
           if (!halfTime) {
+            setHalfTime(true);
             setDisable(true);
             setBreakTime(2);
           }
@@ -289,14 +291,16 @@ const ScoreBoard = () => {
         seconds = seconds < 10 ? `0${seconds}` : seconds;
         setTimer(`${minutes}:${seconds}`);
       }, 1000);
-      setTimeout(() => {
-        setBreakTime(0);
+      const countDown = setTimeout(() => {
+        if (breakTime !== 0) setBreakTime(0);
+      }, (breakTime - 1) * 60000);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(countDown);
         setDisable(false);
-        setHalfTime(true);
         if (info.team1.players.length > 1 && breakTime === 3)
           setChooseServer(true);
-      }, (breakTime - 1) * 60000);
-      return () => clearInterval(interval);
+      }
     }
   }, [breakTime]);
   console.log(info)
@@ -352,7 +356,7 @@ const ScoreBoard = () => {
         {(breakTime === 2 || breakTime === 3) &&
           <div className="break-timer" >{timer}
             <ImCancelCircle className="cancel-timer" color={theme.error}
-              onClick={() => { setDisable(false); setBreakTime(0); }} />
+              onClick={() => setBreakTime(0)} />
           </div>}
       </div>
       {/* <FooterScoreBoard /> */}

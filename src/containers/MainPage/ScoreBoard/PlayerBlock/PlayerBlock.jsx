@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
 
 const PlayerBlock = (props) => {
-  const [dynamicStyle, setdynamicStyle] = useState({ flexDirection: "column" })
+  const [dynamicStyle, setdynamicStyle] = useState({ flexDirection: "column" });
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const info = useSelector(state => state.info)
@@ -31,6 +31,9 @@ const PlayerBlock = (props) => {
   };
   const switchServer = (server) => {
     dispatch(infoActions.switchServer(server));
+  };
+  const setPlayerPlace = (teamKey) => {
+    dispatch(infoActions.setPlayerPlace(teamKey));
   };
 
   const selectPlayer = (id) => {
@@ -69,79 +72,50 @@ const PlayerBlock = (props) => {
     }
     if (props.server === 0) {
       if (props.score !== 0) {
-        switchServer({
-          rev: dynamicStyle.flexDirection === "column-reverse" && true,
-          left: props.position === "left" && true
-        })
+        switchServer();
       }
     } else if (props.server === 1) {
-      if (props.score !== 0)
+      if (props.score !== 0) {
         addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
-      if (props.score % 2 === 0) {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
-      } else {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
+        setPlayerPlace({ teamKey: props.teamKey });
       }
     } else if (props.server === 2) {
-      if (props.score !== 0)
+      if (props.score !== 0) {
         addEvent({ type: "score", time: "", by: props.playerD.id, content: props.score, detail });
-      if (props.score % 2 === 0) {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column" : "column-reverse" })
-      } else {
-        setdynamicStyle({ flexDirection: props.position === "left" ? "column-reverse" : "column" })
+        setPlayerPlace({ teamKey: props.teamKey });
       }
     }
 
   }, [props.score, info.undoMode]);
 
   useEffect(() => {
-    if (props.score === 0) {
-      if (props.server === 0) {
-        let team = "team1";
-        if (props.teamKey === "team1") team = "team2";
-        if (props.receiver === 1) {
-          if (info[team].server === 1) {
-            setdynamicStyle({
-              flexDirection:
-                props.position === "left" ? "column-reverse" : "column",
-            });
-          }
-        } else if (props.receiver === 2) {
-          if (info[team].server === 1 || info[team].server === 2) {
-            setdynamicStyle({
-              flexDirection:
-                props.position === "left" ? "column" : "column-reverse",
-            });
-          }
+    let key = info[props.teamKey].server > 0 ? "server" : "receiver"
+    if (key === "server")
+      if (info[props.teamKey].isTop) {
+        setdynamicStyle({
+          flexDirection:
+            info[props.teamKey][key] === 1 ? "column" : "column-reverse"
+        })
+      } else {
+        setdynamicStyle({
+          flexDirection:
+            info[props.teamKey][key] === 1 ? "column-reverse" : "column"
+        })
+      }
+    else
+      if (info.team1.score === 0 && info.team2.score === 0)
+        if (info[props.teamKey].isTop) {
+          setdynamicStyle({
+            flexDirection:
+              info[props.teamKey][key] === 1 ? "column" : "column-reverse"
+          })
+        } else {
+          setdynamicStyle({
+            flexDirection:
+              info[props.teamKey][key] === 1 ? "column-reverse" : "column"
+          })
         }
-      } else if (props.server === 1) {
-        setdynamicStyle({
-          flexDirection:
-            props.position === "left" ? "column-reverse" : "column",
-        });
-      } else if (props.server === 2) {
-        setdynamicStyle({
-          flexDirection:
-            props.position === "left" ? "column" : "column-reverse",
-        });
-      }
-    } else {
-      const detail = {
-        server: {
-          number: info.team1.server === 0 ? info.team2.server : info.team1.server,
-          teamName: info.team1.server === 0 ? 'team2' : 'team1'
-        },
-        receiver: {
-          number: info.team1.receiver === 0 ? info.team2.receiver : info.team1.receiver,
-          teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
-        },
-      }
-      if (props.server === 1)
-        addEvent({ type: "score", time: "", by: props.player.id, content: props.score, detail });
-      else if (props.server === 2)
-        addEvent({ type: "score", time: "", by: props.playerD.id, content: props.score, detail });
-    }
-  }, [props.server, props.receiver]);
+  }, [props.score, info[props.teamKey].isTop])
 
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}

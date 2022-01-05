@@ -60,37 +60,39 @@ const EventsBox = () => {
 
   useEffect(() => {
 
-    if (info.eventCounter > 0 && info.eventCounter > log.length - 3) {
-      info.team1.players.forEach((player, index) => {
-        if (info.events[info.events.length - 1].by === player.id)
-          setLog([...log, [
-            { content: `${index === 0 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index === 1 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index === 2 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index === 3 ? info.events[info.events.length - 1].content : ''}` },
-          ]])
-      })
-      let newIndex;
-      info.team2.players.forEach((player, index) => {
-        if (info.team2.players.length === 2)
-          newIndex = index + 2;
-        else
-          newIndex = index + 1;
-        if (info.events[info.events.length - 1].by === player.id)
-          setLog([...log, [
-            { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${newIndex === 1 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${newIndex === 2 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${newIndex === 3 ? info.events[info.events.length - 1].content : ''}` },
-          ]])
-      })
-      myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
-    }
-    else if (log.length - 3 > info.eventCounter) {
-      let updatedLog = [...log]
-      updatedLog.splice(updatedLog.length - 1, 1)
-      setLog(updatedLog)
-    }
+    // if (info.eventCounter > 0 && info.eventCounter > log.length - 3) {
+    if (info.events.length === 0)
+      return
+    info.team1.players.forEach((player, index) => {
+      if (info.events[info.events.length - 1].by === player.id)
+        setLog([...log, [
+          { content: `${index === 0 ? info.events[info.events.length - 1].content : ''}` },
+          { content: `${index === 1 ? info.events[info.events.length - 1].content : ''}` },
+          { content: `${index === 2 ? info.events[info.events.length - 1].content : ''}` },
+          { content: `${index === 3 ? info.events[info.events.length - 1].content : ''}` },
+        ]])
+    })
+    let newIndex;
+    info.team2.players.forEach((player, index) => {
+      if (info.team2.players.length === 2)
+        newIndex = index + 2;
+      else
+        newIndex = index + 1;
+      if (info.events[info.events.length - 1].by === player.id)
+        setLog([...log, [
+          { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
+          { content: `${newIndex === 1 ? info.events[info.events.length - 1].content : ''}` },
+          { content: `${newIndex === 2 ? info.events[info.events.length - 1].content : ''}` },
+          { content: `${newIndex === 3 ? info.events[info.events.length - 1].content : ''}` },
+        ]])
+    })
+    myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+    // }
+    // else if (log.length - 3 > info.eventCounter) {
+    //   let updatedLog = [...log]
+    //   updatedLog.splice(updatedLog.length - 1, 1)
+    //   setLog(updatedLog)
+    // }
 
   }, [info.eventCounter])
 

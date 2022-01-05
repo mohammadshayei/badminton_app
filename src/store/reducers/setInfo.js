@@ -7,6 +7,7 @@ const initialState = {
         isRightTeam: false,
         server: 0,
         receiver: 1,
+        isTop: false,
         score: 0,
         scores: [],
         setWon: 0,
@@ -17,6 +18,7 @@ const initialState = {
         isRightTeam: false,
         server: 0,
         receiver: 1,
+        isTop: false,
         score: 0,
         scores: [],
         setWon: 0,
@@ -61,6 +63,7 @@ const setOver = (state, action) => {
             score: 0,
             server: state[teamKey].players.length > 1 ? 0 : state[teamKey].server,
             receiver: state[teamKey].players.length > 1 ? 0 : state[teamKey].receiver,
+            isTop: state[teamKey].players.length > 1 ? 0 : state[teamKey].isTop
         },
         [otherTeam]: {
             ...state[otherTeam],
@@ -68,6 +71,7 @@ const setOver = (state, action) => {
             score: 0,
             server: state[otherTeam].players.length > 1 ? 0 : state[otherTeam].server,
             receiver: state[otherTeam].players.length > 1 ? 0 : state[otherTeam].receiver,
+            isTop: state[teamKey].players.length > 1 ? 0 : state[teamKey].isTop
         },
         eventCounter: 0,
         events: [],
@@ -175,41 +179,78 @@ const removeEventFromStack = (state, action) => {
     };
 };
 
-const switchServer = (state, action) => {
-    const { rev, left } = action.payload;
-    let teamServer, teamReciver, server;
+const switchServer = (state) => {
+    let teamServer, teamReceiver, server, isTopServer, receiver, newCounter;
     if (state.team1.server === 0) {
         teamServer = "team1";
-        teamReciver = "team2";
+        teamReceiver = "team2";
     }
     else {
         teamServer = "team2";
-        teamReciver = "team1";
+        teamReceiver = "team1";
     }
-    if (state.team1.players.length > 1)
+    if (state.team1.players.length > 1) {
         if (state[teamServer].score % 2 === 0) {
-            if (left)
-                if (rev) server = 1; else server = 2;
+            if (!state[teamServer].isRightTeam)
+                isTopServer = false;
             else
-                if (rev) server = 2; else server = 1;
+                isTopServer = true;
         } else {
-            if (left)
-                if (rev) server = 2; else server = 1;
+            if (!state[teamServer].isRightTeam)
+                isTopServer = true;
             else
-                if (rev) server = 1; else server = 2;
+                isTopServer = false;
         }
+
+        if (state[teamReceiver].isTop) { server = isTopServer ? state[teamServer].receiver === 2 ? 1 : 2 : state[teamServer].receiver; }
+        else { server = isTopServer ? state[teamServer].receiver : state[teamServer].receiver === 2 ? 1 : 2 }
+
+        if (state[teamReceiver].isTop) {
+            receiver = isTopServer ?
+                state[teamReceiver].server === 2 ? 1 : 2 :
+                state[teamReceiver].server;
+        }
+        else {
+            receiver = isTopServer ?
+                state[teamReceiver].server :
+                state[teamReceiver].server === 2 ? 1 : 2
+        }
+    }
     else
         server = 1;
+    newCounter = state.eventCounter
+    newCounter += 1
     return {
         ...state,
         [teamServer]: {
             ...state[teamServer],
-            server: server
+            server,
+            receiver: 0,
+            isTop: isTopServer,
         },
-        [teamReciver]: {
-            ...state[teamReciver],
-            server: 0
-        }
+        [teamReceiver]: {
+            ...state[teamReceiver],
+            server: 0,
+            receiver,
+            isTop: !isTopServer,
+        },
+        events: [...state.events, {
+            time: "",
+            type: "score",
+            by: state[teamServer].players[server - 1].id,
+            content: state[teamServer].score,
+            detail: {
+                server: {
+                    number: server,
+                    teamName: teamServer
+                },
+                receiver: {
+                    number: 0,
+                    teamName: ""
+                },
+            }
+        }],
+        eventCounter: newCounter
     };
 };
 
@@ -283,14 +324,23 @@ const setScoreboardData = (state, action) => {
 const setChosen = (state, action) => {
     const { id, index } = action.payload;
     let team, server, receiver = 0, right;
-    team = state.team1.players.find(item => item.id === id) ? 'team1' : "team2"
+    let isTop = true;
+    team = state.team1.players.find(item => item.id === id) ? 'team1' : "team2";
     if (index === 1)
         right = true;
     else if (index === 2) {
-        server = state[team].players.findIndex(item => item.id === id) + 1
+        server = state[team].players.findIndex(item => item.id === id) + 1;
+        if (!state[team].isRightTeam)
+            isTop = false;
+        else
+            isTop = true;
     }
     else if (index === 3) {
-        receiver = state[team].players.findIndex(item => item.id === id) + 1
+        receiver = state[team].players.findIndex(item => item.id === id) + 1;
+        if (!state[team].isRightTeam)
+            isTop = false;
+        else
+            isTop = true;
     }
     return {
         ...state,
@@ -298,8 +348,26 @@ const setChosen = (state, action) => {
             ...state[team],
             isRightTeam: index === 1 ? right : state[team].isRightTeam,
             server: index === 2 ? server : state[team].server,
-            receiver: index !== 1 ? receiver : state[team].receiver
+            isTop: index !== 1 ? isTop : state[team].isTop,
+            receiver: index !== 1 ? receiver : state[team].receiver,
         },
+    };
+};
+
+const setPlayerPlace = (state, action) => {
+    const { teamKey } = action.payload;
+    const otherTeam = teamKey === "team1" ? "team2" : "team1";
+    return {
+        ...state,
+        [teamKey]: {
+            ...state[teamKey],
+            isTop: !state[teamKey].isTop,
+        },
+        [otherTeam]: {
+            ...state[otherTeam],
+            receiver: state.team1.players.length > 1 ? state[otherTeam].receiver === 1 ? 2 : 1 : 1,
+            isTop: state[teamKey].isTop,
+        }
     };
 };
 
@@ -318,7 +386,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_EVENT:
             return addEvent(state, action);
         case actionTypes.SWITCH_SERVER:
-            return switchServer(state, action);
+            return switchServer(state);
         case actionTypes.SWITCH_SIDE:
             return switchSide(state, action);
         case actionTypes.SET_SCOREBOARD_DATA:
@@ -329,6 +397,8 @@ const reducer = (state = initialState, action) => {
             return setSetId(state, action);
         case actionTypes.REMOVE_EVENT_FROM_STACK:
             return removeEventFromStack(state, action);
+        case actionTypes.SET_PLAYER_PLACE:
+            return setPlayerPlace(state, action);
         default:
             return state;
     }
