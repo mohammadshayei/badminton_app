@@ -106,12 +106,6 @@ const foulHappend = (state, action) => {
 
 const addEvent = (state, action) => {
     const { type, time, by, content, detail } = action.payload;
-    //detail :{
-    //  server:{
-    //     number:1,
-    //     team1:false,
-    // }
-    //}
     let newCounter = state.eventCounter;
     if (type !== "increaseBall" && type !== "decreaseBall") newCounter++;
     return {

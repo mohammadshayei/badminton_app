@@ -193,7 +193,6 @@ const ScoreBoard = () => {
         break;
     }
   }, [info.team1.score])
-
   useEffect(() => {
     switch (info.team2.score) {
       case 0:
@@ -300,7 +299,7 @@ const ScoreBoard = () => {
       return () => clearInterval(interval);
     }
   }, [breakTime]);
-
+  console.log(info)
   return (
     <div
       className="scoreboard-container"
