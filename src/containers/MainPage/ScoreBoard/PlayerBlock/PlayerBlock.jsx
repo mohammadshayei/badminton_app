@@ -132,7 +132,8 @@ const PlayerBlock = (props) => {
         >
           <p className="player-name">{props.player && props.player.name}</p>
           <img src={props.player && props.player.avatar !== '' ? props.player.avatar : PROFILE_IMAGE} alt="badminton player" style={{
-            outline: props.server === 1 && "15px solid #F7FF00"
+            outline: props.server === 1 ? "15px solid #F7FF00" :
+              props.receiver === 1 && `15px solid ${theme.primary_variant}`
           }} onClick={() => selectPlayer(props.player.id)} />
           {props.playerD &&
             <img src={props.playerD.avatar ?
@@ -140,7 +141,8 @@ const PlayerBlock = (props) => {
               PROFILE_IMAGE}
               alt="badminton second player"
               style={{
-                outline: props.server === 2 && "15px solid #F7FF00"
+                outline: props.server === 2 ? "15px solid #F7FF00" :
+                  props.receiver === 2 && `15px solid ${theme.primary_variant}`
               }} onClick={() => selectPlayer(props.playerD.id)} />}
           {props.playerD && <p className="player-name">{props.playerD.name}</p>}
         </div>
