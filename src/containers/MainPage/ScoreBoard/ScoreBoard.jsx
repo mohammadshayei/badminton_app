@@ -54,8 +54,8 @@ const ScoreBoard = () => {
     if (info.events[info.events.length - 1].type === 'score') {
       if ((info.team1.score === 10 && info.team2.score <= 10) || (info.team2.score === 10 && info.team1.score <= 10))
         setBreakTime(0)
-      if ((info.team1.score === 11 && info.team2.score <= 11) || (info.team2.score === 11 && info.team1.score <= 11))
-        setBreakTime(1)
+      // if ((info.team1.score === 11 && info.team2.score <= 11) || (info.team2.score === 11 && info.team1.score <= 11))
+      //   setBreakTime(1)
     }
     dispatch(infoActions.removeEventFromStack());
   };

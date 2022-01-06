@@ -7,6 +7,7 @@ import { HiOutlinePlusSm } from "react-icons/hi";
 import shuttle_image from "../../../../assets/images/badminton_ball.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
+import { baseUrl } from "../../../../constants/Config";
 
 const PlayerBlock = (props) => {
   const [dynamicStyle, setdynamicStyle] = useState({ flexDirection: "column" });
@@ -150,13 +151,13 @@ const PlayerBlock = (props) => {
           style={dynamicStyle}
         >
           <p className="player-name">{props.player && props.player.name}</p>
-          <img src={props.player && props.player.avatar !== '' ? props.player.avatar : PROFILE_IMAGE} alt="badminton player" style={{
+          <img src={props.player && props.player.avatar !== '' ?`${baseUrl}uploads/players/${props.player.avatar}` : PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 ? "15px solid #F7FF00" :
               props.receiver === 1 && `15px solid ${theme.primary_variant}`
           }} onClick={() => selectPlayer(props.player.id)} />
           {props.playerD &&
             <img src={props.playerD.avatar ?
-              props.playerD.avatar :
+              `${baseUrl}uploads/players/${props.playerD.avatar}` :
               PROFILE_IMAGE}
               alt="badminton second player"
               style={{

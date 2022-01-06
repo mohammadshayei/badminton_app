@@ -60,10 +60,9 @@ const EventsBox = () => {
 
   useEffect(() => {
 
-    if (info.eventCounter > 0 && info.eventCounter > log.length - 3) {
+    if (!info.undoMode) {
       if (info.events.length === 0)
         return
-
       let newColumn = true;
       if (info.events[info.events.length - 1].by === "none") {    // if yeki az oon se ta bood
         let newLog = [...log];
@@ -112,11 +111,34 @@ const EventsBox = () => {
         myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
       }
     }
-    else if (log.length - 3 > info.eventCounter) {
+    else {
+      if (log.length === 0) return
       let updatedLog = [...log]
-      updatedLog.splice(updatedLog.length - 1, 1)
       if (updatedLog[updatedLog.length - 1].find(item => item.content === 'F'))
         updatedLog.splice(updatedLog.length - 1, 1)
+      else if (updatedLog[updatedLog.length - 1].find(item => item.content === 'O' || item.content === 'C')) {
+        let newLog = updatedLog[updatedLog.length - 1];
+        newLog = newLog.map(item => {
+          if (item.content === 'O' || item.content === 'C') return { content: "" }
+          else return { content: item.content }
+        })
+        updatedLog[updatedLog.length - 1] = newLog
+      }
+      else if (updatedLog[updatedLog.length - 1].find(item => (item.content === 'R'))) {
+        if (updatedLog[updatedLog.length - 1].find(item => (item.content !== '' && item.content !== 'R'))) {
+          let newLog = updatedLog[updatedLog.length - 1];
+          newLog = newLog.map(item => {
+            if (item.content === 'R') return { content: "" }
+            else return { content: item.content }
+          })
+          updatedLog[updatedLog.length - 1] = newLog
+        } else {
+          updatedLog.splice(updatedLog.length - 1, 1)
+        }
+      }
+      else {
+        updatedLog.splice(updatedLog.length - 1, 1)
+      }
       setLog(updatedLog)
     }
 
