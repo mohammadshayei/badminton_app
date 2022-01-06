@@ -368,8 +368,8 @@ const ScoreBoard = () => {
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
         {(breakTime === 2 || breakTime === 3) &&
           <div className="break-timer" >{timer}
-            <ImCancelCircle className="cancel-timer" color={theme.error}
-              onClick={() => setBreakTime(0)} />
+            {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
+              onClick={() => setBreakTime(0)} />}
           </div>}
       </div>
       {/* <FooterScoreBoard /> */}
