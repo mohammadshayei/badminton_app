@@ -4,7 +4,7 @@ import { createTournament, editTournament } from '../../../api/home'
 import { stringFa } from '../../../assets/strings/stringFaCollection'
 import Button from '../../../components/UI/Button/Button'
 import TransparentButton from '../../../components/UI/Button/TransparentButton/TransparentButton'
-import CustomInput, { elementTypes } from '../../../components/UI/CustomInput/CustomInput'
+import { elementTypes } from '../../../components/UI/CustomInput/CustomInput'
 import * as homeActions from "../../../store/actions/home";
 import { onChangeMultiPage, setUpMultiPage } from '../../../utils/homeFunction'
 import './CreateTournament.scss'

@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useLocation, useNavigate } from "react-router"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
@@ -29,21 +28,19 @@ const GetPhoneNumber = (props) => {
             touched: false
         },
     })
-    const locaiton = useLocation();
-    const searchParams = new URLSearchParams(locaiton.search);
-    let navigate = useNavigate();
+    let searchParams = new URLSearchParams(props.locaiton.search);
 
     const phone = searchParams.get("phone");
 
     const onClick = () => {
         if (props.code === order.code.value)
-            navigate(`?p=3&token=${props.tokenId}&phone=${phone}`);
+            props.navigate(`?p=3&token=${props.tokenId}&phone=${phone}`);
         else {
             alert(stringFa.wrong_code)
         }
     }
     const goToLogin = () => {
-        navigate('/login')
+        props.navigate('/login')
     }
     return (
         <div className='signup-container'>
@@ -57,7 +54,7 @@ const GetPhoneNumber = (props) => {
                             letterSpacing: '1rem',
                             direction: "ltr",
                             fontSize: '1.4rem',
-                            paddingLeft: 'calc( 50% - 6rem )',
+                            paddingLeft: '120px',
                         }}
                         errorStyle={{
                             top: '3.2rem'

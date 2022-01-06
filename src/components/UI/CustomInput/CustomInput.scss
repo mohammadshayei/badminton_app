@@ -29,12 +29,15 @@
 	.validtaion-message {
 		position: absolute;
 		top: 2.8rem;
-		width: 80%;
-		margin: 0 10%;
 		text-align: right;
 		font-size: 0.9rem;
 		padding-right: 0.5rem;
 		margin-top: 0.2rem;
+		width: 80%;
+		max-width: 400px;
+		min-width: 250px;
+		left: 50%;
+		transform: translateX(-50%);
 		color: #f44336;
 	}
 	.required {

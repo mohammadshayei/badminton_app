@@ -100,6 +100,8 @@ const GetPhoneNumber = (props) => {
                                     key={k}
                                     {...v}
                                     onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                                    // errorStyle={{ top: "3.5rem", left: "calc(-50% + 3px )" }}
+
                                 />)
                         }
                         <Button
@@ -109,6 +111,7 @@ const GetPhoneNumber = (props) => {
                                 padding: '.4rem 4rem',
                                 background: 'white',
                                 color: 'black',
+                                marginTop:"2rem"
                             }}
                             config={
                                 { disabled: !formIsValid }

@@ -8,6 +8,7 @@ const ScoreboardView = () => {
     const [data, setData] = useState(null);
     const [timer, setTimer] = useState(0)
     const [gameWonner, setGameWonner] = useState('')
+    const [gameScores, setGameScores] = useState(null)
     const game = useSelector(state => state.gameInfo.gameView)
     const socket = useSelector(state => state.auth.socket)
 
@@ -54,6 +55,18 @@ const ScoreboardView = () => {
 
         }
     }, [socket, game, data, timer])
+    useEffect(() => {
+        if (socket && game) {
+            socket.on('get_end_game_stats', (payload => {
+                const { teamA, teamB, gameId } = payload;
+                if (gameId === game._id) {
+                    console.log(teamA)
+                    setGameScores({ teamA, teamB })
+                }
+            }))
+
+        }
+    }, [socket, game])
     useEffect(() => {
         if (socket && game) {
             socket.on('get_winner_team', (payload => {
@@ -146,15 +159,15 @@ const ScoreboardView = () => {
                                 >
                                     <div>{v.setWon}</div>
                                 </div>
-                                {(data.teamA.setWon === 2) || (data.teamB.setWon === 2) ?
+                                {gameScores ?
                                     <div className="score-digit">
                                         <div className="scores"
                                             style={{
                                                 fontSize: "8vw",
                                                 lineHeight: "8vw"
                                             }}
-                                        >{game.sets.map((s) =>
-                                            <p>{s.set[k].score}</p>
+                                        >{gameScores[k].map((item) =>
+                                            <p>{item}</p>
                                         )}</div>
                                     </div>
                                     :
@@ -179,3 +192,24 @@ const ScoreboardView = () => {
 }
 
 export default ScoreboardView
+// {(data.teamA.setWon === 2) || (data.teamB.setWon === 2) ?
+//     <div className="score-digit">
+//         <div className="scores"
+//             style={{
+//                 fontSize: "8vw",
+//                 lineHeight: "8vw"
+//             }}
+//         >{game.sets.map((s) =>
+//             <p>{s.set[k].score}</p>
+//         )}</div>
+//     </div>
+//     :
+//     <div className="score-digit">
+//         <div className="digital-panel"
+//             style={{
+//                 fontSize: v.score > 9 ? "16vw" : "20vw",
+//                 lineHeight: v.score > 9 ? "16vw" : "15vw"
+//             }}
+//         >{v.score}</div>
+//     </div>
+// }

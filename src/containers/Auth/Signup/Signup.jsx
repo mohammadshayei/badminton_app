@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { useLocation, useNavigate } from "react-router"
 import { registerReferee } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
@@ -10,7 +9,7 @@ import * as actions from "../../../store/actions/auth";
 import { onChange } from "../../../utils/authFunction"
 
 
-const Singup = () => {
+const Singup = ({navigate,locaiton}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
@@ -75,10 +74,8 @@ const Singup = () => {
         },
     })
 
-    let navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const locaiton = useLocation();
     const searchParams = new URLSearchParams(locaiton.search);
     const phone = searchParams.get("phone");
 

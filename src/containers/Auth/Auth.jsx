@@ -6,7 +6,7 @@ import GetPhoneNumber from './Signup/GetPhoneNumber';
 import VerifyCode from './Signup/VerifyCode';
 import Signup from './Signup/Signup';
 import {
-    Navigate, useLocation
+    Navigate, useLocation, useNavigate
 } from "react-router-dom";
 import { useState } from 'react';
 
@@ -16,6 +16,8 @@ const Auth = () => {
     const [code, setCode] = useState('')
 
     const locaiton = useLocation();
+    let navigate = useNavigate();
+
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
@@ -33,7 +35,13 @@ const Auth = () => {
                 break;
             case "2":
                 if (phone)
-                    body = <VerifyCode tokenId={tokenId} code={code} />;
+                    body =
+                        <VerifyCode
+                            locaiton={locaiton}
+                            navigate={navigate}
+                            tokenId={tokenId}
+                            code={code}
+                        />;
                 else
                     body = (
                         <Navigate
@@ -47,7 +55,10 @@ const Auth = () => {
             case "3":
                 if (phone && token === tokenId)
                     body = (
-                        <Signup />
+                        <Signup
+                            locaiton={locaiton}
+                            navigate={navigate}
+                        />
                     );
                 else {
                     body = (
@@ -78,7 +89,9 @@ const Auth = () => {
                 color: theme.on_primary,
             }}
         >
-            <GlobalSection />
+            {
+                locaiton.pathname === "/login" && <GlobalSection navigate={navigate} />
+            }
             {body}
         </div >
     )

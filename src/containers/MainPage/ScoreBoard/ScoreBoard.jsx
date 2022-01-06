@@ -265,7 +265,15 @@ const ScoreBoard = () => {
       } else {
         alert(result.error)
       }
-
+      if (socket) {
+        let payloadSocket = {
+          teamA: info.team1.scores,
+          teamB: info.team2.scores,
+          gameId,
+        }
+        socket.emit('send_end_game_stats', payloadSocket)
+      }
+      // send_end_game_stats
     }
   }, [teamWon])
 

@@ -38,11 +38,12 @@ const store = createStore(
 
 const app = (
   <Provider store={store}>
-    <BrowserRouter basename="badminton">
+    <BrowserRouter basename="">
       <ThemeProvider>
         <App />
       </ThemeProvider>
     </BrowserRouter>
+   
   </Provider>
 );
 
