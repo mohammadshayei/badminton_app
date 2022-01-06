@@ -11,7 +11,7 @@ const WinnerModal = (props) => {
     return (
         <div className="winner-modal-wrapper">
             <div className="details" style={{ flexDirection: info.team1.isRightTeam ? "row-reverse" : "row" }}>
-                <div className={`team-block rev ${props.teamWon === "team1" && "winner"}`}
+                <div className={`team-block ${props.teamWon === "team1" && "winner"}`}
                     style={{ color: props.teamWon === "team1" ? theme.primary : theme.on_background }}
                 >
                     <div className="players-section">
@@ -19,7 +19,7 @@ const WinnerModal = (props) => {
                     </div>
                     <div className="set-score">{info.team1.setWon}</div>
                 </div>
-                <div className={`team-block ${props.teamWon === "team2" && "winner"}`}
+                <div className={`team-block rev ${props.teamWon === "team2" && "winner"}`}
                     style={{ color: props.teamWon === "team2" ? theme.primary : theme.on_background }}
                 >
                     <div className="players-section">

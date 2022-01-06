@@ -175,9 +175,11 @@ const ScoreBoard = () => {
         break;
       case maxPoint:
         setOver({ teamKey: "team1" });
-        switchSide();
+        if (info.team1.setWon < 1) {
+          switchSide();
+          setBreakTime(3);
+        }
         setDisable(true);
-        setBreakTime(3);
         setHalfTime(false);
         endSet('team1');
         setMaxPoint(21);
@@ -210,9 +212,11 @@ const ScoreBoard = () => {
         break;
       case maxPoint:
         setOver({ teamKey: "team2" });
-        switchSide();
+        if (info.team2.setWon < 1) {
+          switchSide();
+          setBreakTime(3);
+        }
         setDisable(true);
-        setBreakTime(3);
         setHalfTime(false);
         endSet('team2');
         setMaxPoint(21);
