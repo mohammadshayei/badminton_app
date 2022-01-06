@@ -86,6 +86,14 @@ const ScoreboardView = () => {
                         (v.players.length > 0) &&
                         (<div
                             className={`player-block-view ${k === "teamB" && "rev-block"}`}
+                            style={{
+                                background: (data.teamA.setWon === 2) || (data.teamB.setWon === 2) ?
+                                    v.setWon === 2 ?
+                                        "rgba(172, 209, 175,0.25)" :
+                                        "rgba(244, 113, 116,0.3)"
+                                    :
+                                    "transparent"
+                            }}
                             key={k}
                         >
                             <div className="player-name-and-image"
@@ -95,8 +103,7 @@ const ScoreboardView = () => {
                                     style={{
                                         transform:
                                             v.players[0].player.username.length > 16 ?
-                                                `translateX(${k === "teamB" ? "-" : "+"}
-                                                ${v.players[0].player.username.length * 4}px)` :
+                                                (`translateX(${k === "teamB" ? "-" : "+"}${v.players[0].player.username.length * 4}px)`) :
                                                 "translateX(0)"
                                     }}
                                 >
@@ -124,8 +131,7 @@ const ScoreboardView = () => {
                                     style={{
                                         transform:
                                             v.players[1].player.username.length > 16 ?
-                                                `translateX(${k === "teamB" ? "-" : "+"}
-                                                ${v.players[1].player.username.length * 4}px)` :
+                                                (`translateX(${k === "teamB" ? "-" : "+"}${v.players[1].player.username.length * 4}px)`) :
                                                 "translateX(0)"
                                     }}
                                 >
@@ -133,17 +139,34 @@ const ScoreboardView = () => {
                                 </div>}
                             </div>
                             <div className="player-score-and-set">
-                                <div className="set-score">
+                                <div className="set-score"
+                                    style={{
+                                        fontSize: (data.teamA.setWon === 2) || (data.teamB.setWon === 2) ? "13vw" : "8vw",
+                                    }}
+                                >
                                     <div>{v.setWon}</div>
                                 </div>
-                                <div className="score-digit">
-                                    <div className="digital-panel"
-                                        style={{
-                                            fontSize: v.score > 9 ? "16vw" : "20vw",
-                                            lineHeight: v.score > 9 ? "16vw" : "15vw"
-                                        }}
-                                    >{v.score}</div>
-                                </div>
+                                {(data.teamA.setWon === 2) || (data.teamB.setWon === 2) ?
+                                    <div className="score-digit">
+                                        <div className="scores"
+                                            style={{
+                                                fontSize: "8vw",
+                                                lineHeight: "8vw"
+                                            }}
+                                        >{game.sets.map((s) =>
+                                            <p>{s.set[k].score}</p>
+                                        )}</div>
+                                    </div>
+                                    :
+                                    <div className="score-digit">
+                                        <div className="digital-panel"
+                                            style={{
+                                                fontSize: v.score > 9 ? "16vw" : "20vw",
+                                                lineHeight: v.score > 9 ? "16vw" : "15vw"
+                                            }}
+                                        >{v.score}</div>
+                                    </div>
+                                }
                             </div>
                         </div>
 

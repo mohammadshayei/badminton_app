@@ -47,7 +47,6 @@
 					justify-content: center;
 					align-items: center;
 					width: 45%;
-					font-size: 8vw;
 					line-height: 8vw;
 					color: #0fe600;
 					text-shadow: 0 0 20px #0fe600;
@@ -61,6 +60,16 @@
 					overflow: hidden;
 					.digital-panel {
 						display: flex;
+						justify-content: center;
+						align-items: center;
+						color: #ff0000;
+						text-shadow: 0 0 25px #ff0000;
+						padding-top: 0.2em;
+						max-width: 100%;
+					}
+					.scores {
+						display: flex;
+						flex-direction: column;
 						justify-content: center;
 						align-items: center;
 						color: #ff0000;
