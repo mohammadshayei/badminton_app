@@ -18,7 +18,6 @@ import WinnerModal from "./WinnerModal/WinnerModal";
 import Selector from "../../HomePage/GamesPage/Selector/Selector";
 
 const ScoreBoard = () => {
-  const [scoreColor, setScoreColor] = useState(["#AB0000", "#AB0000"]);
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
   const [timer, setTimer] = useState("00:00");
@@ -52,6 +51,12 @@ const ScoreBoard = () => {
     dispatch(infoActions.switchSide());
   };
   const removeEventFromStack = () => {
+    if (info.events[info.events.length - 1].type === 'score') {
+      if ((info.team1.score === 10 && info.team2.score <= 10) || (info.team2.score === 10 && info.team1.score <= 10))
+        setBreakTime(0)
+      if ((info.team1.score === 11 && info.team2.score <= 11) || (info.team2.score === 11 && info.team1.score <= 11))
+        setBreakTime(1)
+    }
     dispatch(infoActions.removeEventFromStack());
   };
 
@@ -135,7 +140,6 @@ const ScoreBoard = () => {
       removeEventFromStack()
     }
   }
-
   useEffect(() => {
     if (socket && gameStarted && game) {
       const payload = {
@@ -157,9 +161,6 @@ const ScoreBoard = () => {
 
   useEffect(() => {
     switch (info.team1.score) {
-      case 0:
-        setScoreColor(["#AB0000", "#AB0000"])
-        break;
       case maxPoint - 1:
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
@@ -190,15 +191,11 @@ const ScoreBoard = () => {
         break;
 
       default:
-        setScoreColor(["#FF0000", "#AB0000"])
         break;
     }
   }, [info.team1.score])
   useEffect(() => {
     switch (info.team2.score) {
-      case 0:
-        setScoreColor(["#AB0000", "#AB0000"])
-        break;
       case maxPoint - 1:
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
@@ -229,7 +226,6 @@ const ScoreBoard = () => {
         break;
 
       default:
-        setScoreColor(["#AB0000", "#FF0000"]);
         break;
     }
   }, [info.team2.score])
@@ -338,7 +334,6 @@ const ScoreBoard = () => {
                 setWon={v.setWon}
                 score={v.score}
                 scores={v.scores}
-                scoreColor={scoreColor[index - 1]}
                 server={v.server}
                 receiver={v.receiver}
                 position={v.isRightTeam ? "right" : "left"}
