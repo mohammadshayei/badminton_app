@@ -54,8 +54,15 @@ const ScoreBoard = () => {
     if (info.events[info.events.length - 1].type === 'score') {
       if ((info.team1.score === 10 && info.team2.score <= 10) || (info.team2.score === 10 && info.team1.score <= 10))
         setBreakTime(0)
-      if ((info.team1.score === 11 && info.team2.score <= 11) || (info.team2.score === 11 && info.team1.score <= 11))
-        setBreakTime(1)
+      if ((info.team1.score === 11 && info.team2.score <= 11) || (info.team2.score === 11 && info.team1.score <= 11)) {
+        if (info.team1.setWon + info.team2.setWon === 2)
+          switchSide();
+        if (halfTime) {
+          setHalfTime(false);
+          setDisable(false);
+          setBreakTime(1);
+        }
+      }
     }
     dispatch(infoActions.removeEventFromStack());
   };
@@ -354,9 +361,10 @@ const ScoreBoard = () => {
           </div>}
       </div>
       {/* <FooterScoreBoard /> */}
-      <div disabled={disable} className="action-buttons"
+      <div className="action-buttons"
         style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
-        <FaExclamation className="action-btn" style={{ color: theme.primary }} onClick={() => setEventPicker(true)} />
+        <FaExclamation className="action-btn" style={{ color: theme.primary }}
+          onClick={() => setEventPicker(true)} />
         <ImUndo2
           className="action-btn"
           style={{
