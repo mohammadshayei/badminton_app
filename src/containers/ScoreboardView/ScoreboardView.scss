@@ -5,34 +5,37 @@
 	min-height: 100vh;
 	overflow: hidden;
 	.container {
+		width: 100%;
 		display: flex;
+		justify-content: space-between;
 		border: 15px solid #f7ff00;
 		border-radius: 40px;
 		.player-block-view {
 			display: flex;
-			flex: 1;
-			margin: 1rem;
+			width: 49%;
 			.player-name-and-image {
+				width: 60%;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				flex: 1;
+				overflow: visible;
 				.player-name {
+					max-width: 100%;
 					display: flex;
-					text-align: center;
-					font-size: 3vw;
+					justify-content: center;
+					font-size: 3.5vw;
 					color: #fff;
 					white-space: nowrap;
 				}
 				.player-img {
-					max-width: 70%;
+					width: 60%;
 					aspect-ratio: 1;
 					border-radius: 10px;
 					object-fit: cover;
 				}
 			}
 			.player-score-and-set {
-				flex: 1;
+				width: 40%;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-evenly;
@@ -45,22 +48,26 @@
 					align-items: center;
 					width: 45%;
 					font-size: 8vw;
+					line-height: 8vw;
 					color: #0fe600;
 					text-shadow: 0 0 20px #0fe600;
 					border-radius: 10px;
 					padding-top: 0.3em;
 				}
 				.score-digit {
+					max-width: 100%;
 					background-color: #000;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					font-size: 24vw;
-					line-height: 20vw;
-					color: #ff0000;
-					text-shadow: 0 0 20px #ff0000;
 					border-radius: 10px;
-					padding-top: 0.3em;
+					overflow: hidden;
+					.digital-panel {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						color: #ff0000;
+						text-shadow: 0 0 25px #ff0000;
+						padding-top: 0.2em;
+						max-width: 100%;
+					}
 				}
 			}
 		}

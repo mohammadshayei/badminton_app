@@ -65,7 +65,7 @@ const ScoreboardView = () => {
         }
     }, [socket, game])
     useEffect(() => {
-        if (gameWonner !== '' ) {
+        if (gameWonner !== '') {
             let updatedGame = { ...data }
             if (gameWonner === 'team1')
                 updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
@@ -91,7 +91,15 @@ const ScoreboardView = () => {
                             <div className="player-name-and-image"
                                 style={{ justifyContent: v.players.length === 1 ? "center" : "space-evenly" }}
                             >
-                                <div className="player-name">
+                                <div className="player-name"
+                                    style={{
+                                        transform:
+                                            v.players[0].player.username.length > 16 ?
+                                                `translateX(${k === "teamB" ? "-" : "+"}
+                                                ${v.players[0].player.username.length * 4}px)` :
+                                                "translateX(0)"
+                                    }}
+                                >
                                     {v.players[0].player.username}
                                 </div>
                                 <img className="player-img"
@@ -104,9 +112,6 @@ const ScoreboardView = () => {
                                         marginTop: v.players.length === 1 ? "1.5rem" : "0"
                                     }}
                                 />
-                                {v.players[1] && <div className="player-name">
-                                    {v.players[1].player.username}
-                                </div>}
                                 {v.players[1] &&
                                     <img
                                         className="player-img"
@@ -115,13 +120,29 @@ const ScoreboardView = () => {
                                             PROFILE_IMAGE}
                                         alt="profile_image" />
                                 }
+                                {v.players[1] && <div className="player-name"
+                                    style={{
+                                        transform:
+                                            v.players[1].player.username.length > 16 ?
+                                                `translateX(${k === "teamB" ? "-" : "+"}
+                                                ${v.players[1].player.username.length * 4}px)` :
+                                                "translateX(0)"
+                                    }}
+                                >
+                                    {v.players[1].player.username}
+                                </div>}
                             </div>
                             <div className="player-score-and-set">
                                 <div className="set-score">
-                                    <div className="digital-panel">{v.setWon}</div>
+                                    <div>{v.setWon}</div>
                                 </div>
                                 <div className="score-digit">
-                                    <div className="digital-panel">{v.score}</div>
+                                    <div className="digital-panel"
+                                        style={{
+                                            fontSize: v.score > 9 ? "16vw" : "20vw",
+                                            lineHeight: v.score > 9 ? "16vw" : "15vw"
+                                        }}
+                                    >{v.score}</div>
                                 </div>
                             </div>
                         </div>
