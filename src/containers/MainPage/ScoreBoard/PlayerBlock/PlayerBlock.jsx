@@ -113,20 +113,8 @@ const PlayerBlock = (props) => {
 
   useEffect(() => {
     let key = info[props.teamKey].server > 0 ? "server" : "receiver"
-    if (key === "server")
-      if (info[props.teamKey].isTop) {
-        setdynamicStyle({
-          flexDirection:
-            info[props.teamKey][key] === 1 ? "column" : "column-reverse"
-        })
-      } else {
-        setdynamicStyle({
-          flexDirection:
-            info[props.teamKey][key] === 1 ? "column-reverse" : "column"
-        })
-      }
-    else
-      if (info.team1.score === 0 && info.team2.score === 0)
+    if (props.playerD) {
+      if (key === "server")
         if (info[props.teamKey].isTop) {
           setdynamicStyle({
             flexDirection:
@@ -138,6 +126,20 @@ const PlayerBlock = (props) => {
               info[props.teamKey][key] === 1 ? "column-reverse" : "column"
           })
         }
+      else
+        if (info.team1.score === 0 && info.team2.score === 0)
+          if (info[props.teamKey].isTop) {
+            setdynamicStyle({
+              flexDirection:
+                info[props.teamKey][key] === 1 ? "column" : "column-reverse"
+            })
+          } else {
+            setdynamicStyle({
+              flexDirection:
+                info[props.teamKey][key] === 1 ? "column-reverse" : "column"
+            })
+          }
+    }
   }, [props.score, info[props.teamKey].isTop])
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}
@@ -153,7 +155,7 @@ const PlayerBlock = (props) => {
           <p className="player-name">{props.player && props.player.name}</p>
           <img src={props.player && props.player.avatar !== '' ?`${baseUrl}uploads/players/${props.player.avatar}` : PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 ? "15px solid #F7FF00" :
-              props.receiver === 1 && `15px solid ${theme.primary_variant}`
+              (props.playerD && props.receiver === 1) && `15px solid ${theme.primary_variant}`
           }} onClick={() => selectPlayer(props.player.id)} />
           {props.playerD &&
             <img src={props.playerD.avatar ?
@@ -168,7 +170,7 @@ const PlayerBlock = (props) => {
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
           style={{ opacity: info.foulHappend ? 0 : 1 }}>
-          {props.position === "right" && <div className="player-block-icon">
+          {props.position === "right" && <div className="player-block-icon add-shuttle">
             <Button
               back={theme.primary}
               hover={theme.primary}
