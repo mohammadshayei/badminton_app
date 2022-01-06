@@ -10,6 +10,8 @@ import * as infoActions from "../../../../store/actions/setInfo"
 
 const PlayerBlock = (props) => {
   const [dynamicStyle, setdynamicStyle] = useState({ flexDirection: "column" });
+  const [scoreStyle, setScoreStyle] = useState({ color: "#AB0000" });
+
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const info = useSelector(state => state.info)
@@ -53,6 +55,20 @@ const PlayerBlock = (props) => {
       foulHappend({ foulType: null });
     }
   };
+  useEffect(() => {
+    if (info[props.teamKey].score !== 0) {
+      setScoreStyle({
+        color: info.lastPoint === props.teamKey ? "#FF0000" : "#AB0000",
+        textShadow: info.lastPoint === props.teamKey && "0 0 20px #FF0000",
+      })
+    } else {
+      setScoreStyle({
+        color: "#AB0000",
+        textShadow: '',
+      })
+    }
+
+  }, [info.lastPoint, info[props.teamKey].score])
 
   const cancelFoul = () => {
     if (info.foulHappend)
@@ -63,11 +79,15 @@ const PlayerBlock = (props) => {
     const detail = {
       server: {
         number: info.team1.server === 0 ? info.team2.server : info.team1.server,
-        teamName: info.team1.server === 0 ? 'team2' : 'team1'
+        teamName: info.team1.server === 0 ? 'team2' : 'team1',
+        isTop: info.team1.server === 0 ? info.team2.isTop : info.team1.isTop,
+
       },
       receiver: {
         number: info.team1.receiver === 0 ? info.team2.receiver : info.team1.receiver,
-        teamName: info.team1.receiver === 0 ? 'team2' : 'team1'
+        teamName: info.team1.receiver === 0 ? 'team2' : 'team1',
+        isTop: info.team1.server === 0 ? info.team1.isTop : info.team2.isTop,
+
       },
     }
     if (props.server === 0) {
@@ -86,7 +106,7 @@ const PlayerBlock = (props) => {
       }
     }
 
-  }, [props.score, info.undoMode]);
+  }, [props.score]);
 
   useEffect(() => {
     let key = info[props.teamKey].server > 0 ? "server" : "receiver"
@@ -116,7 +136,6 @@ const PlayerBlock = (props) => {
           })
         }
   }, [props.score, info[props.teamKey].isTop])
-
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}
       onClick={cancelFoul}
@@ -139,7 +158,7 @@ const PlayerBlock = (props) => {
               alt="badminton second player"
               style={{
                 outline: props.server === 2 && "15px solid #F7FF00"
-              }} onClick={() => selectPlayer(props.playerD.name)} />}
+              }} onClick={() => selectPlayer(props.playerD.id)} />}
           {props.playerD && <p className="player-name">{props.playerD.name}</p>}
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
@@ -158,23 +177,6 @@ const PlayerBlock = (props) => {
               }}
             >
               +
-              <img src={shuttle_image} alt="shuttle" />
-            </Button>
-            <Button
-              back={theme.primary}
-              hover={theme.primary}
-              ButtonStyle={{
-                borderRadius: "50%",
-                aspectRatio: "1",
-              }}
-              onClick={() => {
-                if (info.balls > 1) {
-                  decreaseBall();
-                  addEvent({ type: "decreaseBall", time: "", by: "" });
-                }
-              }}
-            >
-              -
               <img src={shuttle_image} alt="shuttle" />
             </Button>
           </div>}
@@ -212,8 +214,7 @@ const PlayerBlock = (props) => {
         </p>
         <div className="score-place-container">
           <p className="score-text" style={{
-            color: props.scoreColor
-            , textShadow: props.scoreColor === "#FF0000" && "0 0 20px #FF0000"
+            ...scoreStyle
           }}>
             {props.score}
           </p>

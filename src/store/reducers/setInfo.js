@@ -28,6 +28,7 @@ const initialState = {
     balls: 1,
     foulHappend: null,
     eventCounter: 0,
+    lastPoint: '',
     undoMode: false,
 };
 
@@ -39,8 +40,9 @@ const increaseScore = (state, action) => {
         ...state,
         [teamKey]: {
             ...state[teamKey],
-            score: state[teamKey].score + 1
+            score: state[teamKey].score + 1,
         },
+        lastPoint: teamKey,
         undoMode: false,
 
     };
@@ -75,6 +77,7 @@ const setOver = (state, action) => {
         },
         eventCounter: 0,
         events: [],
+        lastPoint: "",
         totalEvents: [...state.totalEvents, ...tempEvents]
     };
 };
@@ -131,38 +134,52 @@ const addEvent = (state, action) => {
 const removeEventFromStack = (state, action) => {
     let updatedEvents = [...state.events]
     let event = updatedEvents[updatedEvents.length - 1]
-    let prevEvent = updatedEvents.length > 1 && updatedEvents[updatedEvents.length - 2]
     let newCounter = state.eventCounter;
+    let newBalls = state.balls
+    let lastPoint = state.lastPoint
     let team1 = {
         score: state.team1.score,
         server: state.team1.server,
         receiver: state.team1.receiver,
+        isTop: state.team1.isTop,
     };
     let team2 = {
-        score: state.team1.score,
-        server: state.team1.server,
-        receiver: state.team1.receiver,
+        score: state.team2.score,
+        server: state.team2.server,
+        receiver: state.team2.receiver,
+        isTop: state.team2.isTop,
     };
     if (event.type !== "increaseBall" && event.type !== "decreaseBall") newCounter--;
     if (event.type === 'score') {
+        lastPoint = event.detail.server.teamName === 'team1' ? "team1" : "team2"
         let team1ScoreExist = state.team1.players.find(item => item.id === event.by);
-        // let team2ScoreExist = state.team2.players.find(item => item.id === event.by);
-        let team1PrevScoreExist = state.team1.players.find(item => item.id === prevEvent.by);
-        console.log(event)
-        // if (team1ScoreExist) {
-        //     team1 = {
-        //         score: team1.score--,
-        //     }
-        // }
-        // else{
-        //     team2 = {
-        //         score: team2.score--,
-        //     }
-        // } 
+        team1 = {
+            score: team1ScoreExist ? team1.score - 1 : team1.score,
+            server: event.detail.server.teamName === 'team1' ? event.detail.server.number : 0,
+            receiver: event.detail.receiver.teamName === 'team1' ? event.detail.receiver.number : 0,
+            isTop: event.detail.server.teamName === 'team1' ?
+                event.detail.server.isTop : event.detail.receiver.isTop,
+        }
+        team2 = {
+            score: team1ScoreExist ? team2.score : team2.score - 1,
+            server: event.detail.server.teamName === 'team2' ? event.detail.server.number : 0,
+            receiver: event.detail.receiver.teamName === 'team2' ? event.detail.receiver.number : 0,
+            isTop: event.detail.server.teamName === 'team2' ?
+                event.detail.server.isTop : event.detail.receiver.isTop,
+        }
+        if (updatedEvents.length > 1 && updatedEvents[updatedEvents.length - 2].type === 'Fault') {
+            updatedEvents.splice(updatedEvents.length - 1, 1)
+            newCounter--;
+        }
 
+    } else if (event.type === 'increaseBall') {
+        newBalls -= 1
     }
-    updatedEvents.splice(updatedEvents.length - 1, 1)
+    else if (event.type === 'decreaseBall') {
+        newBalls += 1
+    }
 
+    updatedEvents.splice(updatedEvents.length - 1, 1)
     return {
         ...state,
         events: updatedEvents,
@@ -175,12 +192,14 @@ const removeEventFromStack = (state, action) => {
             ...state.team2,
             ...team2
         },
+        balls: newBalls,
+        lastPoint,
         undoMode: true
     };
 };
 
 const switchServer = (state) => {
-    let teamServer, teamReceiver, server, isTopServer, receiver, newCounter;
+    let teamServer, teamReceiver, server, isTopServer, receiver, newCounter, detail;
     if (state.team1.server === 0) {
         teamServer = "team1";
         teamReceiver = "team2";
@@ -220,6 +239,19 @@ const switchServer = (state) => {
         server = 1;
     newCounter = state.eventCounter
     newCounter += 1
+    detail = {
+        server: {
+            number: state[teamReceiver].server,
+            teamName: teamReceiver,
+            isTop: state[teamReceiver].isTop,
+
+        },
+        receiver: {
+            number: state[teamServer].receiver,
+            teamName: teamServer,
+            isTop: state[teamServer].isTop,
+        },
+    }
     return {
         ...state,
         [teamServer]: {
@@ -239,16 +271,7 @@ const switchServer = (state) => {
             type: "score",
             by: state[teamServer].players[server - 1].id,
             content: state[teamServer].score,
-            detail: {
-                server: {
-                    number: server,
-                    teamName: teamServer
-                },
-                receiver: {
-                    number: 0,
-                    teamName: ""
-                },
-            }
+            detail
         }],
         eventCounter: newCounter
     };
