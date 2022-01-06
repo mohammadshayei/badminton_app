@@ -59,33 +59,58 @@ const EventsBox = () => {
   }, [info.team1.setWon, info.team2.setWon])
 
   useEffect(() => {
+
     if (info.eventCounter > 0 && info.eventCounter > log.length - 3) {
       if (info.events.length === 0)
         return
-      info.team1.players.forEach((player, index) => {
-        if (info.events[info.events.length - 1].by === player.id)
-          setLog([...log, [
-            { content: `${index === 0 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index === 1 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index === 2 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${index === 3 ? info.events[info.events.length - 1].content : ''}` },
-          ]])
-      })
-      let newIndex;
-      info.team2.players.forEach((player, index) => {
-        if (info.team2.players.length === 2)
-          newIndex = index + 2;
-        else
-          newIndex = index + 1;
-        if (info.events[info.events.length - 1].by === player.id)
-          setLog([...log, [
-            { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${newIndex === 1 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${newIndex === 2 ? info.events[info.events.length - 1].content : ''}` },
-            { content: `${newIndex === 3 ? info.events[info.events.length - 1].content : ''}` },
-          ]])
-      })
-      myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+
+      let newColumn = true;
+      if (info.events[info.events.length - 1].by === "none") {    // if yeki az oon se ta bood
+        let newLog = [...log];
+        if (newLog.length > 0)    //if chizi log shode bood
+        {
+          for (let i = 0; i < newLog[newLog.length - 1].length; i++) {    // loop ro akharin soton table
+            if (newLog[newLog.length - 1][i].content.length > 0) {        //if chizi too cell bood
+              if (i === 0 || i === 2)
+                newLog[newLog.length - 1][i + 1].content =
+                  info.events[info.events.length - 1].content;
+              else if (i === 1 || i === 3)
+                newLog[newLog.length - 1][i - 1].content =
+                  info.events[info.events.length - 1].content;
+              setLog(newLog);
+              newColumn = false;
+              break;
+            }
+          };
+        }
+      }
+
+      if (newColumn) {
+        info.team1.players.forEach((player, index) => {
+          if (info.events[info.events.length - 1].by === player.id)
+            setLog([...log, [
+              { content: `${index === 0 ? info.events[info.events.length - 1].content : ''}` },
+              { content: `${index === 1 ? info.events[info.events.length - 1].content : ''}` },
+              { content: `${index === 2 ? info.events[info.events.length - 1].content : ''}` },
+              { content: `${index === 3 ? info.events[info.events.length - 1].content : ''}` },
+            ]])
+        })
+        let newIndex;
+        info.team2.players.forEach((player, index) => {
+          if (info.team2.players.length === 2)
+            newIndex = index + 2;
+          else
+            newIndex = index + 1;
+          if (info.events[info.events.length - 1].by === player.id)
+            setLog([...log, [
+              { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
+              { content: `${newIndex === 1 ? info.events[info.events.length - 1].content : ''}` },
+              { content: `${newIndex === 2 ? info.events[info.events.length - 1].content : ''}` },
+              { content: `${newIndex === 3 ? info.events[info.events.length - 1].content : ''}` },
+            ]])
+        })
+        myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+      }
     }
     else if (log.length - 3 > info.eventCounter) {
       let updatedLog = [...log]

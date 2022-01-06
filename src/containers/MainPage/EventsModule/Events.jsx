@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import "./Events.scss";
 import { useTheme } from "../../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo";
 
 const Events = (props) => {
+    const [disableEvent, setDisableEvent] = useState(false);
     const info = useSelector((state) => state.info);
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -53,11 +55,41 @@ const Events = (props) => {
     const foulHappend = (type) => {
         dispatch(infoActions.foulHappend(type));
     };
+    const addEvent = (event) => {
+        dispatch(infoActions.addEvent(event));
+    };
 
     const eventClick = (type) => {
         props.setClose && props.setClose(false);
-        foulHappend({ foulType: type });
+        if (type === "Referee Called")
+            for (let index = info.events.length - 1; index >= 0; index--) {
+                if (info.events[index].type !== "increaseBall") {
+                    if (info.events[index].type === "score")
+                        foulHappend({ foulType: type });
+                    else
+                        addEvent({ type, time: "", by: "none", content: "R" });
+                    break;
+                }
+            }
+        else if (type === "Overrule")
+            addEvent({ type, time: "", by: "none", content: "O" });
+        else if (type === "Service Court Error")
+            addEvent({ type, time: "", by: "none", content: "C" });
+        else
+            foulHappend({ foulType: type });
     };
+
+    useEffect(() => {
+        for (let index = info.events.length - 1; index >= 0; index--) {
+            if (info.events[index].type !== "increaseBall") {
+                if (info.events[index].by == "none")
+                    setDisableEvent(true);
+                else
+                    setDisableEvent(false);
+                break;
+            }
+        }
+    }, [info.eventCounter])
 
     return (
         <div className='events-container' style={props.style}>
@@ -92,6 +124,7 @@ const Events = (props) => {
                     )
                 ) : (
                     <div
+                        disabled={(index === 2 || index === 4 || index === 8) && disableEvent}
                         className='event'
                         style={{
                             ...props.eventStyle,
