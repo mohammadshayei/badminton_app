@@ -2,6 +2,13 @@
 	position: relative;
 	min-height: 100vh;
 	padding: 2rem;
+	.version {
+		position: absolute;
+		bottom: 0;
+		right: 80px;
+		font-size: calc(0.5vw + 0.5vh);
+		opacity: 0.8;
+	}
 	.menu-icon {
 		display: block;
 		position: absolute;
