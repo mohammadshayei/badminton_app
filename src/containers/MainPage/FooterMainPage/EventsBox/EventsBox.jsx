@@ -59,10 +59,8 @@ const EventsBox = () => {
       }
     }
   }, [info.team1.server, info.team2.server,
-  info.team1.receiver, info.team2.receiver])
-
+  info.team1.receiver, info.team2.receiver,info.team2.setWon,info.team1.setWon])
   useEffect(() => {
-
     if (!info.undoMode) {
       if (info.events.length === 0)
         return

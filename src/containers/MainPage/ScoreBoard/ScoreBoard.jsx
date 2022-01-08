@@ -165,7 +165,7 @@ const ScoreBoard = () => {
       window.removeEventListener('popstate', onBackButtonEvent);
     };
   }, []);
-
+  
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
