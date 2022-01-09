@@ -134,7 +134,7 @@ const Selector = (props) => {
     useEffect(async () => {
         if (index > max && (info.team1.receiver === 0 || info.team2.receiver === 0)) {
             setloading(true)
-            if (window.location.pathname === "/badminton/scoreboard")
+            if (window.location.pathname === "/scoreboard")
                 props.setShow(false);
             else {
                 const payload = {
