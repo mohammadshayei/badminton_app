@@ -29,6 +29,9 @@ const ScoreBoard = () => {
   const [endSetRequestSended, setEndSetRequestSended] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [chooseServer, setChooseServer] = useState(false);
+  const [serviceOver, setServiceOver] = useState(false)
+  const [matchPoint, setMatchPoint] = useState(false)
+  const [flashEffect, setFlashEffect] = useState("")
 
   const gameId = useSelector(state => state.gameInfo.gameId)
   const game = useSelector(state => state.gameInfo.gameReferee)
@@ -165,10 +168,14 @@ const ScoreBoard = () => {
       window.removeEventListener('popstate', onBackButtonEvent);
     };
   }, []);
-  
+
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
+        setMatchPoint(true)
+        setTimeout(() => {
+          setMatchPoint(false)
+        }, 2000);
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -206,6 +213,10 @@ const ScoreBoard = () => {
   useEffect(() => {
     switch (info.team2.score) {
       case maxPoint - 1:
+        setMatchPoint(true)
+        setTimeout(() => {
+          setMatchPoint(false)
+        }, 2000);
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -318,6 +329,19 @@ const ScoreBoard = () => {
       }
     }
   }, [breakTime]);
+
+  useEffect(() => {
+    if (serviceOver || matchPoint) {
+      setFlashEffect("flash")
+      const flashTimer = setTimeout(() => {
+        setFlashEffect("")
+      }, 1000);
+      return () => {
+        clearTimeout(flashTimer)
+      }
+    }
+  }, [serviceOver, matchPoint])
+
   return (
     <div
       className="scoreboard-container"
@@ -325,7 +349,7 @@ const ScoreBoard = () => {
         color: theme.on_primary,
       }}
     >
-      <div className="background" />
+      <div className={`background ${flashEffect}`} />
       <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
@@ -357,9 +381,16 @@ const ScoreBoard = () => {
                 receiver={v.receiver}
                 position={v.isRightTeam ? "right" : "left"}
                 teamKey={k}
+                setServiceOver={setServiceOver}
               />)
             ) : <Loading style={{ direction: "ltr" }} />
             : <Loading style={{ direction: "ltr" }} />)}
+        <div className="service-over"
+          style={{ opacity: serviceOver ? 1 : 0 }}
+        >service over</div>
+        <div className="match-point"
+          style={{ opacity: matchPoint ? 1 : 0 }}
+        >match point</div>
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && (
           loading ? <Loading style={{ direction: "ltr" }} /> : <FaPlayCircle className="play" onClick={startTheGame} />

@@ -96,6 +96,10 @@ const PlayerBlock = (props) => {
     if (props.server === 0) {
       if (props.score !== 0) {
         switchServer();
+        props.setServiceOver(true)
+        setTimeout(() => {
+          props.setServiceOver(false)
+        }, 2000);
       }
     } else if (props.server === 1) {
       if (props.score !== 0) {
@@ -108,7 +112,6 @@ const PlayerBlock = (props) => {
         setPlayerPlace({ teamKey: props.teamKey });
       }
     }
-
   }, [props.score]);
 
   useEffect(() => {
@@ -153,7 +156,7 @@ const PlayerBlock = (props) => {
           style={dynamicStyle}
         >
           <p className="player-name">{props.player && props.player.name}</p>
-          <img src={props.player && props.player.avatar !== '' ?`${baseUrl}uploads/players/${props.player.avatar}` : PROFILE_IMAGE} alt="badminton player" style={{
+          <img src={props.player && props.player.avatar !== '' ? `${baseUrl}uploads/players/${props.player.avatar}` : PROFILE_IMAGE} alt="badminton player" style={{
             outline: props.server === 1 ? "15px solid #F7FF00" :
               (props.playerD && props.receiver === 1) && `15px solid ${theme.primary_variant}`
           }} onClick={() => selectPlayer(props.player.id)} />
