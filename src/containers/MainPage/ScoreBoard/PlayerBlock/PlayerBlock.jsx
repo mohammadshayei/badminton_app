@@ -224,6 +224,7 @@ const PlayerBlock = (props) => {
         </p>
         <div className="score-place-container">
           <p className="score-text" style={{
+            fontSize: props.score > 9 ? "17vw" : "20vw",
             ...scoreStyle
           }}>
             {props.score}
