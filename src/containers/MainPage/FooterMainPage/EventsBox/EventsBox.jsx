@@ -59,7 +59,7 @@ const EventsBox = () => {
       }
     }
   }, [info.team1.server, info.team2.server,
-  info.team1.receiver, info.team2.receiver,info.team2.setWon,info.team1.setWon])
+  info.team1.receiver, info.team2.receiver, info.team2.setWon, info.team1.setWon])
   useEffect(() => {
     if (!info.undoMode) {
       if (info.events.length === 0)
@@ -157,10 +157,10 @@ const EventsBox = () => {
               ([...Array(4)].map((e, ri) =>
                 <div key={ri} className="table-cell"
                   style={{
-                    borderBottom: (ri === 1) && "5px solid rgb(146, 146, 146)",
+                    borderBottom: (ri === 1) && "5px solid rgb(60, 60, 60)",
                     height: '25%',
                     padding: ci === 0 && "0 0.5rem",
-                    background: ri > 1 && "rgba(200, 200, 200, 0.2)"
+                    background: ri > 1 && "rgba(190, 190, 190, 1)"
                   }}
                 >
                   {(log[ci]) && (info.team1.players.length === 2 ?
