@@ -22,41 +22,32 @@ const EventsBox = () => {
   const myRef = useRef();
 
   useEffect(() => {
-    if (info.team1.score === 0 && info.team2.score === 0) {
+    if (info.team1.score === 0 && info.team2.score === 0 && info._id) {
       setLog([]);
       let newLog = [];
-      info.team1.players.forEach((player, index) => {
-        newLog = [...newLog, {
-          content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
-          </div>
-        }]
-      });
-      info.team2.players.forEach((player, index) => {
-        newLog = [...newLog, {
-          content: <div className="name-in-cell"><div className="player-name-div">{player.name}</div>
-          </div>
-        }]
-      });
+      newLog = [...newLog, {
+        content: <div className="name-in-cell"><div className="player-name-div">{info.team1.players[0].name}</div>
+        </div>
+      }, {
+        content: info.team1.players.length === 2 ? <div className="name-in-cell"><div className="player-name-div">{info.team1.players[1].name}</div>
+        </div> : ""
+      }, {
+        content: <div className="name-in-cell"><div className="player-name-div">{info.team2.players[0].name}</div>
+        </div>
+      }, {
+        content: info.team2.players.length === 2 ? <div className="name-in-cell"><div className="player-name-div">{info.team1.players[0].name}</div>
+        </div> : ""
+      }]
 
-      if (info.team1.players.length === 2) {
-        setLog([[...newLog],
-        [{ content: `${info.team1.server === 1 ? "S" : (info.team1.receiver === 1) ? "R" : ''}` },
-        { content: `${info.team1.server === 2 ? "S" : (info.team1.receiver === 2) ? "R" : ''}` },
-        { content: `${info.team2.server === 1 ? "S" : (info.team2.receiver === 1) ? "R" : ''}` },
-        { content: `${info.team2.server === 2 ? "S" : (info.team2.receiver === 2) ? "R" : ''}` }],
-        [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
-        { content: `${(info.team1.server === 2 || info.team1.receiver === 2) ? "0" : ''}` },
-        { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
-        { content: `${(info.team2.server === 2 || info.team2.receiver === 2) ? "0" : ''}` }]])
-      }
-      else {
-        setLog([[...newLog],
-        [{ content: `${info.team1.server === 1 ? "S" : ''}` },
-        { content: `${info.team2.server === 1 ? "S" : ''}` }],
-        [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
-        { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
-        ]])
-      }
+      setLog([[...newLog],
+      [{ content: `${info.team1.server === 1 ? "S" : (info.team1.receiver === 1 && info.team1.players.length === 2) ? "R" : ''}` },
+      { content: `${info.team1.server === 2 ? "S" : (info.team1.receiver === 2 && info.team1.players.length === 2) ? "R" : ''}` },
+      { content: `${info.team2.server === 1 ? "S" : (info.team2.receiver === 1 && info.team2.players.length === 2) ? "R" : ''}` },
+      { content: `${info.team2.server === 2 ? "S" : (info.team2.receiver === 2 && info.team2.players.length === 2) ? "R" : ''}` }],
+      [{ content: `${(info.team1.server === 1 || info.team1.receiver === 1) ? "0" : ''}` },
+      { content: `${(info.team1.server === 2 || info.team1.receiver === 2) ? "0" : ''}` },
+      { content: `${(info.team2.server === 1 || info.team2.receiver === 1) ? "0" : ''}` },
+      { content: `${(info.team2.server === 2 || info.team2.receiver === 2) ? "0" : ''}` }]])
     }
   }, [info.team1.server, info.team2.server,
   info.team1.receiver, info.team2.receiver, info.team2.setWon, info.team1.setWon])
@@ -97,10 +88,7 @@ const EventsBox = () => {
         })
         let newIndex;
         info.team2.players.forEach((player, index) => {
-          if (info.team2.players.length === 2)
-            newIndex = index + 2;
-          else
-            newIndex = index + 1;
+          newIndex = index + 2;
           if (info.events[info.events.length - 1].by === player.id)
             setLog([...log, [
               { content: `${newIndex === 0 ? info.events[info.events.length - 1].content : ''}` },
@@ -163,12 +151,7 @@ const EventsBox = () => {
                     background: ri > 1 && "rgba(190, 190, 190, 1)"
                   }}
                 >
-                  {(log[ci]) && (info.team1.players.length === 2 ?
-                    log[ci][ri].content :
-                    (ri % 2 === 0 ? (ri === 0 ?
-                      log[ci][0].content :
-                      log[ci][1].content) :
-                      ""))}
+                  {(log[ci]) && log[ci][ri].content}
                 </div>
               ))}
           </div>
