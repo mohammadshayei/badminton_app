@@ -30,7 +30,7 @@ const ScoreBoard = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [chooseServer, setChooseServer] = useState(false);
   const [serviceOver, setServiceOver] = useState(false)
-  const [matchPoint, setMatchPoint] = useState(false)
+  const [winPoint, setWinPoint] = useState(null)
   const [flashEffect, setFlashEffect] = useState("")
 
   const gameId = useSelector(state => state.gameInfo.gameId)
@@ -172,9 +172,9 @@ const ScoreBoard = () => {
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
-        setMatchPoint(true)
+        setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
         setTimeout(() => {
-          setMatchPoint(false)
+          setWinPoint(null)
         }, 2000);
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
@@ -213,9 +213,9 @@ const ScoreBoard = () => {
   useEffect(() => {
     switch (info.team2.score) {
       case maxPoint - 1:
-        setMatchPoint(true)
+        setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
         setTimeout(() => {
-          setMatchPoint(false)
+          setWinPoint(null)
         }, 2000);
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
@@ -331,7 +331,7 @@ const ScoreBoard = () => {
   }, [breakTime]);
 
   useEffect(() => {
-    if (serviceOver || matchPoint) {
+    if (serviceOver || winPoint) {
       setFlashEffect("flash")
       const flashTimer = setTimeout(() => {
         setFlashEffect("")
@@ -340,7 +340,7 @@ const ScoreBoard = () => {
         clearTimeout(flashTimer)
       }
     }
-  }, [serviceOver, matchPoint])
+  }, [serviceOver, winPoint])
 
   return (
     <div
@@ -388,9 +388,9 @@ const ScoreBoard = () => {
         <div className="service-over"
           style={{ opacity: serviceOver ? 1 : 0 }}
         >service over</div>
-        <div className="match-point"
-          style={{ opacity: matchPoint ? 1 : 0 }}
-        >match point</div>
+        <div className="win-point"
+          style={{ opacity: winPoint ? 1 : 0 }}
+        >{winPoint}</div>
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && (
           loading ? <Loading style={{ direction: "ltr" }} /> : <FaPlayCircle className="play" onClick={startTheGame} />
