@@ -152,6 +152,7 @@ const GameModal = () => {
             elementConfig: {
                 disabled: false
             },
+            dropUp: true,
             items: [],
             validationMessage: stringFa.player2_teamA_error,
             invalid: true,
@@ -171,6 +172,7 @@ const GameModal = () => {
             elementConfig: {
                 disabled: false
             },
+            dropUp: true,
             items: [],
             validationMessage: stringFa.player2_teamB_error,
             invalid: true,
