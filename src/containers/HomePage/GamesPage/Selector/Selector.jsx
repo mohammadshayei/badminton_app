@@ -8,6 +8,7 @@ import * as infoActions from "../../../../store/actions/setInfo"
 import { Navigate } from "react-router-dom";
 import { createSet } from "../../../../api/home";
 import Loading from "../../../../components/UI/Loading/Loading";
+import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 
 const Selector = (props) => {
     const themeState = useTheme();
@@ -18,6 +19,7 @@ const Selector = (props) => {
     const [index, setIndex] = useState(1);
     const [max, setMax] = useState(2);
     const [redirect, setRedirect] = useState(null);
+    const [dialog, setDialog] = useState(null)
     const info = useSelector((state) => state.info);
     const token = useSelector(state => state.auth.token)
 
@@ -157,7 +159,8 @@ const Selector = (props) => {
                     setSetId(result.data)
                     setRedirect(<Navigate to="/scoreboard" />)
                 } else {
-                    alert(result.error)
+                    setDialog(null)
+                    setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
                 }
             }
             setloading(false)
@@ -183,6 +186,7 @@ const Selector = (props) => {
         nextClick();
     }
     const nextClick = () => {
+        setDialog(null)
         let valid = false;
         options.forEach(item => {
             if (item.selected) {
@@ -192,7 +196,7 @@ const Selector = (props) => {
         if (valid) {
             setIndex(index + 1);
         } else {
-            alert("لطفا یک گزینه را انتخاب کنید");
+            setDialog(<ErrorDialog type="error">لطفا یک گزینه را انتخاب کنید</ErrorDialog>)
         }
     }
     const backClick = () => {
@@ -204,6 +208,7 @@ const Selector = (props) => {
 
     return (
         <div className="selector-component">
+            {dialog}
             {redirect}
             <p className="title">{title}</p>
             {

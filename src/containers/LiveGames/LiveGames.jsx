@@ -9,9 +9,11 @@ import * as gameActions from "../../store/actions/gameInfo"
 
 import './LiveGames.scss'
 import { useNavigate } from 'react-router-dom';
+import ErrorDialog from '../../components/UI/Error/ErrorDialog';
 const LiveGames = () => {
     const [loading, setLoading] = useState(false)
     const [games, setGames] = useState([]);
+    const [dialog, setDialog] = useState(null)
     const token = useSelector(state => state.auth.token)
     const socket = useSelector(state => state.auth.socket)
 
@@ -31,7 +33,8 @@ const LiveGames = () => {
         if (result.success) {
             setGames(result.data)
         } else {
-            alert(result.error)
+            setDialog(null)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         }
         setLoading(false)
     }, [])
@@ -64,6 +67,7 @@ const LiveGames = () => {
     }, [socket, games])
     return (
         <div className="live-games-page-wrapper">
+            {dialog}
             {
                 loading ?
                     <Loading /> :

@@ -12,11 +12,13 @@ import * as gameActions from "../../../store/actions/gameInfo"
 import { useDispatch, useSelector } from "react-redux";
 import { getRefereeGames } from "../../../api/home";
 import Loading from "../../../components/UI/Loading/Loading";
+import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
   const [games, setGames] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [dialog, setDialog] = useState(null)
   const token = useSelector(state => state.auth.token)
   const refereeId = useSelector(state => state.auth.refereeId)
   const gameId = useSelector(state => state.gameInfo.gameId)
@@ -37,7 +39,8 @@ const GamesPage = () => {
     if (result.success) {
       setGames(result.data)
     } else {
-      alert(result.error)
+      setDialog(null)
+      setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
     }
     setLoading(false)
   }, [])
@@ -52,6 +55,7 @@ const GamesPage = () => {
 
   return (
     <div className="games-page-wrapper">
+      {dialog}
       <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         <Selector exitable={true} show={setShowModal} selectedGameId={gameId} />
       </Modal>

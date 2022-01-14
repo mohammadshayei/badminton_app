@@ -6,6 +6,7 @@ import { onChange } from "../../../utils/authFunction"
 
 const GetPhoneNumber = (props) => {
     const [formIsValid, setFormIsValid] = useState(false)
+    const [error, setError] = useState(null)
     const [order, setOrder] = useState({
         code: {
             value: '',
@@ -33,10 +34,11 @@ const GetPhoneNumber = (props) => {
     const phone = searchParams.get("phone");
 
     const onClick = () => {
+        setError(null)
         if (props.code === order.code.value)
             props.navigate(`?p=3&token=${props.tokenId}&phone=${phone}`);
         else {
-            alert(stringFa.wrong_code)
+            setError(stringFa.wrong_code)
         }
     }
     const goToLogin = () => {
@@ -62,6 +64,7 @@ const GetPhoneNumber = (props) => {
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
                     />)
             }
+            <div className="error-text">{error}</div>
             <Button
                 onClick={onClick}
                 ButtonStyle={{

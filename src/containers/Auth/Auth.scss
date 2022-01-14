@@ -4,6 +4,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	.error-text {
+		padding: 1rem;
+		color: rgb(180, 0, 0);
+	}
 	.login-container {
 		width: 100%;
 		height: 100%;

@@ -16,6 +16,7 @@ import Loading from "../../../components/UI/Loading/Loading";
 import { createSet } from "../../../api/home";
 import WinnerModal from "./WinnerModal/WinnerModal";
 import Selector from "../../HomePage/GamesPage/Selector/Selector";
+import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 
 const ScoreBoard = () => {
   const [eventPicker, setEventPicker] = useState(false);
@@ -32,6 +33,7 @@ const ScoreBoard = () => {
   const [serviceOver, setServiceOver] = useState(false)
   const [winPoint, setWinPoint] = useState(null)
   const [flashEffect, setFlashEffect] = useState("")
+  const [dialog, setDialog] = useState(null)
 
   const gameId = useSelector(state => state.gameInfo.gameId)
   const game = useSelector(state => state.gameInfo.gameReferee)
@@ -85,6 +87,7 @@ const ScoreBoard = () => {
   }
 
   const startTheGame = async () => {
+    setDialog(null)
     setLoading(true)
     const payload = {
       gameId,
@@ -97,12 +100,13 @@ const ScoreBoard = () => {
       setDisable(false)
       setGameStarted(true)
     } else {
-      alert(result.error)
+      setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
     }
     setLoading(false)
   }
 
   const createNewSet = async () => {
+    setDialog(null)
     const payload = {
       gameId,
       teamA: {
@@ -122,10 +126,11 @@ const ScoreBoard = () => {
     if (resultCreateSet.success) {
       setSetId(resultCreateSet.data)
     } else {
-      alert(resultCreateSet.error)
+      setDialog(<ErrorDialog type="error">{resultCreateSet.error}</ErrorDialog>)
     }
   }
   const endSet = async (teamName) => {
+    setDialog(null)
     //balls , score and setwon in team ,events 
     if (socket) {
       socket.emit('set_winner_team', { teamName, gameId })
@@ -142,7 +147,7 @@ const ScoreBoard = () => {
       setEndSetRequestSended(true)
       // setDisable(true)
     } else {
-      alert(resultEnd.error)
+      setDialog(<ErrorDialog type="error">{resultEnd.error}</ErrorDialog>)
     }
   }
   const onUndoClickHandler = () => {
@@ -274,7 +279,8 @@ const ScoreBoard = () => {
       if (result.success) {
         setDisable(true)
       } else {
-        alert(result.error)
+        setDialog(null)
+        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
       }
       if (socket) {
         let payloadSocket = {
@@ -349,6 +355,7 @@ const ScoreBoard = () => {
         color: theme.on_primary,
       }}
     >
+      {dialog}
       <div className={`background ${flashEffect}`} />
       <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
