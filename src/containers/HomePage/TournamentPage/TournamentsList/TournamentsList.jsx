@@ -14,6 +14,7 @@ const TournamentsList = (props) => {
     const tournaments = useSelector((state) => state.home.tournaments);
     const selectedTournament = useSelector((state) => state.home.selectedTournament);
     const mode = useSelector((state) => state.home.mode);
+    const contents = useSelector((state) => state.home.contents);
 
     const token = useSelector((state) => state.auth.token);
     const refereeId = useSelector((state) => state.auth.refereeId);
@@ -35,6 +36,7 @@ const TournamentsList = (props) => {
     };
 
     const onIconClickHandler = (key) => {
+        setLoading(true)
         setMode(key)
     }
     const editIconClick = () => {
@@ -44,18 +46,18 @@ const TournamentsList = (props) => {
 
     useEffect(async () => {
         if (refereeId && token) {
-            setLoading(true)
             const result = await fetchItems(refereeId, token, 'tournaments')
             if (result.success) {
                 setTournaments(result.data)
                 if (result.data.length > 0) setSelectedTournament(result.data[0].tournament._id)
             }
-            setLoading(false)
 
         }
     }, [refereeId, token])
 
-
+    useEffect(() => {
+        setLoading(false)
+    }, [contents])
 
     const onTournamentClick = (id) => {
         setSelectedTournament(id)
@@ -82,7 +84,7 @@ const TournamentsList = (props) => {
                         ></div>
                         <p>{item.tournament.title}</p>
                         {item.tournament._id === selectedTournament && (
-                            <div className="icons">
+                            <div disabled={loading} className="icons">
                                 <FaMedal
                                     style={{ color: mode === 'games' && theme.primary }}
                                     className='icon'
