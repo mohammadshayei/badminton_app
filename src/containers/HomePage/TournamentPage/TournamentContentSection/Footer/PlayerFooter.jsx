@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPlayerWithPhone, searchPlayer } from '../../../../../api/home';
 import { stringFa } from '../../../../../assets/strings/stringFaCollection'
 import Button from "../../../../../components/UI/Button/Button";
+import ErrorDialog from '../../../../../components/UI/Error/ErrorDialog';
 import * as homeActions from "../../../../../store/actions/home";
 
 import './Footer.scss'
 const PlayerFooter = () => {
     const [value, setValue] = useState('')
     const [loading, setLoading] = useState(false)
+    const [dialog, setDialog] = useState(null)
     const dispatch = useDispatch();
     const token = useSelector(state => state.auth.token)
     const selectedTournament = useSelector(state => state.home.selectedTournament)
@@ -29,14 +31,15 @@ const PlayerFooter = () => {
         setEditMode(false)
     }
     const onAddPlayer = async () => {
+        setDialog(null)
         setLoading(true)
         const result = await addPlayerWithPhone({ tournamentId: selectedTournament, nationalNumber: value }, token)
         if (result.success) {
-            alert(stringFa.player_added)
+            setDialog(<ErrorDialog type="success">{stringFa.player_added}</ErrorDialog>)
             addContent(result.data, 'player')
 
         } else {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         }
 
         setLoading(false)
@@ -44,8 +47,11 @@ const PlayerFooter = () => {
     }
     return (
         <div className="tournament-content-footer-wrapper">
-            <Button onClick={onCreatePlayer}>{stringFa.new_player}</Button>
+            {dialog}
             <Button
+                onClick={onCreatePlayer}>{stringFa.new_player}</Button>
+            <Button
+                loading={loading}
                 disabled={value.length !== 10}
                 onClick={onAddPlayer}>{stringFa.add}</Button>
             <input

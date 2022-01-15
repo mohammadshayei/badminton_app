@@ -16,6 +16,7 @@ import Loading from "../../../components/UI/Loading/Loading";
 import { createSet } from "../../../api/home";
 import WinnerModal from "./WinnerModal/WinnerModal";
 import Selector from "../../HomePage/GamesPage/Selector/Selector";
+import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 
 const ScoreBoard = () => {
   const [eventPicker, setEventPicker] = useState(false);
@@ -29,6 +30,10 @@ const ScoreBoard = () => {
   const [endSetRequestSended, setEndSetRequestSended] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [chooseServer, setChooseServer] = useState(false);
+  const [serviceOver, setServiceOver] = useState(false)
+  const [winPoint, setWinPoint] = useState(null)
+  const [flashEffect, setFlashEffect] = useState("")
+  const [dialog, setDialog] = useState(null)
 
   const gameId = useSelector(state => state.gameInfo.gameId)
   const game = useSelector(state => state.gameInfo.gameReferee)
@@ -82,6 +87,7 @@ const ScoreBoard = () => {
   }
 
   const startTheGame = async () => {
+    setDialog(null)
     setLoading(true)
     const payload = {
       gameId,
@@ -94,12 +100,13 @@ const ScoreBoard = () => {
       setDisable(false)
       setGameStarted(true)
     } else {
-      alert(result.error)
+      setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
     }
     setLoading(false)
   }
 
   const createNewSet = async () => {
+    setDialog(null)
     const payload = {
       gameId,
       teamA: {
@@ -119,10 +126,11 @@ const ScoreBoard = () => {
     if (resultCreateSet.success) {
       setSetId(resultCreateSet.data)
     } else {
-      alert(resultCreateSet.error)
+      setDialog(<ErrorDialog type="error">{resultCreateSet.error}</ErrorDialog>)
     }
   }
   const endSet = async (teamName) => {
+    setDialog(null)
     //balls , score and setwon in team ,events 
     if (socket) {
       socket.emit('set_winner_team', { teamName, gameId })
@@ -139,7 +147,7 @@ const ScoreBoard = () => {
       setEndSetRequestSended(true)
       // setDisable(true)
     } else {
-      alert(resultEnd.error)
+      setDialog(<ErrorDialog type="error">{resultEnd.error}</ErrorDialog>)
     }
   }
   const onUndoClickHandler = () => {
@@ -165,10 +173,14 @@ const ScoreBoard = () => {
       window.removeEventListener('popstate', onBackButtonEvent);
     };
   }, []);
-  
+
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
+        setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
+        setTimeout(() => {
+          setWinPoint(null)
+        }, 2000);
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -206,6 +218,10 @@ const ScoreBoard = () => {
   useEffect(() => {
     switch (info.team2.score) {
       case maxPoint - 1:
+        setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
+        setTimeout(() => {
+          setWinPoint(null)
+        }, 2000);
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -263,7 +279,8 @@ const ScoreBoard = () => {
       if (result.success) {
         setDisable(true)
       } else {
-        alert(result.error)
+        setDialog(null)
+        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
       }
       if (socket) {
         let payloadSocket = {
@@ -318,6 +335,19 @@ const ScoreBoard = () => {
       }
     }
   }, [breakTime]);
+
+  useEffect(() => {
+    if (serviceOver || winPoint) {
+      setFlashEffect("flash")
+      const flashTimer = setTimeout(() => {
+        setFlashEffect("")
+      }, 1000);
+      return () => {
+        clearTimeout(flashTimer)
+      }
+    }
+  }, [serviceOver, winPoint])
+
   return (
     <div
       className="scoreboard-container"
@@ -325,7 +355,8 @@ const ScoreBoard = () => {
         color: theme.on_primary,
       }}
     >
-      <div className="background" />
+      {dialog}
+      <div className={`background ${flashEffect}`} />
       <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
@@ -357,9 +388,16 @@ const ScoreBoard = () => {
                 receiver={v.receiver}
                 position={v.isRightTeam ? "right" : "left"}
                 teamKey={k}
+                setServiceOver={setServiceOver}
               />)
             ) : <Loading style={{ direction: "ltr" }} />
             : <Loading style={{ direction: "ltr" }} />)}
+        <div className="service-over"
+          style={{ opacity: serviceOver ? 1 : 0 }}
+        >service over</div>
+        <div className="win-point"
+          style={{ opacity: winPoint ? 1 : 0 }}
+        >{winPoint}</div>
         {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && (
           loading ? <Loading style={{ direction: "ltr" }} /> : <FaPlayCircle className="play" onClick={startTheGame} />

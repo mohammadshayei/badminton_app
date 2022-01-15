@@ -54,7 +54,7 @@ const Login = () => {
         dispatch(authActions.auth(input, password, url));
     };
     const loading = useSelector(state => state.auth.loading)
-    const error = useSelector(state => state.auth.error)
+    let error = useSelector(state => state.auth.error)
 
 
     const loginHandler = useCallback(() => {
@@ -67,15 +67,12 @@ const Login = () => {
     const goToSingup = () => {
         navigate('/signup')
     }
-    useEffect(() => {
-        if (error) {
-            alert(error)
-        }
-    }, [error])
+
     return (
         <div className='login-container'>
             {loading ? <Loading /> :
                 <>
+                    <div className="error-text">{error}</div>
                     {
                         Object.entries(order).map(([k, v]) =>
                             <CustomInput

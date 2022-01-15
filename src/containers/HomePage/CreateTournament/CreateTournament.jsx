@@ -8,10 +8,12 @@ import { elementTypes } from '../../../components/UI/CustomInput/CustomInput'
 import * as homeActions from "../../../store/actions/home";
 import { onChangeMultiPage, setUpMultiPage } from '../../../utils/homeFunction'
 import './CreateTournament.scss'
+import ErrorDialog from "../../../components/UI/Error/ErrorDialog"
+
 const CreateTournament = (props) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [body, setBody] = useState([])
-    const [checked, setChecked] = useState(false)
+    // const [checked, setChecked] = useState(false)
     const [page, setPage] = useState('page1')
     const [loading, setLoading] = useState(false)
     const [order, setOrder] = useState({
@@ -371,6 +373,7 @@ const CreateTournament = (props) => {
         }
 
     })
+    const [dialog, setDialog] = useState(null)
     const refereeId = useSelector(state => state.auth.refereeId)
     const token = useSelector(state => state.auth.token)
     const tournaments = useSelector(state => state.home.tournaments)
@@ -399,6 +402,7 @@ const CreateTournament = (props) => {
         else if (page === 'page2') setPage('page1')
     }
     const onSaveClick = async () => {
+        setDialog(null)
         if (!formIsValid) {
             let updatedOrder = { ...order };
             let updatedPage = { ...updatedOrder.page1 }
@@ -438,9 +442,9 @@ const CreateTournament = (props) => {
         }
         const result = await createTournament(payload, token)
         if (!result.success) {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
-            alert('با موفقیت ساخته شد')
+            setDialog(<ErrorDialog type="success">با موفقیت ساخته شد</ErrorDialog>)
             addTournament(result.tournament)
             setSelectedTournament(result.tournament._id)
         }
@@ -449,6 +453,7 @@ const CreateTournament = (props) => {
 
     }
     const onUpdateClick = async () => {
+        setDialog(null)
         setLoading(true)
         const payload = {
             tournamentId: selectedTournament,
@@ -478,9 +483,9 @@ const CreateTournament = (props) => {
         }
         const result = await editTournament(payload, token)
         if (!result.success) {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
-            alert('با موفقیت به روز رسانی شد')
+            setDialog(<ErrorDialog type="success">با موفقیت به روز رسانی شد</ErrorDialog>)
             updatedStoreTournament(result.tournament)
             setSelectedTournament(result.tournament._id)
         }
@@ -490,7 +495,7 @@ const CreateTournament = (props) => {
 
 
     useEffect(() => {
-        setUpMultiPage(order,page,setFormIsValid,setOrder,setBody)
+        setUpMultiPage(order, page, setFormIsValid, setOrder, setBody)
     }, [page, order])
 
     useEffect(() => {
@@ -523,6 +528,7 @@ const CreateTournament = (props) => {
     }, [props.editMode])
     return (
         <div className='create-container'>
+            {dialog}
             <div className='inputs-container'>
                 {
                     body
@@ -539,6 +545,7 @@ const CreateTournament = (props) => {
                 }
 
                 <Button
+                    loading={loading}
                     onClick={() => props.editMode ? onUpdateClick() : onSaveClick()}
                     buttonClass={`save-button ${props.editMode && 'save-button-large'}`}
                 >

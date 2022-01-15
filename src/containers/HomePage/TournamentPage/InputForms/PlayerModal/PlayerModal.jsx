@@ -10,6 +10,7 @@ import { createPlayer, createPlayerWithImage, updatePlayer, updatePlayerWithImag
 import { useDispatch, useSelector } from 'react-redux';
 import * as homeActions from "../../../../../store/actions/home";
 import { baseUrl } from '../../../../../constants/Config';
+import ErrorDialog from '../../../../../components/UI/Error/ErrorDialog';
 
 const PlayerModal = () => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -93,6 +94,7 @@ const PlayerModal = () => {
 
 
     })
+    const [dialog, setDialog] = useState(null)
     const selectedTournament = useSelector(state => state.home.selectedTournament)
     const selectedContent = useSelector(state => state.home.selectedContent)
     const contents = useSelector(state => state.home.contents)
@@ -104,11 +106,11 @@ const PlayerModal = () => {
     const setShowModal = (showModal) => {
         dispatch(homeActions.setShowModal(showModal));
     };
-    const editContent = (content,key) => {
-        dispatch(homeActions.editContent(content,key));
+    const editContent = (content, key) => {
+        dispatch(homeActions.editContent(content, key));
     };
-    const addContent = (content,key) => {
-        dispatch(homeActions.addContent(content,key));
+    const addContent = (content, key) => {
+        dispatch(homeActions.addContent(content, key));
     };
     const onChangeImage = (event) => {
         if (event.target.files[0]) {
@@ -148,10 +150,10 @@ const PlayerModal = () => {
             result = await createPlayer(payload, token)
         }
         if (!result.success) {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
-            alert('با موفقیت ساخته شد')
-            addContent(result.player,'player')
+            setDialog(<ErrorDialog type="success">با موفقیت ساخته شد</ErrorDialog>)
+            addContent(result.player, 'player')
         }
         setLoading(false)
         setShowModal(false)
@@ -174,10 +176,10 @@ const PlayerModal = () => {
             result = await updatePlayer(payload, token)
         }
         if (!result.success) {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
-            alert('با موفقیت به روز رسانی شد')
-            editContent(result.player,'player')
+            setDialog(<ErrorDialog type="success">با موفقیت به روز رسانی شد</ErrorDialog>)
+            editContent(result.player, 'player')
         }
         setLoading(false)
         setShowModal(false)
@@ -201,6 +203,7 @@ const PlayerModal = () => {
     }, [editMode])
     return (
         <div className='player-modal-wrapper'>
+            {dialog}
             <div className="image-wrapper">
                 <div className="circle-div" onClick={uploadButtonClickHandler}>
                     <input type="file"
@@ -220,7 +223,9 @@ const PlayerModal = () => {
                 }
             </div>
             <div className="action-wrapper">
-                <Button onClick={() => editMode ? onUpdateClickHandler() : onSaveClickHandler()}>
+                <Button
+                    loading={loading}
+                    onClick={() => editMode ? onUpdateClickHandler() : onSaveClickHandler()}>
                     {editMode ? stringFa.save_change : stringFa.save}
                 </Button>
 

@@ -40,10 +40,10 @@ const DropDown = (props) => {
         setDrop(false)
     }
 
-    useEffect(() => {
-        if (drop)
-            divRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
-    }, [drop])
+    // useEffect(() => {
+    //     if (drop)
+    //         divRef.current.scrollIntoViewIfNeeded({ behavior: 'smooth', inline: 'center' })
+    // }, [drop])
 
     return (
         <div {...props.elementConfig} className='dropdown-container' >
@@ -57,7 +57,9 @@ const DropDown = (props) => {
                     <BiChevronDown />
                 </div>
             </div>
-            <div ref={divRef} className={`dropdown-list ${drop && "drop"}`}>
+            <div ref={divRef} className={`dropdown-list ${drop && "drop"}`}
+                style={{ top: props.dropUp ? "unset" : "5rem", bottom: props.dropUp ? "3rem" : "unset" }}
+            >
                 <ul>
                     {props.items.length > 0 ?
                         (props.items.map((i, k) =>

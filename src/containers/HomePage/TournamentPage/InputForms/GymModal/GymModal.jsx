@@ -10,6 +10,7 @@ import { addGym, updateGym } from '../../../../../api/home';
 import { useDispatch, useSelector } from 'react-redux';
 import * as homeActions from "../../../../../store/actions/home";
 import { baseUrl } from '../../../../../constants/Config';
+import ErrorDialog from '../../../../../components/UI/Error/ErrorDialog';
 
 const GymModal = () => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -109,6 +110,7 @@ const GymModal = () => {
         },
 
     })
+    const [dialog, setDialog] = useState(null)
     const selectedTournament = useSelector(state => state.home.selectedTournament)
     const selectedContent = useSelector(state => state.home.selectedContent)
     const contents = useSelector(state => state.home.contents)
@@ -146,9 +148,9 @@ const GymModal = () => {
         }
         let result = await addGym(payload, token)
         if (!result.success) {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
-            alert('با موفقیت ساخته شد')
+            setDialog(<ErrorDialog type="success">با موفقیت ساخته شد</ErrorDialog>)
             addContent(result.data, 'gym')
         }
         setLoading(false)
@@ -169,9 +171,9 @@ const GymModal = () => {
 
         let result = await updateGym(payload, token)
         if (!result.success) {
-            alert(result.error)
+            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
-            alert('با موفقیت به روز رسانی شد')
+            setDialog(<ErrorDialog type="success">با موفقیت به روز رسانی شد</ErrorDialog>)
             editContent(result.data, 'gym')
         }
         setLoading(false)
@@ -180,7 +182,7 @@ const GymModal = () => {
     useEffect(() => {
         setUpSinglePage(order, setFormIsValid, setOrder, setBody)
     }, [order])
-   
+
     useEffect(() => {
         if (editMode) {
             let findedGym = contents.find(item => item.gym._id === selectedContent).gym
@@ -188,7 +190,7 @@ const GymModal = () => {
             console.log(findedGym.land_numbers.map(item => item.number))
             updatedOrder.gymTitle.value = findedGym.title;
             updatedOrder.landCount.value = findedGym.land_count;
-            updatedOrder.landNumbers.count=findedGym.land_count;
+            updatedOrder.landNumbers.count = findedGym.land_count;
             updatedOrder.landNumbers.value = findedGym.land_numbers.map(item => item.number);
             updatedOrder.capacity.value = findedGym.capacity;
             updatedOrder.optionsSituation.value = findedGym.options;
@@ -198,13 +200,16 @@ const GymModal = () => {
     }, [editMode])
     return (
         <div className='gym-modal-wrapper'>
+            {dialog}
             <div className="input-wrapper">
                 {
                     body
                 }
             </div>
             <div className="action-wrapper">
-                <Button onClick={() => editMode ? onUpdateClickHandler() : onSaveClickHandler()}>
+                <Button
+                    loading={loading}
+                    onClick={() => editMode ? onUpdateClickHandler() : onSaveClickHandler()}>
                     {editMode ? stringFa.save_change : stringFa.save}
                 </Button>
 

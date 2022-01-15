@@ -5,13 +5,16 @@ import { registerReferee } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
+import ErrorDialog from "../../../components/UI/Error/ErrorDialog"
 import * as actions from "../../../store/actions/auth";
 import { onChange } from "../../../utils/authFunction"
+import Loading from "../../../components/UI/Loading/Loading"
 
 
-const Singup = ({navigate,locaiton}) => {
+const Singup = ({ navigate, locaiton }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)
+    const [dialog, setDialog] = useState(null)
     const [order, setOrder] = useState({
         username: {
             value: '',
@@ -90,17 +93,18 @@ const Singup = ({navigate,locaiton}) => {
     };
 
     const onClick = async () => {
+        setDialog(null)
         setIsLoading(true)
         let result = await registerReferee(order.username.value, phone, order.nationalNumber.value, order.password.value)
         if (result.success) {
-            alert(stringFa.registered_successfully)
+            setDialog(<ErrorDialog type="success">{stringFa.registered_successfully}</ErrorDialog>)
             localStorage.setItem("token", result.message.token);
             localStorage.setItem("refereeId", result.message.referee._id);
             authSuccess(result.message.token, result.message.referee._id)
             setRefereeData(result.message.referee)
         }
         else {
-            alert(stringFa.error_occured)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
             authFail(stringFa.error_occured)
         }
         setIsLoading(false)
@@ -114,6 +118,7 @@ const Singup = ({navigate,locaiton}) => {
     }
     return (
         <div className='signup-container'>
+            {dialog}
             {
                 Object.entries(order).map(([k, v]) =>
                     <CustomInput
@@ -126,6 +131,7 @@ const Singup = ({navigate,locaiton}) => {
                     />)
             }
             <Button
+                loading={isLoading}
                 onClick={onClick}
                 ButtonStyle={{
                     fontSize: '1.2rem',
@@ -139,7 +145,6 @@ const Singup = ({navigate,locaiton}) => {
             >
                 {stringFa.register}
             </Button>
-
             <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
 
         </div>
