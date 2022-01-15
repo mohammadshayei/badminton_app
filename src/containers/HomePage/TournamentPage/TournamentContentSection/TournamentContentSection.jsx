@@ -23,6 +23,7 @@ import RefereeFooter from './Footer/RefereeFooter';
 import ErrorDialog from '../../../../components/UI/Error/ErrorDialog'
 import Modal from '../../../../components/UI/Modal/Modal'
 import AssignReferee from './AssignReferee/AssignReferee';
+import { useNavigate } from 'react-router-dom';
 
 const TournamentContentSection = (props) => {
     const [loading, setLoading] = useState(false)
@@ -40,6 +41,8 @@ const TournamentContentSection = (props) => {
     const theme = themeState.computedTheme;
 
     const dispatch = useDispatch();
+    const navigate = useNavigate()
+
 
     const setContents = (contents) => {
         dispatch(homeActions.setContents(contents));
@@ -104,24 +107,42 @@ const TournamentContentSection = (props) => {
         setAssignModal(true)
     }
 
-    const leadingActions = (id) => (
-        <LeadingActions >
-            <SwipeAction onClick={() => assignClickHandler(id)}>
-                <div
-                    className='swipe-action-btn'
-                    style={{
-                        backgroundColor: theme.primary_variant,
-                        color: theme.on_primary,
-                        margin: "1rem",
-                        borderRadius: '15px'
-                    }}
-                >
-                    <span>
-                        داورها
-                    </span>
-                </div>
-            </SwipeAction>
-        </LeadingActions >
+    const leadingActions = (id, status) => (
+        status === 1 ?
+            <LeadingActions >
+                <SwipeAction onClick={() => assignClickHandler(id)}>
+                    <div
+                        className='swipe-action-btn'
+                        style={{
+                            backgroundColor: theme.primary_variant,
+                            color: theme.on_primary,
+                            margin: "1rem",
+                            borderRadius: '15px'
+                        }}
+                    >
+                        <span>
+                            داورها
+                        </span>
+                    </div>
+                </SwipeAction>
+            </LeadingActions > :
+            <LeadingActions >
+                <SwipeAction onClick={() => onGameItemCliick(id)}>
+                    <div
+                        className='swipe-action-btn'
+                        style={{
+                            backgroundColor: theme.primary_variant,
+                            color: theme.on_primary,
+                            margin: "1rem",
+                            borderRadius: '15px'
+                        }}
+                    >
+                        <span>
+                            گزارش
+                        </span>
+                    </div>
+                </SwipeAction>
+            </LeadingActions >
     );
 
     const trailingActions = (id) => (
@@ -160,8 +181,6 @@ const TournamentContentSection = (props) => {
             </SwipeAction>
         </TrailingActions >
     );
-
-
     const trailingActionsRefer = (id) => (
         <TrailingActions >
             <SwipeAction
@@ -183,6 +202,9 @@ const TournamentContentSection = (props) => {
             </SwipeAction>
         </TrailingActions >
     );
+    const onGameItemCliick = (id) => {
+        navigate(`/report?id=${id}`);
+    }
 
     useEffect(() => {
         switch (mode) {
@@ -220,12 +242,15 @@ const TournamentContentSection = (props) => {
                 contents.map((item, key) => {
                     return (
                         <SwipeableListItem
-                            leadingActions={mode === 'games' ? leadingActions(item[mode.substring(0, mode.length - 1)]._id) : null}
+                            leadingActions={mode === 'games' && item[mode.substring(0, mode.length - 1)].status !== 2
+                                ? leadingActions(item[mode.substring(0, mode.length - 1)]._id, item[mode.substring(0, mode.length - 1)].status) : null}
                             trailingActions={mode !== 'referees' ?
                                 trailingActions(item[mode.substring(0, mode.length - 1)]._id) :
                                 trailingActionsRefer(item[mode.substring(0, mode.length - 1)]._id)}
                             onSwipeStart={() => { setSwipedStatus(item[mode.substring(0, mode.length - 1)]._id) }}
                             onSwipeEnd={() => { setSwipedStatus('') }}
+                            // onSwipeProgress={onSwipeProgress}
+
                             key={item[mode.substring(0, mode.length - 1)]._id}
                         >
                             {
@@ -265,7 +290,7 @@ const TournamentContentSection = (props) => {
         >
             {dialog}
             <Modal show={assignModal} modalClosed={() => setAssignModal(false)}>
-                <AssignReferee setShowModal={assignModal} />
+                <AssignReferee setShowModal={setAssignModal} />
             </Modal>
             <SwipeableList
                 type={ListType.IOS}

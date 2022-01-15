@@ -44,6 +44,10 @@ const GamesPage = () => {
 
   const gameClickHandler = (i) => {
     let game = games.find(item => item.game._id === i).game
+    if (!game.referee || !game.service_referee) {
+      alert(stringFa.please_set_referees)
+      return;
+    }
     setScoreboard(game);
     setSelectedGameReferee(game)
     setGameId(game._id)

@@ -119,5 +119,7 @@ export const stringFa = {
   date:"تاریخ",
   number_of_game:"شماره بازی",
   game_type:"نوع بازی",
-  competition_type:"نوع مسابقه"
+  competition_type:"نوع مسابقه",
+  download:"دانلود",
+  please_set_referees:"لطفا داور های بازی را تعیین کنید"
 };

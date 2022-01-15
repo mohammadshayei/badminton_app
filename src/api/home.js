@@ -325,3 +325,15 @@ export const updateGame = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+export const getGame = async (id, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/get_game    `,
+        { id },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.game }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}

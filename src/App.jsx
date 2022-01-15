@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import HomePage from "./containers/HomePage/HomePage";
 import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
 import { baseUrl } from "./constants/Config";
+import GameReport from "./components/UI/Report/GameReport";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,8 @@ function App() {
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
+      <Route path="/report" exact element={<GameReport />}></Route>
+
     </Routes>
   );
 }

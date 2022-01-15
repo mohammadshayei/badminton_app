@@ -8,7 +8,6 @@ import * as detailActions from "../../store/actions/detail";
 import { useDispatch } from "react-redux";
 import Menu from '../Menu/Menu';
 import CreateTournament from "./CreateTournament/CreateTournament";
-import SwipedItem from "../../components/UI/SwipedItem/SwipedItem";
 
 
 

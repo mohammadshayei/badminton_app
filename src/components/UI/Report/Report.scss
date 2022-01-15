@@ -1,0 +1,56 @@
+.game-report-wrapper {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    .actions-box {
+        width: 100%;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .game-report {
+        width: 297mm;
+        height: 210mm;
+        border: 1px #d3d3d3 solid;
+        background-color: white;
+        padding: 2rem 2rem;
+        .header-report {
+            width: 100%;
+            .diagram-title {
+                width: 100%;
+                text-align: center;
+            }
+            .header-content {
+                display: flex;
+                width: 100%;
+                .left-header {
+                    margin-top: 2rem;
+                    p {
+                        font-size: 0.7rem;
+                        margin-bottom: 0.4rem;
+                        white-space: nowrap;
+                    }
+                    p:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+                .middle-header {
+                    width: 100%;
+                    padding: .5rem 2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-evenly;
+                }
+                .right-header{
+                    padding: .4rem 1rem;
+                    p{
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+    }
+}

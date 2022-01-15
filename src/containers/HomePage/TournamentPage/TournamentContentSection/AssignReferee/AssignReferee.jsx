@@ -51,6 +51,8 @@ const AssignReferee = (props) => {
     const editMode = useSelector(state => state.home.editMode)
     const selectedTournament = useSelector(state => state.home.selectedTournament)
     const selectedContent = useSelector(state => state.home.selectedContent)
+    const contents = useSelector(state => state.home.contents)
+
 
     const onSaveClickHandler = async () => {
         if (!formIsValid) {
@@ -89,17 +91,23 @@ const AssignReferee = (props) => {
         setLoading(true)
         let updatedOrder = { ...order }
         let result = await fetchItems(selectedTournament, token, "referees")
+        let game = contents.find(item => item.game._id === selectedContent).game
+        console.log(game)
         if (result.success) {
             updatedOrder["gameReferee"].items = [];
             result.data.forEach(element => {
                 updatedOrder["gameReferee"].items = [...updatedOrder["gameReferee"].items,
                 { text: element.referee.username, id: element.referee._id }]
             });
+            if (game.referee)
+                updatedOrder["gameReferee"].value = game.referee.username
             updatedOrder["serviceReferee"].items = [];
             result.data.forEach(element => {
                 updatedOrder["serviceReferee"].items = [...updatedOrder["serviceReferee"].items,
                 { text: element.referee.username, id: element.referee._id }]
             });
+            if (game.service_referee)
+                updatedOrder["serviceReferee"].value =game.service_referee.username
             setOrder(updatedOrder)
         } else {
             setDialog(null)
