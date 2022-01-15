@@ -23,6 +23,7 @@ import RefereeFooter from './Footer/RefereeFooter';
 import ErrorDialog from '../../../../components/UI/Error/ErrorDialog'
 import Modal from '../../../../components/UI/Modal/Modal'
 import AssignReferee from './AssignReferee/AssignReferee';
+import Loading from "../../../../components/UI/Loading/Loading"
 
 const TournamentContentSection = (props) => {
     const [loading, setLoading] = useState(false)
@@ -267,16 +268,20 @@ const TournamentContentSection = (props) => {
             <Modal show={assignModal} modalClosed={() => setAssignModal(false)}>
                 <AssignReferee setShowModal={assignModal} />
             </Modal>
-            <SwipeableList
-                type={ListType.IOS}
-                className='tournament-content-section-content'
-                style={{
-                    gridTemplateRows: `repeat(${contents.length}, 5rem)`
-                }}
-            >
-                {body}
-            </SwipeableList>
-            {footer}
+            {loading ? <Loading style={{ color: theme.on_background }} /> :
+                <>
+                    <SwipeableList
+                        type={ListType.IOS}
+                        className='tournament-content-section-content'
+                        style={{
+                            gridTemplateRows: `repeat(${contents.length}, 5rem)`
+                        }}
+                    >
+                        {body}
+                    </SwipeableList>
+                    {footer}
+                </>
+            }
         </div>
     )
 }
