@@ -4,7 +4,10 @@ const TitleInput = (props) => {
     return (
         <div className='title-input-container' >
             <p className='title-class-name'>{props.title}
-                {(props.validation) && (props.validation.required && <p className="required">*</p>)}</p>
+                <span className="required">
+                    {(props.validation) && (props.validation.required && '*')}
+                </span>
+            </p>
             <input
                 className='title-input-element'
                 {...props.elementConfig}

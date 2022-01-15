@@ -3,7 +3,10 @@ const MultiInputTitle = (props) => {
     return (
         <div className='multi-input-title-wrapper'>
             <p className='title-class-name'>{props.title}
-                {(props.validation) && (props.validation.required && <p className="required">*</p>)}</p>
+                <span className="required">
+                    {(props.validation) && (props.validation.required && '*')}
+                </span>
+            </p>
             <div className="input-box-warpper">
                 {
                     props.count > 0 && [...new Array(parseInt(props.count))].map((_, index) => (

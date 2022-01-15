@@ -168,7 +168,6 @@ export const setUpSinglePage =
                             inputContainer={{ marginBottom: '1.4rem' }}
                             errorStyle={{
                                 top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                left: "8%"
                             }}
                         />
                     </div>)
@@ -185,7 +184,6 @@ export const setUpSinglePage =
                                     inputContainer={{ marginBottom: '1.4rem' }}
                                     errorStyle={{
                                         top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                        left: "8%"
                                     }}
                                 />
                             </div>
@@ -197,7 +195,6 @@ export const setUpSinglePage =
                                     inputContainer={{ marginBottom: '1.4rem' }}
                                     errorStyle={{
                                         top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                        left: "8%"
                                     }}
 
 
@@ -214,7 +211,6 @@ export const setUpSinglePage =
                                 inputContainer={{ marginBottom: '1.4rem' }}
                                 errorStyle={{
                                     top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                    left: "8%"
                                 }}
 
 
@@ -225,7 +221,6 @@ export const setUpSinglePage =
                                 inputContainer={{ marginBottom: '1.4rem' }}
                                 errorStyle={{
                                     top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                    left: "8%"
                                 }}
 
 

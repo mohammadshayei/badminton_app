@@ -13,7 +13,9 @@ const DatePickerInput = (props) => {
     return (
         <div className='title-date-picker-container' ref={ref}>
             <p className='title-class-name'>{props.title}
-                {(props.validation) && (props.validation.required && <p className="required">*</p>)}
+                <span className="required">
+                    {(props.validation) && (props.validation.required && '*')}
+                </span>
             </p>
             <DatePicker
                 calendar={persian}

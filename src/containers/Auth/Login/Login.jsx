@@ -79,6 +79,11 @@ const Login = () => {
                                 key={k}
                                 {...v}
                                 onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                                errorStyle={{
+                                    maxWidth: '400px',
+                                    minWidth: '250px',
+                                    width:'80%'
+                                }}
                             />)
                     }
                     <Button

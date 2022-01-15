@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { assignReferee, fetchItems } from '../../../../../api/home'
 import { stringFa } from '../../../../../assets/strings/stringFaCollection'
 import Button from '../../../../../components/UI/Button/Button'
 import { elementTypes } from '../../../../../components/UI/CustomInput/CustomInput'
 import ErrorDialog from '../../../../../components/UI/Error/ErrorDialog'
 import { setUpSinglePage } from '../../../../../utils/homeFunction'
+import * as homeActions from "../../../../../store/actions/home"
+
 import './AssignReferee.scss'
 
 const AssignReferee = (props) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
+    const [updateMode, setUpdateMode] = useState(false)
     const [body, setBody] = useState([])
     const [order, setOrder] = useState({
         gameReferee: {
@@ -48,14 +51,16 @@ const AssignReferee = (props) => {
         }
     })
     const token = useSelector(state => state.auth.token)
-    const editMode = useSelector(state => state.home.editMode)
     const selectedTournament = useSelector(state => state.home.selectedTournament)
     const selectedContent = useSelector(state => state.home.selectedContent)
     const contents = useSelector(state => state.home.contents)
 
-
+    const dispatch = useDispatch();
+    const editGame = (content,key) => {
+        dispatch(homeActions.editContent(content,key));
+    };
     const onSaveClickHandler = async () => {
-        if (!formIsValid) {
+        if (!formIsValid && !updateMode) {
             let updatedOrder = { ...order };
             for (let inputIdentifier in updatedOrder) {
                 updatedOrder[inputIdentifier].touched = true;
@@ -78,6 +83,17 @@ const AssignReferee = (props) => {
         } else {
             setDialog(null)
             setDialog(<ErrorDialog type="success">با موفقیت انجام شد</ErrorDialog>)
+            let game = contents.find(item => item.game._id === selectedContent).game
+            let udpatedGame = { ...game }
+            let newReferee = { ...game.referee }
+            let newServiceReferee = { ...game.service_referee }
+            newReferee.id = order.gameReferee.id;
+            newReferee.username = order.gameReferee.value;
+            newServiceReferee.id = order.serviceReferee.id;
+            newServiceReferee.username = order.serviceReferee.value;
+            udpatedGame.referee = newReferee
+            udpatedGame.service_referee = newServiceReferee
+            editGame(udpatedGame,'game')
             props.setShowModal(false)
         }
         setLoading(false)
@@ -92,22 +108,31 @@ const AssignReferee = (props) => {
         let updatedOrder = { ...order }
         let result = await fetchItems(selectedTournament, token, "referees")
         let game = contents.find(item => item.game._id === selectedContent).game
-        console.log(game)
         if (result.success) {
             updatedOrder["gameReferee"].items = [];
             result.data.forEach(element => {
                 updatedOrder["gameReferee"].items = [...updatedOrder["gameReferee"].items,
                 { text: element.referee.username, id: element.referee._id }]
             });
-            if (game.referee)
+            if (game.referee) {
                 updatedOrder["gameReferee"].value = game.referee.username
+                updatedOrder["gameReferee"].id = game.referee._id;
+
+            }
             updatedOrder["serviceReferee"].items = [];
             result.data.forEach(element => {
                 updatedOrder["serviceReferee"].items = [...updatedOrder["serviceReferee"].items,
                 { text: element.referee.username, id: element.referee._id }]
             });
-            if (game.service_referee)
-                updatedOrder["serviceReferee"].value =game.service_referee.username
+            if (game.service_referee) {
+                updatedOrder["serviceReferee"].value = game.service_referee.username
+                updatedOrder["serviceReferee"].id = game.service_referee._id
+            }
+            if (game.referee && game.service_referee)
+                setUpdateMode(true)
+            else
+                setUpdateMode(false)
+
             setOrder(updatedOrder)
         } else {
             setDialog(null)
@@ -127,8 +152,8 @@ const AssignReferee = (props) => {
                 {body}
             </div>
             <div className="action-wrapper">
-                <Button loading={loading} onClick={() => editMode ? onUpdateClickHandler() : onSaveClickHandler()}>
-                    {stringFa.save}
+                <Button loading={loading} onClick={onSaveClickHandler}>
+                    {updateMode ? stringFa.save_change : stringFa.save}
                 </Button>
             </div>
         </div>

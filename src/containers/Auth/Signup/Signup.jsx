@@ -127,6 +127,11 @@ const Singup = ({ navigate, locaiton }) => {
                         inputStyle={{
                             letterSpacing: k === 'password' && v.value.length > 0 ? '.4rem' : "",
                         }}
+                        errorStyle={{
+                            maxWidth: '400px',
+                            minWidth: '250px',
+                            width: '80%'
+                        }}
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
                     />)
             }

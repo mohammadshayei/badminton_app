@@ -268,7 +268,6 @@ const ScoreBoard = () => {
     else if (info.team2.setWon === 2)
       setTeamWon("team2");
   }, [info.team1.setWon, info.team2.setWon, endSetRequestSended]);
-
   useEffect(async () => {
     if (teamWon === 'team1' || teamWon === 'team2') {
       const payload = {

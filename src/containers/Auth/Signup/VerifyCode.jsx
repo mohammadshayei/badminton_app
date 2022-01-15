@@ -59,7 +59,11 @@ const GetPhoneNumber = (props) => {
                             paddingLeft: '120px',
                         }}
                         errorStyle={{
+                            maxWidth: '400px',
+                            minWidth: '250px',
+                            width: '80%',
                             top: '3.2rem'
+
                         }}
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
                     />)

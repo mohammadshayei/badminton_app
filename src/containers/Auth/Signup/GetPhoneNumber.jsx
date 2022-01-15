@@ -103,7 +103,11 @@ const GetPhoneNumber = (props) => {
                         key={k}
                         {...v}
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                    // errorStyle={{ top: "3.5rem", left: "calc(-50% + 3px )" }}
+                        errorStyle={{
+                            maxWidth: '400px',
+                            minWidth: '250px',
+                            width: '80%'
+                        }}
 
                     />)
             }

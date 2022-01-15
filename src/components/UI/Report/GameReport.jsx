@@ -8,11 +8,13 @@ import { stringFa } from '../../../assets/strings/stringFaCollection';
 import { getGame } from '../../../api/home';
 import { useSelector } from 'react-redux';
 import PlayerBox from './PlayerBox';
+import SetReport from './SetReport';
 
 const GameReport = () => {
     const [game, setGame] = useState(null)
     const [date, setDate] = useState(null)
     const [time, setTime] = useState(null)
+    const [matchTime, setMatchTime] = useState({ start: "", end: "", duration: "" })
 
     const token = useSelector(state => state.auth.token)
     const locaiton = useLocation();
@@ -46,8 +48,16 @@ const GameReport = () => {
             let month = months[date.getMonth()];
             setDate(`${date.getDate()} ${month} ${date.getFullYear()} `)
             setTime(`${date.getHours()} : ${date.getMinutes()}`)
+            let durationMathTime =
+                new Date(game.game_time.end).getTime() - new Date(game.game_time.start).getTime()
+            setMatchTime({
+                start: `${new Date(game.game_time.start).getHours()} : ${new Date(game.game_time.start).getMinutes()}`,
+                end: `${new Date(game.game_time.end).getHours()} : ${new Date(game.game_time.end).getMinutes()}`,
+                duration: `${Math.floor(durationMathTime / (1000 * 60))}`,
+            })
         }
     }, [game])
+    // if(game)console.log(game.sets)
     return (
         <div className='game-report-wrapper'>
             <div className="actions-box">
@@ -78,7 +88,7 @@ const GameReport = () => {
                                 <p>Date : {date}&nbsp;&nbsp;&nbsp;Time : {time} </p>
                             </div>
                             <div className="middle-header">
-                                <PlayerBox  players={game.teamA.players.map(item => item.player.username)} />
+                                <PlayerBox players={game.teamA.players.map(item => item.player.username)} />
                                 <div className='socre-box'>
                                     <p>score</p>
                                     {
@@ -95,8 +105,27 @@ const GameReport = () => {
                                 <p>
                                     Count : 3
                                 </p>
+                                <p>
+                                    Umpire : {game.referee.username}
+                                </p>
+                                <p>
+                                    Service Judge : {game.service_referee.username}
+                                </p>
+                                <p>
+                                    Start match : {matchTime.start}
+                                </p>
+                                <p>
+                                    End match : {matchTime.end}
+                                </p>
+                                <p>
+                                    Duration(Min) : {matchTime.duration}
+                                </p>
+
                             </div>
                         </div>
+                            <div className='tables-report'>
+                                    <SetReport events={game.sets[0].set.events} />
+                            </div>
                     </div>
                 </div>
             }
