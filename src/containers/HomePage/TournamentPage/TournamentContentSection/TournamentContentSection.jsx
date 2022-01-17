@@ -229,14 +229,16 @@ const TournamentContentSection = (props) => {
     }, [mode, selectedTournament])
 
     useEffect(async () => {
-        setLoading(true)
-        const result = await fetchItems(selectedTournament, token, mode)
-        if (result.success) {
-            setContents(result.data)
+        if (token && selectedTournament) {
+            setLoading(true)
+            const result = await fetchItems(selectedTournament, token, mode)
+            if (result.success) {
+                setContents(result.data)
+            }
+            setLoading(false)
         }
-        setLoading(false)
 
-    }, [selectedTournament, mode]);
+    }, [selectedTournament, mode, token]);
 
     useEffect(() => {
         if (contents.length > 0) {

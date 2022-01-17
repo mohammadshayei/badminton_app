@@ -134,8 +134,8 @@ const EventsBox = () => {
   }, [info.eventCounter])
 
   return (
-    <div className="events-wrapper">
-      <div className="history-table">
+    <div className="events-wrapper" id='events'>
+      <div className="history-table" >
         {[...Array(70)].map((e, ci) =>
           <div key={ci} className="table-column"
             style={ci === 0 ? columnStyle : {}}

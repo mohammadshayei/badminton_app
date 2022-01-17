@@ -78,3 +78,9 @@ export const removeItemContent = (id, key) => {
 
     };
 }
+export const setAssingScoreboard = (data) => {
+    return {
+        type: actionTypes.SET_ASSIGN_SCOREBOARD,
+        data,
+    };
+}

@@ -18,6 +18,7 @@ import WinnerModal from "./WinnerModal/WinnerModal";
 import Selector from "../../HomePage/GamesPage/Selector/Selector";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 
+
 const ScoreBoard = () => {
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
@@ -104,7 +105,7 @@ const ScoreBoard = () => {
     }
     setLoading(false)
   }
-
+  
   const createNewSet = async () => {
     setDialog(null)
     const payload = {
@@ -258,6 +259,7 @@ const ScoreBoard = () => {
       (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
       createNewSet()
       setEndSetRequestSended(false)
+
     }
     if (info.team1.setWon === 2)
       setTeamWon("team1");

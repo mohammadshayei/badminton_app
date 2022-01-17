@@ -55,7 +55,6 @@ const Menu = (props) => {
                 break;
         }
     }, [pageId]);
-
     return (
         <div className={`sidebar-menu ${showMenu && "active"}`}>
             <div className={`sidebar-menu-icon ${showMenu && "open"}`} onClick={() => setMenuStatus(!showMenu)}>

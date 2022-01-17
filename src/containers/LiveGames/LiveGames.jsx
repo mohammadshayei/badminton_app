@@ -6,15 +6,20 @@ import Loading from '../../components/UI/Loading/Loading';
 import rocket from "../../assets/images/rocket.png";
 import rockets from "../../assets/images/rockets.png";
 import * as gameActions from "../../store/actions/gameInfo"
+import * as homeActions from "../../store/actions/home"
+
 
 import './LiveGames.scss'
 import { useNavigate } from 'react-router-dom';
 import ErrorDialog from '../../components/UI/Error/ErrorDialog';
+import Button from '../../components/UI/Button/Button';
+import Modal from '../../components/UI/Modal/Modal';
+import AssignLand from './AssignLand/AssignLand';
 const LiveGames = () => {
     const [loading, setLoading] = useState(false)
     const [games, setGames] = useState([]);
     const [dialog, setDialog] = useState(null)
-    const token = useSelector(state => state.auth.token)
+    const [showModal, setShowModal] = useState(false)
     const socket = useSelector(state => state.auth.socket)
 
     const dispatch = useDispatch();
@@ -22,14 +27,19 @@ const LiveGames = () => {
     const setSelectedGameView = (game) => {
         dispatch(gameActions.setGameView(game));
     };
+    const setAssingScoreboard = (data) => {
+        dispatch(homeActions.setAssingScoreboard(data));
+    };
     const gameClickHandler = (id) => {
+        setAssingScoreboard({ gymId: "", landNumber: 0 })
         const game = games.find(item => item._id === id)
         setSelectedGameView(game);
         navigate('/scoreboard_view')
     }
+
     useEffect(async () => {
         setLoading(true)
-        const result = await getLiveGames(token)
+        const result = await getLiveGames()
         if (result.success) {
             setGames(result.data)
         } else {
@@ -65,46 +75,64 @@ const LiveGames = () => {
             ))
         }
     }, [socket, games])
+
     return (
         <div className="live-games-page-wrapper">
             {dialog}
-            {
-                loading ?
-                    <Loading /> :
-                    games.length > 0 ? (
-                        games.map((game, key) => (
-                            <div key={game._id} className="game-box"
-                                onClick={() => gameClickHandler(game._id)}>
-                                {game.game_type === "single" ? (
-                                    <img src={rocket} alt="" />
-                                ) : (
-                                    <img src={rockets} alt="" />
-                                )}
-                                <div className="details">
-                                    <p className="title">{game.tournament.title}</p>
-                                    <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p>
-                                    <p className="players-name">
-                                        <span> {`${game.teamA.players[0].player.username}
+            <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+                <AssignLand games={games} />
+            </Modal>
+            <div className="live-games">
+                {
+                    loading ?
+                        <Loading /> :
+                        games.length > 0 ? (
+                            games.map((game, key) => (
+                                <div key={game._id} className="game-box"
+                                    onClick={() => gameClickHandler(game._id)}>
+                                    {game.game_type === "single" ? (
+                                        <img src={rocket} alt="" />
+                                    ) : (
+                                        <img src={rockets} alt="" />
+                                    )}
+                                    <div className="details">
+                                        <p className="title">{game.tournament.title}</p>
+                                        <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p>
+                                        <p className="players-name">
+                                            <span> {`${game.teamA.players[0].player.username}
                                         ${game.game_type === "double" ? "  ,  " + game.teamA.players[1].player.username : "  "}`}
-                                        </span>
-                                        <span className='span-score'>
-                                            {`${game.teamA.setWon}    :   ${game.teamB.setWon}`}
-                                        </span>
-                                        <span> {`${game.teamB.players[0].player.username}
+                                            </span>
+                                            <span className='span-score'>
+                                                {`${game.teamA.setWon}    :   ${game.teamB.setWon}`}
+                                            </span>
+                                            <span> {`${game.teamB.players[0].player.username}
                                         ${game.game_type === "double" ? "  ,  " + game.teamB.players[1].player.username : "  "}`}
-                                        </span>
-                                    </p>
+                                            </span>
+                                        </p>
 
+                                    </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="hint">
+                                {stringFa.no_game_to_see}
                             </div>
-                        ))
-                    ) : (
-                        <div className="hint">
-                            {stringFa.no_game_to_see}
-                        </div>
-                    )
-            }
-
+                        )
+                }
+            </div>
+            <div className='button-container'>
+                <Button
+                    onClick={() => { setShowModal(true) }}
+                    ButtonStyle={{
+                        fontSize: '1.2rem',
+                        padding: '.4rem 4rem',
+                        background: 'white',
+                        color: 'black',
+                    }}
+                >
+                    {stringFa.assign_scorebaord_to_land}
+                </Button>
+            </div>
         </div>
     )
 }
