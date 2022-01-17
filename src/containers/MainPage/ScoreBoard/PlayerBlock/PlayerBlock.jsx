@@ -78,6 +78,7 @@ const PlayerBlock = (props) => {
       foulHappend({ foulType: null });
   }
   useEffect(() => {
+    props.setServiceOver(false)
     if (info.undoMode) return;
     const detail = {
       server: {
@@ -97,9 +98,6 @@ const PlayerBlock = (props) => {
       if (props.score !== 0) {
         switchServer();
         props.setServiceOver(true)
-        setTimeout(() => {
-          props.setServiceOver(false)
-        }, 2000);
       }
     } else if (props.server === 1) {
       if (props.score !== 0) {
@@ -187,6 +185,23 @@ const PlayerBlock = (props) => {
               }}
             >
               +
+              <img src={shuttle_image} alt="shuttle" />
+            </Button>
+            <Button
+              back={theme.primary}
+              hover={theme.primary}
+              ButtonStyle={{
+                borderRadius: "50%",
+                aspectRatio: "1",
+              }}
+              onClick={() => {
+                if (info.balls > 1) {
+                  decreaseBall();
+                  addEvent({ type: "decreaseBall", time: "", by: "" });
+                }
+              }}
+            >
+              -
               <img src={shuttle_image} alt="shuttle" />
             </Button>
           </div>}
