@@ -298,9 +298,6 @@ const TournamentContentSection = (props) => {
                     <SwipeableList
                         type={ListType.IOS}
                         className='tournament-content-section-content'
-                        style={{
-                            gridTemplateRows: `repeat(${contents.length}, 5rem)`
-                        }}
                     >
                         {body}
                     </SwipeableList>

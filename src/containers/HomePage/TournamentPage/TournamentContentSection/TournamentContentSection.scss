@@ -5,16 +5,22 @@
 	padding: 1rem;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
 		rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+	.swipeable-list {
+		height: unset;
+	}
 	.tournament-content-section-content {
 		display: grid;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: center;
 		grid-template-columns: repeat(auto-fit, 19rem);
-		gap: 2rem;
+		gap: 1rem;
 		padding: 1rem;
 		max-height: 85%;
 		max-width: 100%;
-		overflow: auto;
+		.swipeable-list-item {
+			height: 5rem;
+			overflow: visible;
+		}
 	}
 }
 
