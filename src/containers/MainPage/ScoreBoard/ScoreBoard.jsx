@@ -32,7 +32,7 @@ const ScoreBoard = () => {
   const [chooseServer, setChooseServer] = useState(false);
   const [serviceOver, setServiceOver] = useState(false)
   const [winPoint, setWinPoint] = useState(null)
-  const [flashEffect, setFlashEffect] = useState("")
+  // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
 
   const gameId = useSelector(state => state.gameInfo.gameId)
@@ -178,14 +178,12 @@ const ScoreBoard = () => {
     switch (info.team1.score) {
       case maxPoint - 1:
         setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
-        setTimeout(() => {
-          setWinPoint(null)
-        }, 2000);
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
         break;
       case maxPoint:
+        setWinPoint(null)
         setOver({ teamKey: "team1" });
         if (info.team1.setWon < 1) {
           switchSide();
@@ -219,14 +217,12 @@ const ScoreBoard = () => {
     switch (info.team2.score) {
       case maxPoint - 1:
         setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
-        setTimeout(() => {
-          setWinPoint(null)
-        }, 2000);
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
         break;
       case maxPoint:
+        setWinPoint(null)
         setOver({ teamKey: "team2" });
         if (info.team2.setWon < 1) {
           switchSide();
@@ -335,17 +331,17 @@ const ScoreBoard = () => {
     }
   }, [breakTime]);
 
-  useEffect(() => {
-    if (serviceOver || winPoint) {
-      setFlashEffect("flash")
-      const flashTimer = setTimeout(() => {
-        setFlashEffect("")
-      }, 1000);
-      return () => {
-        clearTimeout(flashTimer)
-      }
-    }
-  }, [serviceOver, winPoint])
+  // useEffect(() => {
+  //   if (serviceOver || winPoint) {
+  //     setFlashEffect("flash")
+  //     const flashTimer = setTimeout(() => {
+  //       setFlashEffect("")
+  //     }, 1000);
+  //     return () => {
+  //       clearTimeout(flashTimer)
+  //     }
+  //   }
+  // }, [serviceOver, winPoint])
 
   return (
     <div
@@ -355,7 +351,7 @@ const ScoreBoard = () => {
       }}
     >
       {dialog}
-      <div className={`background ${flashEffect}`} />
+      <div className={`background`} /> {/* ${flashEffect}*/}
       <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
