@@ -26,14 +26,52 @@
 		width: 100%;
 		font-size: 4vw;
 		.game-box {
-			background-color: rgba(0, 0, 0, 0.2);
-			width: 100%;
-			border-radius: 15px;
-			padding: 0.5em 1em;
-			text-align: right;
-			margin-bottom: 1em;
-			box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
-				rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border-radius: 26px;
+			padding: 1em 1.5em;
+			background-color: rgba(0, 0, 0, 0.15);
+			backdrop-filter: blur(5px);
+			margin: 0 2%;
+			margin-bottom: 0.7rem;
+			cursor: pointer;
+			direction: rtl;
+			width: 96%;
+			box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+			.details {
+				width: 70%;
+				padding: 0 0.5em;
+				text-align: right;
+				.title {
+					font-size: 1.1rem;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+				.game-number {
+					font-size: 0.9rem;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+				.players-name {
+					font-size: 0.7rem;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					.span-score {
+						margin: 1rem;
+						font-size: 1rem;
+						color: white;
+						font-weight: bold;
+					}
+				}
+			}
+			img {
+				max-width: 40px;
+				margin-left: 0.5em;
+			}
 		}
 	}
 }

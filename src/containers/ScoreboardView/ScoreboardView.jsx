@@ -3,6 +3,7 @@ import "./ScoreboardView.scss"
 import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../constants/Config";
+import { useNavigate } from "react-router-dom";
 
 const ScoreboardView = () => {
     const [data, setData] = useState(null);
@@ -11,6 +12,9 @@ const ScoreboardView = () => {
     const [gameScores, setGameScores] = useState(null)
     const game = useSelector(state => state.gameInfo.gameView)
     const socket = useSelector(state => state.auth.socket)
+    const { gymId, landNumber } = useSelector(state => state.home.assingScoreboard)
+    const token = useSelector(state => state.auth.token)
+    let navigate = useNavigate();
 
 
     useEffect(() => {
@@ -88,6 +92,12 @@ const ScoreboardView = () => {
             updatedGame.teamB.score = 0
             setData(updatedGame)
             setGameWonner('')
+            if (gymId && landNumber && token) {
+                setTimeout(() => {
+                    navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
+                }, 30000);
+            }
+
         }
     }, [gameWonner])
 

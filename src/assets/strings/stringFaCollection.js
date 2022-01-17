@@ -96,6 +96,7 @@ export const stringFa = {
   new_tournament: "تونمنت جدید",
   my_games: "بازی های من",
   tournaments: "تورنمنت ها",
+  tournament_error: "تورنمنت را انتخاب کنید",
   remove_successfully: 'با موفقیت حذف شد',
   national_number_or_phone: 'شماره ملی یا شماره همراه',
   referee_added: "داور اضافه شد",
@@ -121,5 +122,14 @@ export const stringFa = {
   game_type:"نوع بازی",
   competition_type:"نوع مسابقه",
   download:"دانلود",
-  please_set_referees:"لطفا داور های بازی را تعیین کنید"
+  please_set_referees:"لطفا داور های بازی را تعیین کنید",
+  assign_scorebaord_to_land:"انتساب تابلو امتیاز به زمین",
+  gym_error:"باشگاه خود را انتخاب کنید",
+  land_error:"زمین خود را انتخاب کنید",
+  tournament:"تورنمنت",
+  wait_to_start_the_game:"...در انتظار شروع بازی جدید"
+
+
+
+
 };

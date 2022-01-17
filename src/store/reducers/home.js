@@ -9,11 +9,18 @@ const initialState = {
     selectedContent: null,
     mode: 'games',
     showModal: false,
-    editMode: false
+    editMode: false,
+    assingScoreboard: {
+        gymId: "",
+        landNumber: 0,
+    }
 };
 
 const setTournaments = (state, action) => {
     return updateObject(state, { tournaments: action.tournaments });
+};
+const setAssignScoreboard = (state, action) => {
+    return updateObject(state, { assingScoreboard: action.data });
 };
 const setSelectedTournament = (state, action) => {
     return updateObject(state, { selectedTournament: action.tournament });
@@ -98,6 +105,8 @@ const reducer = (state = initialState, action) => {
             return editContent(state, action);
         case actionTypes.REMOVE_ITEM:
             return removeItemContent(state, action);
+        case actionTypes.SET_ASSIGN_SCOREBOARD:
+            return setAssignScoreboard(state, action);
         default:
             return state;
     }

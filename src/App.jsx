@@ -14,6 +14,7 @@ import HomePage from "./containers/HomePage/HomePage";
 import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
 import { baseUrl } from "./constants/Config";
 import GameReport from "./components/UI/Report/GameReport";
+import WaitPage from "./containers/WaitPage/WaitPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ function App() {
   };
   const setSocket = (socket) => {
     dispatch(authActions.setSocket(socket));
+  };
+  const setRefereeData = (refereeId, token) => {
+    dispatch(authActions.getRefereeData(refereeId, token));
   };
   const setSize = (height, width) => {
     dispatch(detailActions.setSize(height, width));
@@ -36,6 +40,8 @@ function App() {
     setSize(window.innerHeight, window.innerWidth);
   });
   const token = useSelector((state) => state.auth.token);
+  const refereeId = useSelector((state) => state.auth.refereeId);
+
   const checked = useSelector((state) => state.auth.checked);
   const path = useSelector((state) => state.auth.authRedirectPath);
   const checkAuth = () => dispatch(authActions.authCheckState());
@@ -49,6 +55,11 @@ function App() {
       navigate(`/login`);
     }
   }, [token, checked]);
+  useEffect(() => {
+    if (refereeId && token) {
+      setRefereeData(refereeId, token)
+    }
+  }, [refereeId, token])
   useEffect(() => {
     if (path && location.pathname !== path) {
       navigate(path);
@@ -64,6 +75,8 @@ function App() {
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
       <Route path="/report" exact element={<GameReport />}></Route>
+      <Route path="/wait" exact element={<WaitPage />}></Route>
+
 
     </Routes>
   );
