@@ -25,6 +25,7 @@ import Modal from '../../../../components/UI/Modal/Modal'
 import AssignReferee from './AssignReferee/AssignReferee';
 import Loading from "../../../../components/UI/Loading/Loading"
 import { useNavigate } from 'react-router-dom';
+import lamp from '../../../../assets/images/Light.png';
 
 const TournamentContentSection = (props) => {
     const [loading, setLoading] = useState(false)
@@ -294,17 +295,25 @@ const TournamentContentSection = (props) => {
                 <AssignReferee setShowModal={setAssignModal} />
             </Modal>
             {loading ? <Loading style={{ color: theme.on_background }} /> :
+
                 <>
-                    <SwipeableList
+                    {body ? <SwipeableList
                         type={ListType.IOS}
                         className='tournament-content-section-content'
                     >
                         {body}
                     </SwipeableList>
+                        :
+                        <div className='no-item-content'
+                            style={{ color: theme.on_background }}>
+                            <img src={lamp} alt="" />
+                            موردی برای نمایش وجود ندارد
+                        </div>}
                     {footer}
                 </>
+
             }
-        </div>
+        </div >
     )
 }
 

@@ -22,6 +22,19 @@
 			overflow: visible;
 		}
 	}
+	.no-item-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 85%;
+		img {
+			margin: 2rem;
+			width: 150px;
+			aspect-ratio: 1;
+		}
+	}
 }
 
 .swipe-action-btn {
