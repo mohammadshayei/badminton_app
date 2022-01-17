@@ -187,7 +187,7 @@ const PlayerBlock = (props) => {
               +
               <img src={shuttle_image} alt="shuttle" />
             </Button>
-            <Button
+            {/* <Button
               back={theme.primary}
               hover={theme.primary}
               ButtonStyle={{
@@ -203,7 +203,7 @@ const PlayerBlock = (props) => {
             >
               -
               <img src={shuttle_image} alt="shuttle" />
-            </Button>
+            </Button> */}
           </div>}
           <div disabled={props.disable} className="player-block-icon up-btn">
             <Button
