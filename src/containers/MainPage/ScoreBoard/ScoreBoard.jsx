@@ -94,7 +94,7 @@ const ScoreBoard = () => {
       gameId,
       gameStatus: 2,
       setId,
-      setStatus: 2
+      setStatus: 2,
     }
     const result = await setGameAndSetStatus(payload, token)
     if (result.success) {
@@ -105,7 +105,7 @@ const ScoreBoard = () => {
     }
     setLoading(false)
   }
-  
+
   const createNewSet = async () => {
     setDialog(null)
     const payload = {

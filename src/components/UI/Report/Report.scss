@@ -54,3 +54,54 @@
         }
     }
 }
+
+
+.events-wrapper {
+	// background-color: rgb(235, 235, 235);
+    background-color: white;
+    margin-bottom: .4rem;
+    padding: 0;
+	color: #000000;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+    justify-content: center;
+	min-height: 20mm;
+	// font-size: 2vw;
+	.history-table {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		overflow-y: auto;
+		height: 100%;
+		max-width: 100%;
+		.table-column {
+			border: 1px solid rgb(0, 0, 0);
+			border-bottom: none;
+			.table-cell {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				direction: ltr;
+				border-bottom: 1px solid rgb(0, 0, 0);
+				min-width: 6mm;
+				width: 100%;
+                padding-top: .2rem;
+				font-size: 16px;
+				.name-in-cell {
+					display: flex;
+					justify-content: space-between;
+					width: 100%;
+					.player-name-div {
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						direction: rtl;
+						max-width: 85%;
+					}
+				}
+			}
+		}
+	}
+}

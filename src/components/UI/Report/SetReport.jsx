@@ -1,10 +1,17 @@
-
-const SetReport = ({events}) => {
-    console.log(events)
+import OneTable from './OneTable'
+const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail, teamBDetail }) => {
+    const props = { isSingle: playerTeamA.length === 1, playerTeamB, playerTeamA, teamADetail, teamBDetail }
     return (
-        <div>
-            hellow
-        </div>
+        < div >
+            {
+                events.length > 31 ?
+                    <>
+                        <OneTable {...props} events={events.slice(0, 32)} isOne={true} />
+                        <OneTable {...props} events={events.slice(32, events.length)} isOne={false} />
+                    </> :
+                    <OneTable {...props} events={events} isOne={true} />
+            }
+        </div >
     )
 }
 

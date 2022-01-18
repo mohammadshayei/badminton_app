@@ -123,9 +123,25 @@ const GameReport = () => {
 
                             </div>
                         </div>
-                            <div className='tables-report'>
-                                    <SetReport events={game.sets[0].set.events} />
-                            </div>
+                        <div className='tables-report'>
+                            {game.sets.map(item =>
+                                <SetReport
+                                    key={item.set._id}
+                                    playerTeamB={game.teamB.players}
+                                    playerTeamA={game.teamA.players}
+                                    events={item.set.events}
+                                    teamADetail={{
+                                        server: item.set.teamA.server,
+                                        receiver: item.set.teamA.receiver,
+                                    }}
+                                    teamBDetail={{
+                                        server: item.set.teamB.server,
+                                        receiver: item.set.teamB.receiver,
+                                    }}
+                                />)}
+
+
+                        </div>
                     </div>
                 </div>
             }
