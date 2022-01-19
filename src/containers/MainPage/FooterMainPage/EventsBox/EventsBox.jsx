@@ -35,7 +35,7 @@ const EventsBox = () => {
         content: <div className="name-in-cell"><div className="player-name-div">{info.team2.players[0].name}</div>
         </div>
       }, {
-        content: info.team2.players.length === 2 ? <div className="name-in-cell"><div className="player-name-div">{info.team1.players[0].name}</div>
+        content: info.team2.players.length === 2 ? <div className="name-in-cell"><div className="player-name-div">{info.team2.players[1].name}</div>
         </div> : ""
       }]
 

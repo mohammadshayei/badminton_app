@@ -1,153 +1,152 @@
 .game-report-wrapper {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f5f5f5;
-    .actions-box {
-        width: 100%;
-        padding: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .game-report {
-        width: 297mm;
-        height: 210mm;
-        // border: 1px #d3d3d3 solid;
-        background-color: white;
-        padding: 2rem 2rem;
-        .header-report {
-            width: 100%;
-            .diagram-title {
-                width: 100%;
-                text-align: center;
-            }
-            .header-content {
-                display: flex;
-                width: 100%;
-                .left-header {
-                    margin-top: 2rem;
-                    p {
-                        font-size: 0.7rem;
-                        margin-bottom: 0.4rem;
-                        white-space: nowrap;
-                    }
-                    p:last-child {
-                        margin-bottom: 0;
-                    }
-                }
-                .middle-header {
-                    width: 100%;
-                    padding: 0.5rem 2rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-evenly;
-                    position: relative;
-                    .player-box {
-                        width: 15rem;
-                        border: 3px solid black;
-                        position: relative;
-                        .player-name {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            border-bottom: 2px solid black;
-                            p {
-                                font-size: 13px;
-                                font-weight: 600;
-                                margin: 0.1rem 0;
-                            }
-                        }
-                        p {
-                            text-align: center;
-                        }
-                        &:last-child {
-                            background-color: rgb(235, 235, 235);
-                        }
-                        .base-class {
-                            position: absolute;
-                            width: 23px;
-                            height: 23px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            border: 3px solid black;
-                            top: -3px;
-
-                        }
-                        .left {
-                            left: -26px;
-                            border-right: none;
-                        }
-                        .right {
-                            right: -26px;
-                            border-left: none;
-                        }
-                    }
-                    .shuttl{
-                        position: absolute;
-                        bottom: 1rem;
-                        right: 3rem;
-                    }
-                }
-                .right-header {
-                    padding: 0.4rem 1rem;
-                    p {
-                        white-space: nowrap;
-                    }
-                }
-            }
-        }
-    }
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #f5f5f5;
+	.actions-box {
+		width: 100%;
+		padding: 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.game-report {
+		width: 297mm;
+		height: 210mm;
+		// border: 1px #d3d3d3 solid;
+		background-color: white;
+		padding: 2rem 2rem;
+		.header-report {
+			width: 100%;
+			.diagram-title {
+				width: 100%;
+				text-align: center;
+			}
+			.header-content {
+				display: flex;
+				width: 100%;
+				.left-header {
+					margin-top: 2rem;
+					p {
+						font-size: 0.7rem;
+						margin-bottom: 0.4rem;
+						white-space: nowrap;
+					}
+					p:last-child {
+						margin-bottom: 0;
+					}
+				}
+				.middle-header {
+					width: 100%;
+					padding: 0.5rem 2rem;
+					display: flex;
+					align-items: center;
+					justify-content: space-evenly;
+					position: relative;
+					.player-box {
+						width: 15rem;
+						border: 3px solid black;
+						position: relative;
+						.player-name {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border-bottom: 2px solid black;
+							p {
+								font-size: 13px;
+								font-weight: 600;
+								margin: 0.1rem 0;
+							}
+						}
+						p {
+							text-align: center;
+						}
+						&:last-child {
+							background-color: rgb(235, 235, 235);
+						}
+						.base-class {
+							position: absolute;
+							width: 23px;
+							height: 23px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							border: 3px solid black;
+							top: -3px;
+						}
+						.left {
+							left: -26px;
+							border-right: none;
+						}
+						.right {
+							right: -26px;
+							border-left: none;
+						}
+					}
+					.shuttl {
+						position: absolute;
+						bottom: 1rem;
+						right: 3rem;
+					}
+				}
+				.right-header {
+					padding: 0.4rem 1rem;
+					p {
+						white-space: nowrap;
+					}
+				}
+			}
+		}
+	}
 }
 
-.events-wrapper {
-    // background-color: rgb(235, 235, 235);
-    background-color: white;
-    margin-bottom: 0.4rem;
-    padding: 0;
-    color: #000000;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    min-height: 20mm;
-    // font-size: 2vw;
-    .history-table {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        overflow-y: auto;
-        height: 100%;
-        max-width: 100%;
-        .table-column {
-            border: 1px solid rgb(0, 0, 0);
-            border-bottom: none;
-            .table-cell {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                direction: ltr;
-                border-bottom: 1px solid rgb(0, 0, 0);
-                min-width: 6mm;
-                width: 100%;
-                padding-top: 0.2rem;
-                font-size: 16px;
-                .name-in-cell {
-                    display: flex;
-                    justify-content: space-between;
-                    width: 100%;
-                    .player-name-div {
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        direction: rtl;
-                        max-width: 85%;
-                    }
-                }
-            }
-        }
-    }
+.events-wrapper-report {
+	// background-color: rgb(235, 235, 235);
+	background-color: white;
+	margin-bottom: 0.4rem;
+	padding: 0;
+	color: #000000;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	// justify-content: center;
+	min-height: 20mm;
+	// font-size: 2vw;
+	.history-table-report {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		overflow-y: hidden;
+		height: 100%;
+		max-width: 100%;
+		.table-column-report {
+			border: 1px solid rgb(0, 0, 0);
+			border-bottom: none;
+			.table-cell-report {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				direction: ltr;
+				border-bottom: 1px solid rgb(0, 0, 0);
+				min-width: 6mm;
+				width: 100%;
+				padding-top: 0.2rem;
+				font-size: 14px;
+				.name-in-cell-r {
+					display: flex;
+					justify-content: flex-start;
+					// width: 100%;
+					.player-name-div-r {
+						// overflow: hidden;
+						white-space: nowrap;
+						// text-overflow: ellipsis;
+						direction: rtl;
+						// max-width: 85%;
+					}
+				}
+			}
+		}
+	}
 }

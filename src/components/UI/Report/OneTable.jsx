@@ -3,25 +3,28 @@ import { useEffect, useState } from "react"
 const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADetail, teamBDetail }) => {
     const [log, setLog] = useState([])
     const columnStyle = {
-        height: "20mm",
-        maxWidth: "45mm",
-        minWidth: "45mm",
+        height: "23mm",
+        // maxWidth: "45mm",
+        // minWidth: "45mm",
+        borderRight: "3px solid rgb(60, 60, 60)",
+        borderLeft: "3px solid rgb(60, 60, 60)",
+        width: "60mm",
     }
     useEffect(() => {
         if (!events) return;
         let newLog = [];
         // initialize name
         newLog = [...newLog, {
-            content: <div className="name-in-cell"><div className="player-name-div">{playerTeamA[0].player.username}</div>
+            content: <div className="name-in-cell-r"><div className="player-name-div-r">{playerTeamA[0].player.username}</div>
             </div>
         }, {
-            content: !isSingle ? <div className="name-in-cell"><div className="player-name-div">{playerTeamA[1].player.username}</div>
+            content: !isSingle ? <div className="name-in-cell-r"><div className="player-name-div-r">{playerTeamA[1].player.username}</div>
             </div> : ""
         }, {
-            content: <div className="name-in-cell"><div className="player-name-div">{playerTeamB[0].player.username}</div>
+            content: <div className="name-in-cell-r"><div className="player-name-div-r">{playerTeamB[0].player.username}</div>
             </div>
         }, {
-            content: !isSingle ? <div className="name-in-cell"><div className="player-name-div">{playerTeamB[0].player.username}</div>
+            content: !isSingle ? <div className="name-in-cell-r"><div className="player-name-div-r">{playerTeamB[1].player.username}</div>
             </div> : ""
         }]
         // correct the log format
@@ -37,6 +40,12 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
             { content: `${(teamADetail.server === 2 || teamADetail.receiver === 2) ? "0" : ''}` },
             { content: `${(teamBDetail.server === 1 || teamBDetail.receiver === 1) ? "0" : ''}` },
             { content: `${(teamBDetail.server === 2 || teamBDetail.receiver === 2) ? "0" : ''}` }]]
+        } else {
+            newLog = [...newLog,
+            [{ content: '' },
+            { content: '' },
+            { content: '' },
+            { content: '' }]]
         }
 
         events.forEach(event => {
@@ -85,22 +94,27 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
 
     }, [])
     return (
-        <div className="events-wrapper">
-            <div className="history-table" >
+        <div className="events-wrapper-report">
+            <div className="history-table-report" >
                 {
                     [...Array(34)].map((e, ci) =>
-                        <div key={ci} className="table-column"
-                            style={ci === 0 ? columnStyle : {}}
+                        <div key={ci} className="table-column-report"
+                            style={ci === 0 ? columnStyle : {
+                                borderRight: (ci === 1 || ci === 33) &&
+                                    "3px solid rgb(60, 60, 60)",
+                            }}
                         >
                             {
                                 ([...Array(4)].map((e, ri) =>
-                                    <div key={ri} className="table-cell"
+                                    <div key={ri} className="table-cell-report"
                                         style={{
-                                            borderBottom: (ri === 1) && "2px solid rgb(60, 60, 60)",
+                                            borderTop: (ri === 0) && "3px solid rgb(60, 60, 60)",
+                                            borderBottom: (ri === 1 || ri === 3) && "3px solid rgb(60, 60, 60)",
                                             height: '25%',
                                             padding: ci === 0 && "0 0.2rem",
-                                            background: ri > 1 && "rgba(190, 190, 190, 1)",
+                                            background: ri > 1 && "rgba(190, 190, 190, 0.5)",
                                             fontSize: ci === 0 && "12px",
+                                            justifyContent: ci === 0 && "flex-start"
                                         }}
                                     >
                                         {(log[ci]) && log[ci][ri].content}
