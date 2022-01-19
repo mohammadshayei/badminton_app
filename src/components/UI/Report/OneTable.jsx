@@ -7,12 +7,12 @@ const OneTable = ({
     // console.log(events)
     const [log, setLog] = useState([])
     const columnStyle = {
-        height: "23mm",
+        height: "20mm",
         // maxWidth: "45mm",
         // minWidth: "45mm",
         borderRight: "3px solid rgb(60, 60, 60)",
         borderLeft: "3px solid rgb(60, 60, 60)",
-        width: "60mm",
+        width: "55mm",
     }
     useEffect(() => {
         if (!events) return;
