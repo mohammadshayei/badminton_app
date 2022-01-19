@@ -40,6 +40,7 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
         }
 
         events.forEach(event => {
+            // if (event.type !== 'increaseBall' && event.type !== 'decreaseBall') {
             let newColumn = true;
             // if (newLog.length > 0)    //if chizi log shode bood
             // {
@@ -83,7 +84,6 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
         setLog(newLog);
 
     }, [])
-    console.log(events[2])
     return (
         <div className="events-wrapper">
             <div className="history-table" >
