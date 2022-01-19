@@ -9,11 +9,13 @@ import { getGame } from '../../../api/home';
 import { useSelector } from 'react-redux';
 import PlayerBox from './PlayerBox';
 import SetReport from './SetReport';
+import OneTable from './OneTable';
 
 const GameReport = () => {
     const [game, setGame] = useState(null)
     const [date, setDate] = useState(null)
     const [time, setTime] = useState(null)
+    const [tableCount, setTableCount] = useState(0)
     const [matchTime, setMatchTime] = useState({ start: "", end: "", duration: "" })
 
     const token = useSelector(state => state.auth.token)
@@ -57,7 +59,9 @@ const GameReport = () => {
             })
         }
     }, [game])
-    // if(game)console.log(game.sets)
+    const calTableCount = (n) => {
+        setTableCount(e => e + n)
+    }
     return (
         <div className='game-report-wrapper'>
             <div className="actions-box">
@@ -138,20 +142,36 @@ const GameReport = () => {
                             {game.sets.map(item =>
                                 <SetReport
                                     key={item.set._id}
+                                    calTableCount={calTableCount}
                                     playerTeamB={game.teamB.players}
                                     playerTeamA={game.teamA.players}
                                     events={item.set.events}
                                     teamADetail={{
                                         server: item.set.teamA.server,
                                         receiver: item.set.teamA.receiver,
+                                        setWon: item.set.teamA.setWon,
                                     }}
                                     teamBDetail={{
                                         server: item.set.teamB.server,
                                         receiver: item.set.teamB.receiver,
+                                        setWon: item.set.teamB.setWon,
                                     }}
-                                />)}
+                                    empty={false}
+                                />)
+                            }
 
-
+                            {
+                                [...Array(6 - tableCount)].map((e, i) =>
+                                    <OneTable
+                                        key={`${i}item.set._id`}
+                                        isSingle={game.teamA.players.length === 1}
+                                        playerTeamB={game.teamB.players}
+                                        playerTeamA={game.teamA.players}
+                                        events={[]}
+                                        empty={true}
+                                    />
+                                )
+                            }
                         </div>
                     </div>
                 </div>

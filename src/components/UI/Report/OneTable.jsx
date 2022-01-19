@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
+import { v4 as uuidv4 } from "uuid";
 
-const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADetail, teamBDetail }) => {
+const OneTable = ({
+    isSingle, events, playerTeamA, playerTeamB,
+    isOne, teamADetail, teamBDetail, empty }) => {
+    // console.log(events)
     const [log, setLog] = useState([])
     const columnStyle = {
         height: "23mm",
@@ -29,7 +33,10 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
         }]
         // correct the log format
         newLog = [[...newLog]]
-
+        if (empty) {
+            setLog(newLog);
+            return;
+        }
         if (isOne) {
             newLog = [...newLog,
             [{ content: `${teamADetail.server === 1 ? "S" : (teamADetail.receiver === 1 && !isSingle) ? "R" : ''}` },
@@ -47,6 +54,7 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
             { content: '' },
             { content: '' }]]
         }
+
 
         events.forEach(event => {
             // if (event.type !== 'increaseBall' && event.type !== 'decreaseBall') {
@@ -91,7 +99,6 @@ const OneTable = ({ isSingle, events, playerTeamA, playerTeamB, isOne, teamADeta
         }
         )
         setLog(newLog);
-
     }, [])
     return (
         <div className="events-wrapper-report">
