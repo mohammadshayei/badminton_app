@@ -88,7 +88,11 @@ const GameReport = () => {
                                 <p>Date : {date}&nbsp;&nbsp;&nbsp;Time : {time} </p>
                             </div>
                             <div className="middle-header">
-                                <PlayerBox players={game.teamA.players.map(item => item.player.username)} />
+                                <PlayerBox
+                                    positionTeam={game.sets[0].set.teamA.isRightTeam ? 'R' : "L"}
+                                    isLeftSide={true}
+                                    players={game.teamA.players.map(item => item.player.username)}
+                                />
                                 <div className='socre-box'>
                                     <p>score</p>
                                     {
@@ -98,8 +102,15 @@ const GameReport = () => {
                                         )
                                     }
                                 </div>
-                                <PlayerBox players={game.teamB.players.map(item => item.player.username)} />
+                                <PlayerBox
+                                    positionTeam={game.sets[0].set.teamB.isRightTeam ? "R" : "L"}
+                                    players={game.teamB.players.map(item => item.player.username)}
+                                    isLeftSide={false}
 
+                                />
+                                <div className='shuttl'>
+                                    <p>Shuttls : {game.shuttls}</p>
+                                </div>
                             </div>
                             <div className="right-header">
                                 <p>

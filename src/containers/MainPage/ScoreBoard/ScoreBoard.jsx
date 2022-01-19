@@ -138,7 +138,6 @@ const ScoreBoard = () => {
     }
     let payload = {
       setId,
-      balls: info.balls,
       events: info.events,
       teamA: { score: info.team1.score, setWon: teamName === 'team1' ? true : false },
       teamB: { score: info.team2.score, setWon: teamName === 'team2' ? true : false }
@@ -271,6 +270,7 @@ const ScoreBoard = () => {
       const payload = {
         id: gameId,
         status: 3,
+        shuttls:info.balls
       }
       const result = await setStatusGame(payload, token)
       if (result.success) {
