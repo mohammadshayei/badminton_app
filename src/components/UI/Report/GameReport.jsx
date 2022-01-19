@@ -97,13 +97,19 @@ const GameReport = () => {
                                     isLeftSide={true}
                                     players={game.teamA.players.map(item => item.player.username)}
                                 />
-                                <div className='socre-box'>
+                                <div className='score-box'>
                                     <p>score</p>
                                     {
-                                        game.sets.map(
-                                            item =>
-                                                <p key={item.set._id}>{item.set.teamA.score} : {item.set.teamB.score}</p>
-                                        )
+                                        [...Array(3)].map((item, index) => {
+                                            return (game.sets[index] ?
+                                                <p key={game.sets[index].set._id} className='scores-of-set'>
+                                                    <p>{game.sets[index].set.teamA.score}</p> : <p>{game.sets[index].set.teamB.score}</p>
+                                                </p>
+                                                :
+                                                <p key={index} className='scores-of-set'>
+                                                    :
+                                                </p>)
+                                        })
                                     }
                                 </div>
                                 <PlayerBox
