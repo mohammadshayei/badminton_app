@@ -39,7 +39,7 @@ const GameReport = () => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('l', 'mm', [297, 210]);
                 pdf.addImage(imgData, 'JPEG', 0, 0);
-                pdf.save(`game.pdf`);
+                pdf.save(`${game.tournament.title}_${game.game_number}.pdf`);
             })
             ;
     }
