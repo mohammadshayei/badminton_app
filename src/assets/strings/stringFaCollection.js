@@ -116,18 +116,18 @@ export const stringFa = {
   competition_type_error: "لطفا نوع مسابقه را تعیین کنید",
   assign_refereee_error: "نام داور بازی را انتخاب کنید",
   assign_referee_service_error: "نام داور سرویس را انتخاب کنید",
-  gym:"نام سالن",
-  date:"تاریخ",
-  number_of_game:"شماره بازی",
-  game_type:"نوع بازی",
-  competition_type:"نوع مسابقه",
-  download:"دانلود",
-  please_set_referees:"لطفا داور های بازی را تعیین کنید",
-  assign_scorebaord_to_land:"انتساب تابلو امتیاز به زمین",
-  gym_error:"باشگاه خود را انتخاب کنید",
-  land_error:"زمین خود را انتخاب کنید",
-  tournament:"تورنمنت",
-  wait_to_start_the_game:"...در انتظار شروع بازی جدید"
+  gym: "نام سالن",
+  date: "تاریخ",
+  number_of_game: "شماره بازی",
+  game_type: "نوع بازی",
+  competition_type: "نوع مسابقه",
+  download: "دانلود",
+  please_set_referees: "لطفا داور های بازی را تعیین کنید",
+  assign_scorebaord_to_court: "court",
+  gym_error: "باشگاه خود را انتخاب کنید",
+  land_error: "زمین خود را انتخاب کنید",
+  tournament: "تورنمنت",
+  wait_to_start_the_game: "...در انتظار شروع بازی جدید"
 
 
 

@@ -4,8 +4,8 @@
 	padding: 2rem;
 	.version {
 		position: absolute;
-		bottom: 0;
-		right: 80px;
+		bottom: 55px;
+		right: 1rem;
 		font-size: calc(0.5vw + 0.5vh);
 		opacity: 0.8;
 	}
@@ -37,5 +37,9 @@
 @media only screen and (min-width: 780px) and (min-height: 500px) {
 	.home-page-wrapper {
 		padding: 2rem calc(2rem + 70px) 2rem 2rem;
+		.version {
+			bottom: 0;
+			right: 80px;
+		}
 	}
 }

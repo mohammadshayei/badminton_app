@@ -1,63 +1,44 @@
 .tour-page-container {
 	display: flex;
-	justify-content: space-around;
-	min-height: calc(100vh - 50px - 4rem);
+	padding-top: 0.5rem;
 	.tournaments-wrapper {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		overflow: auto;
-		padding: 0 0.7rem;
-		width: 100%;
-		.tournament-box {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			border-radius: 20px;
-			padding: 1em 1.5em;
-			font-size: 1.2rem;
-			text-align: right;
-			background-color: rgba(0, 0, 0, 0.2);
-			backdrop-filter: blur(5px);
-			margin-bottom: 0.7rem;
-			overflow: hidden;
-			direction: rtl;
-			width: 90%;
-			max-width: 25rem;
-			.icons {
-				display: none;
-				.icon {
-					margin: 0.2rem;
-					cursor: pointer;
-				}
-			}
-			.progress {
-				background-color: rgba(0, 0, 0, 0.2);
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				right: 0;
-				z-index: -1;
-			}
-			p {
-				width: 100%;
-				text-align: center;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-			}
-		}
+		display: none;
 	}
 	.box-container {
-		display: none;
+		position: relative;
+		display: flex;
+		min-width: 100%;
 	}
 }
 
 @media only screen and (min-width: 560px) {
 	.tour-page-container {
+		justify-content: space-around;
+		min-height: calc(100vh - 50px - 4rem);
+		padding-top: 0;
 		.tournaments-wrapper {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			overflow: auto;
+			padding: 0 0.7rem;
+			width: 100%;
 			.tournament-box {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-radius: 20px;
+				padding: 1em 1.5em;
+				// font-size: 1.2rem;
+				text-align: right;
+				background-color: rgba(0, 0, 0, 0.2);
+				backdrop-filter: blur(5px);
+				margin-bottom: 0.7rem;
+				overflow: hidden;
+				direction: rtl;
+				width: 90%;
+				max-width: 25rem;
 				font-size: 1rem;
 				max-height: 65px;
 				.icons {
@@ -69,14 +50,32 @@
 					margin-top: 1rem;
 					position: relative;
 					.icon {
+						margin: 0.2rem;
+						cursor: pointer;
 						max-height: 20px;
 						margin-left: 0.7rem;
 						// filter: grayscale(100%);
 					}
 					.edit-icon {
 						position: absolute;
+						transform: translate(-100%, -150%);
 						left: 0;
 					}
+				}
+				.progress {
+					background-color: rgba(0, 0, 0, 0.2);
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					right: 0;
+					z-index: -1;
+				}
+				p {
+					width: 100%;
+					text-align: center;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
 				}
 			}
 			.selected {
@@ -85,8 +84,6 @@
 			}
 		}
 		.box-container {
-			position: relative;
-			display: flex;
 			min-width: 60%;
 		}
 	}

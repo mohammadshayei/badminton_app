@@ -125,12 +125,12 @@ const LiveGames = () => {
                     onClick={() => { setShowModal(true) }}
                     ButtonStyle={{
                         fontSize: '1.2rem',
-                        padding: '.4rem 4rem',
+                        padding: '.4rem 1.5rem',
                         background: 'white',
                         color: 'black',
                     }}
                 >
-                    {stringFa.assign_scorebaord_to_land}
+                    {stringFa.assign_scorebaord_to_court}
                 </Button>
             </div>
         </div>
