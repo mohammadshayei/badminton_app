@@ -1,37 +1,70 @@
 .header-main-container {
-  display: none;
+	display: none;
 }
 
-@media only screen and (min-width: 560px) and (min-height: 630px) {
-  .header-main-container {
-    background-color: #313131;
-    position: relative;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 8vh;
-    .ball {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      right: 7%;
-      img {
-        justify-self: center;
-        max-width: 80%;
-      }
-    }
-    .ball-counter {
-      background-color: whitesmoke;
-      border-radius: 5px;
-      margin: 0 1rem;
-      padding: 0 0.8rem;
-      font-size: 1.8vw;
-      width: 5%;
-      font-weight: bold;
-    }
-  }
+@media only screen and (min-width: 560px) {
+	.header-main-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 999;
+		transform: translateY(-100%);
+		transition: transform 0.3s ease;
+		background-color: #313131;
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: space-between;
+		align-items: center;
+		min-height: 8vh;
+		.ball {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			right: 7%;
+			img {
+				justify-self: center;
+				max-width: 80%;
+			}
+		}
+		.ball-counter {
+			background-color: whitesmoke;
+			border-radius: 5px;
+			margin: 0 1rem;
+			padding: 0 0.8rem;
+			font-size: 1.8vw;
+			width: 5%;
+			font-weight: bold;
+		}
+		.handle {
+			position: absolute;
+			display: block;
+			width: 0;
+			height: 0;
+			border-left: 20px solid transparent;
+			border-right: 20px solid transparent;
+			border-top: 25px solid #f7ff00;
+			top: 30px;
+			left: 10px;
+			transform: translateY(100%);
+			cursor: pointer;
+			transition: transform 0.3s ease;
+		}
+	}
+	.show-header-main-container {
+		transform: translateY(0);
+		.handle {
+			transform: rotate(180deg) translateY(-100%);
+		}
+	}
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 560px) and (min-height: 500px) {
+	.header-main-container {
+		position: relative;
+		transform: translateY(0);
+		.handle {
+			display: none;
+		}
+	}
 }

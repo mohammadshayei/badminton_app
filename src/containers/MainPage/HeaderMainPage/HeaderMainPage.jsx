@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import "./HeaderMainPage.scss";
 // import { useTheme } from "../../../styles/ThemeProvider";
 import Events from "../EventsModule/Events"
@@ -8,6 +8,7 @@ import shuttle from "../../../assets/images/badminton_ball.png";
 const HeaderMainPage = () => {
   // const themeState = useTheme();
   // const theme = themeState.computedTheme;
+  const [show, setShow] = useState(false);
   const info = useSelector((state) => state.info);
 
   const eventsStyle = { color: "#fff", flexDirection: "row-reverse", flexWrap: "nowrap", alignItems: "center" }
@@ -15,7 +16,7 @@ const HeaderMainPage = () => {
   const letterStyle = { fontSize: "1.75rem", padding: "0" }
 
   return (
-    <div className="header-main-container">
+    <div className={`header-main-container ${show && "show-header-main-container"}`}>
       <Events
         style={eventsStyle}
         eventStyle={eventStyle}
@@ -29,6 +30,7 @@ const HeaderMainPage = () => {
         )}
       </div>
       <div className="ball-counter" style={{ opacity: info.foulHappend ? 0 : 1 }}>{info.balls}</div>
+      <div className="handle" onClick={() => setShow(!show)}></div>
     </div>
   );
 };

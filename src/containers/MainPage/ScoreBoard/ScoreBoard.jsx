@@ -17,7 +17,8 @@ import { createSet } from "../../../api/home";
 import WinnerModal from "./WinnerModal/WinnerModal";
 import Selector from "../../HomePage/GamesPage/Selector/Selector";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
-
+import { stringFa } from "../../../assets/strings/stringFaCollection";
+import rotate from "../../../assets/images/mobile-rotate.png"
 
 const ScoreBoard = () => {
   const [eventPicker, setEventPicker] = useState(false);
@@ -270,7 +271,7 @@ const ScoreBoard = () => {
       const payload = {
         id: gameId,
         status: 3,
-        shuttls:info.balls
+        shuttls: info.balls
       }
       const result = await setStatusGame(payload, token)
       if (result.success) {
@@ -353,7 +354,12 @@ const ScoreBoard = () => {
       }}
     >
       {dialog}
-      <div className={`background`} /> {/* ${flashEffect}*/}
+      <div className={`background`} >
+        <div className="rotate-screen">
+          <img src={rotate} alt="rotate-phone" />
+          {stringFa.rotate_screen_error}
+        </div>
+      </div> {/* ${flashEffect}*/}
       <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>

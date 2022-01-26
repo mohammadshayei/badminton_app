@@ -127,8 +127,8 @@ export const stringFa = {
   gym_error: "باشگاه خود را انتخاب کنید",
   land_error: "زمین خود را انتخاب کنید",
   tournament: "تورنمنت",
-  wait_to_start_the_game: "...در انتظار شروع بازی جدید"
-
+  wait_to_start_the_game: "...در انتظار شروع بازی جدید",
+  rotate_screen_error: "این صفحه برای حالت افقی بهینه شده است."
 
 
 
