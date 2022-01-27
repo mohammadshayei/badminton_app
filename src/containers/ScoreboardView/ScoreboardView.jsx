@@ -120,13 +120,13 @@ const ScoreboardView = () => {
                             key={k}
                         >
                             <div className="player-name-and-image"
-                                style={{ justifyContent: v.players.length === 1 ? "center" : "space-evenly" }}
+                                style={{ justifyContent: v.players.length === 1 ? "center" : "space-between" }}
                             >
                                 <div className="player-name"
                                     style={{
                                         transform:
                                             v.players[0].player.username.length > 16 ?
-                                                (`translateX(${k === "teamB" ? "-" : "+"}${v.players[0].player.username.length * 4}px)`) :
+                                                (`translateX(${k === "teamB" ? "-" : "+"}5vw)`) :
                                                 "translateX(0)"
                                     }}
                                 >
@@ -138,7 +138,7 @@ const ScoreboardView = () => {
                                         PROFILE_IMAGE}
                                     alt="profile_image"
                                     style={{
-                                        maxWidth: v.players.length === 1 ? "80%" : "70%",
+                                        maxWidth: v.players.length === 1 ? "80%" : "50%",
                                         marginTop: v.players.length === 1 ? "1.5rem" : "0"
                                     }}
                                 />
@@ -154,7 +154,7 @@ const ScoreboardView = () => {
                                     style={{
                                         transform:
                                             v.players[1].player.username.length > 16 ?
-                                                (`translateX(${k === "teamB" ? "-" : "+"}${v.players[1].player.username.length * 4}px)`) :
+                                                (`translateX(${k === "teamB" ? "-" : "+"}5vw`) :
                                                 "translateX(0)"
                                     }}
                                 >
