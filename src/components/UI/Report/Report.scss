@@ -53,6 +53,16 @@
 						border-bottom-width: 2px;
 						position: relative;
 						margin-top: 0.2rem;
+						.circle {
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							width: 140px;
+							height: 100px;
+							border: 2px solid black;
+							border-radius: 50%;
+						}
 						.player-name {
 							display: flex;
 							align-items: center;

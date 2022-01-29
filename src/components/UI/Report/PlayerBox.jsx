@@ -2,6 +2,7 @@ import './Report.scss'
 const PlayerBox = (props) => {
     return (
         <div className='player-box' >
+            {props.setWon && <div className="circle" />}
             {
                 [...Array(2)].map((item, index) => {
                     return (props.players &&

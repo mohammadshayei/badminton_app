@@ -96,6 +96,7 @@ const GameReport = () => {
                                     positionTeam={game.sets[0].set.teamA.isRightTeam ? 'R' : "L"}
                                     isLeftSide={true}
                                     players={game.teamA.players.map(item => item.player.username)}
+                                    setWon={game.sets[0].set.teamA.setWon}
                                 />
                                 <div className='score-box'>
                                     <p>score</p>
@@ -116,7 +117,7 @@ const GameReport = () => {
                                     positionTeam={game.sets[0].set.teamB.isRightTeam ? "R" : "L"}
                                     players={game.teamB.players.map(item => item.player.username)}
                                     isLeftSide={false}
-
+                                    setWon={game.sets[0].set.teamB.setWon}
                                 />
                                 <div className='shuttl'>
                                     <p>Shuttls : {game.shuttls}</p>
