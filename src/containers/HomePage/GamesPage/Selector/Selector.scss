@@ -1,35 +1,47 @@
 .selector-component {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  //   min-height: 50vh;
-  .title {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-  }
-  .options-container {
-    margin: auto;
-    .option-box {
-      border: 2px solid;
-      padding: 1em 4em;
-      margin-bottom: 1rem;
-      border-radius: 1em;
-      cursor: pointer;
-      font-size: 1.3rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-  .action-btns {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: stretch;
-    .prev {
-      position: absolute;
-      left: 1rem;
-    }
-  }
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	//   min-height: 50vh;
+	.title {
+		margin-bottom: 1.5rem;
+		font-size: clamp(0.6rem, 3vw, 1.1rem);
+	}
+	.options-container {
+		margin: auto;
+		.option-box {
+			border: 2px solid;
+			padding: 1em 4em;
+			margin-bottom: 1rem;
+			border-radius: 1em;
+			cursor: pointer;
+			font-size: clamp(0.6rem, 3.2vw, 1rem);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+	.action-btns {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		align-self: stretch;
+		font-size: clamp(0.6rem, 3vw, 1.1rem);
+		.prev {
+			position: absolute;
+			left: 1rem;
+		}
+	}
+}
+
+/* Medium screen devices (768px and above) */
+@media only screen and (min-width: 768px) {
+	.selector-component {
+		.options-container {
+			.option-box {
+				font-size: clamp(0.6rem, 3.2vw, 1.3rem);
+			}
+		}
+	}
 }

@@ -1,6 +1,6 @@
 .tournament-content-section-wrapper {
 	width: 100%;
-	height: calc(100vh - 4rem);
+	height: calc(100vh - 6rem - 70px);
 	border-radius: 25px;
 	padding: 1rem;
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
@@ -12,10 +12,10 @@
 		display: grid;
 		align-items: flex-start;
 		justify-content: center;
-		grid-template-columns: repeat(auto-fit, 19rem);
+		grid-template-columns: repeat(auto-fit, 14rem);
 		gap: 1rem;
 		padding: 1rem;
-		max-height: 85%;
+		max-height: 70%;
 		max-width: 100%;
 		.swipeable-list-item {
 			height: 5rem;
@@ -44,4 +44,22 @@
 	padding: 0 0.5rem;
 	font-size: 0.7rem;
 	cursor: pointer;
+}
+
+@media only screen and (min-height: 500px) {
+	.tournament-content-section-wrapper {
+		.tournament-content-section-content {
+			max-height: 75%;
+		}
+	}
+}
+
+@media only screen and (min-width: 780px) and (min-height: 500px) {
+	.tournament-content-section-wrapper {
+		height: calc(100vh - 4rem);
+		.tournament-content-section-content {
+			grid-template-columns: repeat(auto-fit, 19rem);
+			max-height: 85%;
+		}
+	}
 }

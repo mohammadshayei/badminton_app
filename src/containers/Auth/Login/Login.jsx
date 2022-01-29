@@ -20,6 +20,13 @@ const Login = () => {
                 type: 'text',
             },
             elementType: 'input',
+            inputStyle: {
+                fontSize: "0.9rem",
+                padding: "0.5rem 1rem",
+            },
+            inputContainer: {
+                marginBottom: "0.8rem"
+            },
             validationMessage: stringFa.phone_or_nationalnumber_error,
             invalid: false,
             validation: {
@@ -37,6 +44,13 @@ const Login = () => {
                 type: 'password',
             },
             elementType: 'input',
+            inputStyle: {
+                fontSize: "0.9rem",
+                padding: "0.5rem 1rem",
+            },
+            inputContainer: {
+                marginBottom: "0.3rem"
+            },
             validationMessage: stringFa.password_error,
             invalid: false,
             validation: {
@@ -82,10 +96,11 @@ const Login = () => {
                                 errorStyle={{
                                     maxWidth: '400px',
                                     minWidth: '250px',
-                                    width:'80%'
+                                    width: '80%'
                                 }}
                             />)
                     }
+                    <p className='forgot-password'>{stringFa.forgot_password}</p>
                     <Button
                         onClick={loginHandler}
                         ButtonStyle={{
@@ -100,7 +115,6 @@ const Login = () => {
                     >
                         {stringFa.login}
                     </Button>
-                    <p className='forgot-password'>{stringFa.forgot_password}</p>
                     <p className='go-to-register' >
                         {stringFa.not_registerd}<span onClick={goToSingup}>{stringFa.register}</span></p>
                 </>

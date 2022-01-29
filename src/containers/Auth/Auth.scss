@@ -14,19 +14,19 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		padding-bottom: 2rem;
+		justify-content: flex-start;
+		padding-bottom: 1rem;
 		position: relative;
 		.forgot-password {
 			cursor: pointer;
 			font-size: 0.9rem;
-			margin-top: 0.2rem;
+			margin-bottom: 0.5rem;
 			font-weight: 200;
 			text-align: center;
 		}
 		.go-to-register {
 			position: absolute;
-			bottom: 2rem;
+			bottom: 1rem;
 			text-align: center;
 			font-weight: 200;
 			color: rgba($color: #fff, $alpha: 0.9);
@@ -74,6 +74,7 @@
 		flex-direction: row-reverse;
 		.login-container {
 			flex: 1;
+			justify-content: center;
 			padding-bottom: 0rem;
 			button {
 				margin-top: 1rem;

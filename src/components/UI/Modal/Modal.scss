@@ -1,49 +1,48 @@
 .modal {
-    position: fixed;
-    z-index: 999;
-    background-color: white;
-    padding: 1rem;
-    left: 50%;
-    top: 50%;
-    border-radius: 16px;
-    transform: translate(-50%, -50%);
-    box-sizing: border-box;
-    transition: all 0.3s ease-out;
-    overflow: hidden;
-  }
-  
-  /* For extremely small screen devices (595px and below) */
-  @media only screen and (max-width: 595px) {
-    .modal {
-      width: 400px;
-    }
-  }
-  
-  /* Small screen devices (600px and above) */
-  @media only screen and (min-width: 600px) {
-    .modal {
-      width: 500px;
-    }
-  }
-  
-  /* Medium screen devices (768px and above) */
-  @media only screen and (min-width: 768px) {
-    .modal {
-      width: 600px;
-    }
-  }
-  
-  /* Big screen devices (889px and above) */
-  @media only screen and (min-width: 889px) {
-    .modal {
-      width: 700px;
-    }
-  }
-  
-  /* Extra big screen devices (1200px and above) */
-  @media only screen and (min-width: 1200px) {
-    .modal {
-      width: 700px;
-    }
-  }
-  
+	position: fixed;
+	z-index: 999;
+	background-color: white;
+	padding: 1rem;
+	left: 50%;
+	top: 50%;
+	border-radius: 16px;
+	transform: translate(-50%, -50%);
+	box-sizing: border-box;
+	transition: all 0.3s ease-out;
+	overflow: hidden;
+}
+
+/* For extremely small screen devices (595px and below) */
+@media only screen and (max-width: 595px) {
+	.modal {
+		width: 90vw;
+	}
+}
+
+/* Small screen devices (600px and above) */
+@media only screen and (min-width: 600px) {
+	.modal {
+		width: 500px;
+	}
+}
+
+/* Medium screen devices (768px and above) */
+@media only screen and (min-width: 768px) {
+	.modal {
+		width: 600px;
+	}
+}
+
+/* Big screen devices (889px and above) */
+@media only screen and (min-width: 889px) {
+	.modal {
+		width: 700px;
+	}
+}
+
+/* Extra big screen devices (1200px and above) */
+@media only screen and (min-width: 1200px) {
+	.modal {
+		width: 700px;
+	}
+}

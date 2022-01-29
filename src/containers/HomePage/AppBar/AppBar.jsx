@@ -6,6 +6,8 @@ import { MdAdd } from "react-icons/md";
 import { useTheme } from "../../../styles/ThemeProvider";
 import TournamentPage from "../TournamentPage/TournamentPage";
 import GamesPage from "../GamesPage/GamesPage";
+import LiveGames from "../../LiveGames/LiveGames";
+import { CgMediaLive } from "react-icons/cg";
 
 const AppBar = (props) => {
   const [pageId, setPageId] = useState(1);
@@ -24,6 +26,9 @@ const AppBar = (props) => {
       case 2:
         props.setPage(<GamesPage />);
         break;
+      case 3:
+        props.setPage(<LiveGames />);
+        break;
       default:
         props.setPage(
           <TournamentPage
@@ -36,16 +41,6 @@ const AppBar = (props) => {
 
   return (
     <div className="app-bar">
-      <div className="page-selector" onClick={() => setPageId(1)}>
-        <img
-          src={tournament}
-          alt=""
-          style={{
-            filter: pageId === 1 ? "grayscale(0%)" : "grayscale(100%)",
-            opacity: pageId === 1 ? "1" : "0.5",
-          }}
-        />
-      </div>
       <div
         className="add-tournament"
         style={{
@@ -59,7 +54,17 @@ const AppBar = (props) => {
       >
         <MdAdd />
       </div>
-      <div className="page-selector" onClick={() => setPageId(2)}>
+      <div className={`page-selector ${pageId === 1 && "selected"}`} onClick={() => setPageId(1)}>
+        <img
+          src={tournament}
+          alt=""
+          style={{
+            filter: pageId === 1 ? "grayscale(0%)" : "grayscale(100%)",
+            opacity: pageId === 1 ? "1" : "0.5",
+          }}
+        />
+      </div>
+      <div className={`page-selector ${pageId === 2 && "selected"}`} onClick={() => setPageId(2)}>
         <img
           src={umpire}
           alt=""
@@ -68,6 +73,13 @@ const AppBar = (props) => {
             opacity: pageId === 2 ? "1" : "0.5",
           }}
         />
+      </div>
+      <div className={`page-selector ${pageId === 3 && "selected"}`} onClick={() => setPageId(3)}>
+        <CgMediaLive size="1rem" style={{
+          color: "black",
+          filter: pageId === 3 ? "grayscale(0%)" : "grayscale(100%)",
+          opacity: pageId === 3 ? "1" : "0.5",
+        }} />
       </div>
     </div>
   );

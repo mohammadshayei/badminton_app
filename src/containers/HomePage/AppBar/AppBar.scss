@@ -5,14 +5,14 @@
 	flex-direction: row;
 	justify-content: center;
 	align-items: flex-start;
-	bottom: 0;
-	left: 0;
-	width: 100%;
+	bottom: 5px;
+	left: 5px;
+	border-radius: 8px;
+	width: calc(100% - 10px);
 	height: 50px;
 	.add-tournament {
 		position: absolute;
-		bottom: 50px;
-		transform: translateY(50%);
+		bottom: 60px;
 		display: flex;
 		align-items: center;
 		background-color: white;
@@ -25,14 +25,20 @@
 			rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 	}
 	.page-selector {
+		margin: 5px;
+		border-radius: 8px;
 		align-self: stretch;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 60%;
 		img {
-			max-height: 45px;
+			max-height: 35px;
 		}
+		transition: background 0.3s ease;
+	}
+	.selected {
+		background-color: #67b26f75;
 	}
 }
 

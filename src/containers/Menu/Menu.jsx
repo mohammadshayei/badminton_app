@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import './Menu.scss'
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import { MdLanguage, MdDarkMode, MdLogout } from "react-icons/md"; //, MdSettings
-import pic from "../../assets/images/avatars/3.jpg"
 import { useTheme } from "../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as detailActions from "../../store/actions/detail";
@@ -14,6 +13,28 @@ import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 import { CgMediaLive } from "react-icons/cg";
 import LiveGames from "../LiveGames/LiveGames";
 
+function useOnClickOutside(ref, handler) {
+    useEffect(() => {
+        const listener = (event) => {
+            if (
+                !ref.current ||
+                ref.current.contains(event.target)
+            ) {
+                return;
+            }
+            handler(event);
+        };
+
+        document.addEventListener("mousedown", listener);
+        document.addEventListener("touchstart", listener);
+
+        return () => {
+            document.removeEventListener("mousedown", listener);
+            document.removeEventListener("touchstart", listener);
+        };
+    }, [ref, handler]);
+}
+
 const Menu = (props) => {
     const [pageId, setPageId] = useState(1);
     const themeState = useTheme();
@@ -24,6 +45,11 @@ const Menu = (props) => {
     const setMenuStatus = (status) => {
         dispatch(detailActions.setMenuStatus(status));
     };
+
+    const inRef = useRef();
+    useOnClickOutside(inRef, () => {
+        setMenuStatus(false)
+    });
 
     const logOut = () => {
         localStorage.removeItem("refereeId");
@@ -56,7 +82,7 @@ const Menu = (props) => {
         }
     }, [pageId]);
     return (
-        <div className={`sidebar-menu ${showMenu && "active"}`}>
+        <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}>
             <div className={`sidebar-menu-icon ${showMenu && "open"}`} onClick={() => setMenuStatus(!showMenu)}>
                 <div className="burger-icon"></div>
             </div>
