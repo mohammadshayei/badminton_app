@@ -11,9 +11,9 @@ const GameItem = (props) => {
                     props.status === 2 &&
                     `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
                 color: props.status === 2 ? theme.on_primary : theme.on_background,
-                boxShadow:
-                    props.status === 2 &&
-                    "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.2) 0px 2px 6px 2px",
+                // boxShadow:
+                //     props.status === 2 &&
+                //     "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.2) 0px 2px 6px 2px",
             }}
             onClick={props.onClick}
         >
