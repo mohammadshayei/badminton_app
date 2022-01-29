@@ -49,12 +49,12 @@ const GameReport = () => {
             let date = new Date(game.date);
             let month = months[date.getMonth()];
             setDate(`${date.getDate()} ${month} ${date.getFullYear()} `)
-            setTime(`${date.getHours()} : ${date.getMinutes()}`)
+            setTime(`${date.getHours().toString().padStart(2, '0')} : ${date.getMinutes().toString().padStart(2, '0')}`)
             let durationMathTime =
                 new Date(game.game_time.end).getTime() - new Date(game.game_time.start).getTime()
             setMatchTime({
-                start: `${new Date(game.game_time.start).getHours()} : ${new Date(game.game_time.start).getMinutes()}`,
-                end: `${new Date(game.game_time.end).getHours()} : ${new Date(game.game_time.end).getMinutes()}`,
+                start: `${new Date(game.game_time.start).getHours().toString().padStart(2, '0')} : ${new Date(game.game_time.start).getMinutes().toString().padStart(2, '0')}`,
+                end: `${new Date(game.game_time.end).getHours().toString().padStart(2, '0')} : ${new Date(game.game_time.end).getMinutes().toString().padStart(2, '0')}`,
                 duration: `${Math.floor(durationMathTime / (1000 * 60))}`,
             })
         }

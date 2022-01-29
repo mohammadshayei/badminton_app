@@ -120,7 +120,7 @@ const OneTable = ({
                                             height: '25%',
                                             padding: ci === 0 && "0 0.2rem",
                                             background: ri > 1 && "rgba(190, 190, 190, 0.5)",
-                                            fontSize: ci === 0 && "12px",
+                                            fontSize: ci === 0 && "11px",
                                             justifyContent: ci === 0 && "flex-start"
                                         }}
                                     >
