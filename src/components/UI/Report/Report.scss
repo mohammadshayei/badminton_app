@@ -157,12 +157,39 @@
 		position: relative;
 		display: flex;
 		flex-direction: row;
-		overflow-y: hidden;
+		overflow: visible;
 		height: 100%;
 		max-width: 100%;
 		.table-column-report {
 			border: 1px solid rgb(0, 0, 0);
 			border-bottom: none;
+			.circle {
+				position: absolute;
+				height: 112%;
+				width: 12mm;
+				top: 50%;
+				transform: translate(-30%, -50%);
+				border: 1px solid black;
+				border-radius: 50%;
+				.line {
+					position: absolute;
+					border-top: 1px solid black;
+					top: 50%;
+					width: 12.5mm;
+					transform: rotate(160deg) translateX(5%);
+				}
+			}
+			.smaller-circle {
+				height: 90%;
+				transform: translate(-30%, -60%);
+			}
+			.rotated-line {
+				position: absolute;
+				border-top: 2px solid black;
+				top: -85%;
+				width: 19.5mm;
+				transform: rotate(105deg) translateX(140%);
+			}
 			.table-cell-report {
 				display: flex;
 				align-items: center;

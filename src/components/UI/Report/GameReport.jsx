@@ -157,11 +157,13 @@ const GameReport = () => {
                                         server: item.set.teamA.server,
                                         receiver: item.set.teamA.receiver,
                                         setWon: item.set.teamA.setWon,
+                                        score: item.set.teamA.score
                                     }}
                                     teamBDetail={{
                                         server: item.set.teamB.server,
                                         receiver: item.set.teamB.receiver,
                                         setWon: item.set.teamB.setWon,
+                                        score: item.set.teamB.score
                                     }}
                                     empty={false}
                                 />)
