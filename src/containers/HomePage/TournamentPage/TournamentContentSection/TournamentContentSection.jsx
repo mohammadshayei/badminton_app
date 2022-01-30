@@ -118,8 +118,8 @@ const TournamentContentSection = (props) => {
                         style={{
                             backgroundColor: theme.primary_variant,
                             color: theme.on_primary,
-                            margin: "1rem",
-                            borderRadius: '15px'
+                            marginRight: "1rem",
+                            borderRadius: '25px'
                         }}
                     >
                         <span>
@@ -135,8 +135,8 @@ const TournamentContentSection = (props) => {
                         style={{
                             backgroundColor: theme.primary_variant,
                             color: theme.on_primary,
-                            margin: "1rem",
-                            borderRadius: '15px'
+                            marginRight: "1rem",
+                            borderRadius: '25px'
                         }}
                     >
                         <span>
@@ -155,7 +155,7 @@ const TournamentContentSection = (props) => {
                     style={{
                         backgroundColor: theme.primary,
                         color: theme.on_primary,
-                        margin: "1rem 0 1rem 1rem",
+                        marginLeft: "1rem",
                         borderRadius: '25px 0 0 25px'
                     }}
                 >
@@ -172,7 +172,7 @@ const TournamentContentSection = (props) => {
                     style={{
                         backgroundColor: theme.error,
                         color: theme.on_error,
-                        margin: "1rem 1rem 1rem 0",
+                        marginRight: "1rem",
                         borderRadius: '0 25px 25px 0',
                     }}
                 >

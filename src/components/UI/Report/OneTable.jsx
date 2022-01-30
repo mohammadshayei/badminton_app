@@ -14,6 +14,7 @@ const OneTable = ({
         borderLeft: "3px solid rgb(60, 60, 60)",
         width: "55mm",
     }
+    let twoPoint = false;
     useEffect(() => {
         if (!events) return;
         let newLog = [];
@@ -55,46 +56,79 @@ const OneTable = ({
             { content: '' }]]
         }
 
-
-        events.forEach(event => {
+        let checkTwoPoint = false;
+        events.forEach((event, i) => {
             // if (event.type !== 'increaseBall' && event.type !== 'decreaseBall') {
             let newColumn = true;
-            // if (newLog.length > 0)    //if chizi log shode bood
-            // {
-            //     for (let i = 0; i < newLog[newLog.length - 1].length; i++) {    // loop ro akharin soton table
-            //         if (newLog[newLog.length - 1][i].content.length > 0) {        //if chizi too cell bood
-            //             if (i === 0 || i === 2)
-            //                 newLog[newLog.length - 1][i + 1].content =
-            //                     event.content;
-            //             else if (i === 1 || i === 3)
-            //                 newLog[newLog.length - 1][i - 1].content =
-            //                     event.content;
-            //             newColumn = false;
-            //             break;
-            //         }
-            //     };
-            // }
+            if (events[events.length - 1].by === "none") {    // if yeki az oon se ta bood
+                let newLog = [...log];
+                if (newLog.length > 0)    //if chizi log shode bood
+                {
+                    for (let i = 0; i < newLog[newLog.length - 1].length; i++) {    // loop ro akharin soton table
+                        if (newLog[newLog.length - 1][i].content.length > 0) {        //if chizi too cell bood
+                            if (i === 0 || i === 2)
+                                newLog[newLog.length - 1][i + 1].content =
+                                    events[events.length - 1].content;
+                            else if (i === 1 || i === 3)
+                                newLog[newLog.length - 1][i - 1].content =
+                                    events[events.length - 1].content;
+                            setLog(newLog);
+                            newColumn = false;
+                            break;
+                        }
+                    };
+                }
+            }
+
             if (newColumn) {
                 playerTeamA.forEach((player, index) => {
-                    if (event.by === player.player._id)
+                    if (event.by === player.player._id) {
                         newLog = [...newLog, [
                             { content: `${index === 0 ? event.content : ''}` },
                             { content: `${index === 1 ? event.content : ''}` },
                             { content: `${index === 2 ? event.content : ''}` },
                             { content: `${index === 3 ? event.content : ''}` },
                         ]]
+                        if (event.content === "20")
+                            checkTwoPoint = true;
+                    }
                 })
                 let newIndex;
                 playerTeamB.forEach((player, index) => {
                     newIndex = index + 2;
-                    if (event.by === player.player._id)
+                    if (event.by === player.player._id) {
                         newLog = [...newLog, [
                             { content: `${newIndex === 0 ? event.content : ''}` },
                             { content: `${newIndex === 1 ? event.content : ''}` },
                             { content: `${newIndex === 2 ? event.content : ''}` },
                             { content: `${newIndex === 3 ? event.content : ''}` },
                         ]]
+                        if (checkTwoPoint && event.content === "20")
+                            twoPoint = true;
+
+                    }
                 })
+                if (twoPoint && checkTwoPoint) {
+                    newLog = [...newLog, [
+                        { content: '' },
+                        { content: '' },
+                        { content: '' },
+                        { content: '' },]];
+                    checkTwoPoint = false;
+                }
+                if (i === events.length - 1) {
+                    newLog = [...newLog, [
+                        { content: '' },
+                        { content: '' },
+                        { content: '' },
+                        { content: '' },
+                    ], [
+                        { content: `${teamADetail.score}` },
+                        { content: '' },
+                        { content: `${playerTeamB.length === 1 ? teamBDetail.score : ''}` },
+                        { content: `${playerTeamB.length > 1 ? teamBDetail.score : ''}` },
+                    ]]
+                }
             }
         }
         )
@@ -111,6 +145,16 @@ const OneTable = ({
                                     "3px solid rgb(60, 60, 60)",
                             }}
                         >
+                            {ci === log.length - 1 && ci !== 0 &&
+                                <div className={`circle ${playerTeamA.length === 1 && "smaller-circle"}`}>
+                                    <div className="line" />
+                                </div>
+                            }
+                            {
+                                log[ci] && (log[ci][0].content === '' && log[ci][1].content === '' && log[ci][2].content === '' && log[ci][3].content === '') &&
+                                (log[ci - 1][0].content === '20' || log[ci - 1][1].content === '20' || log[ci - 1][2].content === '20' || log[ci - 1][3].content === '20') &&
+                                <div className="rotated-line" />
+                            }
                             {
                                 ([...Array(4)].map((e, ri) =>
                                     <div key={ri} className="table-cell-report"
