@@ -28,9 +28,23 @@
 		display: none;
 		flex-direction: column;
 	}
-	.action-btn {
-		display: none;
+	.action-buttons {
+		position: absolute;
+		display: flex;
+		justify-content: space-between;
+		bottom: 1rem;
+		color: #fff;
+		width: 15vw;
+		z-index: 99;
+		cursor: pointer;
+		.action-btn {
+			font-size: 5vw;
+		}
+		transition: opacity, filter 0.4s ease-in-out;
 	}
+	// .action-btn {
+	// 	display: none;
+	// }
 }
 
 @media only screen and (min-width: 560px) {
@@ -141,20 +155,6 @@
 					transform: translateY(-60%);
 				}
 			}
-		}
-		.action-buttons {
-			position: absolute;
-			display: flex;
-			justify-content: space-between;
-			bottom: 1rem;
-			color: #fff;
-			width: 15vw;
-			z-index: 99;
-			cursor: pointer;
-			.action-btn {
-				font-size: 5vw;
-			}
-			transition: opacity, filter 0.4s ease-in-out;
 		}
 		.reverse {
 			flex-direction: row;

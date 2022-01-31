@@ -213,7 +213,8 @@ const PlayerBlock = (props) => {
                 borderRadius: "50%",
                 aspectRatio: "1",
                 width: "90%",
-                marginTop: props.position === "right" && "-4rem"
+                transform: props.position === "right" && "translateY(-40%)",
+                padding: "0"
               }}
               onClick={() => increaseScore({ teamKey: props.teamKey })}
             >

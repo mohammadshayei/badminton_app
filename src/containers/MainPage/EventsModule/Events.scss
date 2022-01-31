@@ -8,9 +8,10 @@
 		align-items: center;
 		justify-content: flex-start;
 		text-align: center;
-		padding: 0.5rem 0.8rem;
-		margin: 1rem 0.5rem;
+		padding: 0.5rem 0.6rem;
+		margin: 0 0.15rem;
 		border-radius: 10px;
+		font-size: clamp(0.6rem, 1.5vw, 1rem);
 		font-weight: bold;
 		word-wrap: break-word;
 		&:hover,
@@ -24,15 +25,15 @@
 			width: 50%;
 			aspect-ratio: 0.8;
 			text-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-			font-size: 3rem;
+			font-size: clamp(1rem, 3vw, 3rem);
 			white-space: nowrap;
 			line-height: 3rem;
 		}
 		.sp {
-			font-size: 1.7rem;
+			font-size: clamp(1rem, 3vw, 1.7rem);
 		}
 		.card {
-			width: 50%;
+			width: 100%;
 			aspect-ratio: 0.8;
 			border-radius: 5px;
 			box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
@@ -46,6 +47,35 @@
 		}
 		.black {
 			background-color: rgba(0, 0, 0, 0.8);
+		}
+	}
+}
+
+@media only screen and (min-width: 620px) {
+	.events-container {
+		.event {
+			.card {
+				width: 80%;
+			}
+		}
+	}
+}
+
+@media only screen and (min-width: 960px) {
+	.events-container {
+		.event {
+			.card {
+				width: 50%;
+			}
+		}
+	}
+}
+
+@media only screen and (min-height: 420px) {
+	.events-container {
+		.event {
+			padding: 0.5rem 0.8rem;
+			margin: 1rem 0.5rem;
 		}
 	}
 }
