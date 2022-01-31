@@ -79,9 +79,9 @@ const LiveGames = () => {
     return (
         <div className="live-games-page-wrapper">
             {dialog}
-            <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+            {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
                 <AssignLand games={games} />
-            </Modal>
+            </Modal>}
             <div className="live-games">
                 {
                     loading ?

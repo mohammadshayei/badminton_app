@@ -60,9 +60,9 @@ const GamesPage = () => {
   return (
     <div className="games-page-wrapper">
       {dialog}
-      <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+      {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         <Selector exitable={true} show={setShowModal} selectedGameId={gameId} />
-      </Modal>
+      </Modal>}
       {
         loading ?
           <Loading /> :

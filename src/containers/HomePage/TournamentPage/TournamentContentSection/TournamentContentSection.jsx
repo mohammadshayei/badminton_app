@@ -293,9 +293,9 @@ const TournamentContentSection = (props) => {
             style={{ backgroundColor: theme.background_color }}
         >
             {dialog}
-            <Modal show={assignModal} modalClosed={() => setAssignModal(false)}>
+            {assignModal && <Modal show={assignModal} modalClosed={() => setAssignModal(false)}>
                 <AssignReferee setShowModal={setAssignModal} />
-            </Modal>
+            </Modal>}
             {loading ? <Loading style={{ color: theme.on_background }} /> :
 
                 <>
