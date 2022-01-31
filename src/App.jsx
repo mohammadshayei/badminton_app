@@ -60,11 +60,14 @@ function App() {
       setRefereeData(refereeId, token)
     }
   }, [refereeId, token])
+
   useEffect(() => {
-    if (path && location.pathname !== path) {
-      navigate(path);
+    if (location.pathname === '/login' || location.pathname === '/signup') {
+      if (token && checked) {
+        navigate(`/home`);
+      }
     }
-  }, [path]);
+  }, [location.pathname, token, checked])
 
   return (
     <Routes>
