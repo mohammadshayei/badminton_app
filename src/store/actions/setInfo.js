@@ -7,10 +7,10 @@ export const increaseScore = ({ teamKey }) => (dispatch) => {
     });
 };
 
-export const setOver = ({ teamKey }) => (dispatch) => {
+export const setOver = ({ teamKey, isForce = false }) => (dispatch) => {
     dispatch({
         type: actionTypes.SET_OVER,
-        payload: { teamKey },
+        payload: { teamKey, isForce },
     });
 };
 
