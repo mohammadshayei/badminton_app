@@ -18,7 +18,7 @@ const GameReport = () => {
     const [tableCount, setTableCount] = useState(0)
     const [matchTime, setMatchTime] = useState({ start: "", end: "", duration: "" })
 
-    const token = useSelector(state => state.auth.token)
+const token = useSelector(state => state.auth.token)
     const locaiton = useLocation();
     const searchParams = new URLSearchParams(locaiton.search);
     const id = searchParams.get("id");
