@@ -2,8 +2,11 @@ import { useSelector } from "react-redux"
 import { useTheme } from "../../../../styles/ThemeProvider"
 import Button from "../../../../components/UI/Button/Button"
 import "./WinnerModal.scss"
+import { useNavigate } from "react-router-dom"
 
 const WinnerModal = (props) => {
+    let navigate = useNavigate();
+
     const themeState = useTheme();
     const theme = themeState.computedTheme
     const info = useSelector(state => state.info)
@@ -42,7 +45,7 @@ const WinnerModal = (props) => {
                     </div>
                 </div>
             </div>
-            <Button onClick={() => window.location.reload(false)}> تایید </Button>
+            <Button onClick={() => navigate('/home')}> تایید </Button>
         </div>
     )
 }

@@ -33,7 +33,7 @@ const Login = () => {
                 isRequired: true,
                 minLength: 10,
             },
-            shouldValidate: true,
+            shouldValidate: false,
             isFocused: false,
             touched: false
         },
@@ -57,7 +57,7 @@ const Login = () => {
                 isRequired: true,
                 minLength: 6,
             },
-            shouldValidate: true,
+            shouldValidate: false,
             isFocused: false,
             touched: false
         },
