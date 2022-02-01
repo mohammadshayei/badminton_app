@@ -38,12 +38,12 @@ const HomePage = () => {
       }}
     >
       <div className="version">v1.2.8</div>
-      <div className="menu-icon" onClick={() => setMenuStatus(true)}>
+      {/* <div className="menu-icon" onClick={() => setMenuStatus(true)}>
         <i
           style={{ color: theme.on_primary }}
           className="fas fa-bars"
         />
-      </div>
+      </div> */}
       <Menu
         setPage={setPage}
         setShowModal={setShowModal}
