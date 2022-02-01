@@ -87,7 +87,11 @@ const ScoreBoard = () => {
       }
     }
   }
+  const onPreventRefresh = (e) => {
+    e.preventDefault();
+    e.returnValue = ''
 
+  }
   const startTheGame = async () => {
     setDialog(null)
     setLoading(true)
@@ -170,8 +174,12 @@ const ScoreBoard = () => {
   useEffect(() => {
     window.history.pushState(null, null, window.location.pathname);
     window.addEventListener('popstate', onBackButtonEvent);
+    window.addEventListener('beforeunload', onPreventRefresh);
+
     return () => {
       window.removeEventListener('popstate', onBackButtonEvent);
+      window.removeEventListener('beforeunload', onPreventRefresh);
+
     };
   }, []);
 
