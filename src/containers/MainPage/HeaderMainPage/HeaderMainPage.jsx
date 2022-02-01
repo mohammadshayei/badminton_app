@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./HeaderMainPage.scss";
 // import { useTheme } from "../../../styles/ThemeProvider";
 import Events from "../EventsModule/Events"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/UI/Button/Button"
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useTheme } from "../../../styles/ThemeProvider";
 import { exitGame,  } from "../../../api/scoreboard";
 import { useNavigate } from "react-router-dom";
+import * as infoActions from "../../../store/actions/setInfo"
 
 const HeaderMainPage = () => {
   const token = useSelector(state => state.auth.token)
@@ -20,6 +21,10 @@ const HeaderMainPage = () => {
   let navigate = useNavigate();
 
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const increaseBall = () => {
+    dispatch(infoActions.increaseBall());
+  };
 
   const eventsStyle = { color: "#fff", flexDirection: "row-reverse", flexWrap: "nowrap", alignItems: "center" }
   const eventStyle = { margin: "0.1rem 0.3rem", padding: "0 0.1rem" }
@@ -32,6 +37,13 @@ const HeaderMainPage = () => {
     }
     navigate('/home')
   }
+
+  useEffect(() => {
+    if (info.team1.players.length > 1)
+      increaseBall();
+  }, []);
+  
+
   return (
     <div className={`header-main-container ${show && "show-header-main-container"}`}>
       <Events
@@ -57,7 +69,7 @@ const HeaderMainPage = () => {
             color: theme.on_error,
           }}
         >
-          {stringFa.exit}
+         Exit {/* {stringFa.exit} */}
         </Button>
       </div>
       <div className="ball-counter" style={{ opacity: info.foulHappend ? 0 : 1 }}>{info.balls}</div>

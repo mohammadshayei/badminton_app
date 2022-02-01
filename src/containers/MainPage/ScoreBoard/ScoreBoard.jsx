@@ -34,6 +34,9 @@ const ScoreBoard = () => {
   const [chooseServer, setChooseServer] = useState(false);
   const [serviceOver, setServiceOver] = useState(false)
   const [winPoint, setWinPoint] = useState(null)
+  const [warmUp, setWarmUp] = useState(false);
+  const [warmUpTimer, setWarmUpTimer] = useState("00:00");
+  const [twentySeconds, setTwentySeconds] = useState(false);
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
 
@@ -185,7 +188,10 @@ const ScoreBoard = () => {
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
-        setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
+        if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
+          setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
+        else
+          setWinPoint(null)
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -220,11 +226,16 @@ const ScoreBoard = () => {
       default:
         break;
     }
+    if (info.team2.score === 20)
+      setWinPoint(null)
   }, [info.team1.score])
   useEffect(() => {
     switch (info.team2.score) {
       case maxPoint - 1:
-        setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
+        if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)
+          setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
+        else
+          setWinPoint(null)
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -259,6 +270,8 @@ const ScoreBoard = () => {
       default:
         break;
     }
+    if (info.team1.score === 20)
+      setWinPoint(null)
   }, [info.team2.score])
 
   useEffect(async () => {
@@ -324,6 +337,10 @@ const ScoreBoard = () => {
         time--;
         seconds = time % 60;
         minutes = Math.floor(time / 60);
+        if (minutes === 0 && seconds < 23 && seconds > 19)
+          setTwentySeconds(true)
+        else
+          setTwentySeconds(false)
         minutes = minutes < 10 ? `0${minutes}` : minutes;
         seconds = seconds < 10 ? `0${seconds}` : seconds;
         setTimer(`${minutes}:${seconds}`);
@@ -340,6 +357,34 @@ const ScoreBoard = () => {
       }
     }
   }, [breakTime]);
+
+  useEffect(() => {
+    if(warmUp){
+      const startingMinute = 2;
+      let time = (startingMinute * 60) - 1;
+      let seconds = time % 60;
+      let minutes = Math.floor(time / 60);
+      minutes = minutes < 10 ? `0${minutes}` : minutes;
+      seconds = seconds < 10 ? `0${seconds}` : seconds;
+      setWarmUpTimer(`${minutes}:${seconds}`);
+      const interval = setInterval(() => {
+        time--;
+        seconds = time % 60;
+        minutes = Math.floor(time / 60);
+        minutes = minutes < 10 ? `0${minutes}` : minutes;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        setWarmUpTimer(`${minutes}:${seconds}`);
+      }, 1000);
+      const countDown = setTimeout(() => {
+        if (warmUp) setWarmUp(false);
+      }, (2) * 60000);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(countDown);
+      }
+    }
+  }, [warmUp]);
+  
 
   // useEffect(() => {
   //   if (serviceOver || winPoint) {
@@ -441,37 +486,48 @@ const ScoreBoard = () => {
               />)
             ) : <Loading style={{ direction: "ltr" }} />
             : <Loading style={{ direction: "ltr" }} />)}
-        <div className="service-over"
+        {!disable && <div className="service-over"
           style={{ opacity: serviceOver ? 1 : 0 }}
-        >service over</div>
+        >service over</div>}
+        <div className="service-over"
+          style={{ opacity: twentySeconds ? 1 : 0 , direction:"ltr" }}
+        >20 seconds</div>
         <div className="win-point"
           style={{ opacity: winPoint ? 1 : 0 }}
         >{winPoint}</div>
-        {/* <div className="warm-up">Warm Up!</div> */}
         {disable && breakTime === 0 && (
-          loading ? <Loading style={{ direction: "ltr" }} /> : <FaPlayCircle className="play" onClick={startTheGame} />
-        )
-        }
+          loading ? <Loading style={{ direction: "ltr" }} /> : 
+          <>
+            {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}>!Warm Up</div>}
+            {warmUp && <div className="timer" >{warmUpTimer}
+            {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
+              onClick={() => setWarmUp(false)} />}
+            </div>}
+            <FaPlayCircle className="play" onClick={startTheGame} />
+          </>
+        )}
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
         {(breakTime === 2 || breakTime === 3) &&
-          <div className="break-timer" >{timer}
+          <div className={`break-timer ${twentySeconds && "alert"}`} >{timer}
             {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
               onClick={() => setBreakTime(0)} />}
           </div>}
       </div>
       {/* <FooterScoreBoard /> */}
-      <div className="action-buttons"
-        style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
-        <FaExclamation className="action-btn" style={{ color: theme.primary }}
-          onClick={() => setEventPicker(true)} />
-        <ImUndo2
-          className="action-btn"
-          style={{
-            color: theme.primary,
-            filter: info.events.length === 0 && "grayscale(10)"
-          }}
-          onClick={onUndoClickHandler} />
-      </div>
+      {(!disable || breakTime !== 0) && (
+        <div className="action-buttons"
+          style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
+          <FaExclamation className="action-btn" style={{ color: theme.primary }}
+            onClick={() => setEventPicker(true)} />
+          <ImUndo2
+            className="action-btn"
+            style={{
+              color: theme.primary,
+              filter: info.events.length === 0 && "grayscale(10)"
+            }}
+            onClick={onUndoClickHandler} />
+        </div>
+      )}
     </div >
   );
 };
