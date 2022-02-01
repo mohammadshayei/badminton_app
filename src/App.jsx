@@ -67,6 +67,13 @@ function App() {
         navigate(`/home`);
       }
     }
+    else if (location.pathname === '/'){
+      if (token && checked) {
+        navigate(`/home`);
+      }else{
+        navigate(`/login`);
+      }
+    }
   }, [location.pathname, token, checked])
 
   return (
