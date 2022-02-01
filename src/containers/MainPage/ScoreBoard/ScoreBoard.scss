@@ -81,6 +81,28 @@
 				width: 6vw;
 				height: 6vw;
 				font-size: 1.1vw;
+				font-weight: bold;
+			}
+			.timer{
+				position: absolute;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				top: 90%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: #eeff00;
+				font-size: 5vw;
+				font-weight: bold;
+				animation: textglow 1s infinite alternate;
+				z-index: 99;
+				.cancel-timer {
+					font-size: 2.5rem;
+					position: absolute;
+					left: -3.5rem;
+					top: 50%;
+					transform: translateY(-60%);
+				}
 			}
 			.play {
 				position: absolute;
