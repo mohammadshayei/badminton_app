@@ -13,13 +13,13 @@
 		top: 25%;
 		background-color: rgba(255, 255, 255, 0.9);
 		width: 100px;
-		aspect-ratio: 2;
-		@supports not (aspect-ratio: auto) { 
-			padding-top: 200%;
-			height: 0;
-			position: relative;
-			overflow: hidden;				
-		}
+		// aspect-ratio: 2;
+		// @supports not (aspect-ratio: auto) { 
+			// padding-top: 50%;
+			// height: 0;
+			// position: relative;
+			// overflow: hidden;				
+		// }
 		border-radius: 50%;
 		box-shadow: 0 0 90px 50px #fff;
 		transform: rotate(120deg);
