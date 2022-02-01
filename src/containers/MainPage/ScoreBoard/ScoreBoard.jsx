@@ -360,16 +360,17 @@ const ScoreBoard = () => {
           {stringFa.rotate_screen_error}
         </div>
       </div> {/* ${flashEffect}*/}
-      <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
+      {eventPicker && <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
         <Events setClose={setEventPicker} />
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
-      </Modal>
-      <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => setTeamWon(null)}>
-        <WinnerModal teamWon={teamWon} />
-      </Modal>
-      <Modal show={chooseServer} >
+      </Modal>}
+      {(teamWon === "team1" || teamWon === "team2") &&
+        <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => setTeamWon(null)}>
+          <WinnerModal teamWon={teamWon} />
+        </Modal>}
+      {chooseServer && <Modal show={chooseServer} >
         <Selector setShow={setChooseServer} selectedGame={gameId} />
-      </Modal>
+      </Modal>}
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}
         style={{
           alignItems: loading && "center"

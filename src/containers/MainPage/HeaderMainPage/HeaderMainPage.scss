@@ -22,10 +22,13 @@
 			display: flex;
 			align-items: center;
 			right: 7%;
+			width: 5%;
 			img {
 				justify-self: center;
 				max-width: 80%;
+				margin-left: 4rem;
 			}
+			overflow: hidden;
 		}
 		.ball-counter {
 			background-color: whitesmoke;
@@ -65,6 +68,17 @@
 		transform: translateY(0);
 		.handle {
 			display: none;
+		}
+	}
+}
+
+@media only screen and (min-width: 850px) {
+	.header-main-container {
+		.ball {
+			width: 100%;
+			img {
+				margin-left: 0;
+			}
 		}
 	}
 }

@@ -41,9 +41,9 @@ const TournamentPage = (props) => {
       <div className="box-container">
         <TournamentContentSection />
       </div>
-      <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+      {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         {modalContent}
-      </Modal>
+      </Modal>}
       <TournamentsList setEditMode={props.setEditMode} setShowModal={props.setShowModal} />
     </div >
   );

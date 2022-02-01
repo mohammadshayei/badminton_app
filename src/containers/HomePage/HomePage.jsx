@@ -49,9 +49,9 @@ const HomePage = () => {
         setShowModal={setShowModal}
         setEditMode={setEditMode}
       />
-      <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+      {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         <CreateTournament editMode={editMode} modalClosed={() => setShowModal(false)} />
-      </Modal>
+      </Modal>}
       {page}
       <AppBar
         setPage={setPage}

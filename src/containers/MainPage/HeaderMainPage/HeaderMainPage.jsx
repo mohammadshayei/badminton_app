@@ -24,10 +24,9 @@ const HeaderMainPage = () => {
         hide={true}
       />
       <div className="ball" style={{ opacity: info.foulHappend ? 0 : 1 }}>
-        {info.balls < 7 && [...Array(info.balls)].map((e, i) => (
-          <img key={i} src={shuttle} alt="ball" />
-        )
-        )}
+        {info.balls < 7 ? [...Array(info.balls)].map((e, i) => (
+          <img key={i} src={shuttle} alt="ball" />)) :
+          <img src={shuttle} alt="ball" />}
       </div>
       <div className="ball-counter" style={{ opacity: info.foulHappend ? 0 : 1 }}>{info.balls}</div>
       <div className="handle" onClick={() => setShow(!show)}></div>
