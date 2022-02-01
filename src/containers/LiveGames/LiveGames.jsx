@@ -73,6 +73,14 @@ const LiveGames = () => {
             }
 
             ))
+            socket.on('get_exit_game', (payload => {
+                let { gameId } = payload;
+                let updatedGames = [...games]
+                updatedGames = updatedGames.filter(game => game._id !== gameId)
+                setGames(updatedGames)
+            }
+
+            ))
         }
     }, [socket, games])
 

@@ -182,6 +182,17 @@ const token = useSelector(state => state.auth.token)
                                 )
                             }
                         </div>
+                        <div className='signature'>
+                            <p>
+                                Umpire's Signature..........................................
+                            </p>
+                            <p>
+                                Referee's Signature..........................................
+                            </p>
+                            <p>
+                                Results Service..........................................
+                            </p>
+                        </div>
                     </div>
                 </div>
             }

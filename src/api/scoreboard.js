@@ -29,3 +29,13 @@ export const endSetHandler = async (payload, token) => {
     else
         return { success: false, data: null, error: result.data.message }
 }
+export const exitGame = async (payload, token) => {
+    
+    const result = await axios.post(`${baseUrl}api/exit_game`, payload,
+        { headers: { 'auth-token': token } });
+    if (result.data.success) {
+        return { success: true, }
+    }
+    else
+        return { success: false, data: null, error: result.data.message }
+}
