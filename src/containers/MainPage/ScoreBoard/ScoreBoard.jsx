@@ -36,6 +36,7 @@ const ScoreBoard = () => {
   const [winPoint, setWinPoint] = useState(null)
   const [warmUp, setWarmUp] = useState(false);
   const [warmUpTimer, setWarmUpTimer] = useState("00:00");
+  const [twentySeconds, setTwentySeconds] = useState(false);
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
 
@@ -337,6 +338,10 @@ const ScoreBoard = () => {
         time--;
         seconds = time % 60;
         minutes = Math.floor(time / 60);
+        if (minutes === 0 && seconds < 23 && seconds > 19)
+          setTwentySeconds(true)
+        else
+          setTwentySeconds(false)
         minutes = minutes < 10 ? `0${minutes}` : minutes;
         seconds = seconds < 10 ? `0${seconds}` : seconds;
         setTimer(`${minutes}:${seconds}`);
@@ -444,9 +449,12 @@ const ScoreBoard = () => {
               />)
             ) : <Loading style={{ direction: "ltr" }} />
             : <Loading style={{ direction: "ltr" }} />)}
-        <div className="service-over"
+        {!disable && <div className="service-over"
           style={{ opacity: serviceOver ? 1 : 0 }}
-        >service over</div>
+        >service over</div>}
+        <div className="service-over"
+          style={{ opacity: twentySeconds ? 1 : 0 , direction:"ltr" }}
+        >20 seconds</div>
         <div className="win-point"
           style={{ opacity: winPoint ? 1 : 0 }}
         >{winPoint}</div>
@@ -463,7 +471,7 @@ const ScoreBoard = () => {
         )}
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
         {(breakTime === 2 || breakTime === 3) &&
-          <div className="break-timer" >{timer}
+          <div className={`break-timer ${twentySeconds && "alert"}`} >{timer}
             {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
               onClick={() => setBreakTime(0)} />}
           </div>}
