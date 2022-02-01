@@ -93,7 +93,7 @@ const ScoreBoard = () => {
   const onPreventRefresh = (e) => {
     e.preventDefault();
     e.returnValue = ''
-
+    console.log("here")
   }
   const startTheGame = async () => {
     setDialog(null)

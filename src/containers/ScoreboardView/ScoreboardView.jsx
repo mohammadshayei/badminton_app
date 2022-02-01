@@ -16,7 +16,6 @@ const ScoreboardView = () => {
     const token = useSelector(state => state.auth.token)
     let navigate = useNavigate();
 
-    console.log(game)
     useEffect(() => {
         if (game) {
             let updatedData = {}
@@ -79,6 +78,16 @@ const ScoreboardView = () => {
                     setGameWonner(teamName)
                 }
             }))
+            socket.on('get_exit_game', (payload => {
+                let { gameId } = payload;
+                if (gameId === game._id) {
+                    if (gymId && landNumber && token) {
+                        navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
+                    } else {
+                        navigate('/home')
+                    }
+                }
+            }))
         }
     }, [socket, game])
     useEffect(() => {
@@ -100,7 +109,6 @@ const ScoreboardView = () => {
 
         }
     }, [gameWonner])
-
     return (
         <div className="scoreboard-viewers">
             <div className="container">
