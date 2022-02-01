@@ -207,24 +207,3 @@ const ScoreboardView = () => {
 }
 
 export default ScoreboardView
-// {(data.teamA.setWon === 2) || (data.teamB.setWon === 2) ?
-//     <div className="score-digit">
-//         <div className="scores"
-//             style={{
-//                 fontSize: "8vw",
-//                 lineHeight: "8vw"
-//             }}
-//         >{game.sets.map((s) =>
-//             <p>{s.set[k].score}</p>
-//         )}</div>
-//     </div>
-//     :
-//     <div className="score-digit">
-//         <div className="digital-panel"
-//             style={{
-//                 fontSize: v.score > 9 ? "16vw" : "20vw",
-//                 lineHeight: v.score > 9 ? "16vw" : "15vw"
-//             }}
-//         >{v.score}</div>
-//     </div>
-// }
