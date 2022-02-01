@@ -70,7 +70,7 @@ const HeaderMainPage = () => {
             color: theme.on_error,
           }}
         >
-          {stringFa.exit}
+         Exit {/* {stringFa.exit} */}
         </Button>
       </div>
       <div className="ball-counter" style={{ opacity: info.foulHappend ? 0 : 1 }}>{info.balls}</div>

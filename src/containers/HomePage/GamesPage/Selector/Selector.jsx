@@ -44,7 +44,7 @@ const Selector = (props) => {
     useEffect(() => {
         switch (index) {
             case 1:
-                setTitle("تیم سمت راست خود را انتخاب کنید");
+                setTitle("Select team on your right");
                 setOptions([{
                     id: info.team1.players[0].id,
                     text: (info.team1.players.map((player) => player.name)).join(" - "),
@@ -58,7 +58,7 @@ const Selector = (props) => {
                 break;
             case 2:
                 let players;
-                setTitle("زننده سرویس را انتخاب کنید");
+                setTitle("Select Server");
                 if (props.exitable) {
                     players = [{
                         id: info.team1.players[0].id,
@@ -115,7 +115,7 @@ const Selector = (props) => {
             case 3:
                 if (max === 3) {
                     let players;
-                    setTitle("دریافت کننده را مشخص کنید");
+                    setTitle("Select Receiver");
                     if (info.team1.server === 0) {
                         players = info.team1.players.map((player) =>
                             ({ id: player.id, text: player.name, selected: false })
@@ -129,7 +129,7 @@ const Selector = (props) => {
                 }
                 break;
             default:
-                setOptions([{ text: "درحال بارگزاری" }])
+                setOptions([{ text: "Loading..." }])
                 break;
         }
     }, [index]);
@@ -196,7 +196,7 @@ const Selector = (props) => {
         if (valid) {
             setIndex(index + 1);
         } else {
-            setDialog(<ErrorDialog type="error">لطفا یک گزینه را انتخاب کنید</ErrorDialog>)
+            setDialog(<ErrorDialog type="error">Please select one item</ErrorDialog>)
         }
     }
     const backClick = () => {
@@ -230,9 +230,9 @@ const Selector = (props) => {
                         </div>
                         <div className="action-btns">
                             {(props.exitable || index > 2) && <p className="prev" onClick={backClick}>
-                                {index === 1 ? "خروج" : "بازگشت"}
+                                {index === 1 ? "Exit" : "Back"}
                             </p>}
-                            <Button onClick={nextClick}>{index === max ? "ذخیره" : stringFa.next}</Button>
+                            <Button onClick={nextClick}>{index === max ? "Save" : "Next"}</Button>
                         </div>
                     </>
             }
