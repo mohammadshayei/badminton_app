@@ -97,7 +97,7 @@ const EventsBox = () => {
               { content: `${newIndex === 3 ? info.events[info.events.length - 1].content : ''}` },
             ]])
         })
-        myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
+        // myRef.current.scrollIntoView({ behavior: 'smooth', inline: 'center' })
       }
     }
     else {
