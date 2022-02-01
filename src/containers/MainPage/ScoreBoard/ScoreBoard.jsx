@@ -188,7 +188,10 @@ const ScoreBoard = () => {
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
-        setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
+        if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
+          setWinPoint(info.team1.setWon === 1 ? "match point" : "game point")
+        else
+          setWinPoint(null)
         if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -223,11 +226,16 @@ const ScoreBoard = () => {
       default:
         break;
     }
+    if (info.team2.score === 20)
+      setWinPoint(null)
   }, [info.team1.score])
   useEffect(() => {
     switch (info.team2.score) {
       case maxPoint - 1:
-        setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
+        if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)
+          setWinPoint(info.team2.setWon === 1 ? "match point" : "game point")
+        else
+          setWinPoint(null)
         if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
           setMaxPoint(maxPoint + 1);
         }
@@ -262,6 +270,8 @@ const ScoreBoard = () => {
       default:
         break;
     }
+    if (info.team1.score === 20)
+      setWinPoint(null)
   }, [info.team2.score])
 
   useEffect(async () => {
