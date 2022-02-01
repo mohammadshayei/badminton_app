@@ -98,7 +98,7 @@ const Events = (props) => {
                     info.foulHappend === item.text ? (
                         <div className='event' style={{
                             ...props.eventStyle,
-                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "10%",  //17%
+                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }} key={index}>
                             {index === 6 && props.hide ? (
                                 <div
@@ -117,7 +117,7 @@ const Events = (props) => {
                     ) : (
                         <div className='event' style={{
                             ...props.eventStyle,
-                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "10%",  //17%
+                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }} key={index}>
                             <div style={item.style}></div>
                         </div>
@@ -128,7 +128,7 @@ const Events = (props) => {
                         className='event'
                         style={{
                             ...props.eventStyle,
-                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "10%",  //17%
+                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }}
                         key={index}
                         onClick={() => eventClick(item.text)}
