@@ -90,6 +90,7 @@
 @media only screen and (min-width: 560px) {
 	.rev {
 		flex-direction: row-reverse;
+		margin-right: 2rem;
 	}
 	.player-block-container {
 		padding: 0;
@@ -119,6 +120,10 @@
 				}
 				.add-shuttle {
 					width: 50%;
+					.shuttle-img{
+						width: 2rem;
+						height: 2rem;
+					}
 				}
 			}
 			.player-block-image-and-title {

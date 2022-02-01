@@ -177,7 +177,9 @@ const PlayerBlock = (props) => {
               hover={theme.primary}
               ButtonStyle={{
                 borderRadius: "50%",
-                aspectRatio: "1",
+                // aspectRatio: "1",
+                width:"3rem",
+                height:"3rem"
               }}
               onClick={() => {
                 increaseBall();
@@ -185,7 +187,7 @@ const PlayerBlock = (props) => {
               }}
             >
               +
-              <img src={shuttle_image} alt="shuttle" />
+              <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
             </Button>
             {/* <Button
               back={theme.primary}
