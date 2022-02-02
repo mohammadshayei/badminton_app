@@ -1,5 +1,6 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useTheme } from "../../../../styles/ThemeProvider"
+import * as infoActions from "../../../../store/actions/setInfo"
 import Button from "../../../../components/UI/Button/Button"
 import "./WinnerModal.scss"
 import { useNavigate } from "react-router-dom"
@@ -10,6 +11,15 @@ const WinnerModal = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme
     const info = useSelector(state => state.info)
+    const dispatch = useDispatch();
+    const removeScores = () => {
+        dispatch(infoActions.removeScores());
+    };
+
+    const onButtonClick = () => {
+        navigate('/home')
+        removeScores();
+    }
 
     return (
         <div className="winner-modal-wrapper">
@@ -45,7 +55,7 @@ const WinnerModal = (props) => {
                     </div>
                 </div>
             </div>
-            <Button onClick={() => navigate('/home')}> تایید </Button>
+            <Button onClick={onButtonClick}> End Game </Button>
         </div>
     )
 }

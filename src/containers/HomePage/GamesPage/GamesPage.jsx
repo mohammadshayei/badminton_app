@@ -76,7 +76,7 @@ const GamesPage = () => {
                 )}
                 <div className="details">
                   <p className="title">{item.game.tournament.title}</p>
-                  <p className="game-number">{`${stringFa.game_number} ${item.game.game_number}`}</p>
+                  <p className="game-number">{`game ${item.game.game_number}  -  court ${item.game.land_number}`}</p>
                   {<p className="players-name">
                     {`${item.game.teamA.players[0].player.username}
                    ${item.game.game_type === "double" ? "," + item.game.teamA.players[1].player.username : ""} - 

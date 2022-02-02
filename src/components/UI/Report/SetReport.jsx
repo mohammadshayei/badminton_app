@@ -6,7 +6,6 @@ const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
     teamBDetail, calTableCount }) => {
     const [updatedEvents, setUpdatedEvents] = useState([])
     const [body, setBody] = useState(null)
-
     const props = { isSingle: playerTeamA.length === 1, playerTeamB, playerTeamA, teamADetail, teamBDetail }
 
     useEffect(() => {
@@ -82,8 +81,8 @@ const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
                 calTableCount(2)
                 setBody(
                     <>
-                        <OneTable {...props} events={updatedEvents.slice(0, 31)} isOne={true} />
-                        <OneTable {...props} events={updatedEvents.slice(31, updatedEvents.length)} isOne={false} />
+                        <OneTable {...props} isInPrev={0} events={updatedEvents.slice(0, 31)} isOne={true} />
+                        <OneTable {...props} isInPrev={updatedEvents.slice(0, 31).find(event => event.content === '20') ? 1 : 0} events={updatedEvents.slice(31, updatedEvents.length)} isOne={false} />
                     </>)
             }
             else {

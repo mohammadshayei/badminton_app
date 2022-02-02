@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const OneTable = ({
     isSingle, events, playerTeamA, playerTeamB,
-    isOne, teamADetail, teamBDetail, empty }) => {
+    isOne, teamADetail, teamBDetail, empty, isInPrev }) => {
     // console.log(events)
     const [log, setLog] = useState([])
     const columnStyle = {
@@ -14,7 +14,7 @@ const OneTable = ({
         borderLeft: "3px solid rgb(60, 60, 60)",
         width: "55mm",
     }
-    let twoPoint = false;
+
     useEffect(() => {
         if (!events) return;
         let newLog = [];
@@ -56,7 +56,7 @@ const OneTable = ({
             { content: '' }]]
         }
 
-        let checkTwoPoint = false;
+        let checkTwoPoint = false, twoPoint = false;
         events.forEach((event, i) => {
             // if (event.type !== 'increaseBall' && event.type !== 'decreaseBall') {
             let newColumn = true;
@@ -89,8 +89,18 @@ const OneTable = ({
                             { content: `${index === 2 ? event.content : ''}` },
                             { content: `${index === 3 ? event.content : ''}` },
                         ]]
-                        if (event.content === "20")
-                            checkTwoPoint = true;
+                        if (isInPrev === 1) {
+                            if (event.content === "20")
+                                newLog = [...newLog, [
+                                    { content: '' },
+                                    { content: '' },
+                                    { content: '' },
+                                    { content: '' },]];
+                        }
+                        else {
+                            if (event.content === "20")
+                                checkTwoPoint = true;
+                        }
                     }
                 })
                 let newIndex;
@@ -103,12 +113,20 @@ const OneTable = ({
                             { content: `${newIndex === 2 ? event.content : ''}` },
                             { content: `${newIndex === 3 ? event.content : ''}` },
                         ]]
-                        if (checkTwoPoint && event.content === "20")
-                            twoPoint = true;
-
+                        if (isInPrev === 1) {
+                            if (event.content === "20")
+                                newLog = [...newLog, [
+                                    { content: '' },
+                                    { content: '' },
+                                    { content: '' },
+                                    { content: '' },]];
+                        }
+                        else
+                            if (checkTwoPoint && event.content === "20")
+                                twoPoint = true;
                     }
                 })
-                if (twoPoint && checkTwoPoint) {
+                if (checkTwoPoint && twoPoint) {
                     newLog = [...newLog, [
                         { content: '' },
                         { content: '' },

@@ -83,3 +83,9 @@ export const setPlayerPlace = ({ teamKey }) => {
         payload: { teamKey },
     };
 };
+
+export const removeScores = () => {
+    return {
+        type: actionTypes.REMOVE_SCORES,
+    };
+};
