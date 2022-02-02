@@ -359,7 +359,7 @@ const ScoreBoard = () => {
   }, [breakTime]);
 
   useEffect(() => {
-    if(warmUp){
+    if (warmUp) {
       const startingMinute = 2;
       let time = (startingMinute * 60) - 1;
       let seconds = time % 60;
@@ -384,7 +384,7 @@ const ScoreBoard = () => {
       }
     }
   }, [warmUp]);
-  
+
 
   // useEffect(() => {
   //   if (serviceOver || winPoint) {
@@ -455,7 +455,7 @@ const ScoreBoard = () => {
         <Button onClick={() => setEventPicker(false)}>انصراف</Button>
       </Modal>}
       {(teamWon === "team1" || teamWon === "team2") &&
-        <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => setTeamWon(null)}>
+        <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => console.log("")}>
           <WinnerModal teamWon={teamWon} />
         </Modal>}
       {chooseServer && <Modal show={chooseServer} >
@@ -490,21 +490,21 @@ const ScoreBoard = () => {
           style={{ opacity: serviceOver ? 1 : 0 }}
         >service over</div>}
         <div className="service-over"
-          style={{ opacity: twentySeconds ? 1 : 0 , direction:"ltr" }}
+          style={{ opacity: twentySeconds ? 1 : 0, direction: "ltr" }}
         >20 seconds</div>
         <div className="win-point"
           style={{ opacity: winPoint ? 1 : 0 }}
         >{winPoint}</div>
         {disable && breakTime === 0 && (
-          loading ? <Loading style={{ direction: "ltr" }} /> : 
-          <>
-            {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}>!Warm Up</div>}
-            {warmUp && <div className="timer" >{warmUpTimer}
-            {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
-              onClick={() => setWarmUp(false)} />}
-            </div>}
-            <FaPlayCircle className="play" onClick={startTheGame} />
-          </>
+          loading ? <Loading style={{ direction: "ltr" }} /> :
+            <>
+              {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}>!Warm Up</div>}
+              {warmUp && <div className="timer" >{warmUpTimer}
+                {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
+                  onClick={() => setWarmUp(false)} />}
+              </div>}
+              <FaPlayCircle className="play" onClick={startTheGame} />
+            </>
         )}
         {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
         {(breakTime === 2 || breakTime === 3) &&

@@ -56,7 +56,6 @@ const GamesPage = () => {
     setGameId(game._id)
     setShowModal(true);
   }
-  console.log(games);
 
   return (
     <div className="games-page-wrapper">

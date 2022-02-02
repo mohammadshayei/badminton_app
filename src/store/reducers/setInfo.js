@@ -394,6 +394,20 @@ const setPlayerPlace = (state, action) => {
     };
 };
 
+const removeScores = (state) => {
+    return {
+        ...state,
+        team1: {
+            ...state.team1,
+            scores:[]
+        },
+        team2: {
+            ...state.team2,
+            scores:[]            
+        },
+    };
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INCREASE_SCORE:
@@ -422,6 +436,8 @@ const reducer = (state = initialState, action) => {
             return removeEventFromStack(state, action);
         case actionTypes.SET_PLAYER_PLACE:
             return setPlayerPlace(state, action);
+        case actionTypes.REMOVE_SCORES:
+            return removeScores(state);
         default:
             return state;
     }
