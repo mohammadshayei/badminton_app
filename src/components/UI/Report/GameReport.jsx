@@ -15,10 +15,11 @@ const GameReport = () => {
     const [game, setGame] = useState(null)
     const [date, setDate] = useState(null)
     const [time, setTime] = useState(null)
+    const [gameWon, setGameWon] = useState('')
     const [tableCount, setTableCount] = useState(0)
     const [matchTime, setMatchTime] = useState({ start: "", end: "", duration: "" })
 
-const token = useSelector(state => state.auth.token)
+    const token = useSelector(state => state.auth.token)
     const locaiton = useLocation();
     const searchParams = new URLSearchParams(locaiton.search);
     const id = searchParams.get("id");
@@ -56,6 +57,15 @@ const token = useSelector(state => state.auth.token)
                 start: `${new Date(game.game_time.start).getHours().toString().padStart(2, '0')} : ${new Date(game.game_time.start).getMinutes().toString().padStart(2, '0')}`,
                 end: `${new Date(game.game_time.end).getHours().toString().padStart(2, '0')} : ${new Date(game.game_time.end).getMinutes().toString().padStart(2, '0')}`,
                 duration: `${Math.floor(durationMathTime / (1000 * 60))}`,
+            })
+
+            game.sets.forEach(item => {
+                item.set.events.forEach(event => {
+                    if (event.content === 'Dis' || event.content === 'Ret') {
+                        let playerTeamA = game.teamA.players.find(item => item.player._id === event.by) ? true : false;
+                        setGameWon(playerTeamA ? 'team2' : "team1")
+                    }
+                })
             })
         }
     }, [game])
@@ -96,7 +106,7 @@ const token = useSelector(state => state.auth.token)
                                     positionTeam={game.sets[0].set.teamA.isRightTeam ? 'R' : "L"}
                                     isLeftSide={true}
                                     players={game.teamA.players.map(item => item.player.username)}
-                                    setWon={game.sets[0].set.teamA.setWon}
+                                    setWon={gameWon !== '' ? gameWon === 'team1' : game.sets[0].set.teamA.setWon}
                                 />
                                 <div className='score-box'>
                                     <p>score</p>
@@ -117,7 +127,7 @@ const token = useSelector(state => state.auth.token)
                                     positionTeam={game.sets[0].set.teamB.isRightTeam ? "R" : "L"}
                                     players={game.teamB.players.map(item => item.player.username)}
                                     isLeftSide={false}
-                                    setWon={game.sets[0].set.teamB.setWon}
+                                    setWon={gameWon !== '' ? gameWon === 'team2' : game.sets[0].set.teamB.setWon}
                                 />
                                 <div className='shuttl'>
                                     <p>Shuttls : {game.shuttls}</p>

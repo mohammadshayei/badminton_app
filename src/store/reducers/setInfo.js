@@ -49,7 +49,7 @@ const increaseScore = (state, action) => {
 };
 
 const setOver = (state, action) => {
-    const { teamKey } = action.payload;
+    const { teamKey, isForce } = action.payload;
     let otherTeam;
     if (teamKey === "team1")
         otherTeam = "team2"
@@ -60,7 +60,7 @@ const setOver = (state, action) => {
         ...state,
         [teamKey]: {
             ...state[teamKey],
-            setWon: state[teamKey].setWon + 1,
+            setWon: !isForce ? state[teamKey].setWon + 1 : state[teamKey].setWon,
             scores: [...state[teamKey].scores, state[teamKey].score],
             score: 0,
             server: state[teamKey].players.length > 1 ? 0 : state[teamKey].server,

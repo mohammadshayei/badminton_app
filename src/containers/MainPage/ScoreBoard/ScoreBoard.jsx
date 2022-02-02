@@ -51,8 +51,8 @@ const ScoreBoard = () => {
   const theme = themeState.computedTheme;
 
   const dispatch = useDispatch();
-  const setOver = (teamKey) => {
-    dispatch(infoActions.setOver(teamKey));
+  const setOver = (teamKey, isForce = false) => {
+    dispatch(infoActions.setOver(teamKey, isForce));
   };
   const setSetId = (id) => {
     dispatch(infoActions.setSetId(id));
@@ -93,7 +93,6 @@ const ScoreBoard = () => {
   const onPreventRefresh = (e) => {
     e.preventDefault();
     e.returnValue = ''
-    console.log("here")
   }
   const startTheGame = async () => {
     setDialog(null)
@@ -398,7 +397,45 @@ const ScoreBoard = () => {
   //     }
   //   }
   // }, [serviceOver, winPoint])
-
+  useEffect(async () => {
+    if (info.events.length > 0 && (info.events[info.events.length - 1].content === 'Dis' || info.events[info.events.length - 1].content === 'Ret')) {
+      let teamWon = 'team1';
+      info.team1.players.forEach(player => {
+        if (player.id === info.events[info.events.length - 1].by) teamWon = 'team2';
+      })
+      setTeamWon(teamWon);
+      setWinPoint(null)
+      setOver({ teamKey: teamWon, isForce: true });
+      setDisable(true);
+      setHalfTime(false);
+      setMaxPoint(21);
+      const payload = {
+        id: gameId,
+        status: 3,
+        shuttls: info.balls
+      }
+      const result = await setStatusGame(payload, token)
+      if (result.success) {
+        setDisable(true)
+      } else {
+        setDialog(null)
+        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+      }
+      let payloadSet = {
+        setId,
+        events: info.events,
+        teamA: { score: info.team1.score, setWon: false },
+        teamB: { score: info.team2.score, setWon: false }
+      }
+      let resultEnd = await endSetHandler(payloadSet, token)
+      let payloadSocket = {
+        teamA: info.team1.scores,
+        teamB: info.team2.scores,
+        gameId,
+      }
+      socket.emit('send_end_game_stats', payloadSocket)
+    }
+  }, [info.events])
   return (
     <div
       className="scoreboard-container"
