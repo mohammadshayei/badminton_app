@@ -405,6 +405,7 @@ const removeScores = (state) => {
             ...state.team2,
             scores:[]            
         },
+        balls:1
     };
 };
 
