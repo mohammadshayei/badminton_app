@@ -12,7 +12,7 @@ const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
         if (!events) return;
         if (events[events.length - 1]) {
             let filteredEvents = [...events.filter(event => event.type !== 'increaseBall' && event.type !== 'decreaseBall')]
-            if (!events[events.length - 1].content === 'Dis' && events[events.length - 1].content !== 'Ret') {
+            if (events[events.length - 1].content !== 'Dis' && events[events.length - 1].content !== 'Ret') {
                 // if (event.type !== 'increaseBall' && event.type !== 'decreaseBall')
                 let lastEvent, lastEventWonTeam, newEvent, teamATakeScore, i = filteredEvents.length - 1, by, score;
                 while (i >= 0) {
