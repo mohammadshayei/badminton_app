@@ -135,7 +135,7 @@ const GameReport = () => {
                             </div>
                             <div className="right-header">
                                 <p>
-                                    Count : 3
+                                    Court : {game.land_number}
                                 </p>
                                 <p>
                                     Umpire : {game.referee.username}
