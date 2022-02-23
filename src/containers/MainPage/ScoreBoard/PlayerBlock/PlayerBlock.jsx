@@ -39,6 +39,7 @@ const PlayerBlock = (props) => {
     dispatch(infoActions.setPlayerPlace(teamKey));
   };
 
+
   const selectPlayer = (id) => {
     if (info.foulHappend) {
       let foul;
@@ -78,6 +79,7 @@ const PlayerBlock = (props) => {
       foulHappend({ foulType: null });
   }
   useEffect(() => {
+    if (!info.readyForSendData) return;
     props.setServiceOver(false)
     if (info.undoMode) return;
     const detail = {
@@ -178,18 +180,18 @@ const PlayerBlock = (props) => {
               ButtonStyle={{
                 borderRadius: "50%",
                 // aspectRatio: "1",
-                width:"3rem",
-                height:"3rem"
+                width: "3rem",
+                height: "3rem"
               }}
               onClick={() => {
                 increaseBall();
-                addEvent({ type: "increaseBall", time: "", by: "" });
+                // addEvent({ type: "increaseBall", time: "", by: "" });
               }}
             >
               +
               <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
             </Button>
-            {/* <Button
+            <Button
               back={theme.primary}
               hover={theme.primary}
               ButtonStyle={{
@@ -199,13 +201,13 @@ const PlayerBlock = (props) => {
               onClick={() => {
                 if (info.balls > 1) {
                   decreaseBall();
-                  addEvent({ type: "decreaseBall", time: "", by: "" });
+                  // addEvent({ type: "decreaseBall", time: "", by: "" });
                 }
               }}
             >
               -
               <img src={shuttle_image} alt="shuttle" />
-            </Button> */}
+            </Button>
           </div>}
           <div disabled={props.disable} className="player-block-icon up-btn">
             <Button

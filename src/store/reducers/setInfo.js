@@ -30,6 +30,17 @@ const initialState = {
     eventCounter: 0,
     lastPoint: '',
     undoMode: false,
+    setOver: false,
+    readyForSendData: false,
+    midStage: false,
+    initTeam1: {
+        server: 0,
+        receiver: 1,
+    },
+    initTeam2: {
+        server: 0,
+        receiver: 1,
+    },
 };
 
 
@@ -55,7 +66,7 @@ const setOver = (state, action) => {
         otherTeam = "team2"
     else
         otherTeam = "team1";
-    const tempEvents = [...state.events];
+    // const tempEvents = [...state.events];
     return {
         ...state,
         [teamKey]: {
@@ -76,12 +87,21 @@ const setOver = (state, action) => {
             isTop: state[teamKey].players.length > 1 ? 0 : state[teamKey].isTop
         },
         eventCounter: 0,
-        events: [],
+        // events: [],
         lastPoint: "",
+        setOver: true,
+        // totalEvents: [...state.totalEvents, ...tempEvents]
+    };
+};
+const clearEventsAndAddToTotalEvents = (state, action) => {
+    const tempEvents = [...state.events];
+    return {
+        ...state,
+        events: [],
+        setOver: false,
         totalEvents: [...state.totalEvents, ...tempEvents]
     };
 };
-
 const increaseBall = (state) => {
     return {
         ...state,
@@ -114,7 +134,7 @@ const foulHappend = (state, action) => {
 const addEvent = (state, action) => {
     const { type, time, by, content, detail } = action.payload;
     let newCounter = state.eventCounter;
-    if (type !== "increaseBall" && type !== "decreaseBall") newCounter++;
+    newCounter++;
     return {
         ...state,
         events: [
@@ -135,7 +155,6 @@ const removeEventFromStack = (state, action) => {
     let updatedEvents = [...state.events]
     let event = updatedEvents[updatedEvents.length - 1]
     let newCounter = state.eventCounter;
-    let newBalls = state.balls
     let lastPoint = state.lastPoint
     let team1 = {
         score: state.team1.score,
@@ -149,7 +168,7 @@ const removeEventFromStack = (state, action) => {
         receiver: state.team2.receiver,
         isTop: state.team2.isTop,
     };
-    if (event.type !== "increaseBall" && event.type !== "decreaseBall") newCounter--;
+    newCounter--;
     if (event.type === 'score') {
         lastPoint = event.detail.server.teamName === 'team1' ? "team1" : "team2"
         let team1ScoreExist = state.team1.players.find(item => item.id === event.by);
@@ -172,11 +191,6 @@ const removeEventFromStack = (state, action) => {
             newCounter--;
         }
 
-    } else if (event.type === 'increaseBall') {
-        newBalls -= 1
-    }
-    else if (event.type === 'decreaseBall') {
-        newBalls += 1
     }
 
     updatedEvents.splice(updatedEvents.length - 1, 1)
@@ -192,7 +206,6 @@ const removeEventFromStack = (state, action) => {
             ...state.team2,
             ...team2
         },
-        balls: newBalls,
         lastPoint,
         undoMode: true
     };
@@ -376,7 +389,73 @@ const setChosen = (state, action) => {
         },
     };
 };
+const setupEmptySetOnScoreboard = (state, action) => {
+    const { teamA, teamB, _id } = action.payload;
+    return {
+        ...state,
+        team1: {
+            ...state.team1,
+            isRightTeam: teamA.isRightTeam,
+            server: teamA.server,
+            isTop: teamA.isTop,
+            receiver: teamA.receiver,
+        },
+        team2: {
+            ...state.team2,
+            isRightTeam: teamB.isRightTeam,
+            server: teamB.server,
+            isTop: teamB.isTop,
+            receiver: teamB.receiver,
+        },
+        _id,
+    };
+};
+const setupMidStageSetOnScoreboard = (state, action) => {
+    const { teamA, teamB,
+        shuttle, events, setId, initTeamA,
+        initTeamB,
+        detailteamA,
+        detailteamB,
+        totalEvents, } = action.payload;
+    return {
+        ...state,
+        team1: {
+            ...state.team1,
+            isRightTeam: teamA.isRightTeam,
+            score: teamA.score,
+            server: teamA.server,
+            isTop: teamA.isTop,
+            receiver: teamA.receiver,
+            scores: detailteamA.scores,
+            setWon: detailteamA.setWon,
+        },
+        team2: {
+            ...state.team2,
+            isRightTeam: teamB.isRightTeam,
+            score: teamB.score,
+            server: teamB.server,
+            isTop: teamB.isTop,
+            receiver: teamB.receiver,
+            scores: detailteamB.scores,
+            setWon: detailteamB.setWon,
+        },
+        balls: shuttle,
+        events,
+        eventCounter: events.length,
+        midStage: true,
+        totalEvents,
+        initTeam1: {
+            server: initTeamA.server,
+            receiver: initTeamA.receiver,
+        },
+        initTeam2: {
+            server: initTeamB.server,
+            receiver: initTeamB.receiver,
+        },
+        _id: setId,
 
+    };
+};
 const setPlayerPlace = (state, action) => {
     const { teamKey } = action.payload;
     const otherTeam = teamKey === "team1" ? "team2" : "team1";
@@ -393,22 +472,76 @@ const setPlayerPlace = (state, action) => {
         }
     };
 };
+const changeReadyStatus = (state, action) => {
+    const { status } = action;
+    return {
+        ...state,
+        readyForSendData: status
+
+    };
+};
+const setMidStageStatus = (state, action) => {
+    const { status } = action;
+    return {
+        ...state,
+        midStage: status
+
+    };
+};
 
 const removeScores = (state) => {
     return {
         ...state,
         team1: {
             ...state.team1,
-            scores:[]
+            scores: []
         },
         team2: {
             ...state.team2,
-            scores:[]            
+            scores: []
         },
-        balls:1
+        balls: 1
     };
 };
 
+const cleanupsetInfo = (state) => {
+    return {
+        ...state,
+        _id: "",
+        team1: {
+            players: [],
+            isRightTeam: false,
+            server: 0,
+            receiver: 1,
+            isTop: false,
+            score: 0,
+            scores: [],
+            setWon: 0,
+
+        },
+        team2: {
+            players: [],
+            isRightTeam: false,
+            server: 0,
+            receiver: 1,
+            isTop: false,
+            score: 0,
+            scores: [],
+            setWon: 0,
+        },
+        events: [],
+        totalEvents: [],
+        balls: 1,
+        foulHappend: null,
+        eventCounter: 0,
+        lastPoint: '',
+        undoMode: false,
+        setOver: false,
+        readyForSendData: false,
+        midStage: false,
+
+    };
+};
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INCREASE_SCORE:
@@ -439,6 +572,18 @@ const reducer = (state = initialState, action) => {
             return setPlayerPlace(state, action);
         case actionTypes.REMOVE_SCORES:
             return removeScores(state);
+        case actionTypes.CLEAR_EVENTS_ADD_TOTAL_EVENTS:
+            return clearEventsAndAddToTotalEvents(state);
+        case actionTypes.SETUP_EMPTY_SET_SCOREBOARD:
+            return setupEmptySetOnScoreboard(state, action);
+        case actionTypes.SETUP_MID_STAGE_SET_SCOREBOARD:
+            return setupMidStageSetOnScoreboard(state, action);
+        case actionTypes.CHANGE_READY_STATUS:
+            return changeReadyStatus(state, action);
+        case actionTypes.SET_MID_STAGE_STATUS:
+            return setMidStageStatus(state, action);
+        case actionTypes.CLEANUP_SET_INFO:
+            return cleanupsetInfo(state);
         default:
             return state;
     }

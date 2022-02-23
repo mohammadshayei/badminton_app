@@ -5,6 +5,7 @@ const initialState = {
   heightMode: 0,
   os: "",
   showMenu: false,
+  ip: ""
 };
 
 const WIDTH_B_MEDIUM = 600;
@@ -47,6 +48,12 @@ const setMenuStatus = (state, action) => {
     showMenu: action.status,
   };
 };
+const setIp = (state, action) => {
+  return {
+    ...state,
+    ip: action.ip,
+  };
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_SIZE:
@@ -55,6 +62,8 @@ const reducer = (state = initialState, action) => {
       return setOs(state, action);
     case actionTypes.SET_MENU_STATUS:
       return setMenuStatus(state, action);
+    case actionTypes.SET_IP:
+      return setIp(state, action);
     default:
       return state;
   }

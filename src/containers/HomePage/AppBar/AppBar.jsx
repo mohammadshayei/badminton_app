@@ -4,41 +4,18 @@ import umpire from "../../../assets/images/umpire.png";
 import tournament from "../../../assets/images/tournament.png";
 import { MdAdd } from "react-icons/md";
 import { useTheme } from "../../../styles/ThemeProvider";
-import TournamentPage from "../TournamentPage/TournamentPage";
-import GamesPage from "../GamesPage/GamesPage";
-import LiveGames from "../../LiveGames/LiveGames";
 import { CgMediaLive } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 const AppBar = (props) => {
   const [pageId, setPageId] = useState(1);
   const themeState = useTheme();
   const theme = themeState.computedTheme;
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    switch (pageId) {
-      case 1:
-        props.setPage(
-          <TournamentPage
-            setShowModal={props.setShowModal}
-            setEditMode={props.setEditMode}
-          />);
-        break;
-      case 2:
-        props.setPage(<GamesPage />);
-        break;
-      case 3:
-        props.setPage(<LiveGames />);
-        break;
-      default:
-        props.setPage(
-          <TournamentPage
-            setShowModal={props.setShowModal}
-            setEditMode={props.setEditMode}
-          />);
-        break;
-    }
-  }, [pageId]);
-
+  const onMenuClickHandler = pageNumber => {
+    navigate(`/home?page=${pageNumber}`)
+  }
   return (
     <div className="app-bar">
       <div
@@ -54,31 +31,31 @@ const AppBar = (props) => {
       >
         <MdAdd />
       </div>
-      <div className={`page-selector ${pageId === 1 && "selected"}`} onClick={() => setPageId(1)}>
+      <div className={`page-selector ${props.pageId === '1' && "selected"}`} onClick={() => onMenuClickHandler(1)}>
         <img
           src={tournament}
           alt=""
           style={{
-            filter: pageId === 1 ? "grayscale(0%)" : "grayscale(100%)",
-            opacity: pageId === 1 ? "1" : "0.5",
+            filter: props.pageId === '1' ? "grayscale(0%)" : "grayscale(100%)",
+            opacity: props.pageId === '1' ? "1" : "0.5",
           }}
         />
       </div>
-      <div className={`page-selector ${pageId === 2 && "selected"}`} onClick={() => setPageId(2)}>
+      <div className={`page-selector ${props.pageId === '2' && "selected"}`} onClick={() => onMenuClickHandler(2)}>
         <img
           src={umpire}
           alt=""
           style={{
-            filter: pageId === 2 ? "grayscale(0%)" : "grayscale(100%)",
-            opacity: pageId === 2 ? "1" : "0.5",
+            filter: props.pageId === '2' ? "grayscale(0%)" : "grayscale(100%)",
+            opacity: props.pageId === '2' ? "1" : "0.5",
           }}
         />
       </div>
-      <div className={`page-selector ${pageId === 3 && "selected"}`} onClick={() => setPageId(3)}>
+      <div className={`page-selector ${props.pageId === '3' && "selected"}`} onClick={() => onMenuClickHandler(3)}>
         <CgMediaLive size="1rem" style={{
           color: "black",
-          filter: pageId === 3 ? "grayscale(0%)" : "grayscale(100%)",
-          opacity: pageId === 3 ? "1" : "0.5",
+          filter: props.pageId === '3' ? "grayscale(0%)" : "grayscale(100%)",
+          opacity: props.pageId === '3' ? "1" : "0.5",
         }} />
       </div>
     </div>

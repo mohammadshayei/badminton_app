@@ -67,6 +67,8 @@ const GameReport = () => {
                     }
                 })
             })
+            if (game.teamA.setWon === 2) setGameWon('team1')
+            else if (game.teamB.setWon === 2) setGameWon('team2')
         }
     }, [game])
     const calTableCount = (n) => {
@@ -106,7 +108,7 @@ const GameReport = () => {
                                     positionTeam={game.sets[0].set.teamA.isRightTeam ? 'R' : "L"}
                                     isLeftSide={true}
                                     players={game.teamA.players.map(item => item.player.username)}
-                                    setWon={gameWon !== '' ? gameWon === 'team1' : game.sets[0].set.teamA.setWon}
+                                    setWon={gameWon === 'team1' ? true : false}
                                 />
                                 <div className='score-box'>
                                     <p>score</p>
@@ -127,7 +129,7 @@ const GameReport = () => {
                                     positionTeam={game.sets[0].set.teamB.isRightTeam ? "R" : "L"}
                                     players={game.teamB.players.map(item => item.player.username)}
                                     isLeftSide={false}
-                                    setWon={gameWon !== '' ? gameWon === 'team2' : game.sets[0].set.teamB.setWon}
+                                    setWon={gameWon === 'team2' ? true : false}
                                 />
                                 <div className='shuttl'>
                                     <p>Shuttls : {game.shuttls}</p>

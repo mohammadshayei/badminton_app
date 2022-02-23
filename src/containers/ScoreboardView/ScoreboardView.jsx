@@ -3,18 +3,60 @@ import "./ScoreboardView.scss"
 import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../constants/Config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { getGame } from "../../api/scoreboard";
+import ErrorDialog from "../../components/UI/Error/ErrorDialog";
+import { HiStatusOnline } from 'react-icons/hi'
+import { AiOutlineEye } from 'react-icons/ai'
 
 const ScoreboardView = () => {
     const [data, setData] = useState(null);
+    const [game, setGame] = useState(null);
     const [timer, setTimer] = useState(0)
     const [gameWonner, setGameWonner] = useState('')
     const [gameScores, setGameScores] = useState(null)
-    const game = useSelector(state => state.gameInfo.gameView)
+    const [count, setCount] = useState(1);
+    const [allCount, setAllCount] = useState(1);
+
+    const [dialog, setDialog] = useState(null);
+    const [loading, setLoading] = useState(false);
+    // const game = useSelector(state => state.gameInfo.gameView)
     const socket = useSelector(state => state.auth.socket)
-    const { gymId, landNumber } = useSelector(state => state.home.assingScoreboard)
+    // const { gymId, landNumber } = useSelector(state => state.home.assingScoreboard)
+    const ip = useSelector(state => state.detail.ip)
     const token = useSelector(state => state.auth.token)
+
+    const location = useLocation();
     let navigate = useNavigate();
+
+
+    const searchParams = new URLSearchParams(location.search);
+    const gameId = searchParams.get("gameId");
+    const gymId = searchParams.get("gymId");
+    const landNumber = searchParams.get("landNumber");
+
+
+    useEffect(() => {
+        let controller = new AbortController()
+        if (!token || !gameId) return;
+        (async () => {
+            try {
+                setLoading(true)
+                const result = await getGame({ id: gameId }, token)
+
+                if (result.success) {
+                    setGame(result.data)
+                } else {
+                    setDialog(null)
+                    setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+                }
+                setLoading(false)
+                controller = null;
+            } catch (e) {
+            }
+        })();
+        return () => controller?.abort();
+    }, [gameId, token]);
 
     useEffect(() => {
         if (game) {
@@ -58,18 +100,19 @@ const ScoreboardView = () => {
 
         }
     }, [socket, game, data, timer])
+
     useEffect(() => {
         if (socket && game) {
             socket.on('get_end_game_stats', (payload => {
                 const { teamA, teamB, gameId } = payload;
                 if (gameId === game._id) {
-                    console.log(teamA)
                     setGameScores({ teamA, teamB })
                 }
             }))
 
         }
     }, [socket, game])
+
     useEffect(() => {
         if (socket && game) {
             socket.on('get_winner_team', (payload => {
@@ -88,8 +131,35 @@ const ScoreboardView = () => {
                     }
                 }
             }))
+
         }
     }, [socket, game])
+
+    useEffect(() => {
+        if (socket && ip && gameId) {
+            socket.emit('sub_game', { ip, gameId })
+        }
+        return () => {
+            if (socket)
+                socket.emit('unsub_game', { ip, gameId })
+        };
+
+    }, [gameId, socket, ip]);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('send_viewer_game', (payload => {
+                let { gameId, count, allCount } = payload;
+                if (gameId === gameId) {
+                    setCount(count)
+                    if (allCount) {
+                        setAllCount(allCount)
+                    }
+                }
+            }))
+        }
+    }, [socket, gameId]);
+
     useEffect(() => {
         if (gameWonner !== '') {
             let updatedGame = { ...data }
@@ -111,6 +181,7 @@ const ScoreboardView = () => {
     }, [gameWonner])
     return (
         <div className="scoreboard-viewers">
+            {dialog}
             <div className="container">
                 {data ?
                     Object.entries(data).map(([k, v]) =>
@@ -206,8 +277,18 @@ const ScoreboardView = () => {
                     )
                     : "Loading Info..."}
                 <div className="detail-scoreboardview">
-                    <p className="detail-landnumber">شماره زمین : {game.land_number}</p>
-                    <p>شماره بازی : {game.game_number}</p>
+                    <p className="detail-landnumber">شماره زمین : {game && game.land_number}</p>
+                    <p>شماره بازی : {game && game.game_number}</p>
+                </div>
+                <div className="show-status">
+                    <div className="all-viewer">
+                        <HiStatusOnline />
+                        <p>{count}</p>
+                    </div>
+                    <div className="online-viewer">
+                        <AiOutlineEye />
+                        <p >{allCount}</p>
+                    </div>
                 </div>
             </div>
         </div>

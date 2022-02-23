@@ -208,7 +208,7 @@ export const addReferee = async (data, token) => {
 }
 export const getRefereeGames = async (data, token) => {
     const result = await axios.post(
-        `${baseUrl}api/get_referee_games    `,
+        `${baseUrl}api/get_referee_games`,
         { ...data },
         { headers: { 'auth-token': token } }
     );
@@ -218,9 +218,21 @@ export const getRefereeGames = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+export const checkRefereeGetGame = async (data, token) => {
+    const result = await axios.post(
+        `${baseUrl}api/check_referee_get_game`,
+        { ...data },
+        { headers: { 'auth-token': token } }
+    );
+    if (result.data.success) {
+        return { success: true, data: result.data.message.game }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
+}
 export const createSet = async (data, token) => {
     const result = await axios.post(
-        `${baseUrl}api/create_set    `,
+        `${baseUrl}api/create_set`,
         { ...data },
         { headers: { 'auth-token': token } }
     );
@@ -230,6 +242,7 @@ export const createSet = async (data, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
+
 export const createGame = async (data, token) => {
     // {
     //     "competitionType": "tak hazfi",

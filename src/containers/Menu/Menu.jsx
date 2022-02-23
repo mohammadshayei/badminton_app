@@ -7,11 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as detailActions from "../../store/actions/detail";
 import umpire from "../../assets/images/umpire.png";
 import tournament from "../../assets/images/tournament.png";
-import TournamentPage from "../HomePage/TournamentPage/TournamentPage";
-import GamesPage from "../HomePage/GamesPage/GamesPage";
 import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 import { CgMediaLive } from "react-icons/cg";
-import LiveGames from "../LiveGames/LiveGames";
+import { useNavigate } from "react-router-dom";
 
 function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -36,7 +34,6 @@ function useOnClickOutside(ref, handler) {
 }
 
 const Menu = (props) => {
-    const [pageId, setPageId] = useState(1);
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const showMenu = useSelector(state => state.detail.showMenu);
@@ -50,37 +47,17 @@ const Menu = (props) => {
     useOnClickOutside(inRef, () => {
         setMenuStatus(false)
     });
+    const navigate = useNavigate()
 
+    const onMenuClickHandler = pageNumber => {
+        navigate(`/home?page=${pageNumber}`)
+    }
     const logOut = () => {
         localStorage.removeItem("refereeId");
         localStorage.removeItem("token");
         window.location.reload(false);
     }
 
-    useEffect(() => {
-        switch (pageId) {
-            case 1:
-                props.setPage(
-                    <TournamentPage
-                        setShowModal={props.setShowModal}
-                        setEditMode={props.setEditMode}
-                    />);
-                break;
-            case 2:
-                props.setPage(<GamesPage />);
-                break;
-            case 3:
-                props.setPage(<LiveGames />);
-                break;
-            default:
-                props.setPage(
-                    <TournamentPage
-                        setShowModal={props.setShowModal}
-                        setEditMode={props.setEditMode}
-                    />);
-                break;
-        }
-    }, [pageId]);
     return (
         <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}>
             <div className={`sidebar-menu-icon ${showMenu && "open"}`} onClick={() => setMenuStatus(!showMenu)}>
@@ -88,15 +65,15 @@ const Menu = (props) => {
             </div>
             <div className="sidebar-menu-items">
                 <ul className="pages">
-                    <li className={`app-bar-item ${pageId === 1 && "selected-page"}`} onClick={() => setPageId(1)}>
+                    <li className={`app-bar-item ${props.pageId === '1' && "selected-page"}`} onClick={() => onMenuClickHandler(1)}>
                         <img src={tournament} className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.tournaments}</span>
                     </li>
-                    <li className={`app-bar-item  ${pageId === 2 && "selected-page"}`} onClick={() => setPageId(2)}>
+                    <li className={`app-bar-item  ${props.pageId === '2' && "selected-page"}`} onClick={() => onMenuClickHandler(2)}>
                         <img src={umpire} className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.my_games}</span>
                     </li>
-                    <li className={`app-bar-item seprator ${pageId === 3 && "selected-page"}`} onClick={() => setPageId(3)}>
+                    <li className={`app-bar-item seprator ${props.pageId === '3' && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
                         <CgMediaLive className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.live_games}</span>
                     </li>

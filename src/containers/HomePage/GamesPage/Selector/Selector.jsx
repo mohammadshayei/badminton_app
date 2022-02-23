@@ -136,7 +136,7 @@ const Selector = (props) => {
     useEffect(async () => {
         if (index > max && (info.team1.receiver === 0 || info.team2.receiver === 0)) {
             setloading(true)
-            if (window.location.pathname === "/scoreboard")
+            if (!props.exitable)
                 props.setShow(false);
             else {
                 const payload = {
@@ -145,19 +145,22 @@ const Selector = (props) => {
                         isRightTeam: info.team1.isRightTeam,
                         server: info.team1.server,
                         receiver: info.team1.receiver,
+                        isTop: info.team1.isTop,
                         players: info.team1.players.map(item => { return { player: item.id } })
                     },
                     teamB: {
                         isRightTeam: info.team2.isRightTeam,
                         server: info.team2.server,
                         receiver: info.team2.receiver,
+                        isTop: info.team2.isTop,
                         players: info.team2.players.map(item => { return { player: item.id } })
                     }
                 }
                 const result = await createSet(payload, token)
                 if (result.success) {
                     setSetId(result.data)
-                    setRedirect(<Navigate to="/scoreboard" />)
+                    props.setShow(false);
+
                 } else {
                     setDialog(null)
                     setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)

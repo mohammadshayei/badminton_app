@@ -6,9 +6,6 @@ import Button from '../../../components/UI/Button/Button'
 import { elementTypes } from '../../../components/UI/CustomInput/CustomInput'
 import ErrorDialog from '../../../components/UI/Error/ErrorDialog'
 import { setUpSinglePage } from '../../../utils/homeFunction'
-import * as homeActions from "../../../store/actions/home"
-import * as gameActions from "../../../store/actions/gameInfo"
-
 
 import './AssignLand.scss'
 import { useNavigate } from 'react-router-dom'
@@ -73,14 +70,8 @@ const AssignLand = ({ games }) => {
     })
     const token = useSelector(state => state.auth.token)
 
-    const dispatch = useDispatch();
-    const setAssingScoreboard = (data) => {
-        dispatch(homeActions.setAssingScoreboard(data));
-    };
     const navigate = useNavigate()
-    const setSelectedGameView = (game) => {
-        dispatch(gameActions.setGameView(game));
-    };
+
     const onSaveClickHandler = async () => {
         if (!formIsValid) {
             let updatedOrder = { ...order };
@@ -92,11 +83,9 @@ const AssignLand = ({ games }) => {
             setOrder(updatedOrder)
             return;
         }
-        setAssingScoreboard({ gymId: order.gyms.id, landNumber: order.lands.value })
         const game = games.find(item => (item.gym_id === order.gyms.id && item.land_number === order.lands.value))
         if (game) {
-            setSelectedGameView(game);
-            navigate('/scoreboard_view')
+            navigate(`/scoreboard_view?gameId=${game._id}&gymId=${order.gyms.id}&landNumber=${order.lands.value}`)
         } else {
             navigate(`/wait?gymId=${order.gyms.id}&landNumber=${order.lands.value}`)
         }

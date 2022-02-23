@@ -30,12 +30,22 @@ export const endSetHandler = async (payload, token) => {
         return { success: false, data: null, error: result.data.message }
 }
 export const exitGame = async (payload, token) => {
-    
+
     const result = await axios.post(`${baseUrl}api/exit_game`, payload,
         { headers: { 'auth-token': token } });
     if (result.data.success) {
         return { success: true, }
     }
     else
-        return { success: false, data: null, error: result.data.message }
+        return { success: false, data: null, error: result.data.message.error }
+}
+export const getGame = async (payload, token) => {
+
+    const result = await axios.post(`${baseUrl}api/get_game`, payload,
+        { headers: { 'auth-token': token } });
+    if (result.data.success) {
+        return { success: true, data: result.data.message.game }
+    }
+    else
+        return { success: false, data: null, error: result.data.message.error }
 }

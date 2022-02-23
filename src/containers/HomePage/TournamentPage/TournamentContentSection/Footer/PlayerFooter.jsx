@@ -36,6 +36,7 @@ const PlayerFooter = () => {
         const result = await addPlayerWithPhone({ tournamentId: selectedTournament, nationalNumber: value }, token)
         if (result.success) {
             setDialog(<ErrorDialog type="success">{stringFa.player_added}</ErrorDialog>)
+            setValue('')
             addContent(result.data, 'player')
 
         } else {

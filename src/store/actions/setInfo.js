@@ -83,9 +83,43 @@ export const setPlayerPlace = ({ teamKey }) => {
         payload: { teamKey },
     };
 };
+export const setupEmptySetOnScoreboard = (payload) => {
+    return {
+        type: actionTypes.SETUP_EMPTY_SET_SCOREBOARD,
+        payload
+    };
+};
+export const setupMidStageSetOnScoreboard = (payload) => {
+    return {
+        type: actionTypes.SETUP_MID_STAGE_SET_SCOREBOARD,
+        payload
+    };
+};
+export const changeReadyStatus = (status) => {
+    return {
+        type: actionTypes.CHANGE_READY_STATUS,
+        status
+    };
+};
+export const setMidStageStatus = (status) => {
+    return {
+        type: actionTypes.SET_MID_STAGE_STATUS,
+        status
+    };
+};
 
 export const removeScores = () => {
     return {
         type: actionTypes.REMOVE_SCORES,
     };
 };
+export const clearEventsAndAddToTotalEvents = () => {
+    return {
+        type: actionTypes.CLEAR_EVENTS_ADD_TOTAL_EVENTS,
+    };
+};
+export const cleanupInfo = () => {
+    return {
+        type: actionTypes.CLEANUP_SET_INFO,
+    };
+}

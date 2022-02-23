@@ -15,10 +15,22 @@ import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
 import { baseUrl } from "./constants/Config";
 import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
+import axios from 'axios'
+import { getIp } from "./api/auth";
 
 function App() {
+
+  const socket = useSelector(state => state.auth.socket)
+  const token = useSelector((state) => state.auth.token);
+  const refereeId = useSelector((state) => state.auth.refereeId);
+  const ip = useSelector((state) => state.detail.ip);
+  const checked = useSelector((state) => state.auth.checked);
+
+  const checkAuth = () => dispatch(authActions.authCheckState());
+
   const dispatch = useDispatch();
   let navigate = useNavigate();
+  const location = useLocation();
 
   const setOS = (os) => {
     dispatch(detailActions.setOS(os));
@@ -32,6 +44,9 @@ function App() {
   const setSize = (height, width) => {
     dispatch(detailActions.setSize(height, width));
   };
+  const setIp = (ip) => {
+    dispatch(detailActions.setIp(ip));
+  };
   useEffect(() => {
     setOS(navigator.platform.toUpperCase());
     setSize(window.innerHeight, window.innerWidth);
@@ -39,48 +54,59 @@ function App() {
   window.addEventListener("resize", () => {
     setSize(window.innerHeight, window.innerWidth);
   });
-  const token = useSelector((state) => state.auth.token);
-  const refereeId = useSelector((state) => state.auth.refereeId);
 
-  const checked = useSelector((state) => state.auth.checked);
-  const path = useSelector((state) => state.auth.authRedirectPath);
-  const checkAuth = () => dispatch(authActions.authCheckState());
-  const location = useLocation();
-  useEffect(() => {
+
+
+
+  useEffect(async () => {
     checkAuth();
     setSocket(socketIOClient(baseUrl))
+    const res = await getIp()
+    setIp(res.ip)
   }, []);
   useEffect(() => {
     if (!token && checked) {
       navigate(`/login`);
     }
   }, [token, checked]);
+
   useEffect(() => {
     if (refereeId && token) {
       setRefereeData(refereeId, token)
     }
   }, [refereeId, token])
-
   useEffect(() => {
     if (location.pathname === '/login' || location.pathname === '/signup') {
       if (token && checked) {
-        navigate(`/home`);
+        navigate(`/home?page=1`);
       }
     }
-    else if (location.pathname === '/'){
+    else if (location.pathname === '/') {
       if (token && checked) {
-        navigate(`/home`);
-      }else{
+        navigate(`/home?page=1`);
+      } else {
         navigate(`/login`);
       }
     }
   }, [location.pathname, token, checked])
+  useEffect(() => {
+    if (socket && ip) {
+      socket.emit('sub', ip)
+    }
+  }, [ip, socket])
+
+  
 
   return (
-    <Routes>
+    <Routes >
       <Route path="/home" exact element={<HomePage />}></Route>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
-      <Route path="/scoreboard_view" exact element={<ScoreboardView />}></Route>
+      <Route
+        path="/scoreboard_view"
+        exact
+        element={<ScoreboardView />}
+      >
+      </Route>
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>

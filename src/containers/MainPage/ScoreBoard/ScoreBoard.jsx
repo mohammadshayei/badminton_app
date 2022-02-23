@@ -8,6 +8,7 @@ import { FaPlayCircle, FaExclamation } from "react-icons/fa";
 import { ImUndo2, ImCancelCircle } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
+
 import Modal from "../../../components/UI/Modal/Modal"
 import Events from "../EventsModule/Events"
 import Button from "../../../components/UI/Button/Button"
@@ -20,12 +21,11 @@ import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import rotate from "../../../assets/images/mobile-rotate.png"
 
-const ScoreBoard = () => {
+const ScoreBoard = ({ disable, setDisable }) => {
   const [eventPicker, setEventPicker] = useState(false);
   const [breakTime, setBreakTime] = useState(0);
   const [timer, setTimer] = useState("00:00");
   const [halfTime, setHalfTime] = useState(false);
-  const [disable, setDisable] = useState(true);
   const [maxPoint, setMaxPoint] = useState(21);
   const [teamWon, setTeamWon] = useState(null);
   const [loading, setLoading] = useState(false)
@@ -37,6 +37,7 @@ const ScoreBoard = () => {
   const [warmUp, setWarmUp] = useState(false);
   const [warmUpTimer, setWarmUpTimer] = useState("00:00");
   const [twentySeconds, setTwentySeconds] = useState(false);
+
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
 
@@ -60,6 +61,10 @@ const ScoreBoard = () => {
   const switchSide = () => {
     dispatch(infoActions.switchSide());
   };
+  const clearEventsAndAddToTotalEvents = () => {
+    dispatch(infoActions.clearEventsAndAddToTotalEvents());
+  };
+
   const removeEventFromStack = () => {
     if (info.events[info.events.length - 1].type === 'score') {
       if ((info.team1.score === 10 && info.team2.score <= 10) || (info.team2.score === 10 && info.team1.score <= 10))
@@ -90,9 +95,10 @@ const ScoreBoard = () => {
       }
     }
   }
-  const onPreventRefresh = (e) => {
+  const onPreventRefresh = async (e) => {
     e.preventDefault();
     e.returnValue = ''
+
   }
   const startTheGame = async () => {
     setDialog(null)
@@ -162,6 +168,13 @@ const ScoreBoard = () => {
       removeEventFromStack()
     }
   }
+
+
+  useEffect(() => {
+    if (info.setOver) {
+      clearEventsAndAddToTotalEvents()
+    }
+  }, [info.events]);
   useEffect(() => {
     if (socket && gameStarted && game) {
       const payload = {
@@ -172,19 +185,17 @@ const ScoreBoard = () => {
     }
 
   }, [gameStarted, socket, game])
-
   useEffect(() => {
-    window.history.pushState(null, null, window.location.pathname);
-    window.addEventListener('popstate', onBackButtonEvent);
-    window.addEventListener('beforeunload', onPreventRefresh);
+    // window.history.pushState(null, null, window.location.pathname);
+    // window.addEventListener('popstate', onBackButtonEvent);
+    // window.addEventListener('beforeunload', onPreventRefresh);
 
     return () => {
-      window.removeEventListener('popstate', onBackButtonEvent);
-      window.removeEventListener('beforeunload', onPreventRefresh);
+      // window.removeEventListener('popstate', onBackButtonEvent);
+      // window.removeEventListener('beforeunload', onPreventRefresh);
 
     };
   }, []);
-
   useEffect(() => {
     switch (info.team1.score) {
       case maxPoint - 1:
@@ -273,7 +284,6 @@ const ScoreBoard = () => {
     if (info.team1.score === 20)
       setWinPoint(null)
   }, [info.team2.score])
-
   useEffect(async () => {
     if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
       (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
@@ -311,7 +321,6 @@ const ScoreBoard = () => {
       // send_end_game_stats
     }
   }, [teamWon])
-
   useEffect(() => {
     const payload = {
       scoreA: info.team1.score,
@@ -323,7 +332,6 @@ const ScoreBoard = () => {
     }
 
   }, [info.team2.score, info.team1.score])
-
   useEffect(() => {
     if (breakTime === 2 || breakTime === 3) {
       const startingMinute = breakTime - 1;
@@ -357,7 +365,6 @@ const ScoreBoard = () => {
       }
     }
   }, [breakTime]);
-
   useEffect(() => {
     if (warmUp) {
       const startingMinute = 2;
@@ -385,18 +392,6 @@ const ScoreBoard = () => {
     }
   }, [warmUp]);
 
-
-  // useEffect(() => {
-  //   if (serviceOver || winPoint) {
-  //     setFlashEffect("flash")
-  //     const flashTimer = setTimeout(() => {
-  //       setFlashEffect("")
-  //     }, 1000);
-  //     return () => {
-  //       clearTimeout(flashTimer)
-  //     }
-  //   }
-  // }, [serviceOver, winPoint])
   useEffect(async () => {
     if (info.events.length > 0 && (info.events[info.events.length - 1].content === 'Dis' || info.events[info.events.length - 1].content === 'Ret')) {
       let teamWon = 'team1';
@@ -436,6 +431,26 @@ const ScoreBoard = () => {
       socket.emit('send_end_game_stats', payloadSocket)
     }
   }, [info.events])
+
+
+
+
+
+
+  // useEffect(() => {
+  //   if (serviceOver || winPoint) {
+  //     setFlashEffect("flash")
+  //     const flashTimer = setTimeout(() => {
+  //       setFlashEffect("")
+  //     }, 1000);
+  //     return () => {
+  //       clearTimeout(flashTimer)
+  //     }
+  //   }
+  // }, [serviceOver, winPoint])
+
+
+
   return (
     <div
       className="scoreboard-container"
@@ -461,6 +476,7 @@ const ScoreBoard = () => {
       {chooseServer && <Modal show={chooseServer} >
         <Selector setShow={setChooseServer} selectedGame={gameId} />
       </Modal>}
+
       <div className={`main-scoreboard ${info.team1.isRightTeam && "reverse"}`}
         style={{
           alignItems: loading && "center"

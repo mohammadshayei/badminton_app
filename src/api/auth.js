@@ -16,6 +16,7 @@ export const sendSms = async (text, to) => {
     const result = await axios.post(MELI_PAYAMAK_URL, payload);
     return result.data.RetStatus === 1
 }
+
 export const registerReferee = async (username, phone, nationalNumber, password) => {
     const payload = {
         username,
@@ -25,4 +26,14 @@ export const registerReferee = async (username, phone, nationalNumber, password)
     }
     const result = await axios.post(`${baseUrl}api/create_referee`, payload);
     return { success: result.data.success, message: result.data.message }
+}
+export const getIp = async () => {
+    const result = await axios.get('https://geolocation-db.com/json/')
+    if (result.data) {
+        return { success: true, ip: result.data.IPv4 }
+
+    } else {
+
+        return { success: false }
+    }
 }

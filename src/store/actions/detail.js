@@ -20,4 +20,10 @@ export const setMenuStatus = (status) => {
         status
     };
 };
+export const setIp = (ip) => {
+    return {
+        type: actionTypes.SET_IP,
+        ip
+    };
+};
 

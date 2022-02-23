@@ -76,8 +76,8 @@ const WaitPage = () => {
         if (games && gymId && landNumber) {
             const game = games.find(item => (item.gym_id === gymId && item.land_number === landNumber))
             if (game) {
-                setSelectedGameView(game);
-                navigate('/scoreboard_view')
+                navigate(`/scoreboard_view?gameId=${game._id}&gymId=${gymId}&landNumber=${landNumber}`)
+
             }
         }
     }, [games, gymId, landNumber])
