@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import "./App.scss";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,7 +15,6 @@ import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
 import { baseUrl } from "./constants/Config";
 import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
-import axios from 'axios'
 import { getIp } from "./api/auth";
 
 function App() {
@@ -95,7 +94,7 @@ function App() {
     }
   }, [ip, socket])
 
-  
+
 
   return (
     <Routes >
@@ -115,6 +114,7 @@ function App() {
 
 
     </Routes>
+  
   );
 }
 

@@ -10,8 +10,6 @@ import DropDown from './Inputs/DropDown/DropDown';
 import RadioImageButton from './Inputs/RadioImageButton/RadioImageButton';
 
 const CustomInput = (props) => {
-
-
     let inputElement = null;
     let validationMessage = null;
     const inputClasses = ['input-element']
