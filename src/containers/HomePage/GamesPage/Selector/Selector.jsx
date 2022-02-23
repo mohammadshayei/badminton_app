@@ -5,7 +5,7 @@ import { stringFa } from "../../../../assets/strings/stringFaCollection"
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createSet } from "../../../../api/home";
 import Loading from "../../../../components/UI/Loading/Loading";
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
@@ -23,6 +23,7 @@ const Selector = (props) => {
     const info = useSelector((state) => state.info);
     const token = useSelector(state => state.auth.token)
 
+    let navigate = useNavigate();
     const dispatch = useDispatch();
     const setChosen = (items) => {
         dispatch(infoActions.setChosen(items));
@@ -206,7 +207,9 @@ const Selector = (props) => {
         if (index > 1)
             setIndex(index - 1);
         if (index === 1)
-            props.show(false);
+            // props.setShow(false);
+            navigate(`/home?page=2`);
+
     }
 
     return (

@@ -199,7 +199,7 @@ const MainPage = () => {
     // style={{ backgroundColor: theme.background_color }}
     >
       {dialog}
-      {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+      {showModal && <Modal show={showModal} modalClosed={() => console.log("")}>
         <Selector exitable={true} setShow={setShowModal} selectedGameId={gameId} />
       </Modal>}
       {loading ?
