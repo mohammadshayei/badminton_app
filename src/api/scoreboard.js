@@ -39,10 +39,8 @@ export const exitGame = async (payload, token) => {
     else
         return { success: false, data: null, error: result.data.message.error }
 }
-export const getGame = async (payload, token) => {
-
-    const result = await axios.post(`${baseUrl}api/get_game`, payload,
-        { headers: { 'auth-token': token } });
+export const getGame = async (payload) => {
+    const result = await axios.post(`${baseUrl}api/get_game`, payload);
     if (result.data.success) {
         return { success: true, data: result.data.message.game }
     }
