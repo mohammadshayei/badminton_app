@@ -224,10 +224,16 @@ const PlayerModal = () => {
             </div>
             <div className="action-wrapper">
                 <Button
+                    buttonClass={'back-button'}
+                    onClick={() => setShowModal(false)}>
+                    {stringFa.back}
+                </Button>
+                <Button
                     loading={loading}
                     onClick={() => editMode ? onUpdateClickHandler() : onSaveClickHandler()}>
                     {editMode ? stringFa.save_change : stringFa.save}
                 </Button>
+
 
             </div>
         </div>

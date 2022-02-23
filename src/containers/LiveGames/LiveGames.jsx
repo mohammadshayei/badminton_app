@@ -52,7 +52,6 @@ const LiveGames = () => {
         })();
         return () => controller?.abort();
     }, [])
-
     useEffect(() => {
         if (socket && games) {
             if (timer === 0) {
@@ -74,7 +73,6 @@ const LiveGames = () => {
 
         }
     }, [socket, games, timer])
-
     useEffect(() => {
         if (socket && games) {
             socket.on('get_winner_team', (payload => {
@@ -230,18 +228,6 @@ const LiveGames = () => {
 
                                             </div>
                                         </div>
-                                        {/* <p className="players-name">
-                                            <span> {`${game.teamA.players[0].player.username}
-                                        ${game.game_type === "double" ? "  ,  " + game.teamA.players[1].player.username : "  "}`}
-                                            </span>
-                                            <span className='span-score'>
-                                                {`${game.teamA.setWon}    :   ${game.teamB.setWon}`}
-                                            </span>
-                                            <span> {`${game.teamB.players[0].player.username}
-                                        ${game.game_type === "double" ? "  ,  " + game.teamB.players[1].player.username : "  "}`}
-                                            </span>
-                                        </p> */}
-
                                     </div>
                                 </div>
                             ))

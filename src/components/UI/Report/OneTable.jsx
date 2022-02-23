@@ -14,7 +14,6 @@ const OneTable = ({
         borderLeft: "3px solid rgb(60, 60, 60)",
         width: "55mm",
     }
-
     useEffect(() => {
         if (!events) return;
         let newLog = [];

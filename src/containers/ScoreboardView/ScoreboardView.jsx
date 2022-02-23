@@ -24,7 +24,6 @@ const ScoreboardView = () => {
     const socket = useSelector(state => state.auth.socket)
     // const { gymId, landNumber } = useSelector(state => state.home.assingScoreboard)
     const ip = useSelector(state => state.detail.ip)
-    const token = useSelector(state => state.auth.token)
 
     const location = useLocation();
     let navigate = useNavigate();
@@ -38,12 +37,11 @@ const ScoreboardView = () => {
 
     useEffect(() => {
         let controller = new AbortController()
-        if (!token || !gameId) return;
+        if (!gameId) return;
         (async () => {
             try {
                 setLoading(true)
-                const result = await getGame({ id: gameId }, token)
-
+                const result = await getGame({ id: gameId })
                 if (result.success) {
                     setGame(result.data)
                 } else {
@@ -56,7 +54,7 @@ const ScoreboardView = () => {
             }
         })();
         return () => controller?.abort();
-    }, [gameId, token]);
+    }, [gameId]);
 
     useEffect(() => {
         if (game) {
@@ -124,7 +122,7 @@ const ScoreboardView = () => {
             socket.on('get_exit_game', (payload => {
                 let { gameId } = payload;
                 if (gameId === game._id) {
-                    if (gymId && landNumber && token) {
+                    if (gymId && landNumber) {
                         navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
                     } else {
                         navigate('/home')
@@ -171,7 +169,7 @@ const ScoreboardView = () => {
             updatedGame.teamB.score = 0
             setData(updatedGame)
             setGameWonner('')
-            if (gymId && landNumber && token) {
+            if (gymId && landNumber) {
                 setTimeout(() => {
                     navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
                 }, 30000);

@@ -56,8 +56,8 @@ const AssignReferee = (props) => {
     const contents = useSelector(state => state.home.contents)
 
     const dispatch = useDispatch();
-    const editGame = (content,key) => {
-        dispatch(homeActions.editContent(content,key));
+    const editGame = (content, key) => {
+        dispatch(homeActions.editContent(content, key));
     };
     const onSaveClickHandler = async () => {
         if (!formIsValid && !updateMode) {
@@ -93,7 +93,7 @@ const AssignReferee = (props) => {
             newServiceReferee.username = order.serviceReferee.value;
             udpatedGame.referee = newReferee
             udpatedGame.service_referee = newServiceReferee
-            editGame(udpatedGame,'game')
+            editGame(udpatedGame, 'game')
             props.setShowModal(false)
         }
         setLoading(false)
