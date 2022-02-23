@@ -87,7 +87,7 @@ const Menu = (props) => {
                 <ul className="settings">
                     <li>
                         <MdLanguage className="list-icon" />
-                        <span className="menu-item">{stringFa.change_lan}</span>
+                        <span className="menu-item">{stringFa.select_lan}</span>
                     </li>
                     <li>
                         <MdDarkMode className="list-icon" />
