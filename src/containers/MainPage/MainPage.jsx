@@ -13,6 +13,7 @@ import Modal from "../../components/UI/Modal/Modal";
 import { checkRefereeGetGame, interruptSet } from "../../api/home";
 import ErrorDialog from "../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../assets/strings/stringFaCollection";
+import Loading from './../../components/UI/Loading/Loading';
 
 const MainPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -198,12 +199,19 @@ const MainPage = () => {
     // style={{ backgroundColor: theme.background_color }}
     >
       {dialog}
-      {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
+      {showModal && <Modal show={showModal} modalClosed={() => console.log("")}>
         <Selector exitable={true} setShow={setShowModal} selectedGameId={gameId} />
       </Modal>}
-      <HeaderMainPage />
-      <ScoreBoard disable={disable} setDisable={setDisable} />
-      <FooterMainPage />
+      {loading ?
+        <Loading style={{ direction: "ltr" }} />
+        :
+        <>
+          <HeaderMainPage />
+          <ScoreBoard disable={disable} setDisable={setDisable} />
+          <FooterMainPage />
+        </>
+      }
+
     </div>
   );
 };
