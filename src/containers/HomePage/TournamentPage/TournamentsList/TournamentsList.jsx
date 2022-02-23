@@ -36,7 +36,7 @@ const TournamentsList = (props) => {
     };
 
     const onIconClickHandler = (key) => {
-        setLoading(true)
+        if (key !== mode) setLoading(true)
         setMode(key)
     }
     const editIconClick = () => {

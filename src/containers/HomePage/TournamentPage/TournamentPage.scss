@@ -1,8 +1,24 @@
 .tour-page-container {
 	display: flex;
-	padding-top: 0.5rem;
+	flex-direction: column;
+	align-items: center;
 	.tournaments-wrapper {
 		display: none;
+	}
+	.small-page-icons{
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: space-evenly;
+		width: 100%;
+		.icon{
+			font-size: 2rem;
+			padding: 0.4rem;
+		}
+		.icon-selected{
+			background-color: white;
+			border-top-right-radius: 10px;
+			border-top-left-radius: 10px;
+		}
 	}
 	.box-container {
 		position: relative;
@@ -13,9 +29,13 @@
 
 @media only screen and (min-width: 560px) {
 	.tour-page-container {
+		flex-direction: row;
 		justify-content: space-around;
 		min-height: calc(100vh - 50px - 4rem);
 		padding-top: 0;
+		.small-page-icons{
+			display: none;
+		}
 		.tournaments-wrapper {
 			position: relative;
 			display: flex;
