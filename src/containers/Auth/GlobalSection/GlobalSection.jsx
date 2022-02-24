@@ -12,6 +12,7 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SHUTTLE_IMAGE from "../../../assets/images/badminton_ball.png";
+import { useTheme } from "../../../styles/ThemeProvider.js";
 
 const HeaderAuth = () => {
     const [games, setGames] = useState([]);
@@ -22,7 +23,10 @@ const HeaderAuth = () => {
     const socket = useSelector(state => state.auth.socket)
     const [timer, setTimer] = useState(0)
     const [usersOnlineCount, setUsersOnlineCount] = useState(0);
-    
+
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
+
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const setSelectedGameView = (game) => {
@@ -187,24 +191,28 @@ const HeaderAuth = () => {
                                         )}
                                         <div className="show-status">
                                             <div className="all-viewer">
-                                                <HiStatusOnline />
-                                                <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
+                                                <AiOutlineEye style={{ fontSize: "1rem", marginRight: "0.2rem", color: theme.secondary }} />
+                                                {/* <HiStatusOnline /> */}
+                                                <p style={{ fontSize: "0.7rem" }}>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
                                             </div>
-                                            <div className="online-viewer">
+                                            {/* <div className="online-viewer">
                                                 <AiOutlineEye />
                                                 <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].allCount : 0}</p>
 
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <div className="details">
                                         <p className="title">{game.tournament.title}</p>
-                                        <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p>
+                                        {/* <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p> */}
                                         <div className="name-score">
                                             <div className="team">
                                                 <p className="players-name">
-                                                    <span> {`${game.teamA.players[0].player.username}
-                                                        ${game.game_type === "double" ? "  ,  " + game.teamA.players[1].player.username : "  "}`}
+                                                    <span>
+                                                        {`${game.teamA.players[0].player.username}`}
+                                                    </span>
+                                                    <span>
+                                                        {game.game_type === "double" && `${game.teamA.players[1].player.username}`}
                                                     </span>
                                                 </p>
                                                 {game.teamA.setWon === 1 && (
@@ -221,8 +229,11 @@ const HeaderAuth = () => {
                                                     <img src={SHUTTLE_IMAGE} alt="" />
                                                 )}
                                                 <p className="players-name">
-                                                    <span> {`${game.teamB.players[0].player.username}
-                                                        ${game.game_type === "double" ? "  ,  " + game.teamB.players[1].player.username : "  "}`}
+                                                    <span>
+                                                        {`${game.teamB.players[0].player.username}`}
+                                                    </span>
+                                                    <span>
+                                                        {game.game_type === "double" && `${game.teamB.players[1].player.username}`}
                                                     </span>
                                                 </p>
 

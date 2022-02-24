@@ -46,8 +46,9 @@
 				margin-left: 0.5rem;
 				display: flex;
 				flex-direction: column;
-				justify-content: center;
+				justify-content: space-around;
 				align-items: center;
+				height: 100%;
 				img {
 					max-width: 30px;
 				}
@@ -83,7 +84,7 @@
 					display: flex;
 					width: 100%;
 					margin-top: 0.4rem;
-					justify-content: space-between;
+					justify-content: space-evenly;
 					align-items: center;
 					.team {
 						display: flex;
@@ -107,7 +108,10 @@
 							overflow: hidden;
 						}
 						.players-name {
-							font-size: 0.7rem;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							font-size: 3vw;
 							white-space: nowrap;
 							text-overflow: ellipsis;
 							overflow: hidden;
@@ -133,7 +137,18 @@
 		.global-section-inner {
 			font-size: 2vw;
 			.game-box {
-				border-radius: 25px;
+				border-radius: 30px;
+				width: 90%;
+			.details {
+				.name-score {
+					.team {
+						.players-name {
+							font-size: clamp(0.6rem, 1.5vw, 1.1rem);
+
+						}
+					}
+				}
+			}
 			}
 		}
 	}
