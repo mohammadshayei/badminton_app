@@ -175,15 +175,15 @@ const MainPage = () => {
       if (!info.undoMode) {
         payload = {
           ...payload,
-          event: info.events[info.events.length - 1],
-          undoMode: false
+          events: info.events,
         }
       } else {
+        let updatedEvents = [...info.events];
+        updatedEvents.pop();
         payload = {
           ...payload,
-          undoMode: true
+          events: updatedEvents
         }
-
       }
       try {
         socket.emit('set_change_event_set', payload)

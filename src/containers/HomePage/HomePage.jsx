@@ -70,7 +70,7 @@ const HomePage = () => {
         color: theme.on_primary,
       }}
     >
-      <div className="version">v1.2.19</div>
+      <div className="version">v1.2.20</div>
       <div className="menu-icon" onClick={() => setMenuStatus(true)}>
         <i
           style={{ color: theme.on_primary }}
