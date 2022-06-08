@@ -143,12 +143,8 @@ const PlayerModal = () => {
             tournamentId: selectedTournament,
         }
         let result;
-        if (imagePath !== '') {
-            payload = { image: imagePath, ...payload }
-            result = await createPlayerWithImage(payload, token)
-        } else {
-            result = await createPlayer(payload, token)
-        }
+        payload = { image: imagePath ? imagePath : "", ...payload }
+        result = await createPlayer(payload, token)
         if (!result.success) {
             setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
@@ -169,12 +165,8 @@ const PlayerModal = () => {
             playerId: selectedContent,
         }
         let result;
-        if (imagePath !== '') {
-            payload = { image: imagePath, ...payload }
-            result = await updatePlayerWithImage(payload, token)
-        } else {
-            result = await updatePlayer(payload, token)
-        }
+        payload = { image: imagePath ? imagePath : "", ...payload }
+        result = await updatePlayer(payload, token)
         if (!result.success) {
             setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
         } else {
