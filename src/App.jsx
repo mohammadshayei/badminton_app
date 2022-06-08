@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import "./App.scss";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import ScoreboardView from "./containers/ScoreboardView/ScoreboardView"
 import { baseUrl } from "./constants/Config";
 import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import { getIp } from "./api/auth";
 
 function App() {
@@ -111,10 +112,10 @@ function App() {
       <Route path="/signup" exact element={<Auth />}></Route>
       <Route path="/report" exact element={<GameReport />}></Route>
       <Route path="/wait" exact element={<WaitPage />}></Route>
-
+      <Route path="/profile" exact element={<ProfilePage />}></Route>
 
     </Routes>
-  
+
   );
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import './Menu.scss'
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import { MdLanguage, MdDarkMode, MdLogout } from "react-icons/md"; //, MdSettings
@@ -52,6 +52,10 @@ const Menu = (props) => {
     const onMenuClickHandler = pageNumber => {
         navigate(`/home?page=${pageNumber}`)
     }
+    const showProfile = () => {
+        navigate(`/profile`)
+        setMenuStatus(!showMenu)
+    }
     const logOut = () => {
         localStorage.removeItem("refereeId");
         localStorage.removeItem("token");
@@ -103,8 +107,12 @@ const Menu = (props) => {
                 <div className="profile">
                     <div className="profile-details">
                         {auth.referee ?
-                            auth.referee.image ? auth.referee.image :
-                                <img src={PROFILE_IMAGE} alt="pic" /> :
+                            <div className="avatar"
+                                onClick={() => showProfile()}
+                            >
+                                {auth.referee.image ? auth.referee.image :
+                                    <img src={PROFILE_IMAGE} alt="pic" />}
+                            </div> :
                             <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
                         <div className="name">
                             {auth.referee ? auth.referee.username :

@@ -130,9 +130,8 @@ export const stringFa = {
   wait_to_start_the_game: "...در انتظار شروع بازی جدید",
   rotate_screen_error: "این صفحه برای حالت افقی بهینه شده است.",
   exit: "خروج",
-  url_wrong:"آدرس وارد شده اشتباه است",
-  back:"بازگشت"
-
-
-
+  url_wrong: "آدرس وارد شده اشتباه است",
+  back: "بازگشت",
+  change_password: "تغییر رمز",
+  cancel: "انصراف"
 };

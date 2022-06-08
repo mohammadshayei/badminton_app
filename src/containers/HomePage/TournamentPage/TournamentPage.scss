@@ -1,116 +1,117 @@
 .tour-page-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	.tournaments-wrapper {
-		display: none;
-	}
-	.small-page-icons{
-		display: flex;
-		flex-direction: row-reverse;
-		justify-content: space-evenly;
-		width: 100%;
-		.icon{
-			font-size: 2rem;
-			padding: 0.4rem;
-		}
-		.icon-selected{
-			background-color: white;
-			border-top-right-radius: 10px;
-			border-top-left-radius: 10px;
-		}
-	}
-	.box-container {
-		position: relative;
-		display: flex;
-		min-width: 100%;
-	}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .tournaments-wrapper {
+    display: none;
+  }
+  .small-page-icons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    width: 100%;
+    .icon {
+      font-size: 2rem;
+      padding: 0.4rem;
+    }
+    .icon-selected {
+      background-color: white;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+    }
+  }
+  .box-container {
+    position: relative;
+    display: flex;
+    min-width: 100%;
+  }
 }
 
 @media only screen and (min-width: 560px) {
-	.tour-page-container {
-		flex-direction: row;
-		justify-content: space-around;
-		min-height: calc(100vh - 50px - 4rem);
-		padding-top: 0;
-		.small-page-icons{
-			display: none;
-		}
-		.tournaments-wrapper {
-			position: relative;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			overflow: auto;
-			padding: 0 0.7rem;
-			width: 100%;
-			.tournament-box {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				border-radius: 20px;
-				padding: 1em 1.5em;
-				// font-size: 1.2rem;
-				text-align: right;
-				background-color: rgba(0, 0, 0, 0.2);
-				backdrop-filter: blur(5px);
-				margin-bottom: 0.7rem;
-				overflow: hidden;
-				direction: rtl;
-				width: 90%;
-				max-width: 25rem;
-				font-size: 1rem;
-				max-height: 65px;
-				.icons {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					min-width: 110px;
-					width: 100%;
-					margin-top: 1rem;
-					position: relative;
-					.icon {
-						margin: 0.2rem;
-						cursor: pointer;
-						max-height: 20px;
-						margin-left: 0.7rem;
-						// filter: grayscale(100%);
-					}
-					.edit-icon {
-						position: absolute;
-						transform: translate(-100%, -150%);
-						left: 0;
-					}
-				}
-				.progress {
-					background-color: rgba(0, 0, 0, 0.2);
-					position: absolute;
-					top: 0;
-					bottom: 0;
-					right: 0;
-					z-index: -1;
-				}
-				p {
-					width: 100%;
-					text-align: center;
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					overflow: hidden;
-				}
-			}
-			.selected {
-				transition: max-height 350ms ease-in-out;
-				max-height: 100px;
-			}
-		}
-		.box-container {
-			min-width: 60%;
-		}
-	}
+  .tour-page-container {
+    flex-direction: row;
+    justify-content: space-around;
+    min-height: calc(100vh - 50px - 4rem);
+    padding-top: 0;
+    .small-page-icons {
+      display: none;
+    }
+    .tournaments-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: auto;
+      padding: 0 0.7rem;
+      width: 100%;
+      .tournament-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 20px;
+        padding: 1em 1.5em;
+        // font-size: 1.2rem;
+        text-align: right;
+        background-color: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+        margin-bottom: 0.7rem;
+        overflow: hidden;
+        direction: rtl;
+        width: 90%;
+        max-width: 25rem;
+        font-size: 1rem;
+        max-height: 65px;
+        user-select: none;
+        .icons {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 110px;
+          width: 100%;
+          margin-top: 1rem;
+          position: relative;
+          .icon {
+            margin: 0.2rem;
+            cursor: pointer;
+            max-height: 20px;
+            margin-left: 0.7rem;
+            // filter: grayscale(100%);
+          }
+          .edit-icon {
+            position: absolute;
+            transform: translate(-100%, -150%);
+            left: 0;
+          }
+        }
+        .progress {
+          background-color: rgba(0, 0, 0, 0.2);
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          z-index: -1;
+        }
+        p {
+          width: 100%;
+          text-align: center;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+      .selected {
+        transition: max-height 350ms ease-in-out;
+        max-height: 100px;
+      }
+    }
+    .box-container {
+      min-width: 60%;
+    }
+  }
 }
 
 @media only screen and (min-width: 780px) and (min-height: 500px) {
-	.tour-page-container {
-		min-height: calc(100vh - 4rem);
-	}
+  .tour-page-container {
+    min-height: calc(100vh - 4rem);
+  }
 }

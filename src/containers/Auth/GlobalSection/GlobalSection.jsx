@@ -184,11 +184,13 @@ const HeaderAuth = () => {
                                 <div key={game._id} className="game-box"
                                     onClick={() => gameClickHandler(game._id)}>
                                     <div className='game-box-rocket'>
-                                        {game.game_type === "single" ? (
-                                            <img src={rocket} alt="" />
-                                        ) : (
-                                            <img src={rockets} alt="" />
-                                        )}
+                                        <div className="rocket-image">
+                                            {game.game_type === "single" ? (
+                                                <img src={rocket} alt="" />
+                                            ) : (
+                                                <img src={rockets} alt="" />
+                                            )}
+                                        </div>
                                         <div className="show-status">
                                             <div className="all-viewer">
                                                 <AiOutlineEye style={{ fontSize: "1rem", marginRight: "0.2rem", color: theme.secondary }} />

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./GamesPage.scss";
-import arrow from "../../../assets/images/arrow.png";
 import { stringFa } from "../../../assets/strings/stringFaCollection.js";
 import rocket from "../../../assets/images/rocket.png";
 import rockets from "../../../assets/images/rockets.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getRefereeGames } from "../../../api/home";
 import Loading from "../../../components/UI/Loading/Loading";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
@@ -16,7 +15,7 @@ const GamesPage = () => {
   const [dialog, setDialog] = useState(null)
   const token = useSelector(state => state.auth.token)
   const refereeId = useSelector(state => state.auth.refereeId)
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   useEffect(async () => {
     setLoading(true)
     const result = await getRefereeGames({ id: refereeId }, token)
@@ -35,7 +34,7 @@ const GamesPage = () => {
       setDialog(<ErrorDialog type="error">{stringFa.please_set_referees}</ErrorDialog>)
       return;
     }
-    if(refereeId &&game._id){
+    if (refereeId && game._id) {
       navigate(`/scoreboard?gameId=${game._id}&refereeId=${refereeId}`)
     }
   }
@@ -69,8 +68,7 @@ const GamesPage = () => {
             ))
           ) : (
             <div className="hint">
-              {stringFa.create_tournament}
-              <img src={arrow} alt="arrow_down" />
+              {stringFa.no_game_to_see}
             </div>
           )
       }

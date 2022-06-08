@@ -43,8 +43,6 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
                     <CustomInput
                         {...value1}
                         onChange={(e) => onChangeMultiPage(e, page, key1, value1.elementType, order, setFormIsValid, setOrder)}
-                        inputContainer={{ marginBottom: '1.4rem' }}
-                        errorStyle={{ top: "4.5rem", left: "8%" }}
                     />
                 </div>)
             index += 1;
@@ -57,8 +55,6 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
                             <CustomInput
                                 {...value1}
                                 onChange={(e) => onChangeMultiPage(e, page, key1, value1.elementType, order, setFormIsValid, setOrder)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
                             />
                         </div>
                         <div className={`pair-item-container`}>
@@ -66,10 +62,6 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
                             <CustomInput
                                 {...value2}
                                 onChange={(e) => onChangeMultiPage(e, page, key2, value2.elementType, order, setFormIsValid, setOrder)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
                             />
                         </div>
                     </div>
@@ -80,18 +72,10 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
                         <CustomInput
                             {...value1}
                             onChange={(e) => onChangeMultiPage(e, page, key1, value1.elementType, order, setFormIsValid, setOrder)}
-                            inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
                         />
                         <CustomInput
                             {...value2}
                             onChange={(e) => onChangeMultiPage(e, page, key2, value2.elementType, order, setFormIsValid, setOrder)}
-                            inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{ top: "4.5rem", left: "5%" }}
-
-
                         />
                     </div>)
             }
@@ -165,10 +149,6 @@ export const setUpSinglePage =
                         <CustomInput
                             {...value1}
                             onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
-                            inputContainer={{ marginBottom: '1.4rem' }}
-                            errorStyle={{
-                                top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                            }}
                         />
                     </div>)
                 index += 1;
@@ -181,10 +161,6 @@ export const setUpSinglePage =
                                 <CustomInput
                                     {...value1}
                                     onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
-                                    inputContainer={{ marginBottom: '1.4rem' }}
-                                    errorStyle={{
-                                        top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                    }}
                                 />
                             </div>
                             <div className={`pair-item-container`}>
@@ -192,12 +168,6 @@ export const setUpSinglePage =
                                 <CustomInput
                                     {...value2}
                                     onChange={(e, indexArray) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder, indexArray)}
-                                    inputContainer={{ marginBottom: '1.4rem' }}
-                                    errorStyle={{
-                                        top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                    }}
-
-
                                 />
                             </div>
                         </div>
@@ -208,22 +178,10 @@ export const setUpSinglePage =
                             <CustomInput
                                 {...value1}
                                 onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{
-                                    top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                }}
-
-
                             />
                             <CustomInput
                                 {...value2}
                                 onChange={(e, indexArray) => onChangeSinglePage(e, key2, value2.elementType, order, setFormIsValid, setOrder, indexArray)}
-                                inputContainer={{ marginBottom: '1.4rem' }}
-                                errorStyle={{
-                                    top: value1.elementType === elementTypes.titleTextarea ? "7rem" : "4.5rem",
-                                }}
-
-
                             />
                         </div>)
                 }

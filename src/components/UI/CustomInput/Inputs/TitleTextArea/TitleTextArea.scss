@@ -1,30 +1,31 @@
 .title-textarea-container {
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	align-items: flex-start;
-	.title-class-name {
-		display: flex;
-		margin-right: 1rem;
-		margin-bottom: 0.2rem;
-	}
-	.title-textarea-element {
-		background: rgba($color: #000000, $alpha: 0.08);
-		direction: rtl;
-		display: block;
-		width: 100%;
-		min-width: 250px;
-		padding: 0.5rem 1.5rem;
-		font-size: 1.1rem;
-		font-weight: 500;
-		color: black;
-		border-radius: 15px;
-		border: none;
-		transition: box-shadow 0.15s ease-in-out;
-		outline: none;
-		resize: none;
-		&::placeholder {
-			color: black;
-		}
-	}
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  .title-class-name {
+    display: flex;
+    margin-right: 1rem;
+    margin-bottom: 0.2rem;
+  }
+  .title-textarea-element {
+    background: rgba($color: #000000, $alpha: 0.08);
+    direction: rtl;
+    display: block;
+    width: 100%;
+    min-width: 250px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: black;
+    border-radius: 15px;
+    border: none;
+    transition: box-shadow 0.15s ease-in-out;
+    outline: none;
+    resize: none;
+    &::placeholder {
+      color: black;
+    }
+  }
 }
