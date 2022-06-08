@@ -1,6 +1,5 @@
 .global-section-container {
   position: relative;
-  display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem 1rem;
@@ -136,7 +135,7 @@
     flex: 1;
     max-height: 100%;
     .global-section-inner {
-      font-size: 1.5vw;
+      font-size: clamp(0.6rem, 1.5vw, 1.1rem);
       .game-box {
         border-radius: 1.5vw;
         width: 90%;

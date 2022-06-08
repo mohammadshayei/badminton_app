@@ -24,6 +24,10 @@
       color: white;
     }
   }
+  .input-element:-webkit-autofill {
+    box-shadow: 0 0 0 30px #75c9b1 inset !important;
+    color: white !important;
+  }
   .validtaion-message {
     position: absolute;
     bottom: 0.3rem;

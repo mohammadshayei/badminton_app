@@ -171,7 +171,7 @@ const HeaderAuth = () => {
     }, [socket]);
 
     return (
-        <div className='global-section-container'>
+        <div className='global-section-container' style={{ display: games.length > 0 ? "flex" : "none" }}>
             {dialog}
 
             <div className="light"></div>
@@ -179,7 +179,7 @@ const HeaderAuth = () => {
                 {
                     loading ?
                         <Loading /> :
-                        games.length > 0 ? (
+                        games.length > 0 && (
                             games.map((game, key) => (
                                 <div key={game._id} className="game-box"
                                     onClick={() => gameClickHandler(game._id)}>
@@ -244,11 +244,12 @@ const HeaderAuth = () => {
                                     </div>
                                 </div>
                             ))
-                        ) : (
-                            <div className="hint">
-                                {stringFa.no_game_to_see}
-                            </div>
                         )
+                    // : (
+                    //     <div className="hint">
+                    //         {stringFa.no_game_to_see}
+                    //     </div>
+                    // )
                 }
             </div>
         </div>
