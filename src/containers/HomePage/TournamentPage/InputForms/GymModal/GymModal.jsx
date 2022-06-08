@@ -77,7 +77,7 @@ const GymModal = () => {
             validationMessage: stringFa.land_numbers_error,
             invalid: true,
             validation: {
-
+                required: true,
             },
             shouldValidate: true,
             isFocused: false,
@@ -102,7 +102,9 @@ const GymModal = () => {
             elementType: elementTypes.titleTextarea,
             validationMessage: stringFa.address_error,
             invalid: true,
-            validation: null,
+            validation: {
+                required: true,
+            },
             shouldValidate: true,
             isFocused: false,
             touched: false,

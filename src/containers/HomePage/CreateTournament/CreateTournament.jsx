@@ -28,7 +28,7 @@ const CreateTournament = (props) => {
                 validationMessage: stringFa.tournament_title_error,
                 invalid: true,
                 validation: {
-                    isRequired: true,
+                    required: true,
                     minLength: 2,
                 },
                 shouldValidate: true,
@@ -46,7 +46,7 @@ const CreateTournament = (props) => {
                 validationMessage: stringFa.period_number_error,
                 invalid: true,
                 validation: {
-                    isRequired: true,
+                    required: true,
                     minLength: 1,
 
                 },
@@ -66,7 +66,7 @@ const CreateTournament = (props) => {
                 validationMessage: stringFa.age_ragne_error,
                 invalid: true,
                 validation: {
-                    isRequired: true,
+                    required: true,
                     minLength: 1,
 
                 },
