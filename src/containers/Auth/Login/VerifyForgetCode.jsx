@@ -81,7 +81,7 @@ const VerifyForgetCode = (props) => {
                     loading={loading}
                     ButtonStyle={{
                         fontSize: 'clamp(0.9rem,1.7vw,1.2rem)',
-                        background: loading ? 'gray' : 'white',
+                        backgroundColor: loading ? 'gray' : 'white',
                         color: 'black',
                     }}
                     config={{ disabled: invalid }}

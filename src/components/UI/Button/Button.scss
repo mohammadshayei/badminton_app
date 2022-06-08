@@ -2,21 +2,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 1.5rem;
+  padding: 0.65em 1.75em;
   border-radius: 100px;
   border: none;
   margin: 0.3rem;
-  font-size: 0.75rem;
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
   background-color: transparent;
   cursor: pointer;
   outline: none;
   user-select: none;
   overflow: hidden;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  transition: transform 50ms;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  transition: background-color 200ms ease;
   white-space: nowrap;
-
   .loading-spinner {
     width: 30px;
     height: 25px;
@@ -24,12 +23,15 @@
       max-width: 100%;
     }
   }
-
-  &:active {
-    transform: scale(0.95);
-  }
   img {
     max-height: 100%;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 0;
+  }
+  &:active {
+    transform: scale(0.95);
   }
   &:disabled {
     transform: scale(1);

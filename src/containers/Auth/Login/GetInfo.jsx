@@ -109,7 +109,7 @@ const GetInfo = (props) => {
                 loading={isLoading}
                 onClick={onClick}
                 ButtonStyle={{
-                    background: isLoading ? 'gray' : 'white',
+                    backgroundColor: isLoading ? 'gray' : 'white',
                     color: 'black',
                 }}
                 config={

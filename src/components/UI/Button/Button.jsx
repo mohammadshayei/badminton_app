@@ -15,15 +15,15 @@ const Button = (props) => {
   const theme = themeState.computedTheme;
   const newStyle = {
     color: theme.on_primary,
-    background: props.disabled ? "gray" : isHover
+    backgroundColor: props.disabled ? "gray" : isHover
       ? props.hover
         ? props.hover
         : themeState.isDark
           ? theme.surface_12dp
-          : theme.primary_variant
+          : "#98bb9c"
       : props.back
         ? props.back
-        : `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
+        : `#8eb6ca`,
   };
   return (
     <button
