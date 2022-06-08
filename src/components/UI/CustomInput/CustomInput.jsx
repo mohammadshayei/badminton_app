@@ -8,11 +8,11 @@ import TitleTextArea from './Inputs/TitleTextArea/TitleTextArea';
 import UnderlineInput from './Inputs/UnderlineInput/UnderlineInput';
 import DropDown from './Inputs/DropDown/DropDown';
 import RadioImageButton from './Inputs/RadioImageButton/RadioImageButton';
+import OTPInput from './Inputs/OTPInput/OTPInput';
 
 const CustomInput = (props) => {
     let inputElement = null;
     let validationMessage = null;
-    const inputClasses = ['input-element']
     const inputContainerClasses = ['input-container']
     if (props.invalid && props.shouldValidate && props.touched) {
         inputContainerClasses.push('invalid')
@@ -26,7 +26,7 @@ const CustomInput = (props) => {
     switch (props.elementType) {
         case (elementTypes.input):
             inputElement = <input
-                className={inputClasses.join(' ')}
+                className={`input-element ${props.inputClassName}`}
                 {...props.elementConfig}
                 value={props.value ? props.value : ''}
                 style={{ ...props.inputStyle }}
@@ -57,9 +57,26 @@ const CustomInput = (props) => {
         case (elementTypes.radioImageButton):
             inputElement = <RadioImageButton {...props} />
             break;
+        case elementTypes.otp:
+            inputElement = <OTPInput
+                boxes={props.boxes}
+                style={{
+                    // background: themeState.isDark
+                    //     ? theme.surface_1dp
+                    //     : theme.surface,
+                    // color: theme.on_background,
+                    ...props.style,
+                }}
+                onChange={props.onChange}
+                config={{ ...props.config }}
+                isOk={props.isOk}
+            />
+
+            break;
+
         default:
             inputElement = <input
-                className={inputClasses.join(' ')}
+                className={`input-element ${props.inputClassName}`}
                 {...props.elementConfig}
                 value={props.value}
                 style={{ ...props.inputStyle }}
@@ -86,5 +103,7 @@ export const elementTypes = {
     titleTextarea: 'titleTextarea',
     multiInputTitle: 'multiInputTitle',
     dropDown: 'dropDown',
-    radioImageButton: 'radioImageButton'
+    radioImageButton: 'radioImageButton',
+    otp: 'otp',
+
 }

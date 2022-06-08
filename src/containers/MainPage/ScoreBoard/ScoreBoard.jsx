@@ -284,43 +284,50 @@ const ScoreBoard = ({ disable, setDisable }) => {
     if (info.team1.score === 20)
       setWinPoint(null)
   }, [info.team2.score])
-  useEffect(async () => {
-    if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
-      (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
-      createNewSet()
-      setEndSetRequestSended(false)
+  useEffect(() => {
+    (async () => {
+      if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
+        (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
+        createNewSet()
+        setEndSetRequestSended(false)
 
-    }
-    if (info.team1.setWon === 2)
-      setTeamWon("team1");
-    else if (info.team2.setWon === 2)
-      setTeamWon("team2");
+      }
+      if (info.team1.setWon === 2)
+        setTeamWon("team1");
+      else if (info.team2.setWon === 2)
+        setTeamWon("team2");
+    })()
   }, [info.team1.setWon, info.team2.setWon, endSetRequestSended]);
-  useEffect(async () => {
-    if (teamWon === 'team1' || teamWon === 'team2') {
-      const payload = {
-        id: gameId,
-        status: 3,
-        shuttls: info.balls
-      }
-      const result = await setStatusGame(payload, token)
-      if (result.success) {
-        setDisable(true)
-      } else {
-        setDialog(null)
-        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-      }
-      if (socket) {
-        let payloadSocket = {
-          teamA: info.team1.scores,
-          teamB: info.team2.scores,
-          gameId,
+
+
+  useEffect(() => {
+    (async () => {
+      if (teamWon === 'team1' || teamWon === 'team2') {
+        const payload = {
+          id: gameId,
+          status: 3,
+          shuttls: info.balls
         }
-        socket.emit('send_end_game_stats', payloadSocket)
+        const result = await setStatusGame(payload, token)
+        if (result.success) {
+          setDisable(true)
+        } else {
+          setDialog(null)
+          setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+        }
+        if (socket) {
+          let payloadSocket = {
+            teamA: info.team1.scores,
+            teamB: info.team2.scores,
+            gameId,
+          }
+          socket.emit('send_end_game_stats', payloadSocket)
+        }
+        // send_end_game_stats
       }
-      // send_end_game_stats
-    }
+    })()
   }, [teamWon])
+  
   useEffect(() => {
     const payload = {
       scoreA: info.team1.score,

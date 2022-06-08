@@ -81,7 +81,9 @@ const Login = () => {
     const goToSingup = () => {
         navigate('/signup')
     }
-
+    const forgotPassword =()=>{
+        navigate(`/login?type=f`);
+    }
     return (
         <div className='login-container'>
             {loading ? <Loading /> :
@@ -100,7 +102,7 @@ const Login = () => {
                                 }}
                             />)
                     }
-                    <p className='forgot-password'>{stringFa.forgot_password}</p>
+                    <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
                     <Button
                         onClick={loginHandler}
                         ButtonStyle={{

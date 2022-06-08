@@ -1,39 +1,41 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { searchRefereeByPhone, sendSms } from "../../../api/auth"
+import { saveTempCode, sendSms } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import Loading from "../../../components/UI/Loading/Loading"
 import { onChange } from "../../../utils/authFunction";
-const GetPhoneNumber = (props) => {
+const GetInfo = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)
     const [error, setError] = useState(null)
     const [dialog, setDialog] = useState(null)
     const [order, setOrder] = useState({
-        phone: {
+        input: {
             value: '',
-            elementType: 'input',
             elementConfig: {
-                placeholder: stringFa.phone,
+                placeholder: stringFa.phone_or_nationalnumber,
                 type: 'text',
-                pattern: "\d*",
-                maxLength: 11,
             },
-            validationMessage: stringFa.phone_error,
+            elementType: 'input',
+            inputStyle: {
+                fontSize: "0.9rem",
+                padding: "0.5rem 1rem",
+            },
+            inputContainer: {
+                marginBottom: "0.8rem"
+            },
+            validationMessage: stringFa.phone_or_nationalnumber_error,
             invalid: false,
             validation: {
                 isRequired: true,
-                minLength: 11,
-                maxLength: 11,
-                isNumeric: true,
+                minLength: 10,
             },
-            shouldValidate: true,
+            shouldValidate: false,
             isFocused: false,
             touched: false
-
         },
     })
     let navigate = useNavigate();
@@ -65,37 +67,34 @@ const GetPhoneNumber = (props) => {
     const onClick = async () => {
         setError(null)
         setDialog(null)
-        props.setTokenId(generate_token(30))
         setIsLoading(true)
-        let phoneExist = await searchRefereeByPhone(order.phone.value)
-
-        if (phoneExist) {
-            setDialog(<ErrorDialog type="error">{stringFa.phone_exist}</ErrorDialog>)
+        let code = generateCode(5)
+        props.setCode(code)
+        let result = await saveTempCode({ input: order.input.value, code })
+        if (!result.success) {
+            setDialog(<ErrorDialog type="error">{result.result.message}</ErrorDialog>)
             setIsLoading(false)
             return;
         }
-        let code = generateCode(5)
-        props.setCode(code)
-        let smsSend = await sendSms(code, order.phone.value)
+        let smsSend = await sendSms(code, result.result.phone)
         if (smsSend) {
             setDialog(<ErrorDialog type="success">{stringFa.code_sended}</ErrorDialog>)
-            navigate(`/signup?p=2&phone=${order.phone.value}`);
+            navigate(`/login?type=v&phone=${result.result.phone}`);
         }
         else {
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
-
         setIsLoading(false)
     }
     useEffect(() => {
         return () => {
         }
     }, [])
-    const goToLogin = () => {
-        navigate('/login')
+    const goToSingup = () => {
+        navigate('/signup')
     }
     return (
-        <div className='signup-container'>
+        <div className='login-container' style={{ justifyContent: "center" }}>
             {dialog}
             <div className="error-text">{error}</div>
             {
@@ -129,9 +128,10 @@ const GetPhoneNumber = (props) => {
             >
                 {stringFa.send_code}
             </Button>
-            <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
+            <p className='go-to-register' >
+                {stringFa.not_registerd}<span onClick={goToSingup}>{stringFa.register}</span></p>
         </div >
     )
 }
 
-export default GetPhoneNumber
+export default GetInfo
