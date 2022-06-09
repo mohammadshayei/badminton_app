@@ -104,7 +104,7 @@ const Login = () => {
                         ButtonStyle={{
                             fontSize: '1.2rem',
                             padding: '.4rem 4rem',
-                            background: loading ? 'gray' : 'white',
+                            backgroundColor: loading ? 'gray' : 'white',
                             color: 'black',
                         }}
                         config={
