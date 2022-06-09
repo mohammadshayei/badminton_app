@@ -26,9 +26,10 @@
   }
   .global-section-inner {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
+    max-width: 30rem;
     font-size: 4vw;
     .game-box {
       display: flex;

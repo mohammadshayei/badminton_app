@@ -205,17 +205,18 @@ const HeaderAuth = () => {
                                         </div>
                                     </div>
                                     <div className="details">
-                                        <p className="title">{game.tournament.title}</p>
+                                        <p title={game.tournament.title} className="title">{game.tournament.title}</p>
                                         {/* <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p> */}
                                         <div className="name-score">
                                             <div className="team">
                                                 <p className="players-name">
-                                                    <span>
+                                                    <span title={game.teamA.players[0].player.username}>
                                                         {`${game.teamA.players[0].player.username}`}
                                                     </span>
-                                                    <span>
-                                                        {game.game_type === "double" && `${game.teamA.players[1].player.username}`}
-                                                    </span>
+                                                    {game.game_type === "double" &&
+                                                        <span title={game.teamA.players[1].player.username}>
+                                                            {`${game.teamA.players[1].player.username}`}
+                                                        </span>}
                                                 </p>
                                                 {game.teamA.setWon === 1 && (
                                                     <img src={SHUTTLE_IMAGE} alt="" />
@@ -231,12 +232,13 @@ const HeaderAuth = () => {
                                                     <img src={SHUTTLE_IMAGE} alt="" />
                                                 )}
                                                 <p className="players-name">
-                                                    <span>
+                                                    <span title={game.teamB.players[0].player.username}>
                                                         {`${game.teamB.players[0].player.username}`}
                                                     </span>
-                                                    <span>
-                                                        {game.game_type === "double" && `${game.teamB.players[1].player.username}`}
-                                                    </span>
+                                                    {game.game_type === "double" &&
+                                                        <span title={game.teamB.players[1].player.username}>
+                                                            {`${game.teamB.players[1].player.username}`}
+                                                        </span>}
                                                 </p>
 
                                             </div>
