@@ -59,14 +59,18 @@
   overflow: hidden;
   user-select: none;
   .game-online-result {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     z-index: 10;
     .score {
-      flex: 1;
+      position: absolute;
       white-space: nowrap;
       text-align: center;
+      left: 50%;
+      transform: translateX(-50%);
       font-size: clamp(0.6rem, 4vw, 1rem);
     }
     .names {
@@ -76,8 +80,10 @@
       justify-content: center;
       align-items: center;
       min-height: 2rem;
+      max-width: 40%;
       font-size: clamp(0.5rem, 2.8vw, 0.6rem);
       .name {
+        max-width: 100%;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
