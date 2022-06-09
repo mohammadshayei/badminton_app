@@ -94,7 +94,7 @@ const GetInfo = (props) => {
         navigate('/signup')
     }
     return (
-        <div className='login-container' style={{ justifyContent: "center" }}>
+        <div className='login-container'>
             {dialog}
             <div className="error-text">{error}</div>
             {
@@ -102,25 +102,15 @@ const GetInfo = (props) => {
                     <CustomInput
                         key={k}
                         {...v}
-                        inputStyle={{ padding: ".2rem 1rem" }}
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                        errorStyle={{
-                            maxWidth: '400px',
-                            minWidth: '250px',
-                            width: '80%'
-                        }}
-
                     />)
             }
             <Button
                 loading={isLoading}
                 onClick={onClick}
                 ButtonStyle={{
-                    fontSize: '1.2rem',
-                    padding: '.4rem 4rem',
-                    background: 'white',
+                    background: isLoading ? 'gray' : 'white',
                     color: 'black',
-                    marginTop: "2rem"
                 }}
                 config={
                     { disabled: !formIsValid }

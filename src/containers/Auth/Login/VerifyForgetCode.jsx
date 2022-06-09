@@ -12,31 +12,31 @@ import { useDispatch } from "react-redux";
 
 const VerifyForgetCode = (props) => {
     const [value, setValue] = useState("");
-    const [count, setCount] = useState(5);
     const [loading, setLoading] = useState(false)
-    const [invalid, setInvalid] = useState(false);
-    const [error, setError] = useState(null)
+    const [invalid, setInvalid] = useState(true);
     const [dialog, setDialog] = useState(null)
+    const [error, setError] = useState(false);
+
     const navigate = useNavigate()
 
-    const maxLength = 5;
     const dispatch = useDispatch()
     const onChange = (value) => {
         setValue(value);
-        setCount(maxLength - value.length);
-        setInvalid(false)
+        if (value.length === 5)
+            setInvalid(false)
+        else
+            setInvalid(true)
     };
+
     const onClickButtonContinueHandler = async () => {
-
-
-
-        setError(null)
         setDialog(null)
         setLoading(true)
+        setError(false)
         let result = await validateTempCode({ phone: props.phone, code: value })
         if (!result.success) {
             setDialog(<ErrorDialog type="error">{result.result.message}</ErrorDialog>)
             setLoading(false)
+            setError(true)
             return;
         }
         localStorage.setItem("token", result.result.token);
@@ -49,18 +49,20 @@ const VerifyForgetCode = (props) => {
 
         setLoading(false)
     };
+
     const goToSingup = () => {
         navigate('/signup')
     }
+
     return (
         <form onSubmit={(e) => {
             onClickButtonContinueHandler()
             e.preventDefault()
         }} className="verify-code-wrapper">
+            {dialog}
             <div className="header-verify-contianer">
                 <IoIosCheckmarkCircleOutline className="verify-check-icon"
-                    //   color={theme.primary}
-                    size="4rem" />
+                    size="clamp(3rem,7vw,4rem)" />
                 <p>لطفا کد ارسال شده را وارد کنید</p>
             </div>
             <CustomInput
@@ -73,21 +75,16 @@ const VerifyForgetCode = (props) => {
                 config={{ autoFocus: true }}
                 messageError={stringFa.invalid_code}
                 isOk={!invalid}
-                inputError={{ left: "50%", transform: "translate(-50%,0.5rem)" }}
             />
-            <div className={`button-verify-container ${invalid && "invalid"}`}>
+            <div className={`button-verify-container ${error && "invalid"}`}>
                 <Button
+                    loading={loading}
                     ButtonStyle={{
-                        fontSize: '1.2rem',
-                        padding: '.4rem 4rem',
-                        background: 'white',
+                        fontSize: 'clamp(0.9rem,1.7vw,1.2rem)',
+                        background: loading ? 'gray' : 'white',
                         color: 'black',
                     }}
-                    config={
-                        {
-                            disabled: invalid
-                        }
-                    }
+                    config={{ disabled: invalid }}
                 >
                     {stringFa.login}
                 </Button>

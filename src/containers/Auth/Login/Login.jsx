@@ -81,7 +81,7 @@ const Login = () => {
     const goToSingup = () => {
         navigate('/signup')
     }
-    const forgotPassword =()=>{
+    const forgotPassword = () => {
         navigate(`/login?type=f`);
     }
     return (
@@ -95,20 +95,16 @@ const Login = () => {
                                 key={k}
                                 {...v}
                                 onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                                errorStyle={{
-                                    maxWidth: '400px',
-                                    minWidth: '250px',
-                                    width: '80%'
-                                }}
                             />)
                     }
                     <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
                     <Button
+                        loading={loading}
                         onClick={loginHandler}
                         ButtonStyle={{
                             fontSize: '1.2rem',
                             padding: '.4rem 4rem',
-                            background: 'white',
+                            background: loading ? 'gray' : 'white',
                             color: 'black',
                         }}
                         config={
