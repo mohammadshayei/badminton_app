@@ -10,8 +10,11 @@ export const authStart = () => {
 export const getRefereeData = (refereeId, token) => {
   return (dispatch) => {
     return axios
-      .post(`${baseUrl}api/get_referee_data`, { id: refereeId },
-        { headers: { 'auth-token': token } })
+      .post(
+        `${baseUrl}api/get_referee_data`,
+        { id: refereeId },
+        { headers: { "auth-token": token } }
+      )
       .then((result) => {
         dispatch({
           type: actionTypes.SET_REFEREE_DATA,
@@ -24,14 +27,20 @@ export const getRefereeData = (refereeId, token) => {
 export const setRefereeData = (referee) => {
   return {
     type: actionTypes.SET_REFEREE_DATA,
-    referee
+    referee,
   };
-}
+};
+export const changeRefereeInfo = (payload) => {
+  return {
+    type: actionTypes.CHANGE_REFEREE_INFO,
+    payload,
+  };
+};
 export const authSuccess = (token, refereeId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     token,
-    refereeId
+    refereeId,
   };
 };
 export const setSocket = (socket) => {
@@ -69,12 +78,13 @@ export const auth = (input, password, url) => {
         if (res.data.message.loginStatus) {
           localStorage.setItem("token", res.data.message.token);
           localStorage.setItem("refereeId", res.data.message.referee._id);
-          dispatch(authSuccess(res.data.message.token, res.data.message.referee._id));
+          dispatch(
+            authSuccess(res.data.message.token, res.data.message.referee._id)
+          );
           dispatch({
             type: actionTypes.SET_REFEREE_DATA,
             referee: res.data.message.referee,
           });
-
         } else {
           dispatch(authFail(`نام کاربری یا رمز عبور اشتباه می باشد`));
         }
@@ -104,11 +114,10 @@ export const authCheckState = () => {
 
     if (!token || !refereeId) {
       dispatch(logout());
-      dispatch(setChecked())
+      dispatch(setChecked());
     } else {
       dispatch(authSuccess(token, refereeId));
-      dispatch(setChecked())
-
+      dispatch(setChecked());
     }
   };
 };

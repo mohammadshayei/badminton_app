@@ -4,6 +4,8 @@ import { useTheme } from "../../styles/ThemeProvider";
 import AppBar from "../HomePage/AppBar/AppBar";
 import Modal from "../../components/UI/Modal/Modal";
 import * as detailActions from "../../store/actions/detail";
+import * as authActions from "../../store/actions/auth";
+
 import { useDispatch, useSelector } from "react-redux";
 import Menu from '../Menu/Menu';
 import CreateTournament from "../HomePage/CreateTournament/CreateTournament";
@@ -14,13 +16,14 @@ import { baseUrl } from "../../constants/Config";
 import { AiFillCamera } from 'react-icons/ai'
 import Button from "../../components/UI/Button/Button";
 import { elementTypes } from "../../components/UI/CustomInput/CustomInput";
+import { changeRefereePassword, editReferee, uploadRefereeImage } from "../../api/home";
+import ErrorDialog from "../../components/UI/Error/ErrorDialog";
 
 const HomePage = () => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [body, setBody] = useState([])
     const [loading, setLoading] = useState(false)
     const [imageSrc, setImageSrc] = useState('')
-    const [imagePath, setImagePath] = useState('')
     const [showModal, setShowModal] = useState(false)
     const [dialog, setDialog] = useState(null);
     const [changePassword, setChangePassword] = useState(false);
@@ -114,15 +117,23 @@ const HomePage = () => {
     const setMenuStatus = (status) => {
         dispatch(detailActions.setMenuStatus(status));
     };
+    const changeRefereeInfo = (payload) => {
+        dispatch(authActions.changeRefereeInfo(payload));
+    };
 
     const uploadButtonClickHandler = useCallback(() => {
         imageRef.current.click();
     }, [])
 
-    const onChangeImage = (event) => {
+    const onChangeImage = async (event) => {
         if (event.target.files[0]) {
-            setImagePath(event.target.files[0]);
             setImageSrc(URL.createObjectURL(event.target.files[0]));
+            let payload = { image: event.target.files[0], id: auth.refereeId }
+            let result = await uploadRefereeImage(payload, auth.token)
+            setDialog(<ErrorDialog type={result.success ? "success" : "error"}>{result.result.message}</ErrorDialog>)
+            if (result.success)
+                changeRefereeInfo({ key: 'image', value: result.result.path })
+
         }
         // else {
         //     setImageSrc('')
@@ -131,31 +142,35 @@ const HomePage = () => {
     }
 
     const onUpdateClickHandler = async () => {
-        setDialog(null)
-        setLoading(true)
-        if (changePassword) {
-            console.log("password changed!");
-            setChangePassword(false)
-        } else {
-            let payload = {
-                username: order.userName.value,
-                phone: order.phone.value,
-                nationalNumber: order.nationalId.value,
+        try {
+            setDialog(null)
+            setLoading(true)
+            if (changePassword) {
+                let payload = {
+                    password: order.password.value,
+                    refereeId: auth.refereeId,
+                }
+                let result = await changeRefereePassword(payload, auth.token);
+                setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.message}</ErrorDialog>)
+                setChangePassword(false)
+            } else {
+                let payload = {
+                    username: order.userName.value,
+                    refereeId: auth.refereeId,
+                }
+                let result = await editReferee(payload, auth.token);
+                setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
+
+                if (result.success)
+                    changeRefereeInfo({ key: 'username', value: order.userName.value })
+
+
             }
-            let result;
-            // if (imagePath !== '') {
-            //     payload = { image: imagePath, ...payload }
-            //     result = await updatePlayerWithImage(payload, token)
-            // } else {
-            //     result = await updatePlayer(payload, token)
-            // }
-            // if (!result.success) {
-            //     setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-            // } else {
-            //     setDialog(<ErrorDialog type="success">با موفقیت به روز رسانی شد</ErrorDialog>)
-            // }}
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            setDialog(<ErrorDialog type={"error"}>{stringFa.error_occured}</ErrorDialog>)
         }
-        setLoading(false)
     }
 
     useEffect(() => {
@@ -170,7 +185,7 @@ const HomePage = () => {
             updatedOrder.phone.value = auth.referee.phone;
             updatedOrder.nationalId.value = auth.referee.national_number;
             if (auth.referee.image !== '')
-                setImageSrc(`${baseUrl}uploads/players/${auth.referee.image}`)
+                setImageSrc(`${baseUrl}uploads/referees/${auth.referee.image}`)
             setOrder(updatedOrder)
         }
     }, [auth.referee])

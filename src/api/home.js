@@ -71,7 +71,23 @@ export const updatePlayer = async (data, token) => {
   } else
     return { success: false, data: null, error: result.data.message.error };
 };
-
+export const uploadRefereeImage = async (payload, token) => {
+  const { id, image } = payload;
+  const formData = new FormData();
+  formData.append("id", id);
+  formData.append("image", image);
+  const result = await axios.post(
+    `${baseUrl}api/upload_referee_image`,
+    formData,
+    {
+      headers: { "auth-token": token },
+    }
+  );
+  if (result.data.success) {
+    return { success: true, result: result.data.result };
+  } else
+    return { success: false, data: null, error: result.data.message.error };
+};
 export const removeContent = async (data, token, url) => {
   const result = await axios.post(
     `${baseUrl}api/${url}`,
@@ -148,6 +164,22 @@ export const getRefereeGames = async (data, token) => {
     return { success: true, data: result.data.message.games };
   } else
     return { success: false, data: null, error: result.data.message.error };
+};
+export const editReferee = async (payload, token) => {
+  const result = await axios.post(
+    `${baseUrl}api/edit_referee`,
+    { ...payload },
+    { headers: { "auth-token": token } }
+  );
+  return { success: result.data.success, data: result.data.result };
+};
+export const changeRefereePassword = async (payload, token) => {
+  const result = await axios.post(
+    `${baseUrl}api/change_referee_password`,
+    { ...payload },
+    { headers: { "auth-token": token } }
+  );
+  return { success: result.data.success, message: result.data.result.message };
 };
 export const checkRefereeGetGame = async (data, token) => {
   const result = await axios.post(

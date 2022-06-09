@@ -10,6 +10,7 @@ import tournament from "../../assets/images/tournament.png";
 import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 import { CgMediaLive } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../constants/Config";
 
 function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -110,8 +111,10 @@ const Menu = (props) => {
                             <div className="avatar"
                                 onClick={() => showProfile()}
                             >
-                                {auth.referee.image ? auth.referee.image :
-                                    <img src={PROFILE_IMAGE} alt="pic" />}
+                                {
+                                    <img src={auth.referee.image ? `${baseUrl}uploads/referees/${auth.referee.image}` : PROFILE_IMAGE} alt="pic" />
+
+                                }
                             </div> :
                             <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
                         <div className="name">

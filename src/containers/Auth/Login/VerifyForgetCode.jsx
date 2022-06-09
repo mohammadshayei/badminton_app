@@ -44,13 +44,9 @@ const VerifyForgetCode = (props) => {
         dispatch(authActions.authSuccess(result.result.token, result.result.referee._id));
         dispatch(authActions.setRefereeData(result.result.referee))
 
-        if (true) {
-            setDialog(<ErrorDialog type="success">{stringFa.code_sended}</ErrorDialog>)
-            navigate(`/login?type=v&phone=${result.result.phone}`);
-        }
-        else {
-            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
-        }
+        setDialog(<ErrorDialog type="success">{stringFa.code_sended}</ErrorDialog>)
+        navigate(`/login?type=v&phone=${result.result.phone}`);
+
         setLoading(false)
     };
     const goToSingup = () => {
