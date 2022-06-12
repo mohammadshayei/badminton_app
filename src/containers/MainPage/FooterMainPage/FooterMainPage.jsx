@@ -13,7 +13,7 @@ const FooterMainPage = () => {
       className={`footer-main-container ${show && "show-footer-main-container"}`}
       style={{ color: theme.on_background }}
     >
-      <EventsBox />
+      <EventsBox show={show} />
       <div className="handle" onClick={() => setShow(!show)}></div>
     </div>
   );

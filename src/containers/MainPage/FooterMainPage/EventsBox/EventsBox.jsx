@@ -5,13 +5,14 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
 
-const EventsBox = () => {
+const EventsBox = (props) => {
   const [log, setLog] = useState([])
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const info = useSelector((state) => state.info);
 
   const columnStyle = {
+    display: props.show ? "block" : "none",
     position: "fixed",
     left: 0,
     bottom: 0,
@@ -227,8 +228,12 @@ const EventsBox = () => {
   }, [info.eventCounter])
 
   return (
-    <div className="events-wrapper" id='events'>
-      <div className="history-table" >
+    <div className="events-wrapper" id='events'
+      style={{
+        display: props.show ? "flex" : "none",
+      }}
+    >
+      <div className="history-table">
         {[...Array(70)].map((e, ci) =>
           <div key={ci} className="table-column"
             style={ci === 0 ? columnStyle : {}}
