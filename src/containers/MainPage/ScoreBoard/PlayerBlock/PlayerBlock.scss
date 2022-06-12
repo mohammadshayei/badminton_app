@@ -119,10 +119,17 @@
           margin: auto 0;
         }
         .add-shuttle {
-          width: 50%;
-          .shuttle-img {
-            width: 2rem;
-            height: 2rem;
+          position: absolute;
+          top: 0;
+          .shuttle-btn-content {
+            display: flex;
+            align-items: center;
+            margin: 0.2rem 0.5rem;
+            font-size: clamp(10px, 3vw, 25px);
+            .shuttle-img {
+              width: 5vw;
+              max-width: 50px;
+            }
           }
         }
       }
@@ -130,11 +137,10 @@
         flex: 2;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
         max-width: 65%;
         min-height: 100%;
-        padding: 20vh 0;
         .player-name {
           max-width: 100%;
           text-align: center;

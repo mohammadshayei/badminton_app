@@ -3,7 +3,7 @@ import "./PlayerBlock.scss";
 import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
-import { HiOutlinePlusSm } from "react-icons/hi";
+import { HiMinus, HiOutlinePlusSm } from "react-icons/hi";
 import shuttle_image from "../../../../assets/images/badminton_ball.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
@@ -186,52 +186,52 @@ const PlayerBlock = (props) => {
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
           style={{ opacity: info.foulHappend ? 0 : 1 }}>
-          {props.position === "right" && <div className="player-block-icon add-shuttle">
-            <Button
-              back={theme.primary}
-              hover={theme.primary}
-              ButtonStyle={{
-                borderRadius: "50%",
-                // aspectRatio: "1",
-                width: "3rem",
-                height: "3rem"
-              }}
-              onClick={() => {
-                increaseBall();
-                // addEvent({ type: "increaseBall", time: "", by: "" });
-              }}
-            >
-              +
-              <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
-            </Button>
-            <Button
-              back={theme.primary}
-              hover={theme.primary}
-              ButtonStyle={{
-                borderRadius: "50%",
-                aspectRatio: "1",
-              }}
-              onClick={() => {
-                if (info.balls > 1) {
-                  decreaseBall();
-                  // addEvent({ type: "decreaseBall", time: "", by: "" });
-                }
-              }}
-            >
-              -
-              <img src={shuttle_image} alt="shuttle" />
-            </Button>
-          </div>}
+          {props.position === "right" &&
+            <div className="player-block-icon add-shuttle">
+              <Button
+                back={theme.primary}
+                hover={theme.primary}
+                ButtonStyle={{
+                  padding: "0"
+                }}
+                onClick={() => {
+                  increaseBall();
+                  // addEvent({ type: "increaseBall", time: "", by: "" });
+                }}
+              >
+                <div className="shuttle-btn-content">
+                  <HiOutlinePlusSm color={theme.on_primary} />
+                  <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
+                </div>
+              </Button>
+              <Button
+                back={theme.primary}
+                hover={theme.primary}
+                ButtonStyle={{
+                  padding: "0"
+                }}
+                onClick={() => {
+                  if (info.balls > 1) {
+                    decreaseBall();
+                    // addEvent({ type: "decreaseBall", time: "", by: "" });
+                  }
+                }}
+              >
+                <div className="shuttle-btn-content">
+                  <HiMinus color={theme.on_primary} />
+                  <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
+                </div>
+              </Button>
+            </div>}
           <div disabled={props.disable} className="player-block-icon up-btn">
             <Button
               back={theme.primary}
               hover={theme.primary}
               ButtonStyle={{
-                borderRadius: "50%",
-                aspectRatio: "1",
-                width: "90%",
-                transform: props.position === "right" && "translateY(-40%)",
-                padding: "0"
+                borderRadius: "clamp(5px,1vw,10px)",
+                width: "10vw",
+                maxWidth: "100px",
+                padding: "90% 0"
               }}
               onClick={() => increaseScore({ teamKey: props.teamKey })}
             >
