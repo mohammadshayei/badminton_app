@@ -156,19 +156,32 @@ const PlayerBlock = (props) => {
           style={dynamicStyle}
         >
           <p className="player-name">{props.player && props.player.name}</p>
-          <img src={props.player && props.player.avatar !== '' ? `${baseUrl}uploads/players/${props.player.avatar}` : PROFILE_IMAGE} alt="badminton player" style={{
-            border: props.server === 1 ? "15px solid #F7FF00" :
-              (props.playerD && props.receiver === 1) && `15px solid ${theme.primary_variant}`
-          }} onClick={() => selectPlayer(props.player.id)} />
+          <div className="player-img"
+            style={{
+              boxShadow: props.server === 1 ? "0 0 0 15px #F7FF00" :
+                (props.playerD && props.receiver === 1) && `15px solid ${theme.primary_variant}`
+            }}
+            onClick={() => selectPlayer(props.player.id)}
+          >
+            <img src={props.player && props.player.avatar !== '' ?
+              `${baseUrl}uploads/players/${props.player.avatar}` :
+              PROFILE_IMAGE} alt="badminton player" />
+          </div>
           {props.playerD &&
-            <img src={props.playerD.avatar ?
-              `${baseUrl}uploads/players/${props.playerD.avatar}` :
-              PROFILE_IMAGE}
-              alt="badminton second player"
+            <div className="player-img"
               style={{
-                border: props.server === 2 ? "15px solid #F7FF00" :
+                boxShadow: props.server === 2 ? "15px solid #F7FF00" :
                   props.receiver === 2 && `15px solid ${theme.primary_variant}`
-              }} onClick={() => selectPlayer(props.playerD.id)} />}
+              }}
+              onClick={() => selectPlayer(props.playerD.id)}
+            >
+              <img src={props.playerD.avatar ?
+                `${baseUrl}uploads/players/${props.playerD.avatar}` :
+                PROFILE_IMAGE}
+                alt="badminton second player"
+              />
+            </div>
+          }
           {props.playerD && <p className="player-name">{props.playerD.name}</p>}
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
