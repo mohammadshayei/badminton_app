@@ -16,7 +16,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: IRANSans, Arial, Helvetica, sans-serif;
-  // user-select: none;//iphone bug
+  user-select: none;
   padding: 0;
 }
 div[disabled] {

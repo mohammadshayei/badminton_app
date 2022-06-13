@@ -1,7 +1,6 @@
 .otp-input-container {
   display: flex;
   justify-content: center;
-  user-select: none;
   // width: 5rem;
   // min-width: .5rem;
   .otp-input-element,
@@ -20,6 +19,7 @@
     box-sizing: border-box;
     text-align: center;
     transition: border 200ms ease-out;
+    user-select: none;
   }
   .invalid {
     border: 1px solid red;
