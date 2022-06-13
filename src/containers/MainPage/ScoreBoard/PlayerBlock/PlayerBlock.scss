@@ -90,14 +90,13 @@
 @media only screen and (min-width: 560px) {
   .rev {
     flex-direction: row-reverse;
-    margin-right: 2rem;
   }
   .player-block-container {
     padding: 0;
     align-self: stretch;
     .player-block-action-container {
       // flex: 2;
-      width: 65%;
+      width: 70%;
       display: flex;
       justify-content: center;
       .player-block-icon-container {
@@ -106,8 +105,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 0 1rem;
-        width: 10vw;
+        align-items: center;
         .player-block-icon {
           flex-direction: row;
           justify-content: flex-start;
@@ -118,33 +116,20 @@
         .up-btn {
           margin: auto 0;
         }
-        .add-shuttle {
-          position: absolute;
-          top: 0;
-          .shuttle-btn-content {
-            display: flex;
-            align-items: center;
-            margin: 0.2rem 0.5rem;
-            font-size: clamp(10px, 3vw, 25px);
-            .shuttle-img {
-              width: 5vw;
-              max-width: 50px;
-            }
-          }
-        }
       }
       .player-block-image-and-title {
-        flex: 2;
+        flex: 3;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
-        max-width: 65%;
-        min-height: 100%;
+        min-height: 92%;
+        align-self: flex-end;
         .player-name {
           max-width: 100%;
           text-align: center;
-          font-size: 4.5vh;
+          font-size: clamp(1rem, 7vh, 2rem);
+          font-weight: bolder;
           color: #f7ff00;
         }
         .player-img {
@@ -163,7 +148,9 @@
           -moz-border-radius: 50%;
           -khtml-border-radius: 50%;
           width: 10vw;
+          height: 10vw;
           max-width: 500px;
+          max-height: 500px;
           img {
             width: 100%;
             object-fit: cover;
@@ -179,7 +166,7 @@
     }
     .score-place-and-set-container {
       // flex: 1;
-      width: 35%;
+      width: 30%;
       justify-content: center;
       .prev-score {
         background-color: #313131;

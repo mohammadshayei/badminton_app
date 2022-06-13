@@ -16,9 +16,9 @@ const EventsBox = (props) => {
     position: "fixed",
     left: 0,
     bottom: 0,
-    height: "20vh",
-    maxWidth: "25%",
-    minWidth: "25%"
+    height: props.show === "normal" ? "20vh" : "50vh",
+    maxWidth: props.show === "normal" ? "25%" : "35%",
+    minWidth: props.show === "normal" ? "25%" : "35%"
   }
 
   const tableRef = useRef();

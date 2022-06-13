@@ -92,7 +92,10 @@ const Events = (props) => {
     }, [info.eventCounter])
 
     return (
-        <div className='events-container' style={props.style}>
+        <div className='events-container' style={{
+            gap: props.hide ? "0.8rem" : 0,
+            ...props.style
+        }}>
             {events.map((item, index) =>
                 info.foulHappend ? (
                     info.foulHappend === item.text ? (
@@ -108,7 +111,10 @@ const Events = (props) => {
                                     DIS
                                 </div>
                             ) : (
-                                <div className={`${item.className}`} style={item.style}>
+                                <div className={`${item.className}`} style={{
+                                    paddingTop: item.className.includes("card") ? "90%" : "0",
+                                    ...item.style
+                                }}>
                                     {item.content}
                                 </div>
                             )}
@@ -141,7 +147,11 @@ const Events = (props) => {
                                 DIS
                             </div>
                         ) : (
-                            <div className={`${item.className}`} style={item.style}>
+                            <div className={`${item.className}`}
+                                style={{
+                                    paddingTop: item.className.includes("card") ? "90%" : "0",
+                                    ...item.style
+                                }}>
                                 {item.content}
                             </div>
                         )}

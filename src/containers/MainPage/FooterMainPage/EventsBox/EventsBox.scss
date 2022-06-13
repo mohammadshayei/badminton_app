@@ -4,10 +4,9 @@
   position: relative;
   flex-direction: row-reverse;
   align-items: center;
-  min-height: 20vh;
-  font-size: 2vw;
   width: 100%;
-  padding-left: 25%;
+  height: 50vh;
+  padding-left: 35%;
   .history-table {
     position: relative;
     display: flex;
@@ -16,7 +15,7 @@
     height: 100%;
     max-width: 100%;
     .table-column {
-      border: 1px solid rgb(0, 0, 0);
+      border-left: 1px solid rgb(0, 0, 0);
       border-bottom: none;
       .table-cell {
         display: flex;
@@ -26,7 +25,7 @@
         border-bottom: 1px solid rgb(0, 0, 0);
         min-width: 42px;
         width: 100%;
-        font-size: 3vh;
+        font-size: 5vh;
         .name-in-cell {
           display: flex;
           justify-content: space-between;
@@ -38,6 +37,20 @@
             direction: rtl;
             max-width: 85%;
           }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 560px) and (min-height: 630px) {
+  .events-wrapper {
+    height: 20vh;
+    padding-left: 25%;
+    .history-table {
+      .table-column {
+        .table-cell {
+          font-size: 3vh;
         }
       }
     }
