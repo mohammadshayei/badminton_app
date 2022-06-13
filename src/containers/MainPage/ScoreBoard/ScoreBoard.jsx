@@ -8,7 +8,7 @@ import { FaPlayCircle, FaExclamation } from "react-icons/fa";
 import { ImUndo2, ImCancelCircle } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
-
+import { ImArrowUpRight2 } from "react-icons/im";
 import Modal from "../../../components/UI/Modal/Modal"
 import Events from "../EventsModule/Events"
 import Button from "../../../components/UI/Button/Button"
@@ -37,6 +37,8 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [warmUp, setWarmUp] = useState(false);
   const [warmUpTimer, setWarmUpTimer] = useState("00:00");
   const [twentySeconds, setTwentySeconds] = useState(false);
+  const [serverDirection, setServerDirection] = useState("");
+
 
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
@@ -197,6 +199,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
     };
   }, []);
   useEffect(() => {
+    let temp = info.team1.isRightTeam ?
+      info.team1.score % 2 === 0 ? "down-left" : "up-left" :
+      info.team1.score % 2 === 0 ? "up-right" : "down-right";
+    setServerDirection(temp)
     switch (info.team1.score) {
       case maxPoint - 1:
         if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
@@ -241,6 +247,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
       setWinPoint(null)
   }, [info.team1.score])
   useEffect(() => {
+    let temp = info.team2.isRightTeam ?
+      info.team2.score % 2 === 0 ? "down-left" : "up-left" :
+      info.team2.score % 2 === 0 ? "up-right" : "down-right";
+    setServerDirection(temp)
     switch (info.team2.score) {
       case maxPoint - 1:
         if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)
@@ -484,6 +494,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
           alignItems: loading && "center"
         }}
       >
+        {!disable &&
+          <div className={`arrow ${serverDirection}`}>
+            <ImArrowUpRight2 />
+          </div>}
         {!loading &&
           (info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
             Object.entries(info).map(([k, v], index) =>
