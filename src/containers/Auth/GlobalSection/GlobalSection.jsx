@@ -2,17 +2,11 @@ import { useState, useEffect } from "react"
 import { getLiveGames } from "../../../api/liveGame";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import "./GlobalSection.scss"
-import rocket from "../../../assets/images/rocket.png";
-import rockets from "../../../assets/images/rockets.png";
 import Loading from "../../../components/UI/Loading/Loading";
-import { stringFa } from "../../../assets/strings/stringFaCollection";
-import * as gameActions from "../../../store/actions/gameInfo"
-import { HiStatusOnline } from 'react-icons/hi'
-import { AiOutlineEye } from 'react-icons/ai'
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import SHUTTLE_IMAGE from "../../../assets/images/badminton_ball.png";
+import { useSelector } from "react-redux";
 import { useTheme } from "../../../styles/ThemeProvider.js";
+import LiveGameBox from "../../LiveGameBox/LiveGameBox";
+import { stringFa } from "../../../assets/strings/stringFaCollection";
 
 const HeaderAuth = () => {
     const [games, setGames] = useState([]);
@@ -20,6 +14,7 @@ const HeaderAuth = () => {
     const [dialog, setDialog] = useState(null)
     const [gamesStats, setGamesStats] = useState(null);
     const [gamesViewers, setGamesViewers] = useState(null);
+    const [duration, setDuration] = useState([]);
     const socket = useSelector(state => state.auth.socket)
     const [timer, setTimer] = useState(0)
     const [usersOnlineCount, setUsersOnlineCount] = useState(0);
@@ -27,14 +22,15 @@ const HeaderAuth = () => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
-    const setSelectedGameView = (game) => {
-        dispatch(gameActions.setGameView(game));
-    };
-
-    const gameClickHandler = (id) => {
-        navigate(`/scoreboard_view?gameId=${id}`)
+    const getDuration = () => {
+        let newDurations = [];
+        var today = new Date();
+        games.forEach(game => {
+            var diffInMs = Math.abs(today - new Date(game.game_time.start))
+            var diffInMin = Math.trunc(diffInMs / (1000 * 60));
+            newDurations = [...newDurations, `${diffInMin} '`];
+        });
+        setDuration(newDurations);
     }
 
     useEffect(() => {
@@ -57,6 +53,7 @@ const HeaderAuth = () => {
         })();
         return () => controller?.abort();
     }, [])
+
     useEffect(() => {
         if (socket && games) {
             if (timer === 0) {
@@ -77,7 +74,9 @@ const HeaderAuth = () => {
             }
 
         }
+
     }, [socket, games, timer])
+
     useEffect(() => {
         if (socket && games) {
             socket.on('get_winner_team', (payload => {
@@ -137,6 +136,7 @@ const HeaderAuth = () => {
 
         }
     }, [socket, games])
+
     useEffect(() => {
         if (socket) {
             socket.on('send_viewer_game', (payload => {
@@ -170,156 +170,49 @@ const HeaderAuth = () => {
         }
     }, [socket]);
 
-    return (
-        <div className='global-section-container' style={{ display: games.length > 0 ? "flex" : "none" }}>
-            {dialog}
+    useEffect(() => {
+        if (!games) return;
+        const interval = setInterval(() => {
+            getDuration();
+        }, 1000);
 
-            <div className="light"></div>
+        return () => {
+            clearInterval(interval);
+        };
+    }, [games]);
+
+    return (
+        <div className='global-section-container'
+            style={{
+                display: games.length > 0 ? "flex" : "none",
+                backgroundColor: theme.surface,
+                color: theme.on_surface
+            }}
+        >
+            <div className="live-scores-title"
+                style={{ color: theme.primary }}
+            >
+                {stringFa.live_scores}
+            </div>
+            {dialog}
             <div className="global-section-inner">
                 {
                     loading ?
-                        <Loading /> :
+                        <Loading style={{ color: theme.on_surface }} /> :
                         games.length > 0 && (
                             games.map((game, key) => (
-                                <div key={game._id} className="game-box"
-                                    onClick={() => gameClickHandler(game._id)}>
-                                    <div className='game-box-rocket'>
-                                        <div className="rocket-image">
-                                            {game.game_type === "single" ? (
-                                                <img src={rocket} alt="" />
-                                            ) : (
-                                                <img src={rockets} alt="" />
-                                            )}
-                                        </div>
-                                        <div className="show-status">
-                                            <div className="all-viewer">
-                                                <AiOutlineEye style={{ fontSize: "1rem", marginRight: "0.2rem", color: theme.secondary }} />
-                                                {/* <HiStatusOnline /> */}
-                                                <p style={{ fontSize: "0.7rem" }}>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
-                                            </div>
-                                            {/* <div className="online-viewer">
-                                                <AiOutlineEye />
-                                                <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].allCount : 0}</p>
-
-                                            </div> */}
-                                        </div>
-                                    </div>
-                                    <div className="details">
-                                        <p title={game.tournament.title} className="title">{game.tournament.title}</p>
-                                        {/* <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p> */}
-                                        <div className="name-score">
-                                            <div className="team">
-                                                <p className="players-name">
-                                                    <span title={game.teamA.players[0].player.username}>
-                                                        {`${game.teamA.players[0].player.username}`}
-                                                    </span>
-                                                    {game.game_type === "double" &&
-                                                        <span title={game.teamA.players[1].player.username}>
-                                                            {`${game.teamA.players[1].player.username}`}
-                                                        </span>}
-                                                </p>
-                                                {game.teamA.setWon === 1 && (
-                                                    <img src={SHUTTLE_IMAGE} alt="" />
-                                                )}
-                                            </div>
-                                            <div className="score-box">
-                                                <p className='span-score'>
-                                                    {`${gamesStats && gamesStats[game._id] ? gamesStats[game._id].teamA : game.teamA.score}    :   ${gamesStats && gamesStats[game._id] ? gamesStats[game._id].teamB : game.teamB.score}`}
-                                                </p>
-                                            </div>
-                                            <div className="team">
-                                                {game.teamB.setWon === 1 && (
-                                                    <img src={SHUTTLE_IMAGE} alt="" />
-                                                )}
-                                                <p className="players-name">
-                                                    <span title={game.teamB.players[0].player.username}>
-                                                        {`${game.teamB.players[0].player.username}`}
-                                                    </span>
-                                                    {game.game_type === "double" &&
-                                                        <span title={game.teamB.players[1].player.username}>
-                                                            {`${game.teamB.players[1].player.username}`}
-                                                        </span>}
-                                                </p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <LiveGameBox
+                                    key={game._id}
+                                    duration={duration[key]}
+                                    game={game}
+                                    gamesViewers={gamesViewers}
+                                    gamesStats={gamesStats}
+                                />
                             ))
                         )
-                    // : (
-                    //     <div className="hint">
-                    //         {stringFa.no_game_to_see}
-                    //     </div>
-                    // )
                 }
             </div>
         </div>
     )
 }
-// {
-//     loading ?
-//         <Loading /> :
-//         games.length > 0 ? (
-//             games.map((game, key) => (
-//                 <div key={game._id} className="game-box"
-//                     onClick={() => gameClickHandler(game._id)}>
-//                     <div className='game-box-rocket'>
-//                         {game.game_type === "single" ? (
-//                             <img src={rocket} alt="" />
-//                         ) : (
-//                             <img src={rockets} alt="" />
-//                         )}
-//                         <div className="show-status">
-//                             <div className="all-viewer">
-//                                 <HiStatusOnline />
-//                                 <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
-//                             </div>
-//                             <div className="online-viewer">
-//                                 <AiOutlineEye />
-//                                 <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].allCount : 0}</p>
-
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="details">
-//                         <p className="title">{game.tournament.title}</p>
-//                         <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p>
-//                         <div className="name-score">
-//                             <div className="team">
-//                                 <p className="players-name">
-//                                     <span> {`${game.teamA.players[0].player.username}
-//                                         ${game.game_type === "double" ? "  ,  " + game.teamA.players[1].player.username : "  "}`}
-//                                     </span>
-//                                 </p>
-//                                 {game.teamA.setWon === 1 && (
-//                                     <img src={SHUTTLE_IMAGE} alt="" />
-//                                 )}
-//                             </div>
-//                             <div className="score-box">
-//                                 <p className='span-score'>
-//                                     {`${gamesStats && gamesStats[game._id] ? gamesStats[game._id].teamA : game.teamA.score}    :   ${gamesStats && gamesStats[game._id] ? gamesStats[game._id].teamB : game.teamB.score}`}
-//                                 </p>
-//                             </div>
-//                             <div className="team">
-//                                 {game.teamB.setWon === 1 && (
-//                                     <img src={SHUTTLE_IMAGE} alt="" />
-//                                 )}
-//                                 <p className="players-name">
-//                                     <span> {`${game.teamB.players[0].player.username}
-//                                         ${game.game_type === "double" ? "  ,  " + game.teamB.players[1].player.username : "  "}`}
-//                                     </span>
-//                                 </p>
-
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             ))
-//         ) : (
-//             <div className="hint">
-//                 {stringFa.no_game_to_see}
-//             </div>
-//         )
-// }
 export default HeaderAuth

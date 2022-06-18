@@ -5,9 +5,7 @@ import Login from './Login/Login';
 import GetPhoneNumber from './Signup/GetPhoneNumber';
 import VerifyCode from './Signup/VerifyCode';
 import Signup from './Signup/Signup';
-import {
-    Navigate, useLocation, useNavigate
-} from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import GetInfo from './Login/GetInfo';
 import VerifyForgetCode from './Login/VerifyForgetCode';
@@ -111,14 +109,16 @@ const Auth = () => {
         <div
             className="auth-container"
             style={{
-                background: `linear-gradient(200deg,${theme.primary},${theme.primary_variant})`,
-                color: theme.on_primary,
+                background: theme.background_color,
+                color: theme.on_background,
             }}
         >
             {
                 globalView && <GlobalSection navigate={navigate} />
             }
-            {body}
+            <div className="auth-section">
+                {body}
+            </div>
         </div >
     )
 }

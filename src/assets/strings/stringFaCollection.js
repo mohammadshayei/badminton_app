@@ -14,7 +14,7 @@ export const stringFa = {
   password: "رمز عبور",
   password_error: "رمز عبور باید بیشتر از 5 حرف باشد",
   login: "ورود",
-  not_registerd: "عضو نشدید؟",
+  not_registerd: "عضو نیستید؟",
   register: "ثبت نام",
   forgot_password: "فراموشی رمز عبور",
   phone: "شماره همراه",
@@ -71,7 +71,6 @@ export const stringFa = {
   hotel: 'محل اقامت',
   free_ranking: "رنکینگ آزاد",
   save_change: 'ذخیره تغییرات',
-  add: 'اضافه',
   name_family: 'نام و نام خانوادگی',
   name_family_error: 'نام و نام خانوادگی بازیکن را تعیین کنید',
   birth_data: 'تاریخ تولد',
@@ -110,7 +109,6 @@ export const stringFa = {
   player2_teamA_error: "بازیکن دوم تیم یک را مشخص کنید",
   player1_teamB_error: "بازیکن اول تیم دو را مشخص کنید",
   player2_teamB_error: "بازیکن دوم تیم دو را مشخص کنید",
-  land_number_error: "لظفا شماره زمین را نعیین کنید",
   date_error: "لطفا تاریخ را مشخص کنید",
   number_of_game_error: "لطفا شماره بازی را تعیین کنید",
   competition_type_error: "لطفا نوع مسابقه را تعیین کنید",
@@ -119,7 +117,6 @@ export const stringFa = {
   gym: "نام سالن",
   date: "تاریخ",
   number_of_game: "شماره بازی",
-  game_type: "نوع بازی",
   competition_type: "نوع مسابقه",
   download: "دانلود",
   please_set_referees: "لطفا داور های بازی را تعیین کنید",
@@ -133,5 +130,7 @@ export const stringFa = {
   url_wrong: "آدرس وارد شده اشتباه است",
   back: "بازگشت",
   change_password: "تغییر رمز",
-  cancel: "انصراف"
+  cancel: "انصراف",
+  welcome: "خوش آمدید",
+  live_scores: "نتایج زنده"
 };
