@@ -2,7 +2,7 @@ import React from 'react'
 import './TitleInput.scss'
 const TitleInput = (props) => {
     return (
-        <div className='title-input-container' >
+        <div className='title-input-container' style={{ ...props.inputContainer }}>
             <p className='title-class-name'>{props.title}
                 <span className="required">
                     {(props.validation) && (props.validation.required && '*')}

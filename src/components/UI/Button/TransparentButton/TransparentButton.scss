@@ -1,16 +1,53 @@
 .transparent-button-component {
-    display: inline-block;
-    padding: 0.5rem 1.5rem;
-    border-radius: 100px;
-    border: none;
-    margin: 0.3rem;
-    font-size: 0.75rem;
-    background-color: transparent;
-    cursor: pointer;
-    outline: none;
-    overflow: hidden;
-    transition: transform 50ms;
-    &:active {
-        transform: scale(0.95);
-    }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.65em 1.75em;
+  border-radius: 100px;
+  border: none;
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+  font-weight: bolder;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  transition: transform 200ms ease;
+  white-space: nowrap;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:disabled {
+    transform: scale(1);
+    opacity: 0.7;
+    filter: contrast(0.7) grayscale(1);
+    box-shadow: 0 0 0 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes dotCollisionBefore {
+  0%,
+  50%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-1vw);
+  }
+}
+
+@keyframes dotCollisionAfter {
+  0%,
+  50%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(1vw);
+  }
 }
