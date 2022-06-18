@@ -9,8 +9,12 @@ import UnderlineInput from './Inputs/UnderlineInput/UnderlineInput';
 import DropDown from './Inputs/DropDown/DropDown';
 import RadioImageButton from './Inputs/RadioImageButton/RadioImageButton';
 import OTPInput from './Inputs/OTPInput/OTPInput';
+import { useTheme } from '../../../styles/ThemeProvider';
 
 const CustomInput = (props) => {
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
+
     let inputElement = null;
     let validationMessage = null;
     const inputContainerClasses = ['input-container']
@@ -19,7 +23,10 @@ const CustomInput = (props) => {
         validationMessage =
             <p
                 className='validtaion-message'
-                style={{ ...props.errorStyle }}
+                style={{
+                    color: theme.error,
+                    ...props.errorStyle
+                }}
             >{props.validationMessage}</p>;
     }
 
@@ -29,7 +36,11 @@ const CustomInput = (props) => {
                 className={`input-element ${props.inputClassName}`}
                 {...props.elementConfig}
                 value={props.value ? props.value : ''}
-                style={{ ...props.inputStyle }}
+                style={{
+                    backgroundColor: theme.border_color,
+                    color: theme.on_background,
+                    ...props.inputStyle
+                }}
                 onChange={props.onChange}
             />
             break;
@@ -79,7 +90,11 @@ const CustomInput = (props) => {
                 className={`input-element ${props.inputClassName}`}
                 {...props.elementConfig}
                 value={props.value}
-                style={{ ...props.inputStyle }}
+                style={{
+                    backgroundColor: theme.border_color,
+                    color: theme.on_background,
+                    ...props.inputStyle
+                }}
                 onChange={props.onChange}
             />
             break;
