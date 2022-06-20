@@ -29,7 +29,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [maxPoint, setMaxPoint] = useState(21);
   const [teamWon, setTeamWon] = useState(null);
   const [loading, setLoading] = useState(false)
-  const [endSetRequestSended, setEndSetRequestSended] = useState(false)
+  const [endSetRequestSent, setEndSetRequestSent] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [chooseServer, setChooseServer] = useState(false);
   const [serviceOver, setServiceOver] = useState(false)
@@ -159,7 +159,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     }
     let resultEnd = await endSetHandler(payload, token)
     if (resultEnd.success) {
-      setEndSetRequestSended(true)
+      setEndSetRequestSent(true)
       // setDisable(true)
     } else {
       setDialog(<ErrorDialog type="error">{resultEnd.error}</ErrorDialog>)
@@ -297,9 +297,9 @@ const ScoreBoard = ({ disable, setDisable }) => {
   useEffect(() => {
     (async () => {
       if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
-        (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
+        (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSent) {
         createNewSet()
-        setEndSetRequestSended(false)
+        setEndSetRequestSent(false)
 
       }
       if (info.team1.setWon === 2)
@@ -307,7 +307,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
       else if (info.team2.setWon === 2)
         setTeamWon("team2");
     })()
-  }, [info.team1.setWon, info.team2.setWon, endSetRequestSended]);
+  }, [info.team1.setWon, info.team2.setWon, endSetRequestSent]);
 
 
   useEffect(() => {
