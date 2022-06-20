@@ -1,14 +1,14 @@
 .main-page-container {
-	background: radial-gradient(circle, rgb(63, 63, 63) 0%, rgb(0, 0, 0) 100%);
-	direction: rtl;
-	height: 100vh;
-	overflow: hidden;
+  background: radial-gradient(circle, rgb(63, 63, 63) 0%, rgb(0, 0, 0) 100%);
+  direction: rtl;
+  height: 100vh;
+  overflow: hidden;
 }
 
 @media only screen and (min-width: 560px) and (min-height: 630px) {
-	.main-page-container {
-		.menu-icon {
-			display: none;
-		}
-	}
+  .main-page-container {
+    .menu-icon {
+      display: none;
+    }
+  }
 }

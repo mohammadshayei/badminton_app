@@ -1,84 +1,129 @@
 .auth-container {
-  height: 100vh;
-  width: 100vw;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  .error-text {
-    padding: 1rem;
-    color: rgb(180, 0, 0);
-  }
-  .login-container {
-    width: 100%;
-    height: 100%;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  .auth-section {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    padding-bottom: 1rem;
-    position: relative;
-    .forgot-password {
-      cursor: pointer;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-      font-weight: 200;
-      text-align: center;
-    }
-    .go-to-register {
-      position: absolute;
-      bottom: 1rem;
-      text-align: center;
-      font-weight: 200;
-      color: rgba($color: #fff, $alpha: 0.9);
-      font-size: 0.9rem;
-      span {
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    .section-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 350px;
+      padding: 1.5em 1.5em 0.5em 1.5em;
+      box-shadow: 0 8px 10px rgba(0, 0, 0, 0.05);
+      direction: rtl;
+      .error-text {
+        position: absolute;
+        top: 10%;
+        font-size: clamp(0.6rem, 1vw, 0.8rem);
+      }
+      .title-text {
+        display: block;
+        font-size: clamp(1rem, 2vw, 2.3rem);
+        margin-bottom: 2rem;
+      }
+      .under-title {
+        top: 30%;
+      }
+      .title-text-login {
+        display: none;
+      }
+      .under-title-login {
+        top: 2%;
+      }
+      .forgot-password {
         cursor: pointer;
-        margin-right: 0.5rem;
-        font-weight: 500;
-        font-size: 1rem;
+        font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+        width: 100%;
+      }
+      .buttons-wrapper {
+        display: flex;
+      }
+      .go-to {
+        position: relative;
+        margin-top: 0.5rem;
+        font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+        span {
+          cursor: pointer;
+          margin-right: 0.5rem;
+          font-size: clamp(0.7rem, 1.4vw, 0.95rem);
+        }
+      }
+      .from-get-info {
+        margin-top: 2rem;
       }
     }
-  }
-  .signup-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 2rem;
-    position: relative;
-    .write-sended-code {
-      text-align: right;
-      margin-bottom: 1rem;
+    .sign-up {
+      max-height: 80vh;
+      justify-content: flex-start;
+      overflow: auto;
     }
-    .go-to-login {
-      position: absolute;
-      bottom: 2rem;
-      text-align: center;
-      font-weight: 200;
-      color: rgba($color: #fff, $alpha: 0.9);
-      font-size: 0.9rem;
-      span {
-        cursor: pointer;
-        margin-right: 0.5rem;
-        font-weight: 500;
-        font-size: 1rem;
+  }
+}
+
+@media only screen and (max-height: 550px) {
+  .auth-container {
+    flex-direction: row-reverse;
+    .auth-section {
+      max-width: 45%;
+      .section-container {
+        max-width: 100%;
       }
     }
   }
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (max-width: 1024px) and (min-height: 780px) {
+  .auth-container {
+    .auth-section {
+      .section-container {
+        .title-text-login {
+          display: block;
+          font-size: clamp(1rem, 2vw, 2.3rem);
+          margin-bottom: 2rem;
+        }
+        .under-title-login {
+          top: 20%;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1025px) {
   .auth-container {
     flex-direction: row-reverse;
-    .login-container {
-      flex: 1;
-      justify-content: center;
-      padding-bottom: 0rem;
-      button {
-        margin-top: 1rem;
-        margin-bottom: 0.7rem;
+    .auth-section {
+      width: 100%;
+      .section-container {
+        padding: 1.5rem 4rem;
+        max-width: 520px;
+        .title-text-login {
+          display: block;
+          font-size: clamp(1rem, 2vw, 2.3rem);
+          margin-bottom: 2rem;
+        }
+        .under-title-login {
+          top: 20%;
+        }
+        .forgot-password {
+          margin-bottom: 1rem;
+        }
+        .go-to {
+          margin-top: 1.5rem;
+        }
       }
     }
   }

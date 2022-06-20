@@ -5,29 +5,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 1.5rem;
   .input-element {
-    background: rgba($color: #000000, $alpha: 0.15);
     direction: rtl;
     display: block;
-    width: 80%;
-    max-width: 400px;
-    margin: 0 10%;
-    min-width: 250px;
-    font-size: clamp(0.75rem, 1.5vw, 1.1rem);
-    font-weight: 500;
-    color: white;
+    width: 100%;
+    min-width: 150px;
+    padding: 0.5em 1.5em;
+    font-size: clamp(0.75rem, 1.5vw, 1rem);
     border-radius: 25px;
     border: none;
     transition: box-shadow 0.15s ease-in-out;
+    user-select: auto;
     outline: none;
-    &::placeholder {
-      color: white;
-    }
   }
-  .input-element:-webkit-autofill {
-    box-shadow: 0 0 0 30px #75c9b1 inset !important;
-    color: white !important;
-  }
+  // .input-element:-webkit-autofill {
+  //   box-shadow: 0 0 0 30px #75c9b1 inset !important;
+  //   color: white !important;
+  // }
   .validtaion-message {
     position: absolute;
     bottom: 0.3rem;
@@ -35,10 +30,8 @@
     font-size: clamp(0.6rem, 1.2vw, 0.8rem);
     padding-right: 0.5rem;
     width: 100%;
-    color: #f44336;
   }
   .required {
-    color: crimson;
     margin-right: 0.2rem;
   }
   input:disabled {

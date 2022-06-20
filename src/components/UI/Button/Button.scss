@@ -1,43 +1,95 @@
 .button-component {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.65em 1.75em;
   border-radius: 100px;
   border: none;
-  margin: 0.3rem;
   font-size: clamp(0.75rem, 1.5vw, 1rem);
   background-color: transparent;
   cursor: pointer;
   outline: none;
-  user-select: none;
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
-    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  transition: background-color 200ms ease;
+  transition: background-color 300ms ease, transform 200ms ease;
   white-space: nowrap;
-  .loading-spinner {
-    width: 30px;
-    height: 25px;
-    img {
-      max-width: 100%;
-    }
+
+  .dot-collision {
+    position: absolute;
+    width: 0.8vw;
+    max-width: 9px;
+    height: 0.8vw;
+    max-height: 9px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #ffffff;
   }
-  img {
-    max-height: 100%;
+  .dot-collision::before,
+  .dot-collision::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
   }
 
-  &:hover {
-    box-shadow: 0 0 0 0;
+  .dot-collision::before {
+    left: -0.8vw;
+    width: 0.8vw;
+    max-width: 9px;
+    height: 0.8vw;
+    max-height: 9px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #ffffff;
+    animation: dotCollisionBefore 2s infinite ease-in;
   }
+
+  .dot-collision::after {
+    left: 0.8vw;
+    width: 0.8vw;
+    max-width: 9px;
+    height: 0.8vw;
+    max-height: 9px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #ffffff;
+    animation: dotCollisionAfter 2s infinite ease-in;
+    animation-delay: 1s;
+  }
+
   &:active {
     transform: scale(0.95);
   }
+
   &:disabled {
     transform: scale(1);
     opacity: 0.7;
     filter: contrast(0.7) grayscale(1);
     box-shadow: 0 0 0 0;
     pointer-events: none;
+  }
+}
+
+@keyframes dotCollisionBefore {
+  0%,
+  50%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-1vw);
+  }
+}
+
+@keyframes dotCollisionAfter {
+  0%,
+  50%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(1vw);
   }
 }

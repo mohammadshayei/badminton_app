@@ -1,51 +1,53 @@
 .winner-modal-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	.details {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		font-size: 2rem;
-		font-weight: 500;
-		.team-block {
-			flex: 1;
-			display: flex;
-			text-align: center;
-			.players-section {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-			}
-			.set-score {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				margin: 1.5rem;
-				font-size: 7rem;
-				.scores-details {
-					background-color: rgba(0, 0, 0, 0.2);
-					padding: 0.5rem;
-					border-radius: 10px;
-					font-size: 3rem;
-				}
-			}
-		}
-		.rev {
-			flex-direction: row-reverse;
-		}
-		.winner {
-			animation: winnerglow 0.8s infinite alternate;
-		}
-	}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .details {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(1rem, 3vw, 2rem);
+    font-weight: 400;
+    gap: 2%;
+    .team-block {
+      display: flex;
+      text-align: center;
+      gap: 2%;
+      flex: 1;
+      .players-section {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        max-height: 65vh;
+        .set-score {
+          font-size: clamp(3rem, 10vw, 6rem);
+          line-height: clamp(3rem, 10vw, 6rem);
+        }
+      }
+      .scores-details {
+        background-color: rgba(0, 0, 0, 0.2);
+        align-self: center;
+        padding: 0.5rem;
+        border-radius: 10px;
+        font-size: clamp(1.5rem, 5vw, 3rem);
+        line-height: clamp(1.5rem, 5vw, 3rem);
+        width: 20%;
+      }
+    }
+    .team-rev {
+      flex-direction: row-reverse;
+    }
+    .winner {
+      animation: winnerglow 0.8s infinite alternate;
+    }
+  }
 }
 
 @keyframes winnerglow {
-	from {
-		text-shadow: 0 0 -10px #4ca2cd;
-	}
-	to {
-		text-shadow: 0 0 20px #4ca2cd;
-	}
+  from {
+    text-shadow: 0 0 -10px #4ca2cd;
+  }
+  to {
+    text-shadow: 0 0 20px #4ca2cd;
+  }
 }

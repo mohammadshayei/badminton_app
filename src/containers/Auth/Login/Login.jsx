@@ -1,16 +1,15 @@
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import * as authActions from "../../../store/actions/auth";
 import { baseUrl } from "../../../constants/Config"
 import { useDispatch, useSelector } from "react-redux"
-import Loading from "../../../components/UI/Loading/Loading"
-import { useNavigate } from "react-router-dom";
 import { onChange } from "../../../utils/authFunction"
+import { useTheme } from "../../../styles/ThemeProvider";
 
-const Login = () => {
+const Login = ({ navigate }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         input: {
@@ -19,13 +18,10 @@ const Login = () => {
                 placeholder: stringFa.phone_or_nationalnumber,
                 type: 'text',
             },
-            elementType: 'input',
-            inputStyle: {
-                fontSize: "0.9rem",
-                padding: "0.5rem 1rem",
-            },
+            title: stringFa.username,
+            elementType: 'titleInput',
             inputContainer: {
-                marginBottom: "0.8rem"
+                paddingBottom: "0.5rem"
             },
             validationMessage: stringFa.phone_or_nationalnumber_error,
             invalid: false,
@@ -43,13 +39,10 @@ const Login = () => {
                 placeholder: stringFa.password,
                 type: 'password',
             },
-            elementType: 'input',
-            inputStyle: {
-                fontSize: "0.9rem",
-                padding: "0.5rem 1rem",
-            },
+            title: stringFa.password,
+            elementType: 'titleInput',
             inputContainer: {
-                marginBottom: "0.3rem"
+                paddingBottom: "0.2rem"
             },
             validationMessage: stringFa.password_error,
             invalid: false,
@@ -62,7 +55,9 @@ const Login = () => {
             touched: false
         },
     })
-    const navigate = useNavigate()
+
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
     const dispatch = useDispatch();
     const auth = (input, password, url) => {
         dispatch(authActions.auth(input, password, url));
@@ -85,39 +80,43 @@ const Login = () => {
         navigate(`/login?type=f`);
     }
     return (
-        <div className='login-container'>
-            {loading ? <Loading /> :
-                <>
-                    <div className="error-text">{error}</div>
-                    {
-                        Object.entries(order).map(([k, v]) =>
-                            <CustomInput
-                                key={k}
-                                {...v}
-                                onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                            />)
-                    }
-                    <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
-                    <Button
-                        loading={loading}
-                        onClick={loginHandler}
-                        ButtonStyle={{
-                            fontSize: '1.2rem',
-                            padding: '.4rem 4rem',
-                            backgroundColor: loading ? 'gray' : 'white',
-                            color: 'black',
-                        }}
-                        config={
-                            { disabled: !formIsValid }
-                        }
-                    >
-                        {stringFa.login}
-                    </Button>
-                    <p className='go-to-register' >
-                        {stringFa.not_registerd}<span onClick={goToSingup}>{stringFa.register}</span></p>
-                </>
+        <form className='section-container'
+            style={{
+                backgroundColor: theme.surface
+            }}
+        >
+            <div className="title-text-login"
+                style={{ color: theme.primary }}
+            >
+                {stringFa.login_welcome_title}
+            </div>
+            <div className="error-text under-title-login"
+                style={{ color: theme.error }}
+            >{error}</div>
+            {Object.entries(order).map(([k, v]) =>
+                <CustomInput
+                    key={k}
+                    {...v}
+                    onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                />)
             }
-        </div>
+            <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
+            <Button
+                loading={loading}
+                onClick={loginHandler}
+                ButtonStyle={{
+                    padding: '.5em 2.5em',
+                }}
+            >
+                {stringFa.login}
+            </Button>
+            <p className='go-to' >
+                {stringFa.not_registerd}
+                <span onClick={goToSingup}
+                    style={{ color: theme.primary }}
+                >{stringFa.register}</span>
+            </p>
+        </form>
     )
 }
 

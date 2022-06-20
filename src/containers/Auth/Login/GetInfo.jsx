@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { saveTempCode, sendSms } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
+import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
-import Loading from "../../../components/UI/Loading/Loading"
+import { useTheme } from "../../../styles/ThemeProvider";
 import { onChange } from "../../../utils/authFunction";
+
 const GetInfo = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)
@@ -18,15 +20,10 @@ const GetInfo = (props) => {
             elementConfig: {
                 placeholder: stringFa.phone_or_nationalnumber,
                 type: 'text',
+                autoFocus: true,
+                maxLength: 11
             },
             elementType: 'input',
-            inputStyle: {
-                fontSize: "0.9rem",
-                padding: "0.5rem 1rem",
-            },
-            inputContainer: {
-                marginBottom: "0.8rem"
-            },
             validationMessage: stringFa.phone_or_nationalnumber_error,
             invalid: false,
             validation: {
@@ -39,6 +36,8 @@ const GetInfo = (props) => {
         },
     })
     let navigate = useNavigate();
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
 
     const generate_token = (length) => {
         var a =
@@ -72,13 +71,13 @@ const GetInfo = (props) => {
         props.setCode(code)
         let result = await saveTempCode({ input: order.input.value, code })
         if (!result.success) {
-            setDialog(<ErrorDialog type="error">{result.result.message}</ErrorDialog>)
+            setError(result.result.message)
             setIsLoading(false)
             return;
         }
         let smsSend = await sendSms(code, result.result.phone)
         if (smsSend) {
-            setDialog(<ErrorDialog type="success">{stringFa.code_sended}</ErrorDialog>)
+            setDialog(<ErrorDialog type="success">{stringFa.code_sent}</ErrorDialog>)
             navigate(`/login?type=v&phone=${result.result.phone}`);
         }
         else {
@@ -93,33 +92,58 @@ const GetInfo = (props) => {
     const goToSingup = () => {
         navigate('/signup')
     }
+    const goToLogin = () => {
+        navigate('/login')
+    }
+
     return (
-        <div className='login-container'>
+        <div className='section-container'
+            style={{
+                backgroundColor: theme.surface,
+                color: theme.on_surface,
+                paddingTop: "4rem",
+            }}
+        >
             {dialog}
-            <div className="error-text">{error}</div>
+            <div className="error-text"
+                style={{
+                    color: theme.error
+                }}
+            >
+                {error}
+            </div>
             {
                 Object.entries(order).map(([k, v]) =>
                     <CustomInput
                         key={k}
                         {...v}
+                        inputStyle={{ direction: "ltr" }}
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
                     />)
             }
-            <Button
-                loading={isLoading}
-                onClick={onClick}
-                ButtonStyle={{
-                    backgroundColor: isLoading ? 'gray' : 'white',
-                    color: 'black',
-                }}
-                config={
-                    { disabled: !formIsValid }
-                }
-            >
-                {stringFa.send_code}
-            </Button>
-            <p className='go-to-register' >
-                {stringFa.not_registerd}<span onClick={goToSingup}>{stringFa.register}</span></p>
+            <div className="buttons-wrapper">
+                <Button
+                    loading={isLoading}
+                    onClick={onClick}
+                    config={{ disabled: !formIsValid }}
+                >
+                    {stringFa.send_code}
+                </Button>
+                <TransparentButton
+                    config={{ disabled: isLoading }}
+                    onClick={goToLogin}
+                >
+                    {stringFa.back}
+                </TransparentButton>
+            </div>
+            <p className='go-to from-get-info'>
+                {stringFa.not_registerd}
+                <span onClick={goToSingup}
+                    style={{ color: theme.primary }}
+                >
+                    {stringFa.register}
+                </span>
+            </p>
         </div >
     )
 }

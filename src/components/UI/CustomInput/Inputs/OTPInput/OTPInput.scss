@@ -1,25 +1,27 @@
 .otp-input-container {
   display: flex;
   justify-content: center;
-  user-select: none;
-  // width: 5rem;
-  // min-width: .5rem;
+  gap: 0.5rem;
+  width: fit-content;
   .otp-input-element,
   select {
-    width: 3.5rem;
-    background: rgba($color: #000000, $alpha: 0.15);
-    color: white;
-    outline: none;
-    border: none;
-    border-radius: 4px;
-    font-size: 2rem;
-    line-height: 2.4rem;
-    padding: 0.5rem 0;
-    margin: 0 0.5rem;
     display: block;
     box-sizing: border-box;
     text-align: center;
+    width: 3vw;
+    min-width: 2.5rem;
+    max-width: 4rem;
+    height: 3vw;
+    min-height: 2.5rem;
+    max-height: 4rem;
+    outline: none;
+    border: 1px solid;
+    border-radius: 50%;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    line-height: clamp(1rem, 2.5vw, 1.8rem);
+    padding: 0.2em 0.2em;
     transition: border 200ms ease-out;
+    user-select: none;
   }
   .invalid {
     border: 1px solid red;

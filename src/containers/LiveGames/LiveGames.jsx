@@ -198,7 +198,7 @@ const LiveGames = () => {
                                         </div>
                                     </div>
                                     <div className="details">
-                                        <p className="title">{game.tournament.title}</p>
+                                        <div title={game.tournament.title} className="title">{game.tournament.title}</div>
                                         <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p>
                                         <div className="name-score">
                                             <div className="team">
@@ -244,7 +244,7 @@ const LiveGames = () => {
                     ButtonStyle={{
                         fontSize: '1.2rem',
                         padding: '.4rem 1.5rem',
-                        background: 'white',
+                        backgroundColor: 'white',
                         color: 'black',
                     }}
                 >

@@ -7,24 +7,20 @@
   padding-bottom: 1.5rem;
   .title-class-name {
     display: flex;
-    margin-right: 1rem;
+    margin-right: 0.2rem;
     margin-bottom: 0.2rem;
-    user-select: none;
     font-size: clamp(0.75rem, 1.5vw, 1rem);
   }
   .dropdown-input {
-    background: rgba($color: #000000, $alpha: 0.08);
     direction: rtl;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     min-width: 250px;
-    padding: 0.5rem 1rem;
+    padding: 0.5em 1em;
     font-size: clamp(0.75rem, 1.5vw, 1rem);
-    font-weight: 500;
-    color: black;
-    border-radius: 15px;
+    border-radius: 25px;
     border: none;
     transition: box-shadow 0.15s ease-in-out;
     cursor: pointer;
@@ -49,7 +45,6 @@
     border-radius: 10px;
     padding: 1rem;
     z-index: 99;
-    background: #fff;
     box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.1);
     overflow: auto;
     ul {

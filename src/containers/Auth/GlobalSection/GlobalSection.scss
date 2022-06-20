@@ -1,164 +1,36 @@
 .global-section-container {
   position: relative;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 1rem;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  .light {
-    filter: blur(20px);
-    position: fixed;
-    top: 25%;
-    background-color: rgba(255, 255, 255, 0.9);
-    width: 100px;
-    // aspect-ratio: 2;
-    // @supports not (aspect-ratio: auto) {
-    // padding-top: 50%;
-    // height: 0;
-    // position: relative;
-    // overflow: hidden;
-    // }
-    border-radius: 50%;
-    box-shadow: 0 0 90px 50px #fff;
-    transform: rotate(120deg);
-    opacity: 0.3;
-  }
-  .global-section-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    font-size: 4vw;
-    .game-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-radius: 26px;
-      width: 100%;
-      padding: 1em 1.5em;
-      background-color: rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(5px);
-      margin-bottom: 0.7rem;
-      cursor: pointer;
-      .game-box-rocket {
-        margin-left: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        height: 100%;
-        .rocket-image {
-          img {
-            max-width: 30px;
-          }
-        }
-        .show-status {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          color: white;
-          .all-viewer {
-            display: flex;
-            align-items: center;
-            p {
-              margin-top: 0.3rem;
-              margin-right: 0.2rem;
-            }
-          }
-          .online-viewer {
-            display: flex;
-            align-items: center;
-            p {
-              margin-right: 0.2rem;
-            }
-          }
-        }
-      }
-      .details {
-        width: 100%;
-        padding: 0 0.5em;
-        text-align: right;
-        .name-score {
-          display: flex;
-          width: 100%;
-          margin-top: 0.4rem;
-          justify-content: space-evenly;
-          align-items: center;
-          .team {
-            display: flex;
-            align-items: center;
-            img {
-              width: 20px;
-              height: 20px;
-              margin: 0 0.4rem;
-              margin-bottom: 0.3rem;
-            }
-            .title {
-              font-size: 1.1rem;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            }
-            .game-number {
-              font-size: 0.9rem;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            }
-            .players-name {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              font-size: 3vw;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              .span-score {
-                margin: 1rem;
-                font-size: 1rem;
-                color: white;
-                font-weight: bold;
-              }
-            }
-          }
-        }
-      }
-    }
+  max-height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+  .live-scores-title {
+    display: none;
   }
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (max-height: 550px) {
   .global-section-container {
-    padding: 3rem 2rem;
-    flex: 1;
-    max-height: 100%;
-    .global-section-inner {
-      font-size: clamp(0.6rem, 1.5vw, 1.1rem);
-      .game-box {
-        border-radius: 1.5vw;
-        width: 90%;
-        .game-box-rocket {
-          .rocket-image {
-            flex: 1;
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: contain;
-            }
-          }
-        }
-        .details {
-          .name-score {
-            .team {
-              .players-name {
-                font-size: clamp(0.6rem, 1.5vw, 1.1rem);
-              }
-            }
-          }
-        }
-      }
+    align-content: flex-start;
+    height: 100%;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .global-section-container {
+    align-content: center;
+    padding: 4rem;
+    width: fit-content;
+    height: 100%;
+    .live-scores-title {
+      display: block;
+      position: fixed;
+      top: 1rem;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
     }
   }
 }

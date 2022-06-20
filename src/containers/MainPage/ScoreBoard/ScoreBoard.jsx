@@ -8,7 +8,7 @@ import { FaPlayCircle, FaExclamation } from "react-icons/fa";
 import { ImUndo2, ImCancelCircle } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
-
+import { ImArrowUpRight2 } from "react-icons/im";
 import Modal from "../../../components/UI/Modal/Modal"
 import Events from "../EventsModule/Events"
 import Button from "../../../components/UI/Button/Button"
@@ -29,7 +29,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [maxPoint, setMaxPoint] = useState(21);
   const [teamWon, setTeamWon] = useState(null);
   const [loading, setLoading] = useState(false)
-  const [endSetRequestSended, setEndSetRequestSended] = useState(false)
+  const [endSetRequestSent, setEndSetRequestSent] = useState(false)
   const [gameStarted, setGameStarted] = useState(false);
   const [chooseServer, setChooseServer] = useState(false);
   const [serviceOver, setServiceOver] = useState(false)
@@ -37,6 +37,8 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [warmUp, setWarmUp] = useState(false);
   const [warmUpTimer, setWarmUpTimer] = useState("00:00");
   const [twentySeconds, setTwentySeconds] = useState(false);
+  const [serverDirection, setServerDirection] = useState("");
+
 
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
@@ -157,7 +159,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     }
     let resultEnd = await endSetHandler(payload, token)
     if (resultEnd.success) {
-      setEndSetRequestSended(true)
+      setEndSetRequestSent(true)
       // setDisable(true)
     } else {
       setDialog(<ErrorDialog type="error">{resultEnd.error}</ErrorDialog>)
@@ -197,6 +199,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
     };
   }, []);
   useEffect(() => {
+    let temp = info.team1.isRightTeam ?
+      info.team1.score % 2 === 0 ? "down-left" : "up-left" :
+      info.team1.score % 2 === 0 ? "up-right" : "down-right";
+    setServerDirection(temp)
     switch (info.team1.score) {
       case maxPoint - 1:
         if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
@@ -241,6 +247,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
       setWinPoint(null)
   }, [info.team1.score])
   useEffect(() => {
+    let temp = info.team2.isRightTeam ?
+      info.team2.score % 2 === 0 ? "down-left" : "up-left" :
+      info.team2.score % 2 === 0 ? "up-right" : "down-right";
+    setServerDirection(temp)
     switch (info.team2.score) {
       case maxPoint - 1:
         if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)
@@ -287,9 +297,9 @@ const ScoreBoard = ({ disable, setDisable }) => {
   useEffect(() => {
     (async () => {
       if ((info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
-        (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSended) {
+        (info.team1.setWon !== 2 && info.team2.setWon !== 2) && endSetRequestSent) {
         createNewSet()
-        setEndSetRequestSended(false)
+        setEndSetRequestSent(false)
 
       }
       if (info.team1.setWon === 2)
@@ -297,7 +307,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
       else if (info.team2.setWon === 2)
         setTeamWon("team2");
     })()
-  }, [info.team1.setWon, info.team2.setWon, endSetRequestSended]);
+  }, [info.team1.setWon, info.team2.setWon, endSetRequestSent]);
 
 
   useEffect(() => {
@@ -327,7 +337,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
       }
     })()
   }, [teamWon])
-  
+
   useEffect(() => {
     const payload = {
       scoreA: info.team1.score,
@@ -399,50 +409,47 @@ const ScoreBoard = ({ disable, setDisable }) => {
     }
   }, [warmUp]);
 
-  useEffect(async () => {
-    if (info.events.length > 0 && (info.events[info.events.length - 1].content === 'Dis' || info.events[info.events.length - 1].content === 'Ret')) {
-      let teamWon = 'team1';
-      info.team1.players.forEach(player => {
-        if (player.id === info.events[info.events.length - 1].by) teamWon = 'team2';
-      })
-      setTeamWon(teamWon);
-      setWinPoint(null)
-      setOver({ teamKey: teamWon, isForce: true });
-      setDisable(true);
-      setHalfTime(false);
-      setMaxPoint(21);
-      const payload = {
-        id: gameId,
-        status: 3,
-        shuttls: info.balls
+  useEffect(() => {
+    (async () => {
+      if (info.events.length > 0 && (info.events[info.events.length - 1].content === 'Dis' || info.events[info.events.length - 1].content === 'Ret')) {
+        let teamWon = 'team1';
+        info.team1.players.forEach(player => {
+          if (player.id === info.events[info.events.length - 1].by) teamWon = 'team2';
+        })
+        setTeamWon(teamWon);
+        setWinPoint(null)
+        setOver({ teamKey: teamWon, isForce: true });
+        setDisable(true);
+        setHalfTime(false);
+        setMaxPoint(21);
+        const payload = {
+          id: gameId,
+          status: 3,
+          shuttls: info.balls
+        }
+        const result = await setStatusGame(payload, token)
+        if (result.success) {
+          setDisable(true)
+        } else {
+          setDialog(null)
+          setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+        }
+        let payloadSet = {
+          setId,
+          events: info.events,
+          teamA: { score: info.team1.score, setWon: false },
+          teamB: { score: info.team2.score, setWon: false }
+        }
+        let resultEnd = await endSetHandler(payloadSet, token)
+        let payloadSocket = {
+          teamA: info.team1.scores,
+          teamB: info.team2.scores,
+          gameId,
+        }
+        socket.emit('send_end_game_stats', payloadSocket)
       }
-      const result = await setStatusGame(payload, token)
-      if (result.success) {
-        setDisable(true)
-      } else {
-        setDialog(null)
-        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-      }
-      let payloadSet = {
-        setId,
-        events: info.events,
-        teamA: { score: info.team1.score, setWon: false },
-        teamB: { score: info.team2.score, setWon: false }
-      }
-      let resultEnd = await endSetHandler(payloadSet, token)
-      let payloadSocket = {
-        teamA: info.team1.scores,
-        teamB: info.team2.scores,
-        gameId,
-      }
-      socket.emit('send_end_game_stats', payloadSocket)
-    }
+    })()
   }, [info.events])
-
-
-
-
-
 
   // useEffect(() => {
   //   if (serviceOver || winPoint) {
@@ -455,8 +462,6 @@ const ScoreBoard = ({ disable, setDisable }) => {
   //     }
   //   }
   // }, [serviceOver, winPoint])
-
-
 
   return (
     <div
@@ -489,6 +494,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
           alignItems: loading && "center"
         }}
       >
+        {!disable &&
+          <div className={`arrow ${serverDirection}`}>
+            <ImArrowUpRight2 />
+          </div>}
         {!loading &&
           (info ? (info.team1.players.length > 0 && info.team2.players.length > 0) ?
             Object.entries(info).map(([k, v], index) =>

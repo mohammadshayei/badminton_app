@@ -1,0 +1,116 @@
+.verify-code-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: verifyAnimtaion 0.3s ease-out alternate;
+  .header-verify-contianer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    p {
+      text-align: center;
+      font-size: 1rem;
+    }
+    .verify-check-icon {
+      margin: 1rem 0;
+    }
+  }
+  .resend-code-and-timer {
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+  .buttons-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .invalid {
+    animation: invalidAnimation 0.15s ease-in-out normal;
+  }
+}
+
+@media only screen and (max-height: 350px) {
+  .verify-code-wrapper {
+    .header-verify-contianer {
+      margin-bottom: 1rem;
+    }
+    .resend-code-and-timer {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 595px) {
+  .verify-code-container {
+    width: 15rem;
+  }
+}
+
+/* Small screen devices (600px and above) */
+@media only screen and (min-width: 600px) {
+  .verify-code-container {
+    width: 18rem;
+  }
+}
+
+/* Medium screen devices (768px and above) */
+@media only screen and (min-width: 768px) {
+  .verify-code-container {
+    width: 21rem;
+  }
+}
+
+/* Big screen devices (889px and above) */
+@media only screen and (min-width: 889px) {
+  .verify-code-container {
+    width: 24rem;
+  }
+}
+
+/* Extra big screen devices (1200px and above) */
+@media only screen and (min-width: 1200px) {
+  .verify-code-container {
+    width: 30rem;
+  }
+}
+
+@keyframes verifyAnimtaion {
+  0% {
+    margin-top: -3%;
+    opacity: 0.1;
+    transform: scale(1.1);
+  }
+  25% {
+    margin-top: -2%;
+    opacity: 0.4;
+    transform: scale(1.07);
+  }
+  50% {
+    margin-top: -1%;
+    opacity: 0.7;
+    transform: scale(1.04);
+  }
+  100% {
+    margin-top: 0%;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes invalidAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

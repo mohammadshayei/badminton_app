@@ -55,7 +55,7 @@ const GamesPage = () => {
                   <img src={rockets} alt="" />
                 )}
                 <div className="details">
-                  <p className="title">{item.game.tournament.title}</p>
+                  <div title={item.game.tournament.title} className="title">{item.game.tournament.title}</div>
                   <p className="game-number">{`game ${item.game.game_number}  -  court ${item.game.land_number}`}</p>
                   {<p className="players-name">
                     {`${item.game.teamA.players[0].player.username}

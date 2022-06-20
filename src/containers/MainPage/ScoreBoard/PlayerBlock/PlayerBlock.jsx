@@ -4,7 +4,6 @@ import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png"
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { HiOutlinePlusSm } from "react-icons/hi";
-import shuttle_image from "../../../../assets/images/badminton_ball.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
 import { baseUrl } from "../../../../constants/Config";
@@ -19,12 +18,6 @@ const PlayerBlock = (props) => {
   const dispatch = useDispatch();
   const increaseScore = (teamKey) => {
     dispatch(infoActions.increaseScore(teamKey));
-  };
-  const increaseBall = () => {
-    dispatch(infoActions.increaseBall());
-  };
-  const decreaseBall = () => {
-    dispatch(infoActions.decreaseBall());
   };
   const foulHappend = (type) => {
     dispatch(infoActions.foulHappend(type));
@@ -156,69 +149,45 @@ const PlayerBlock = (props) => {
           style={dynamicStyle}
         >
           <p className="player-name">{props.player && props.player.name}</p>
-          <img src={props.player && props.player.avatar !== '' ? `${baseUrl}uploads/players/${props.player.avatar}` : PROFILE_IMAGE} alt="badminton player" style={{
-            border: props.server === 1 ? "15px solid #F7FF00" :
-              (props.playerD && props.receiver === 1) && `15px solid ${theme.primary_variant}`
-          }} onClick={() => selectPlayer(props.player.id)} />
+          <div className="player-img"
+            style={{
+              boxShadow: props.server === 1 ? "0 0 0 1vw #F7FF00" :
+                (props.playerD && props.receiver === 1) && `0 0 0 1vw ${theme.primary_variant}`
+            }}
+            onClick={() => selectPlayer(props.player.id)}
+          >
+            <img src={props.player && props.player.avatar !== '' ?
+              `${baseUrl}uploads/players/${props.player.avatar}` :
+              PROFILE_IMAGE} alt="badminton player" />
+          </div>
           {props.playerD &&
-            <img src={props.playerD.avatar ?
-              `${baseUrl}uploads/players/${props.playerD.avatar}` :
-              PROFILE_IMAGE}
-              alt="badminton second player"
+            <div className="player-img"
               style={{
-                border: props.server === 2 ? "15px solid #F7FF00" :
-                  props.receiver === 2 && `15px solid ${theme.primary_variant}`
-              }} onClick={() => selectPlayer(props.playerD.id)} />}
+                boxShadow: props.server === 2 ? "0 0 0 1vw #F7FF00" :
+                  props.receiver === 2 && `0 0 0 1vw ${theme.primary_variant}`
+              }}
+              onClick={() => selectPlayer(props.playerD.id)}
+            >
+              <img src={props.playerD.avatar ?
+                `${baseUrl}uploads/players/${props.playerD.avatar}` :
+                PROFILE_IMAGE}
+                alt="badminton second player"
+              />
+            </div>
+          }
           {props.playerD && <p className="player-name">{props.playerD.name}</p>}
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
           style={{ opacity: info.foulHappend ? 0 : 1 }}>
-          {props.position === "right" && <div className="player-block-icon add-shuttle">
-            <Button
-              back={theme.primary}
-              hover={theme.primary}
-              ButtonStyle={{
-                borderRadius: "50%",
-                // aspectRatio: "1",
-                width: "3rem",
-                height: "3rem"
-              }}
-              onClick={() => {
-                increaseBall();
-                // addEvent({ type: "increaseBall", time: "", by: "" });
-              }}
-            >
-              +
-              <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
-            </Button>
-            <Button
-              back={theme.primary}
-              hover={theme.primary}
-              ButtonStyle={{
-                borderRadius: "50%",
-                aspectRatio: "1",
-              }}
-              onClick={() => {
-                if (info.balls > 1) {
-                  decreaseBall();
-                  // addEvent({ type: "decreaseBall", time: "", by: "" });
-                }
-              }}
-            >
-              -
-              <img src={shuttle_image} alt="shuttle" />
-            </Button>
-          </div>}
           <div disabled={props.disable} className="player-block-icon up-btn">
             <Button
               back={theme.primary}
               hover={theme.primary}
               ButtonStyle={{
-                borderRadius: "50%",
-                aspectRatio: "1",
-                width: "90%",
-                transform: props.position === "right" && "translateY(-40%)",
-                padding: "0"
+                borderRadius: "clamp(5px,1vw,10px)",
+                width: "9vw",
+                maxWidth: "100px",
+                padding: "90% 0"
               }}
               onClick={() => increaseScore({ teamKey: props.teamKey })}
             >
@@ -244,7 +213,7 @@ const PlayerBlock = (props) => {
         </p>
         <div className="score-place-container">
           <p className="score-text" style={{
-            fontSize: props.score > 9 ? "17vw" : "20vw",
+            fontSize: props.score > 9 ? "14vw" : "20vw",
             ...scoreStyle
           }}>
             {props.score}

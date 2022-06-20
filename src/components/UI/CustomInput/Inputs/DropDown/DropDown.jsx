@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import "./DropDown.scss"
 import { BiChevronDown } from "react-icons/bi";
+import { useTheme } from "../../../../../styles/ThemeProvider";
 
 function useOnClickOutside(ref, reff, handler) {
     useEffect(() => {
@@ -29,6 +30,9 @@ function useOnClickOutside(ref, reff, handler) {
 const DropDown = (props) => {
     const [drop, setDrop] = useState(false)
 
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
+
     const divRef = useRef();
     const inRef = useRef();
     useOnClickOutside(inRef, divRef, () => {
@@ -48,11 +52,19 @@ const DropDown = (props) => {
     return (
         <div {...props.elementConfig} className='dropdown-container' >
             <p className='title-class-name'>{props.title}
-                <span className="required">
+                <span className="required"
+                    style={{
+                        color: theme.error
+                    }}
+                >
                     {(props.validation) && (props.validation.required && '*')}
                 </span>
             </p>
             <div ref={inRef} className='dropdown-input'
+                style={{
+                    backgroundColor: theme.border_color,
+                    color: theme.on_background,
+                }}
                 onClick={() => setDrop(!drop)}
             >
                 {props.value ? props.value : 'انتخاب کنید'}

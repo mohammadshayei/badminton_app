@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import { useTheme } from "../../../../../styles/ThemeProvider";
 import "./OTPInput.scss"
 
 const OTPInput = (props) => {
-   
     const [otp, setOtp] = useState(new Array(props.boxes).fill(""));
     const [focus, setFocus] = useState(new Array(props.boxes).fill(false));
 
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
     const focusDiv = useRef();
     const focusDiv2 = useRef();
 
@@ -60,10 +62,12 @@ const OTPInput = (props) => {
                     value={data}
                     onChange={e => handleChange(e, index)}
                     style={{
-                        // borderColor: props.isOk ?
-                        //     (focus[index] ? theme.primary : theme.darken_border_color)
-                        //     :
-                        //     (theme.error),
+                        backgroundColor: theme.border_color,
+                        color: theme.on_background,
+                        borderColor: props.isOk ?
+                            (focus[index] ? theme.primary : theme.border_color)
+                            :
+                            (theme.error),
                         ...props.style,
                     }}
                     {...props.config}
