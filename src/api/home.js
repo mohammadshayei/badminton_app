@@ -106,9 +106,8 @@ export const searchPlayer = async (data, token) => {
     { headers: { "auth-token": token } }
   );
   if (result.data.success) {
-    return { success: true, data: result.data.message.player };
-  } else
-    return { success: false, data: null, error: result.data.message.error };
+    return { success: true, data: result.data.result };
+  } else return { success: false };
 };
 export const addPlayerWithPhone = async (data, token) => {
   const result = await axios.post(

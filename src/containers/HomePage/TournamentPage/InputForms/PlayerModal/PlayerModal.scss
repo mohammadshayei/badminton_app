@@ -1,126 +1,116 @@
 .player-modal-wrapper {
+  width: 100%;
+  position: relative;
+  padding-top: 100px;
+  .image-wrapper {
     width: 100%;
-    position: relative;
-    padding-top: 100px;
-    .image-wrapper {
-        width: 100%;
-        position: absolute;
-        top: 0;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .circle-div {
+      cursor: pointer;
+      width: 140px;
+      aspect-ratio: 1; //this line was comment
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      &:active {
+        transform: scale(0.95);
+      }
+      img {
+        width: 150px;
+        aspect-ratio: 1; //this line was comment
+        object-fit: cover;
+        margin-top: 30px;
+      }
+      .upload-image-wrapper {
+        width: 140px;
+        transform: translateY(-33px);
+        left: 5px;
+        // position: absolute;
+        cursor: pointer;
+        bottom: 0px;
+        background-color: rgba(#000000, 0.4);
         display: flex;
         align-items: center;
         justify-content: center;
-        .circle-div {
-            cursor: pointer;
-            width: 140px;
-            aspect-ratio: 1; //this line was comment
-            // @supports not (aspect-ratio: auto) {
-            // padding-top: 100%;
-            // height: 0;
-            // position: relative;
-            // overflow: hidden;
-            // }
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            padding: 0;
-            &:active {
-                transform: scale(0.95);
-            }
-            img {
-                width: 150px;
-                aspect-ratio: 1; //this line was comment
-                // @supports not (aspect-ratio: auto) {
-                // padding-top: 100%;
-                // height: 0;
-                // position: relative;
-                // overflow: hidden;
-                // }
-                object-fit: cover;
-            }
-            .upload-image-wrapper {
-                width: 140px;
-                height: 40px;
-                left: 5px;
-                position: absolute;
-                bottom: 0px;
-                background-color: rgba(#000000, 0.4);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                .camera {
-                    color: white;
-                    font-size: 1.7rem;
-                    margin-right: 0.6rem;
-                    margin-bottom: 0.1rem;
-                }
-            }
+        .camera {
+          color: white;
+          cursor: pointer;
+          font-size: 1.7rem;
         }
+      }
     }
-    .input-wrapper {
-        width: 100%;
-        display: flex;
-        padding: 2rem 1rem;
-        padding-bottom: 0;
-        flex-direction: column;
-        max-height: 85vh;
-        position: relative;
-        overflow-y: auto;
-        direction: rtl;
-        margin-top: 1rem;
-        .pair-item-container {
-            display: grid;
-            justify-content: space-evenly;
-            grid-template-columns: 1fr;
-        }
-        .pair-half-item-container {
-            display: grid;
-            justify-content: space-evenly;
-            grid-template-columns: 1fr;
-        }
+  }
+  .input-wrapper {
+    width: 100%;
+    display: flex;
+    padding: 2rem 1rem;
+    padding-bottom: 0;
+    flex-direction: column;
+    max-height: 85vh;
+    position: relative;
+    overflow-y: auto;
+    direction: rtl;
+    margin-top: 1rem;
+    .pair-item-container {
+      display: grid;
+      justify-content: space-evenly;
+      grid-template-columns: 1fr;
     }
-    .action-wrapper {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        .back-button {
-            display: flex;
-        }
+    .pair-half-item-container {
+      display: grid;
+      justify-content: space-evenly;
+      grid-template-columns: 1fr;
     }
+  }
+  .action-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    .back-button {
+      display: flex;
+    }
+  }
 }
 @media only screen and (min-width: 560px) {
-    .player-modal-wrapper {
-        .input-wrapper {
-            width: 100%;
-            display: flex;
-            padding: 2rem 1rem;
-            padding-bottom: 0;
-            flex-direction: column;
-            max-height: 85vh;
-            position: relative;
-            overflow-y: auto;
-            direction: rtl;
-            margin-top: 0rem;
-            .pair-item-container {
-                display: grid;
-                justify-content: space-evenly;
-                grid-template-columns: 1fr;
-                padding: 1rem;
-            }
-            .pair-half-item-container {
-                grid-template-columns: repeat(2, 1fr);
-                grid-column-gap: 1rem;
-            }
-        }
-        .action-wrapper {
-            justify-content: center;
-            .back-button {
-                display: none;
-            }
-        }
+  .player-modal-wrapper {
+    .input-wrapper {
+      width: 100%;
+      display: flex;
+      padding: 2rem 1rem;
+      padding-bottom: 0;
+      flex-direction: column;
+      max-height: 85vh;
+      position: relative;
+      overflow-y: auto;
+      direction: rtl;
+      margin-top: 0rem;
+      .pair-item-container {
+        display: grid;
+        justify-content: space-evenly;
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+      .pair-half-item-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 1rem;
+      }
     }
+    .action-wrapper {
+      justify-content: center;
+      .back-button {
+        display: none;
+      }
+    }
+  }
 }

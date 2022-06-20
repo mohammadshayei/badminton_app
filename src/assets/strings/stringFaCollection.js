@@ -133,5 +133,7 @@ export const stringFa = {
   url_wrong: "آدرس وارد شده اشتباه است",
   back: "بازگشت",
   change_password: "تغییر رمز",
-  cancel: "انصراف"
+  cancel: "انصراف",
+  continue: "ادامه",
+
 };

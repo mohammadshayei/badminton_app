@@ -48,7 +48,6 @@ export const saveTempCode = async (payload) => {
   return { success: result.data.success, result: result.data.result };
 };
 export const validateTempCode = async (payload) => {
-    const result = await axios.post(`${baseUrl}api/validate_temp_code`, payload);
-    return { success: result.data.success, result: result.data.result };
-  };
-  
+  const result = await axios.post(`${baseUrl}api/validate_temp_code`, payload);
+  return { success: result.data.success, result: result.data.result };
+};
