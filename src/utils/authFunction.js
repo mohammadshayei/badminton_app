@@ -3,7 +3,7 @@ export const checkValidaty = (value, rules) => {
     if (!rules) {
         return true;
     }
-    
+
     if (rules.required) {
         isValid = value.trim() !== "" && isValid;
     }
@@ -38,7 +38,7 @@ export const onChange = (e, key, order, setOrder, setFormIsValid) => {
         e.target.value,
         upadtedElement.validation
     );
-    upadtedElement.touched = true;
+    // upadtedElement.touched = true;
     updatedOrder[key] = upadtedElement;
 
     let formIsValid = true;

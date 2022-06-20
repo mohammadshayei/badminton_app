@@ -22,12 +22,12 @@ export const stringFa = {
   confirm: "تایید",
   invalid_code: "کد وارد شده نامعتبر است",
   write_code: "لطفا کد ارسال شده را وارد کنید",
-  registered: "ثبت نام کردم",
+  registered: "حساب کاربری دارید؟",
   national_number: "شماره ملی",
   national_number_error: "شماره ملی باید 10 حرف باشد",
   send_code: "ارسال کد",
-  phone_exist: "شماره وارد شده تکراری است",
-  code_sended: "کد ارسال شد",
+  phone_exist: "کاربر با این شماره موجود است",
+  code_sent: "کد ارسال شد",
   error_occured: "خطایی رخ داده است",
   wrong_code: "کد وارد شده اشتباه است",
   code_error: "کد باید 5 حرف باشد",
@@ -131,6 +131,10 @@ export const stringFa = {
   back: "بازگشت",
   change_password: "تغییر رمز",
   cancel: "انصراف",
-  welcome: "خوش آمدید",
-  live_scores: "نتایج زنده"
+  login_welcome_title: "خوش آمدید",
+  live_scores: "نتایج زنده",
+  please_enter_submitted_code: "لطفا کد ارسال شده را وارد کنید",
+  register_welcome_title: "ثبت نام",
+  didnt_recieve: "کد دریافت نشد؟",
+  resend: "ارسال مجدد"
 };

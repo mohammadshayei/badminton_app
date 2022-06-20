@@ -4,10 +4,10 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  max-width: 500px;
   border: 1px solid;
   border-radius: 18px;
-  font-size: clamp(0.7rem, 3vw, 0.8rem);
-  margin: 0 1rem;
+  font-size: clamp(0.65rem, 3vw, 0.8rem);
   cursor: pointer;
   overflow: hidden;
   .game-box-title {
@@ -74,7 +74,9 @@
         align-items: center;
         width: 100%;
         padding: 0.4em 0.8em;
-        min-height: 3.5rem;
+        height: 5.5vh;
+        min-height: 2.5rem;
+        max-height: 3.2rem;
         .players-and-shuttle {
           display: flex;
           flex-direction: row-reverse;
@@ -86,11 +88,11 @@
             align-items: flex-end;
             white-space: nowrap;
             text-overflow: ellipsis;
-            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            font-size: clamp(0.65rem, 3vw, 0.85rem);
             overflow: hidden;
           }
           .shuttle-icon {
-            font-size: 1.5rem;
+            font-size: clamp(0.9rem, 3vw, 1.5rem);
           }
         }
         .span-score {
@@ -100,7 +102,7 @@
           align-items: center;
           border-radius: 5px;
           padding: 0 0.5em;
-          font-size: clamp(0.8rem, 3.5vw, 1rem);
+          font-size: clamp(0.65rem, 3.5vw, 1rem);
           padding-left: 0.5rem;
           overflow: hidden;
           animation: pulse 1s forwards;
@@ -111,6 +113,29 @@
       }
       .devider {
         border-bottom: 1px solid;
+      }
+    }
+  }
+}
+
+@media only screen and (max-height: 550px) {
+  .game-box {
+    font-size: clamp(0.65rem, 2vw, 0.75rem);
+    .game-box-details {
+      .name-score {
+        .team {
+          .players-and-shuttle {
+            .team-players {
+              font-size: clamp(0.65rem, 2vw, 0.75rem);
+            }
+            .shuttle-icon {
+              font-size: clamp(0.9rem, 2vw, 1.5rem);
+            }
+          }
+          .span-score {
+            font-size: clamp(0.65rem, 2vw, 0.85rem);
+          }
+        }
       }
     }
   }

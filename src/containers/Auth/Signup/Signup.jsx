@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { registerReferee } from "../../../api/auth"
@@ -7,46 +6,47 @@ import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog"
 import * as actions from "../../../store/actions/auth";
+import { useTheme } from "../../../styles/ThemeProvider"
 import { onChange } from "../../../utils/authFunction"
-import Loading from "../../../components/UI/Loading/Loading"
 
 
-const Singup = ({ navigate, locaiton }) => {
+const Singup = ({ locaiton, navigate }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)
     const [dialog, setDialog] = useState(null)
     const [order, setOrder] = useState({
         username: {
             value: '',
+            title: stringFa.username,
             elementConfig: {
                 placeholder: stringFa.username,
                 type: 'text',
             },
-            elementType: 'input',
+            elementType: 'titleInput',
             validationMessage: stringFa.username_error,
             invalid: true,
             shouldValidate: true,
-
             validation: {
                 isRequired: true,
                 minLength: 3,
             },
             isFocused: false,
-            touched: false
-
+            touched: false,
+            hint: stringFa.username_error
         },
-        nationalNumber: {
+        nationalNumberSingup: {
             value: '',
+            title: stringFa.national_number,
             elementConfig: {
                 placeholder: stringFa.national_number,
                 type: 'text',
                 maxLength: 10,
+                autoComplete: "off"
             },
-            elementType: 'input',
+            elementType: 'titleInput',
             validationMessage: stringFa.national_number_error,
             invalid: true,
             shouldValidate: true,
-
             validation: {
                 isRequired: true,
                 minLength: 10,
@@ -56,27 +56,30 @@ const Singup = ({ navigate, locaiton }) => {
             touched: false
 
         },
-        password: {
+        passwordSingup: {
             value: '',
+            title: stringFa.password,
             elementConfig: {
                 placeholder: stringFa.password,
                 type: 'password',
+                autoComplete: "new-password"
             },
-            elementType: 'input',
+            elementType: 'titleInput',
             validationMessage: stringFa.password_error,
             invalid: true,
             shouldValidate: true,
-
             validation: {
                 isRequired: true,
                 minLength: 6,
             },
             isFocused: false,
-            touched: false
-
+            touched: false,
+            hint: stringFa.password_error
         },
     })
 
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
     const dispatch = useDispatch();
 
     const searchParams = new URLSearchParams(locaiton.search);
@@ -95,7 +98,8 @@ const Singup = ({ navigate, locaiton }) => {
     const onClick = async () => {
         setDialog(null)
         setIsLoading(true)
-        let result = await registerReferee(order.username.value, phone, order.nationalNumber.value, order.password.value)
+        let result = await registerReferee(order.username.value, phone, order.nationalNumberSingup.value, order.passwordSingup.value)
+        console.log(result);
         if (result.success) {
             setDialog(<ErrorDialog type="success">{stringFa.registered_successfully}</ErrorDialog>)
             localStorage.setItem("token", result.message.token);
@@ -104,8 +108,8 @@ const Singup = ({ navigate, locaiton }) => {
             setRefereeData(result.message.referee)
         }
         else {
-            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
-            authFail(stringFa.error_occured)
+            setDialog(<ErrorDialog type="error">{result.message.error}</ErrorDialog>)
+            authFail(result.message.error)
         }
         setIsLoading(false)
     }
@@ -117,7 +121,11 @@ const Singup = ({ navigate, locaiton }) => {
         navigate('/login')
     }
     return (
-        <div className='signup-container'>
+        <div className='section-container sign-up'
+            style={{
+                backgroundColor: theme.surface
+            }}
+        >
             {dialog}
             {
                 Object.entries(order).map(([k, v]) =>
@@ -126,35 +134,27 @@ const Singup = ({ navigate, locaiton }) => {
                         {...v}
                         inputStyle={{
                             letterSpacing: k === 'password' && v.value.length > 0 ? '.4rem' : "",
-                            padding: ".2rem 1rem"
-                        }}
-
-                        errorStyle={{
-                            maxWidth: '400px',
-                            minWidth: '250px',
-                            width: '80%',
-                            top:"2.3rem"
                         }}
                         onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                    />)
+                    />
+                )
             }
             <Button
                 loading={isLoading}
                 onClick={onClick}
-                ButtonStyle={{
-                    fontSize: '1.2rem',
-                    padding: '.4rem 4rem',
-                    background: 'white',
-                    color: 'black',
-                }}
-                config={
-                    { disabled: !formIsValid }
-                }
+                config={{ disabled: !formIsValid }}
+                ButtonStyle={{ marginTop: "1rem" }}
             >
                 {stringFa.register}
             </Button>
-            <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
-
+            <p className='go-to'>
+                {stringFa.registered}
+                <span onClick={goToLogin}
+                    style={{ color: theme.primary }}
+                >
+                    {stringFa.login}
+                </span>
+            </p>
         </div>
     )
 }

@@ -6,11 +6,10 @@ import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import * as authActions from "../../../store/actions/auth";
 import { baseUrl } from "../../../constants/Config"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom";
 import { onChange } from "../../../utils/authFunction"
 import { useTheme } from "../../../styles/ThemeProvider";
 
-const Login = () => {
+const Login = ({ navigate }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         input: {
@@ -59,7 +58,6 @@ const Login = () => {
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-    const navigate = useNavigate()
     const dispatch = useDispatch();
     const auth = (input, password, url) => {
         dispatch(authActions.auth(input, password, url));
@@ -82,26 +80,25 @@ const Login = () => {
         navigate(`/login?type=f`);
     }
     return (
-        <div className='login-container'
+        <form className='section-container'
             style={{
                 backgroundColor: theme.surface
             }}
         >
-            <div className="title-text"
+            <div className="title-text-login"
                 style={{ color: theme.primary }}
             >
-                {stringFa.welcome}
+                {stringFa.login_welcome_title}
             </div>
-            <div className="error-text"
+            <div className="error-text under-title-login"
                 style={{ color: theme.error }}
             >{error}</div>
-            {
-                Object.entries(order).map(([k, v]) =>
-                    <CustomInput
-                        key={k}
-                        {...v}
-                        onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                    />)
+            {Object.entries(order).map(([k, v]) =>
+                <CustomInput
+                    key={k}
+                    {...v}
+                    onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                />)
             }
             <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
             <Button
@@ -110,19 +107,16 @@ const Login = () => {
                 ButtonStyle={{
                     padding: '.5em 2.5em',
                 }}
-                config={
-                    { disabled: !formIsValid }
-                }
             >
                 {stringFa.login}
             </Button>
-            <p className='go-to-register' >
+            <p className='go-to' >
                 {stringFa.not_registerd}
                 <span onClick={goToSingup}
                     style={{ color: theme.primary }}
                 >{stringFa.register}</span>
             </p>
-        </div>
+        </form>
     )
 }
 

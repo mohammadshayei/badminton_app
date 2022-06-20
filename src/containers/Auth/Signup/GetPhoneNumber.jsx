@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { searchRefereeByPhone, sendSms } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
+import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
-import Loading from "../../../components/UI/Loading/Loading"
+import { useTheme } from "../../../styles/ThemeProvider";
 import { onChange } from "../../../utils/authFunction";
+
 const GetPhoneNumber = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [formIsValid, setFormIsValid] = useState(false)
@@ -22,7 +24,7 @@ const GetPhoneNumber = (props) => {
                 pattern: "\d*",
                 maxLength: 11,
             },
-            validationMessage: stringFa.phone_error,
+            // validationMessage: stringFa.phone_error,
             invalid: false,
             validation: {
                 isRequired: true,
@@ -37,19 +39,10 @@ const GetPhoneNumber = (props) => {
         },
     })
     let navigate = useNavigate();
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
 
-    const generate_token = (length) => {
-        var a =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split(
-                ""
-            );
-        var b = [];
-        for (var i = 0; i < length; i++) {
-            var j = (Math.random() * (a.length - 1)).toFixed(0);
-            b[i] = a[j];
-        }
-        return b.join("");
-    };
+
     const generateCode = (length) => {
         var a =
             "1234567890".split(
@@ -65,26 +58,26 @@ const GetPhoneNumber = (props) => {
     const onClick = async () => {
         setError(null)
         setDialog(null)
-        props.setTokenId(generate_token(30))
         setIsLoading(true)
         let phoneExist = await searchRefereeByPhone(order.phone.value)
 
         if (phoneExist) {
-            setDialog(<ErrorDialog type="error">{stringFa.phone_exist}</ErrorDialog>)
+            setError(stringFa.phone_exist)
             setIsLoading(false)
             return;
         }
         let code = generateCode(5)
         props.setCode(code)
-        let smsSend = await sendSms(code, order.phone.value)
-        if (smsSend) {
-            setDialog(<ErrorDialog type="success">{stringFa.code_sended}</ErrorDialog>)
+        // let smsSend = await sendSms(code, order.phone.value)
+        // if (smsSend) {
+        console.log(code)
+        if (true) {
+            setDialog(<ErrorDialog type="success">{stringFa.code_sent}</ErrorDialog>)
             navigate(`/signup?p=2&phone=${order.phone.value}`);
         }
         else {
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
-
         setIsLoading(false)
     }
     useEffect(() => {
@@ -95,41 +88,49 @@ const GetPhoneNumber = (props) => {
         navigate('/login')
     }
     return (
-        <div className='signup-container'>
+        <div className='section-container'
+            style={{
+                backgroundColor: theme.surface
+            }}
+        >
             {dialog}
-            <div className="error-text">{error}</div>
-            {
-                Object.entries(order).map(([k, v]) =>
-                    <CustomInput
-                        key={k}
-                        {...v}
-                        inputStyle={{ padding: ".2rem 1rem" }}
-                        onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
-                        errorStyle={{
-                            maxWidth: '400px',
-                            minWidth: '250px',
-                            width: '80%'
-                        }}
-
-                    />)
-            }
-            <Button
-                loading={isLoading}
-                onClick={onClick}
-                ButtonStyle={{
-                    fontSize: '1.2rem',
-                    padding: '.4rem 4rem',
-                    background: 'white',
-                    color: 'black',
-                    marginTop: "2rem"
-                }}
-                config={
-                    { disabled: !formIsValid }
-                }
+            <div className="title-text"
+                style={{ color: theme.primary }}
             >
-                {stringFa.send_code}
-            </Button>
-            <p className='go-to-login'>{stringFa.registered}<span onClick={goToLogin}>{stringFa.login}</span></p>
+                {stringFa.register_welcome_title}
+            </div>
+            <div className="error-text under-title"
+                style={{
+                    color: theme.error
+                }}
+            >
+                {error}
+            </div>
+            {Object.entries(order).map(([k, v]) =>
+                <CustomInput
+                    key={k}
+                    {...v}
+                    inputStyle={{ direction: "ltr" }}
+                    onChange={(e) => {
+                        setError(null)
+                        onChange(e, k, order, setOrder, setFormIsValid)
+                    }}
+                />)}
+            <div className="buttons-wrapper">
+                <Button
+                    loading={isLoading}
+                    onClick={onClick}
+                    config={{ disabled: !formIsValid }}
+                >
+                    {stringFa.send_code}
+                </Button>
+                <TransparentButton
+                    config={{ disabled: isLoading }}
+                    onClick={goToLogin}
+                >
+                    {stringFa.cancel}
+                </TransparentButton>
+            </div>
         </div >
     )
 }

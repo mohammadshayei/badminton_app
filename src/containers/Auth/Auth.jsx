@@ -3,19 +3,16 @@ import { useTheme } from '../../styles/ThemeProvider';
 import GlobalSection from './GlobalSection/GlobalSection';
 import Login from './Login/Login';
 import GetPhoneNumber from './Signup/GetPhoneNumber';
-import VerifyCode from './Signup/VerifyCode';
 import Signup from './Signup/Signup';
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import GetInfo from './Login/GetInfo';
-import VerifyForgetCode from './Login/VerifyForgetCode';
+import VerifyCode from './VerifyCode/VerifyCode';
 
 
 const Auth = () => {
-    const [tokenId, setTokenId] = useState("");
     const [code, setCode] = useState('')
     const [forgotCode, setForgotCode] = useState('')
-    const [forgetTokenId, setForgetTokenId] = useState("");
     const [globalView, setGlobalView] = useState(false)
     const [body, setBody] = useState(null)
     const locaiton = useLocation();
@@ -28,7 +25,6 @@ const Auth = () => {
     const p = searchParams.get("p");
     const type = searchParams.get("type");
     const phone = searchParams.get("phone");
-    const token = searchParams.get("token");
 
 
 
@@ -37,17 +33,22 @@ const Auth = () => {
             setGlobalView(false)
             switch (p) {
                 case "1":
-                    body(<GetPhoneNumber setTokenId={setTokenId} setCode={setCode} />)
+                    body(
+                        <GetPhoneNumber
+                            setCode={setCode}
+                        />
+                    )
                     break;
                 case "2":
                     if (phone)
-                        setBody(
-                            <VerifyCode
-                                locaiton={locaiton}
-                                navigate={navigate}
-                                tokenId={tokenId}
-                                code={code}
-                            />)
+                        setBody(<VerifyCode
+                            code={code}
+                            setCode={setCode}
+                            phone={phone}
+                            navigate={navigate}
+                            type={'signup'}
+                        />
+                        )
                     else
                         setBody(
                             <Navigate
@@ -59,50 +60,50 @@ const Auth = () => {
                         );
                     break;
                 case "3":
-                    if (phone && token === tokenId)
-                        setBody(
-                            <Signup
-                                locaiton={locaiton}
-                                navigate={navigate}
-                            />
-                        )
-                    else {
-                        setBody(
-                            <Navigate
-                                to={{
-                                    pathname: "/signup",
-                                    search: "?p=1",
-                                }}
-                            />
-                        );
-                    }
+                    setBody(
+                        <Signup
+                            navigate={navigate}
+                            locaiton={locaiton}
+                        />
+                    )
                     break;
                 default:
-                    setBody(<GetPhoneNumber setTokenId={setTokenId} setCode={setCode} />)
+                    setBody(<GetPhoneNumber setCode={setCode} />)
                     break;
             }
         } else if (locaiton.pathname === "/login") {
             switch (type) {
                 case "n"://normal
                     setGlobalView(true)
-                    setBody(<Login />)
+                    setBody(<Login navigate={navigate} />)
                     break;
                 case "f"://forgot
                     setGlobalView(false)
-                    setBody(<GetInfo setTokenId={setForgetTokenId} setCode={setForgotCode} />)
+                    setBody(
+                        <GetInfo
+                            setCode={setForgotCode}
+                        />
+                    )
                     break;
-                case "v"://forgot
+                case "v"://verify
                     setGlobalView(false)
-                    setBody(<VerifyForgetCode code={forgotCode} phone={phone} />)
+                    setBody(<VerifyCode
+                        code={forgotCode}
+                        setCode={setForgotCode}
+                        navigate={navigate}
+                        phone={phone}
+                        type={'forget'}
+                    />
+                    )
                     break;
                 default:
                     setGlobalView(true)
-                    setBody(<Login />)
+                    setBody(<Login navigate={navigate} />)
                     break;
             }
 
         }
-    }, [locaiton.pathname, type, p, phone, token])
+    }, [locaiton.pathname, type, p, phone, navigate, code])
 
 
     return (

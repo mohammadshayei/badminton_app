@@ -195,23 +195,20 @@ const HeaderAuth = () => {
                 {stringFa.live_scores}
             </div>
             {dialog}
-            <div className="global-section-inner">
-                {
-                    loading ?
-                        <Loading style={{ color: theme.on_surface }} /> :
-                        games.length > 0 && (
-                            games.map((game, key) => (
-                                <LiveGameBox
-                                    key={game._id}
-                                    duration={duration[key]}
-                                    game={game}
-                                    gamesViewers={gamesViewers}
-                                    gamesStats={gamesStats}
-                                />
-                            ))
-                        )
-                }
-            </div>
+            {loading ?
+                <Loading style={{ color: theme.on_surface }} /> :
+                games.length > 0 && (
+                    games.map((game, key) => (
+                        <LiveGameBox
+                            key={game._id}
+                            duration={duration[key]}
+                            game={game}
+                            gamesViewers={gamesViewers}
+                            gamesStats={gamesStats}
+                        />
+                    ))
+                )
+            }
         </div>
     )
 }
