@@ -28,6 +28,16 @@ const CustomInput = (props) => {
                     ...props.errorStyle
                 }}
             >{props.validationMessage}</p>;
+    } else {
+        if (props.hint)
+            validationMessage =
+                <p
+                    className='validtaion-message'
+                    style={{
+                        opacity: "0.5",
+                        ...props.errorStyle
+                    }}
+                >{props.hint}</p>;
     }
 
     switch (props.elementType) {

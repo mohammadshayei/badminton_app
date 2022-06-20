@@ -44,7 +44,7 @@ const Button = (props) => {
       {...props.config}
     >
       {props.children}
-      {props.loading && <div class="dot-collision"></div>}
+      {props.loading && <div className="dot-collision"></div>}
     </button>
   );
 };
