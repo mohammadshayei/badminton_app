@@ -131,6 +131,7 @@ export const stringFa = {
   back: "بازگشت",
   change_password: "تغییر رمز",
   cancel: "انصراف",
+  continue: "ادامه",
   login_welcome_title: "خوش آمدید",
   live_scores: "نتایج زنده",
   please_enter_submitted_code: "لطفا کد ارسال شده را وارد کنید",

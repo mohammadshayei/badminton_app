@@ -35,9 +35,9 @@ const Modal = React.memo((props) => {
     // item && 
     (
       <>
-        <Backdrop show={props.show} clicked={props.modalClosed}></Backdrop>
+        <Backdrop style={props.bdStyle} show={props.show} clicked={props.modalClosed}></Backdrop>
         <div
-          className={`${myClassName}`}
+          className={`${myClassName} ${props.className}`}
           style={{
             opacity: props.show ? 1 : 0,
             pointerEvents: props.show ? "auto" : "none",

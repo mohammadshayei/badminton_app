@@ -17,6 +17,7 @@ const Backdrop = (props) => {
       style={{
         opacity: props.show ? 1 : 0,
         pointerEvents: props.show ? "auto" : "none",
+        ...props.style,
       }}
     ></div>
   );

@@ -51,17 +51,6 @@ const PlayerFooter = () => {
             {dialog}
             <Button
                 onClick={onCreatePlayer}>{stringFa.new_player}</Button>
-            <Button
-                loading={loading}
-                disabled={value.length !== 10}
-                onClick={onAddPlayer}>{stringFa.add}</Button>
-            <input
-                className='tournament-content-input'
-                maxLength={10}
-                value={value}
-                onChange={onChange}
-                placeholder={stringFa.national_number}
-            />
         </div>
     )
 }

@@ -9,7 +9,7 @@ const initialState = {
   loading: false,
   authRedirectPath: null,
   checked: false,
-  socket: null
+  socket: null,
 };
 
 const authStart = (state, action) => {
@@ -46,7 +46,15 @@ const authLogout = (state, action) => {
     refereeId: null,
   });
 };
-
+const changeRefereeInfo = (state, action) => {
+  const { key, value } = action.payload;
+  let updatedReferee = { ...state.referee };
+  updatedReferee[key] = value;
+  return {
+    ...state,
+    referee: updatedReferee,
+  };
+};
 const setAuthRedirectPath = (state, action) => {
   return updateObject(state, { authRedirectPath: action.path });
 };
@@ -72,6 +80,8 @@ const reducer = (state = initialState, action) => {
       return setChecked(state, action);
     case actionTypes.SET_SOCKET:
       return setSocket(state, action);
+    case actionTypes.CHANGE_REFEREE_INFO:
+      return changeRefereeInfo(state, action);
     default:
       return state;
   }
