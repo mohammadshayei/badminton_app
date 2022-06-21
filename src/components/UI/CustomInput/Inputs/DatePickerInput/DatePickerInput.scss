@@ -1,15 +1,13 @@
 .date-picker-container {
   display: flex;
-  background: rgba($color: #000000, $alpha: 0.08);
   width: 100%;
   flex-direction: column;
   align-items: flex-end;
   direction: rtl;
   padding: 0.5em 1.5em;
   font-size: clamp(0.75rem, 1.5vw, 1rem);
-  color: black;
   border-radius: 25px;
-  border: none;
+  border: 1px solid;
   transition: box-shadow 0.15s ease-in-out;
   &:active {
     transform: scale(0.99);
@@ -20,7 +18,6 @@
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  padding-bottom: 1.5rem;
   .title-class-name {
     display: flex;
     margin-right: 0.2rem;

@@ -22,8 +22,9 @@ const TitleTextArea = (props) => {
                 {...props.elementConfig}
                 value={props.value ? props.value : ''}
                 style={{
-                    backgroundColor: theme.border_color,
-                    color: theme.on_background,
+                    backgroundColor: theme.surface,
+                    color: theme.on_surface,
+                    borderColor: theme.darken_border_color,
                     ...props.inputStyle
                 }}
                 onChange={props.onChange}

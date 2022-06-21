@@ -62,8 +62,9 @@ const DropDown = (props) => {
             </p>
             <div ref={inRef} className='dropdown-input'
                 style={{
-                    backgroundColor: theme.border_color,
-                    color: theme.on_background,
+                    backgroundColor: theme.surface,
+                    color: theme.on_surface,
+                    borderColor: theme.darken_border_color,
                 }}
                 onClick={() => setDrop(!drop)}
             >
