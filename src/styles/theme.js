@@ -4,7 +4,7 @@ const lightTheme = {
   primary: "#14C9CB",
   primary_variant: "",
   secondary: "#0FBED8",
-  secondary_variant: "",
+  secondary_variant: "#0F8FA3",
   error: "#EB5757",
   error_variant: "#9e0420",
   success: "#6FCF97",

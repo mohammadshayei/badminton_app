@@ -137,5 +137,6 @@ export const stringFa = {
   please_enter_submitted_code: "لطفا کد ارسال شده را وارد کنید",
   register_welcome_title: "ثبت نام",
   didnt_recieve: "کد دریافت نشد؟",
-  resend: "ارسال مجدد"
+  resend: "ارسال مجدد",
+  search_tournament: "جستجوی تورنمنت"
 };

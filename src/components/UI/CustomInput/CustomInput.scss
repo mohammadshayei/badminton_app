@@ -18,6 +18,9 @@
     transition: box-shadow 0.15s ease-in-out;
     user-select: auto;
     outline: none;
+    &::placeholder {
+      opacity: 0.5;
+    }
   }
   // .input-element:-webkit-autofill {
   //   box-shadow: 0 0 0 30px #75c9b1 inset !important;
