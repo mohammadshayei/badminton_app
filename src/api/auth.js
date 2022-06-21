@@ -2,11 +2,11 @@ import axios from "axios";
 import { baseUrl } from "../constants/Config";
 const MELI_PAYAMAK_URL =
   "https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber";
-export const searchRefereeByPhone = async (phone) => {
-  const result = await axios.post(`${baseUrl}api/search_referee_by_phone`, {
+export const searchUserByPhone = async (phone) => {
+  const result = await axios.post(`${baseUrl}api/search_user_by_phone`, {
     phone,
   });
-  return result.data.refereeExist;
+  return result.data.result.exist;
 };
 export const sendSms = async (text, to) => {
   const payload = {
@@ -20,20 +20,15 @@ export const sendSms = async (text, to) => {
   return result.data.RetStatus === 1;
 };
 
-export const registerReferee = async (
-  username,
-  phone,
-  nationalNumber,
-  password
-) => {
+export const createUser = async (username, phone, nationalNumber, password) => {
   const payload = {
     username,
     phone,
     nationalNumber,
     password,
   };
-  const result = await axios.post(`${baseUrl}api/create_referee`, payload);
-  return { success: result.data.success, message: result.data.message };
+  const result = await axios.post(`${baseUrl}api/create_user`, payload);
+  return { success: result.data.success, result: result.data };
 };
 export const getIp = async () => {
   const result = await axios.get("https://geolocation-db.com/json/");

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { searchRefereeByPhone, sendSms } from "../../../api/auth"
+import { searchUserByPhone, sendSms } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
@@ -59,8 +59,7 @@ const GetPhoneNumber = (props) => {
         setError(null)
         setDialog(null)
         setIsLoading(true)
-        let phoneExist = await searchRefereeByPhone(order.phone.value)
-
+        let phoneExist = await searchUserByPhone(order.phone.value)
         if (phoneExist) {
             setError(stringFa.phone_exist)
             setIsLoading(false)
@@ -68,10 +67,8 @@ const GetPhoneNumber = (props) => {
         }
         let code = generateCode(5)
         props.setCode(code)
-        // let smsSend = await sendSms(code, order.phone.value)
-        // if (smsSend) {
-        console.log(code)
-        if (true) {
+        let smsSend = await sendSms(code, order.phone.value)
+        if (smsSend) {
             setDialog(<ErrorDialog type="success">{stringFa.code_sent}</ErrorDialog>)
             navigate(`/signup?p=2&phone=${order.phone.value}`);
         }

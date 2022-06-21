@@ -3,8 +3,7 @@ import { updateObject } from "../utility";
 
 const initialState = {
   token: null,
-  refereeId: null,
-  referee: null,
+  user: null,
   error: null,
   loading: false,
   authRedirectPath: null,
@@ -18,15 +17,14 @@ const authStart = (state, action) => {
 const setSocket = (state, action) => {
   return updateObject(state, { socket: action.socket });
 };
-const setRefereeData = (state, action) => {
+const setUserData = (state, action) => {
   return updateObject(state, {
-    referee: action.referee,
+    user: action.user,
   });
 };
 const authSuccess = (state, action) => {
   return updateObject(state, {
     token: action.token,
-    refereeId: action.refereeId,
     error: null,
     loading: false,
     authRedirectPath: "/home",
@@ -43,16 +41,15 @@ const authFail = (state, action) => {
 const authLogout = (state, action) => {
   return updateObject(state, {
     token: null,
-    refereeId: null,
   });
 };
-const changeRefereeInfo = (state, action) => {
+const changeUserInfo = (state, action) => {
   const { key, value } = action.payload;
-  let updatedReferee = { ...state.referee };
-  updatedReferee[key] = value;
+  let updatedUser = { ...state.user };
+  updatedUser[key] = value;
   return {
     ...state,
-    referee: updatedReferee,
+    user: updatedUser,
   };
 };
 const setAuthRedirectPath = (state, action) => {
@@ -74,14 +71,14 @@ const reducer = (state = initialState, action) => {
       return authLogout(state, action);
     case actionTypes.SET_AUTH_REDIRECT_PATH:
       return setAuthRedirectPath(state, action);
-    case actionTypes.SET_REFEREE_DATA:
-      return setRefereeData(state, action);
+    case actionTypes.SET_USER_DATA:
+      return setUserData(state, action);
     case actionTypes.SET_CHECKED:
       return setChecked(state, action);
     case actionTypes.SET_SOCKET:
       return setSocket(state, action);
-    case actionTypes.CHANGE_REFEREE_INFO:
-      return changeRefereeInfo(state, action);
+    case actionTypes.CHANGE_USER_INFO:
+      return changeUserInfo(state, action);
     default:
       return state;
   }

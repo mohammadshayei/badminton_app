@@ -44,10 +44,9 @@ const VerifyCode = (props) => {
             setError(true)
             return;
         }
-        localStorage.setItem("token", result.result.token);
-        localStorage.setItem("refereeId", result.result.referee._id);
-        dispatch(authActions.authSuccess(result.result.token, result.result.referee._id));
-        dispatch(authActions.setRefereeData(result.result.referee))
+        localStorage.setItem("a1", result.result.token);
+        dispatch(authActions.authSuccess(result.result.token));
+        dispatch(authActions.setUserData(result.result.user))
         setDialog(<ErrorDialog type="success">{stringFa.code_sent}</ErrorDialog>)
         setLoading(false)
     };
@@ -96,7 +95,7 @@ const VerifyCode = (props) => {
 
     useEffect(() => {
         if (countDown) {
-            const startingMinute = 1;
+            const startingMinute =2;
             let time = (startingMinute * 60) - 1;
             let seconds = time % 60;
             let minutes = Math.floor(time / 60);

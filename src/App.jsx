@@ -22,7 +22,6 @@ function App() {
 
   const socket = useSelector(state => state.auth.socket)
   const token = useSelector((state) => state.auth.token);
-  const refereeId = useSelector((state) => state.auth.refereeId);
   const ip = useSelector((state) => state.detail.ip);
   const checked = useSelector((state) => state.auth.checked);
 
@@ -38,8 +37,8 @@ function App() {
   const setSocket = (socket) => {
     dispatch(authActions.setSocket(socket));
   };
-  const setRefereeData = (refereeId, token) => {
-    dispatch(authActions.getRefereeData(refereeId, token));
+  const setUserData = (token) => {
+    dispatch(authActions.getUserData(token));
   };
   const setSize = (height, width) => {
     dispatch(detailActions.setSize(height, width));
@@ -58,12 +57,15 @@ function App() {
 
 
 
-  useEffect(async () => {
-    checkAuth();
-    setSocket(socketIOClient(baseUrl))
-    const res = await getIp()
-    setIp(res.ip)
+  useEffect(() => {
+    (async () => {
+      checkAuth();
+      setSocket(socketIOClient(baseUrl))
+      const res = await getIp()
+      setIp(res.ip)
+    })()
   }, []);
+
   useEffect(() => {
     if (!token && checked) {
       navigate(`/login`);
@@ -71,10 +73,10 @@ function App() {
   }, [token, checked]);
 
   useEffect(() => {
-    if (refereeId && token) {
-      setRefereeData(refereeId, token)
+    if (token) {
+      setUserData(token)
     }
-  }, [refereeId, token])
+  }, [token])
   useEffect(() => {
     if (location.pathname === '/login' || location.pathname === '/signup') {
       if (token && checked) {
@@ -89,6 +91,8 @@ function App() {
       }
     }
   }, [location.pathname, token, checked])
+
+  
   useEffect(() => {
     if (socket && ip) {
       socket.emit('sub', ip)

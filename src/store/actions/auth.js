@@ -7,40 +7,35 @@ export const authStart = () => {
   };
 };
 
-export const getRefereeData = (refereeId, token) => {
+export const getUserData = (token) => {
   return (dispatch) => {
     return axios
-      .post(
-        `${baseUrl}api/get_referee_data`,
-        { id: refereeId },
-        { headers: { "auth-token": token } }
-      )
+      .get(`${baseUrl}api/get_user_data`, { headers: { "auth-token": token } })
       .then((result) => {
         dispatch({
-          type: actionTypes.SET_REFEREE_DATA,
-          referee: result.data.message.referee,
+          type: actionTypes.SET_USER_DATA,
+          user: result.data.result.user,
         });
       });
   };
 };
 
-export const setRefereeData = (referee) => {
+export const setUserData = (user) => {
   return {
-    type: actionTypes.SET_REFEREE_DATA,
-    referee,
+    type: actionTypes.SET_USER_DATA,
+    user,
   };
 };
-export const changeRefereeInfo = (payload) => {
+export const changeUserInfo = (payload) => {
   return {
-    type: actionTypes.CHANGE_REFEREE_INFO,
+    type: actionTypes.CHANGE_USER_INFO,
     payload,
   };
 };
-export const authSuccess = (token, refereeId) => {
+export const authSuccess = (token) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
     token,
-    refereeId,
   };
 };
 export const setSocket = (socket) => {
@@ -57,9 +52,7 @@ export const authFail = (error) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("refereeId");
-  localStorage.removeItem("token");
-
+  localStorage.removeItem("a1");
   return {
     type: actionTypes.AUTH_LOGOUT,
   };
@@ -75,15 +68,12 @@ export const auth = (input, password, url) => {
     axios
       .post(url, authData)
       .then((res) => {
-        if (res.data.message.loginStatus) {
-          localStorage.setItem("token", res.data.message.token);
-          localStorage.setItem("refereeId", res.data.message.referee._id);
-          dispatch(
-            authSuccess(res.data.message.token, res.data.message.referee._id)
-          );
+        if (res.data.success) {
+          localStorage.setItem("a1", res.data.result.token);
+          dispatch(authSuccess(res.data.result.token));
           dispatch({
-            type: actionTypes.SET_REFEREE_DATA,
-            referee: res.data.message.referee,
+            type: actionTypes.SET_USER_DATA,
+            user: res.data.result.user,
           });
         } else {
           dispatch(authFail(`نام کاربری یا رمز عبور اشتباه می باشد`));
@@ -109,14 +99,13 @@ export const setChecked = () => {
 
 export const authCheckState = () => {
   return (dispatch) => {
-    const token = localStorage.getItem("token");
-    const refereeId = localStorage.getItem("refereeId");
+    const token = localStorage.getItem("a1");
 
-    if (!token || !refereeId) {
+    if (!token) {
       dispatch(logout());
       dispatch(setChecked());
     } else {
-      dispatch(authSuccess(token, refereeId));
+      dispatch(authSuccess(token));
       dispatch(setChecked());
     }
   };

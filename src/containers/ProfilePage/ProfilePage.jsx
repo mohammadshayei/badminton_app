@@ -117,8 +117,8 @@ const HomePage = () => {
     const setMenuStatus = (status) => {
         dispatch(detailActions.setMenuStatus(status));
     };
-    const changeRefereeInfo = (payload) => {
-        dispatch(authActions.changeRefereeInfo(payload));
+    const changeUserInfo = (payload) => {
+        dispatch(authActions.changeUserInfo(payload));
     };
 
     const uploadButtonClickHandler = useCallback(() => {
@@ -132,7 +132,7 @@ const HomePage = () => {
             let result = await uploadRefereeImage(payload, auth.token)
             setDialog(<ErrorDialog type={result.success ? "success" : "error"}>{result.result.message}</ErrorDialog>)
             if (result.success)
-                changeRefereeInfo({ key: 'image', value: result.result.path })
+                changeUserInfo({ key: 'image', value: result.result.path })
 
         }
         // else {
@@ -162,7 +162,7 @@ const HomePage = () => {
                 setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
 
                 if (result.success)
-                    changeRefereeInfo({ key: 'username', value: order.userName.value })
+                    changeUserInfo({ key: 'username', value: order.userName.value })
 
 
             }

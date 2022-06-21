@@ -70,7 +70,7 @@ const Login = ({ navigate }) => {
         auth(
             order.input.value,
             order.password.value,
-            `${baseUrl}api/login_referee`
+            `${baseUrl}api/login_user`
         );
     }, []);
     const goToSingup = () => {

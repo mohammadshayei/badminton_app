@@ -58,8 +58,7 @@ const Menu = (props) => {
         setMenuStatus(!showMenu)
     }
     const logOut = () => {
-        localStorage.removeItem("refereeId");
-        localStorage.removeItem("token");
+        localStorage.removeItem("a1");
         window.location.reload(false);
     }
 

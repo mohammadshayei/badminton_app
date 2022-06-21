@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { registerReferee } from "../../../api/auth"
+import { createUser } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import Button from "../../../components/UI/Button/Button"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput"
@@ -85,11 +85,11 @@ const Singup = ({ locaiton, navigate }) => {
     const searchParams = new URLSearchParams(locaiton.search);
     const phone = searchParams.get("phone");
 
-    const authSuccess = (token, refereeId) => {
-        dispatch(actions.authSuccess(token, refereeId));
+    const authSuccess = (token,) => {
+        dispatch(actions.authSuccess(token));
     };
-    const setRefereeData = (referee) => {
-        dispatch(actions.setRefereeData(referee));
+    const setUserData = (user) => {
+        dispatch(actions.setUserData(user));
     };
     const authFail = (error) => {
         dispatch(actions.authFail(error));
@@ -98,25 +98,19 @@ const Singup = ({ locaiton, navigate }) => {
     const onClick = async () => {
         setDialog(null)
         setIsLoading(true)
-        let result = await registerReferee(order.username.value, phone, order.nationalNumberSingup.value, order.passwordSingup.value)
-        console.log(result);
+        let result = await createUser(order.username.value, phone, order.nationalNumberSingup.value, order.passwordSingup.value)
         if (result.success) {
             setDialog(<ErrorDialog type="success">{stringFa.registered_successfully}</ErrorDialog>)
-            localStorage.setItem("token", result.message.token);
-            localStorage.setItem("refereeId", result.message.referee._id);
-            authSuccess(result.message.token, result.message.referee._id)
-            setRefereeData(result.message.referee)
+            localStorage.setItem("a1", result.result.token);
+            authSuccess(result.result.token)
+            setUserData(result.result.user)
         }
         else {
-            setDialog(<ErrorDialog type="error">{result.message.error}</ErrorDialog>)
-            authFail(result.message.error)
+            setDialog(<ErrorDialog type="error">{result.result.message}</ErrorDialog>)
+            authFail(result.result.message)
         }
         setIsLoading(false)
     }
-    useEffect(() => {
-        return () => {
-        }
-    }, [])
     const goToLogin = () => {
         navigate('/login')
     }
