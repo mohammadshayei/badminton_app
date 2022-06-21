@@ -4,7 +4,7 @@ import { useTheme } from "../../styles/ThemeProvider";
 import TournamentPage from "./TournamentPage/TournamentPage";
 import Modal from "../../components/UI/Modal/Modal";
 import * as detailActions from "../../store/actions/detail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Menu from '../Menu/Menu';
 import CreateTournament from "./CreateTournament/CreateTournament";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,6 +28,7 @@ const HomePage = () => {
   const locaiton = useLocation();
   const navigate = useNavigate()
 
+  const showMenu = useSelector(state => state.detail.showMenu);
   const searchParams = new URLSearchParams(locaiton.search);
   const pageNumber = searchParams.get("page");
 
@@ -69,7 +70,7 @@ const HomePage = () => {
 
   return (
     <div
-      className="home-page-wrapper"
+      className={`home-page-wrapper ${showMenu ? "menu-open" : ""}`}
       style={{
         background: theme.background_color,
         color: theme.on_background,

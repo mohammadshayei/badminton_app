@@ -92,7 +92,7 @@ export const stringFa = {
   options_situation: "وضعیت و امکانات",
   address: 'آدرس',
   address_error: 'لطفا آدرس را تعیین کنید',
-  new_tournament: "تونمنت جدید",
+  new_tournament: "تورنمنت جدید",
   my_games: "بازی های من",
   tournaments: "تورنمنت ها",
   tournament_error: "تورنمنت را انتخاب کنید",
