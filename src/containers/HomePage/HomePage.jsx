@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./HomePage.scss";
 import { useTheme } from "../../styles/ThemeProvider";
-import AppBar from "./AppBar/AppBar";
 import TournamentPage from "./TournamentPage/TournamentPage";
 import Modal from "../../components/UI/Modal/Modal";
 import * as detailActions from "../../store/actions/detail";
@@ -11,6 +10,8 @@ import CreateTournament from "./CreateTournament/CreateTournament";
 import { useLocation, useNavigate } from "react-router-dom";
 import GamesPage from "./GamesPage/GamesPage";
 import LiveGames from "../LiveGames/LiveGames";
+import TournamentsPage from "./TournamentsPage/TournamentsPage";
+import SearchBox from "./SearchBox/SearchBox";
 
 
 
@@ -38,16 +39,20 @@ const HomePage = () => {
       switch (pageNumber) {
         case '1':
           setPage(
+            <TournamentsPage />)
+          break;
+        case '2':
+          setPage(
             <TournamentPage
               setShowModal={setShowModal}
               setEditMode={setEditMode}
             />)
           break;
-        case '2':
+        case '3':
           setPage(
             <GamesPage />)
           break;
-        case '3':
+        case '4':
           setPage(
             <LiveGames
             />)
@@ -66,11 +71,11 @@ const HomePage = () => {
     <div
       className="home-page-wrapper"
       style={{
-        background: `linear-gradient(210deg,${theme.primary},${theme.primary_variant})`,
-        color: theme.on_primary,
+        background: theme.background_color,
+        color: theme.on_background,
       }}
     >
-      <div className="version">v1.2.20</div>
+      <SearchBox />
       <div className="menu-icon" onClick={() => setMenuStatus(true)}>
         <i
           style={{ color: theme.on_primary }}
@@ -87,14 +92,6 @@ const HomePage = () => {
         <CreateTournament editMode={editMode} modalClosed={() => setShowModal(false)} />
       </Modal>}
       {page}
-      <AppBar
-        setPage={setPage}
-        setShowModal={setShowModal}
-        setEditMode={setEditMode}
-        pageId={pageNumber}
-
-      />
-
     </div>
   );
 };
