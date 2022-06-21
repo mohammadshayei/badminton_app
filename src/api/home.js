@@ -305,3 +305,9 @@ export const getGame = async (id, token) => {
   } else
     return { success: false, data: null, error: result.data.message.error };
 };
+export const fetchTournaments = async (token) => {
+  const result = await axios.get(`${baseUrl}api/get_tournaments`, {
+    headers: { "auth-token": token },
+  });
+  return { success: result.data.success, data: result.data.result };
+};

@@ -34,38 +34,38 @@ const HomePage = () => {
   const setMenuStatus = (status) => {
     dispatch(detailActions.setMenuStatus(status));
   };
-  useEffect(() => {
-    if (pageNumber) {
-      switch (pageNumber) {
-        case '1':
-          setPage(
-            <TournamentsPage />)
-          break;
-        case '2':
-          setPage(
-            <TournamentPage
-              setShowModal={setShowModal}
-              setEditMode={setEditMode}
-            />)
-          break;
-        case '3':
-          setPage(
-            <GamesPage />)
-          break;
-        case '4':
-          setPage(
-            <LiveGames
-            />)
-          break;
+  // useEffect(() => {
+  //   if (pageNumber) {
+  //     switch (pageNumber) {
+  //       case '1':
+  //         setPage(
+  //           <TournamentsPage />)
+  //         break;
+  //       case '2':
+  //         setPage(
+  //           <TournamentPage
+  //             setShowModal={setShowModal}
+  //             setEditMode={setEditMode}
+  //           />)
+  //         break;
+  //       case '3':
+  //         setPage(
+  //           <GamesPage />)
+  //         break;
+  //       case '4':
+  //         setPage(
+  //           <LiveGames
+  //           />)
+  //         break;
 
-        default:
-          navigate('/home?page=1')
-          break;
-      }
-    } else {
-      navigate('/home?page=1')
-    }
-  }, [pageNumber]);
+  //       default:
+  //         navigate('/home?page=1')
+  //         break;
+  //     }
+  //   } else {
+  //     navigate('/home?page=1')
+  //   }
+  // }, [pageNumber]);
 
   return (
     <div
@@ -91,7 +91,8 @@ const HomePage = () => {
       {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         <CreateTournament editMode={editMode} modalClosed={() => setShowModal(false)} />
       </Modal>}
-      {page}
+      {/* {page} */}
+      <TournamentsPage />
     </div>
   );
 };

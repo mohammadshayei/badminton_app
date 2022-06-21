@@ -21,7 +21,7 @@ const lightTheme = {
   darken_border_color: "rgba(0,0,0,0.2)",
   borderBlur: "",
   button_disabled: "",
-  hover: "rgb(210, 210, 210)",
+  hover: "rgb(245, 245, 245)",
 };
 
 const darkTheme = {

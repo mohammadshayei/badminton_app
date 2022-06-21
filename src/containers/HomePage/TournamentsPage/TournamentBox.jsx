@@ -3,8 +3,9 @@ import "./TournamentsPage.scss"
 import { useTheme } from "../../../styles/ThemeProvider";
 import { Icon } from '@iconify/react';
 import { GiTrophyCup } from "react-icons/gi";
+import { baseUrl } from "../../../constants/Config";
 
-const TournamentBox = () => {
+const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick }) => {
     const [hover, setHover] = useState(false);
 
     const themeState = useTheme();
@@ -21,28 +22,32 @@ const TournamentBox = () => {
         className="tournament-box-container"
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-        style={{ backgroundColor: hover ? theme.border_color : theme.surface }}
+        onClick={onClick}
+        style={{ backgroundColor: hover ? theme.hover : theme.surface }}
     >
         <div className="box-indicator"
             style={{ color: theme.on_surface }}
-        >
-            <GiTrophyCup />
+        >   {
+
+                image ? <img src={`${baseUrl}uploads/tournaments/${image}`} alt='' /> :
+                    <GiTrophyCup />
+            }
             {/* <Icon icon="iconoir:tournament" /> */}
         </div>
         <div className="box-content">
             <div className="tournament-title">
-                لیگ برتر بدمینتون ایران جام خلیج فارس
+                {title}
             </div>
             <div className="tournament-detail">
-                نام سازنده | رده سنی
+                {chiefName} | {ageCategory}
             </div>
             <div className="tournament-date">
                 <Icon icon="flat-color-icons:calendar" />
                 <div className="date">
                     <p>از</p>
-                    <p>1401/02/25</p>
+                    <p>{gameDate.start && new Date(gameDate.start).toLocaleDateString('fa-IR')}</p>
                     <p>تا</p>
-                    <p>1401/11/25</p>
+                    <p>{gameDate.end && new Date(gameDate.end).toLocaleDateString('fa-IR')}</p>
                 </div>
             </div>
         </div>

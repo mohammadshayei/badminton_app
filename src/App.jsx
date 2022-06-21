@@ -17,6 +17,8 @@ import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import { getIp } from "./api/auth";
+import TournamentPage from "./containers/HomePage/TournamentPage/TournamentPage";
+import TournamentsPage from "./containers/HomePage/TournamentsPage/TournamentsPage";
 
 function App() {
 
@@ -80,19 +82,23 @@ function App() {
   useEffect(() => {
     if (location.pathname === '/login' || location.pathname === '/signup') {
       if (token && checked) {
-        navigate(`/home?page=1`);
+        // navigate(`/home?page=1`);
+        navigate(`/tournaments`);
+
       }
     }
     else if (location.pathname === '/') {
       if (token && checked) {
-        navigate(`/home?page=1`);
+        // navigate(`/home?page=1`);
+        navigate(`/tournaments`);
+
       } else {
         navigate(`/login`);
       }
     }
   }, [location.pathname, token, checked])
 
-  
+
   useEffect(() => {
     if (socket && ip) {
       socket.emit('sub', ip)
@@ -103,7 +109,8 @@ function App() {
 
   return (
     <Routes >
-      <Route path="/home" exact element={<HomePage />}></Route>
+      {/* <Route path="/home" exact element={<HomePage />}></Route> */}
+      <Route path="/tournaments" exact element={<HomePage />}></Route>
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route
         path="/scoreboard_view"
@@ -111,6 +118,7 @@ function App() {
         element={<ScoreboardView />}
       >
       </Route>
+      <Route path="/tournaments/:id" element={<TournamentPage />} />
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>

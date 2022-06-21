@@ -23,39 +23,40 @@ const TournamentPage = (props) => {
   const contents = useSelector((state) => state.home.contents);
   const dispatch = useDispatch();
 
-  const onIconClickHandler = (key) => {
-    if (key !== mode) setLoading(true)
-    setMode(key)
-  }
+  // const onIconClickHandler = (key) => {
+  //   if (key !== mode) setLoading(true)
+  //   setMode(key)
+  // }
 
-  const setShowModal = (showModal) => {
-    dispatch(homeActions.setShowModal(showModal));
-  };
-  const setMode = (modeInput) => {
-    dispatch(homeActions.setMode(modeInput));
-  };
-  useEffect(() => {
-    switch (mode) {
-      case 'players':
-        setModalContent(<PlayerModal />)
-        break;
-      case 'gyms':
-        setModalContent(<GymModal />)
-        break;
-      case 'games':
-        setModalContent(<GameModal />)
-        break;
+  // const setShowModal = (showModal) => {
+  //   dispatch(homeActions.setShowModal(showModal));
+  // };
+  // const setMode = (modeInput) => {
+  //   dispatch(homeActions.setMode(modeInput));
+  // };
+  // useEffect(() => {
+  //   switch (mode) {
+  //     case 'players':
+  //       setModalContent(<PlayerModal />)
+  //       break;
+  //     case 'gyms':
+  //       setModalContent(<GymModal />)
+  //       break;
+  //     case 'games':
+  //       setModalContent(<GameModal />)
+  //       break;
 
-      default:
-        break;
-    }
-  }, [mode])
-  useEffect(() => {
-    setLoading(false)
-  }, [contents])
+  //     default:
+  //       break;
+  //   }
+  // }, [mode])
+  // useEffect(() => {
+  //   setLoading(false)
+  // }, [contents])
   return (
     <div className="tour-page-container">
-      <div disabled={loading} className="small-page-icons">
+      hello tournament
+      {/* <div disabled={loading} className="small-page-icons">
         <FaMedal
           style={{ color: mode === 'games' && theme.primary }}
           className={`icon ${mode === 'games' && 'icon-selected'}`}
@@ -85,7 +86,7 @@ const TournamentPage = (props) => {
       {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         {modalContent}
       </Modal>}
-      <TournamentsList setEditMode={props.setEditMode} setShowModal={props.setShowModal} />
+      <TournamentsList setEditMode={props.setEditMode} setShowModal={props.setShowModal} /> */}
     </div >
   );
 };
