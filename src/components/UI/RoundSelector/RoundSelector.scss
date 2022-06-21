@@ -1,0 +1,13 @@
+.round-selector-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(0.5rem, 3vw, 0.9rem);
+  border: 2px solid;
+  border-radius: 50px;
+  padding: 0.3em 0.9em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 200ms ease, border-color 200ms ease,
+    color 200ms ease;
+}

@@ -110,7 +110,8 @@ const Menu = (props) => {
                             <div className="avatar"
                                 onClick={() => showProfile()}
                             >
-                                {auth.referee.image ? auth.referee.image :
+                                {auth.referee.image ?
+                                    <img src={auth.referee.image} alt="pic" /> :
                                     <img src={PROFILE_IMAGE} alt="pic" />}
                             </div> :
                             <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
