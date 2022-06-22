@@ -17,10 +17,7 @@ export const createTournament = async (data, token) => {
     { ...data },
     { headers: { "auth-token": token } }
   );
-  if (result.data.success) {
-    return { success: true, tournament: result.data.message.tournament };
-  } else
-    return { success: false, data: null, error: result.data.message.error };
+  return { success: result.data.success, data: result.data.result };
 };
 export const editTournament = async (data, token) => {
   const result = await axios.post(

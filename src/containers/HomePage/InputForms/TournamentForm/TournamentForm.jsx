@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./TournamentForm.scss"
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
 import InputForm from "../../../../components/UI/InputForm/InputForm";
+import Button from "../../../../components/UI/Button/Button";
+import { useNavigate } from "react-router-dom";
+import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
+import { createTournament } from "../../../../api/home";
+import { useSelector } from "react-redux";
+import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 
 const TournamentForm = () => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -18,7 +24,7 @@ const TournamentForm = () => {
             },
             elementType: elementTypes.titleInput,
             validationMessage: stringFa.tournament_title_error,
-            invalid: true,
+            invalid: false,
             validation: {
                 required: true,
                 minLength: 2,
@@ -27,19 +33,18 @@ const TournamentForm = () => {
             isFocused: false,
             touched: false,
         },
-        periodNumber: {
+        dayCount: {
             value: '',
-            title: stringFa.period_number,
+            title: stringFa.day_count,
             elementConfig: {
                 type: 'text',
             },
             elementType: elementTypes.titleInput,
-            validationMessage: stringFa.period_number_error,
+            validationMessage: stringFa.day_count_error,
             invalid: true,
             validation: {
                 required: true,
                 minLength: 1,
-
             },
             shouldValidate: true,
             isFocused: false,
@@ -60,21 +65,6 @@ const TournamentForm = () => {
 
             },
             shouldValidate: true,
-            isFocused: false,
-            touched: false,
-        },
-        gamesType: {
-            value: '',
-            title: stringFa.games_type,
-            elementConfig: {
-                type: 'text',
-            },
-            elementType: elementTypes.titleInput,
-            validationMessage: '',
-            invalid: false,
-            validation: {
-            },
-            shouldValidate: false,
             isFocused: false,
             touched: false,
         },
@@ -101,10 +91,11 @@ const TournamentForm = () => {
             },
             elementType: elementTypes.datePicker,
             validationMessage: '',
-            invalid: false,
+            invalid: true,
             validation: {
+                bdRequired: true
             },
-            shouldValidate: false,
+            shouldValidate: true,
             isFocused: false,
             touched: false,
         },
@@ -115,6 +106,37 @@ const TournamentForm = () => {
                 type: 'text',
             },
             elementType: elementTypes.datePicker,
+            validationMessage: '',
+            invalid: true,
+            validation: {
+                bdRequired: true
+            },
+            shouldValidate: false,
+            isFocused: false,
+            touched: false,
+        },
+        periodNumber: {
+            value: '',
+            title: stringFa.period_number,
+            elementConfig: {
+                type: 'text',
+            },
+            elementType: elementTypes.titleInput,
+            validationMessage: stringFa.period_number_error,
+            invalid: false,
+            validation: {
+            },
+            shouldValidate: false,
+            isFocused: false,
+            touched: false,
+        },
+        gamesType: {
+            value: '',
+            title: stringFa.games_type,
+            elementConfig: {
+                type: 'text',
+            },
+            elementType: elementTypes.titleInput,
             validationMessage: '',
             invalid: false,
             validation: {
@@ -322,13 +344,107 @@ const TournamentForm = () => {
             touched: false,
         },
     })
+    const [loading, setLoading] = useState(false)
+    const [dialog, setDialog] = useState(null)
 
-    return <div>
+    const { token } = useSelector(state => state.auth)
+
+
+    let navigate = useNavigate()
+    const onCancel = () => {
+        navigate('/tournaments')
+    }
+
+
+
+    const onSaveClick = async () => {
+        setDialog(null)
+        setLoading(true)
+        try {
+            const payload = {
+                title: order.title.value,
+                period: order.periodNumber.value && parseInt(order.periodNumber.value),
+                ageCategory: order.ageRange.value,
+                freeRanking: order.freeRanking.value,
+                dayCount: order.dayCount.value,
+                gameType: order.gamesType.value,
+                gameDate: {
+                    start: order.startDate.value,
+                    end: order.endDate.value,
+                },
+                supervisor: order.supervisor.value,
+                grade: order.grade.value,
+                rewardType: order.rewardType.value,
+                certificate: order.certificate.value,
+                placeInfo: {
+                    country: order.country.value,
+                    province: order.province.value,
+                    city: order.city.value,
+                    town: order.town.value,
+                },
+                options: order.serviceOptions.value,
+                transportation: order.tranportation.value,
+                catering: order.catering.value,
+                hotel: order.hotel.value,
+            }
+            const result = await createTournament(payload, token)
+            if (!result.success) {
+                setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
+                return;
+            }
+            setDialog(<ErrorDialog type="success">با موفقیت ساخته شد</ErrorDialog>)
+            setLoading(false)
+            navigate(`/tournaments/${result.data.tournament}?part=team`)
+
+        } catch (error) {
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+            setLoading(false)
+
+        }
+    }
+
+    useEffect(() => {
+        if (!order.startDate.value) return;
+        let updatedOrder = { ...order }
+        updatedOrder.endDate.elementConfig = {
+            ...updatedOrder.endDate.elementConfig,
+            minDate: new Date(order.startDate.value)
+        }
+        setOrder(updatedOrder)
+    }, [order.startDate.value])
+
+    useEffect(() => {
+        if (!order.endDate.value) return;
+        let updatedOrder = { ...order }
+        updatedOrder.startDate.elementConfig = {
+            ...updatedOrder.endDate.elementConfig,
+            maxDate: new Date(order.endDate.value)
+        }
+        setOrder(updatedOrder)
+    }, [order.endDate.value])
+
+
+    return <div className="tournaments-form-wrapper">
+        {dialog}
         <InputForm
             order={order}
             setOrder={setOrder}
             setFormIsValid={setFormIsValid}
         />
+        <div className="buttons-wrapper">
+            <Button
+                loading={loading}
+                onClick={onSaveClick}
+                config={{ disabled: !formIsValid }}
+            >
+                {stringFa.save}
+            </Button>
+            <TransparentButton
+                onClick={onCancel}
+            >
+                {stringFa.cancel}
+            </TransparentButton>
+        </div>
     </div>;
 };
 

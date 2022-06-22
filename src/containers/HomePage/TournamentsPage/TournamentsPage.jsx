@@ -144,6 +144,7 @@ const TournamentsPage = () => {
                                     ageCategory={tournament.age_category}
                                     image={tournament.image}
                                     gameDate={tournament.game_date}
+                                    key={tournament._id}
 
                                 />
                             ) : <div>
