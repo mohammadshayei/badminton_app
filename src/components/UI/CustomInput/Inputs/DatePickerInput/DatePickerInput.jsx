@@ -13,10 +13,13 @@ const DatePickerInput = (props) => {
     const ref = useRef()
     const [width, setWidth] = useState(0)
     useEffect(() => {
-        if (ref.current) setWidth(ref.current.clientWidth)
+        onHandleSize()
     }, [ref])
+    const onHandleSize = () => {
+        if (ref.current) setWidth(ref.current.clientWidth)
+    }
+    window.addEventListener('resize', onHandleSize)
 
-  
     return (
         <div className='title-date-picker-container' ref={ref}>
             <p className='title-class-name'>{props.title}
@@ -33,7 +36,7 @@ const DatePickerInput = (props) => {
                 locale={persian_fa}
                 onChange={props.onChange}
                 // fixMainPosition={true}
-                // portal
+                portal
                 calendarPosition='top'
                 value={props.value}
                 render={(value, openCalendar) => {
