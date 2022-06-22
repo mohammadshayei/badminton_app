@@ -5,6 +5,7 @@ import { stringFa } from '../../../assets/strings/stringFaCollection'
 import ErrorDialog from '../../../components/UI/Error/ErrorDialog'
 import Header from './Header/Header'
 import './TournamentPage.scss'
+
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -32,6 +33,7 @@ const TournamentPage = ({ id }) => {
 
         })()
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
     return (
         <div>

@@ -88,6 +88,7 @@ const TournamentsPage = () => {
 
             }
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
 
     useEffect(() => {
@@ -134,7 +135,9 @@ const TournamentsPage = () => {
         <div className="ads-and-tournaments">
             <div className="tournaments-wrapper">
                 {
-                    loading ? <div>صبر کنید ...</div> :
+                    loading ?
+                        <TournamentBox loading={true} />
+                        :
                         filteredTournaments.length > 0 ?
                             filteredTournaments.map(tournament =>
                                 <TournamentBox
@@ -144,7 +147,7 @@ const TournamentsPage = () => {
                                     ageCategory={tournament.age_category}
                                     image={tournament.image}
                                     gameDate={tournament.game_date}
-
+                                    loading={loading}
                                 />
                             ) : <div>
                                 تورنمنتی موجود نمی باشد
