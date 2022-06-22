@@ -7,47 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const Header = ({ tournament, loading }) => {
-    const [filterSelectors, setFilterSelectors] = useState({
-        team: {
-            text: "تیم",
-            selected: true,
-        },
-        player: {
-            text: "بازیکن",
-            selected: false,
-        },
-        referee: {
-            text: "داور",
-            selected: false,
-        },
-        gym: {
-            text: "باشگاه",
-            selected: false,
-        },
-        teamMatch: {
-            text: "مسابقات تیمی",
-            selected: false,
-        },
-    });
-
-
+const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-    const navigate = useNavigate()
 
 
-    const onSelectorClick = (key) => {
-        let updatedFilterSelectors = { ...filterSelectors };
-        for (const filter in updatedFilterSelectors) {
-            updatedFilterSelectors[filter].selected = false;
-        }
-        updatedFilterSelectors[key].selected = true;
-        setFilterSelectors(updatedFilterSelectors);
-        navigate(`/tournaments/${tournament._id}?part=${key}`)
-    }
-
-    if (!tournament) return;
     return (
         <div
             style={{ backgroundColor: theme.secondary, color: theme.on_secondary }}

@@ -484,6 +484,7 @@ const CreateTournament = (props) => {
         const result = await editTournament(payload, token)
         if (!result.success) {
             setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+            setLoading(false)
         } else {
             setDialog(<ErrorDialog type="success">با موفقیت به روز رسانی شد</ErrorDialog>)
             updatedStoreTournament(result.tournament)
