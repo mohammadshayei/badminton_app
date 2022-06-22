@@ -44,7 +44,7 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
             </div>
             <div className="tournament-detail">
                 {loading ? <Skeleton className="detail-skeleton" direction='rtl' /> :
-                    { chiefName } | { ageCategory }}
+                    `${chiefName}  |  ${ageCategory}`}
             </div>
             <div className="tournament-date">
                 <Icon icon="flat-color-icons:calendar" />

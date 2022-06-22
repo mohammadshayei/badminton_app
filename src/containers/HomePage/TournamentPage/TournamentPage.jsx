@@ -38,7 +38,7 @@ const TournamentPage = ({ id }) => {
     return (
         <div>
             {dialog}
-            {tournament && <Header tournament={tournament} />}
+            <Header tournament={tournament} loading={loading} />
         </div>
     )
 }

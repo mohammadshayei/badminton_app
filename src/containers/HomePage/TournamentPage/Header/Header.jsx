@@ -3,8 +3,10 @@ import './Header.scss'
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import RoundSelector from '../../../../components/UI/RoundSelector/RoundSelector';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const Header = ({ tournament }) => {
+const Header = ({ tournament, loading }) => {
     const [filterSelectors, setFilterSelectors] = useState({
         team: {
             text: "تیم",
@@ -48,16 +50,36 @@ const Header = ({ tournament }) => {
             className='touranment-header-container'
         >
             <div className="tournament-title">
-                {tournament.title}
+                {loading ?
+                    <Skeleton
+                        highlightColor={theme.border_color}
+                        width={270}
+                        direction='rtl' /> :
+                    tournament?.title}
             </div>
             <div className="tournament-detail">
-                <span>سازنده</span>  : {tournament.chief.username}
+                <span>سازنده</span>  : {loading ?
+                    <Skeleton
+                        highlightColor={theme.border_color}
+                        width={200}
+                        direction='rtl' /> :
+                    tournament?.chief.username}
             </div>
             <div className="tournament-detail">
-                <span> رده سنی</span> : {tournament.age_category}
+                <span> رده سنی</span> : {loading ?
+                    <Skeleton
+                        highlightColor={theme.border_color}
+                        width={100}
+                        direction='rtl' /> :
+                    tournament?.age_category}
             </div>
-            {
-                tournament.period &&
+            {loading ?
+                <Skeleton
+                    containerClassName='tournament-detail'
+                    highlightColor={theme.border_color}
+                    width={50}
+                    direction='rtl' /> :
+                tournament?.period &&
                 <div className="tournament-detail">
                     <span> دوره</span> : {tournament.period}
                 </div>
@@ -65,10 +87,18 @@ const Header = ({ tournament }) => {
             <div className="tournament-date">
                 <Icon icon="flat-color-icons:calendar" />
                 <div className="date">
-                    <p>از</p>
-                    <p>{tournament.game_date.start && new Date(tournament.game_date.start).toLocaleDateString('fa-IR')}</p>
-                    <p>تا</p>
-                    <p>{tournament.game_date.end && new Date(tournament.game_date.end).toLocaleDateString('fa-IR')}</p>
+                    {loading ?
+                        <Skeleton
+                            highlightColor={theme.border_color}
+                            width={150}
+                            direction='rtl' /> :
+                        <>
+                            <p>از</p>
+                            <p>{tournament?.game_date.start && new Date(tournament?.game_date.start).toLocaleDateString('fa-IR')}</p>
+                            <p>تا</p>
+                            <p>{tournament?.game_date.end && new Date(tournament?.game_date.end).toLocaleDateString('fa-IR')}</p>
+                        </>
+                    }
                 </div>
             </div>
             <div className="selectors-wrapper">
