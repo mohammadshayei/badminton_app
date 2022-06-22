@@ -1,7 +1,11 @@
 .tournament-page-wrapper {
   width: 100%;
+  height: 100%;
+  direction: rtl;
+  overflow: auto;
   .tournament-body {
     width: 100%;
+    height: 100%;
     .tournament-search {
       width: 100%;
       display: flex;
@@ -12,11 +16,9 @@
     .tournament-content {
       width: 100%;
       display: flex;
-      justify-content: flex-end;
       padding-top: 1rem;
       .tournament-list-items {
         width: 100%;
-        direction: rtl;
         display: flex;
         flex-direction: column;
         max-width: 20rem;

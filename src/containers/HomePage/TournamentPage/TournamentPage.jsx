@@ -8,6 +8,7 @@ import Header from './Header/Header'
 import TeamItem from './Items/TeamItem'
 import TournamentItemSearch from './TournamentItemSearch/TournamentItemSearch'
 import './TournamentPage.scss'
+import TeamsMatches from './TournamentParts/TeamsMatches'
 
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
@@ -126,6 +127,7 @@ const TournamentPage = ({ id }) => {
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
             }
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part])
 
     useEffect(() => {
@@ -172,7 +174,9 @@ const TournamentPage = ({ id }) => {
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
             }
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part, item])
+
     return (
         <div className='tournament-page-wrapper'>
             {dialog}
@@ -184,26 +188,27 @@ const TournamentPage = ({ id }) => {
                 onSelectorClick={onSelectorClick}
             />
             {/* body is here */}
-            <div className='tournament-body'>
-                <div className='tournament-search'>
-                    <TournamentItemSearch />
-                </div>
-                <div className='tournament-content'>
-                    <div className="tournament-list-items">
-                        {listItem.map((item, index) =>
-                            <TeamItem
-                                key={item._id}
-                                index={index + 1}
-                                {...item}
-                                onClick={() => onItemClick(item._id)}
-                            />
-                        )}
+            {part === "teamMatch" ?
+                <TeamsMatches /> :
+                <div className='tournament-body'>
+                    <div className='tournament-search'>
+                        <TournamentItemSearch />
                     </div>
-                    <div className="touranament-item-input"></div>
+                    <div className='tournament-content'>
+                        <div className="tournament-list-items">
+                            {listItem.map((item, index) =>
+                                <TeamItem
+                                    key={item._id}
+                                    index={index + 1}
+                                    {...item}
+                                    onClick={() => onItemClick(item._id)}
+                                />
+                            )}
+                        </div>
+                        <div className="touranament-item-input"></div>
 
-                </div>
-            </div>
-
+                    </div>
+                </div>}
         </div>
     )
 }
