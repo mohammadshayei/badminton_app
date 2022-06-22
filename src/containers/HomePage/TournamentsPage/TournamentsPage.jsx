@@ -64,7 +64,7 @@ const TournamentsPage = () => {
     }
 
     const onTournamentClickHandler = (id) => {
-        navigate(`/tournaments/${id}`)
+        navigate(`/tournaments/${id}?part=team`)
     }
 
 
@@ -147,6 +147,7 @@ const TournamentsPage = () => {
                                     ageCategory={tournament.age_category}
                                     image={tournament.image}
                                     gameDate={tournament.game_date}
+                                    key={tournament._id}
                                     loading={loading}
                                 />
                             ) : <div>

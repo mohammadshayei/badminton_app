@@ -1,5 +1,5 @@
 import "./InputForm.scss";
-import CustomInput from "../CustomInput/CustomInput";
+import CustomInput, { elementTypes } from "../CustomInput/CustomInput";
 import { onChange } from "../../../utils/authFunction";
 
 const InputForm = ({ order, setOrder, setFormIsValid, wrapperStyle }) => {
@@ -14,7 +14,13 @@ const InputForm = ({ order, setOrder, setFormIsValid, wrapperStyle }) => {
             >
                 <CustomInput
                     {...v}
-                    onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                    onChange={(e) => {
+                        if (v.elementType === elementTypes.switchInput || v.elementType === elementTypes.datePicker)
+                            onChange(e, k, order, setOrder, setFormIsValid)
+                        else
+                            onChange(e.target.value, k, order, setOrder, setFormIsValid)
+
+                    }}
                 />
             </div>)
         }

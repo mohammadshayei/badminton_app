@@ -3,6 +3,7 @@ import './Header.scss'
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import RoundSelector from '../../../../components/UI/RoundSelector/RoundSelector';
+import { useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -33,6 +34,8 @@ const Header = ({ tournament, loading }) => {
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const navigate = useNavigate()
+
 
     const onSelectorClick = (key) => {
         let updatedFilterSelectors = { ...filterSelectors };
@@ -41,9 +44,10 @@ const Header = ({ tournament, loading }) => {
         }
         updatedFilterSelectors[key].selected = true;
         setFilterSelectors(updatedFilterSelectors);
+        navigate(`/tournaments/${tournament._id}?part=${key}`)
     }
 
-
+    if (!tournament) return;
     return (
         <div
             style={{ backgroundColor: theme.secondary, color: theme.on_secondary }}

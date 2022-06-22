@@ -19,7 +19,6 @@ const DatePickerInput = (props) => {
         if (ref.current) setWidth(ref.current.clientWidth)
     }
     window.addEventListener('resize', onHandleSize)
-
     return (
         <div className='title-date-picker-container' ref={ref}>
             <p className='title-class-name'>{props.title}
@@ -39,6 +38,8 @@ const DatePickerInput = (props) => {
                 portal
                 calendarPosition='top'
                 value={props.value}
+                minDate={props.elementConfig.minDate ? props.elementConfig.minDate : new Date()}
+                maxDate={props.elementConfig.maxDate}
                 render={(value, openCalendar) => {
                     return (
                         <DatePickerView

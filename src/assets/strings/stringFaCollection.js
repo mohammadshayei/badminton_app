@@ -138,5 +138,8 @@ export const stringFa = {
   register_welcome_title: "ثبت نام",
   didnt_recieve: "کد دریافت نشد؟",
   resend: "ارسال مجدد",
+  search_tournament: "جستجوی تورنمنت",
+  day_count: 'تعداد روز',
+  day_count_error: "تعداد روز را تعیین کنید",
   search_tournament: "جستجوی مسابقه"
 };
