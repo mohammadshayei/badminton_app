@@ -32,7 +32,7 @@ const SearchBox = () => {
         setLoading(false)
     }
     const onItemClickHandler = (id) => {
-        navigate(`/tournaments/${id}`)
+        navigate(`/tournaments/${id}?part=team`)
         setSearchValue('')
         setFoundTournaments([])
     }
