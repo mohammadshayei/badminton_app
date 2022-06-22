@@ -110,7 +110,6 @@ const Header = ({ tournament, loading }) => {
                         onClick={() => onSelectorClick(k)}
                         type={2}
                         style={{ borderWidth: '1px' }}
-
                     />
                 )}
             </div>
