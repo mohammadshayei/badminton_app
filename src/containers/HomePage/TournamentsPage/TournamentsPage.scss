@@ -42,7 +42,7 @@
     overflow-x: scroll;
     overflow-y: hidden;
   }
-  .adds-and-tournaments {
+  .ads-and-tournaments {
     display: flex;
     flex-direction: column-reverse;
     gap: 1rem;
@@ -62,7 +62,6 @@
         border-radius: 25px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         overflow: hidden;
-        cursor: pointer;
         transition: background-color 200ms ease;
         .box-indicator {
           display: none;
@@ -79,10 +78,16 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            .title-skeleton {
+              width: 180px;
+            }
           }
           .tournament-detail {
             font-size: clamp(0.6rem, 0.6vw, 0.8rem);
             opacity: 0.5;
+            .detail-skeleton {
+              width: 200px;
+            }
           }
           .tournament-date {
             display: flex;
@@ -96,11 +101,14 @@
               font-size: clamp(0.6rem, 1vw, 0.75rem);
               gap: 0.25rem;
             }
+            .date-skeleton {
+              width: 120px;
+            }
           }
         }
       }
     }
-    .adds-container {
+    .ads-container {
       width: 100%;
       height: 45px;
       background-color: white;
@@ -113,7 +121,7 @@
     .selectors-wrapper {
       min-height: 3.5rem;
     }
-    .adds-and-tournaments {
+    .ads-and-tournaments {
       flex-direction: row;
       .tournaments-wrapper {
         width: 75%;
@@ -125,10 +133,32 @@
             align-items: center;
             font-size: clamp(2rem, 2.5vw, 2.5rem);
             opacity: 0.6;
+            .image-skeleton {
+              width: 60px;
+              height: 60px;
+              top: -8px;
+            }
+          }
+          .box-content {
+            .tournament-title {
+              .title-skeleton {
+                width: 250px;
+              }
+            }
+            .tournament-detail {
+              .detail-skeleton {
+                width: 400px;
+              }
+            }
+            .tournament-date {
+              .date-skeleton {
+                width: 150px;
+              }
+            }
           }
         }
       }
-      .adds-container {
+      .ads-container {
         width: 25%;
         height: 250px;
       }

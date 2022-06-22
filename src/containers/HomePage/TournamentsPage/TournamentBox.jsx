@@ -4,8 +4,10 @@ import { useTheme } from "../../../styles/ThemeProvider";
 import { Icon } from '@iconify/react';
 import { GiTrophyCup } from "react-icons/gi";
 import { baseUrl } from "../../../constants/Config";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick }) => {
+const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick, loading }) => {
     const [hover, setHover] = useState(false);
 
     const themeState = useTheme();
@@ -23,31 +25,39 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
         onClick={onClick}
-        style={{ backgroundColor: hover ? theme.hover : theme.surface }}
+        style={{
+            backgroundColor: loading ? theme.surface : hover ? theme.hover : theme.surface,
+            cursor: loading ? "default" : "pointer"
+        }}
     >
         <div className="box-indicator"
             style={{ color: theme.on_surface }}
-        >   {
-
-                image ? <img src={`${baseUrl}uploads/tournaments/${image}`} alt='' /> :
-                    <GiTrophyCup />
+        >   {loading ? <Skeleton className="image-skeleton" direction='rtl' circle={true} /> :
+            image ? <img src={`${baseUrl}uploads/tournaments/${image}`} alt='' /> :
+                <GiTrophyCup />
             }
             {/* <Icon icon="iconoir:tournament" /> */}
         </div>
         <div className="box-content">
             <div className="tournament-title">
-                {title}
+                {loading ? <Skeleton className="title-skeleton" direction='rtl' /> : title}
             </div>
             <div className="tournament-detail">
-                {chiefName} | {ageCategory}
+                {loading ? <Skeleton className="detail-skeleton" direction='rtl' /> :
+                    `${chiefName}  |  ${ageCategory}`}
             </div>
             <div className="tournament-date">
                 <Icon icon="flat-color-icons:calendar" />
                 <div className="date">
-                    <p>از</p>
-                    <p>{gameDate.start && new Date(gameDate.start).toLocaleDateString('fa-IR')}</p>
-                    <p>تا</p>
-                    <p>{gameDate.end && new Date(gameDate.end).toLocaleDateString('fa-IR')}</p>
+                    {loading ?
+                        <Skeleton className="date-skeleton" direction='rtl' /> :
+                        <>
+                            <p>از</p>
+                            <p>{gameDate.start && new Date(gameDate.start).toLocaleDateString('fa-IR')}</p>
+                            <p>تا</p>
+                            <p>{gameDate.end && new Date(gameDate.end).toLocaleDateString('fa-IR')}</p>
+                        </>
+                    }
                 </div>
             </div>
         </div>

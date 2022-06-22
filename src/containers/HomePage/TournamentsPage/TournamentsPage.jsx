@@ -18,9 +18,9 @@ const TournamentsPage = () => {
     const [lives, setLives] = useState([])
     const [filterSelectors, setFilterSelectors] = useState({
         my_tournaments: {
-            text: "تورنمنت های من",
+            text: "مسابقات من",
             content: 'owner',
-            selected: true,
+            selected: false,
         },
         finished: {
             text: "تمام شده",
@@ -29,7 +29,7 @@ const TournamentsPage = () => {
         },
         now_playing: {
             text: "در حال انجام",
-            selected: false,
+            selected: true,
             content: 'now',
         },
         upcoming: {
@@ -88,6 +88,7 @@ const TournamentsPage = () => {
 
             }
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
 
     useEffect(() => {
@@ -120,7 +121,7 @@ const TournamentsPage = () => {
 
             </div>
         }
-        <p className="title">تورنمنت ها</p>
+        <p className="title">{stringFa.tournaments}</p>
         <div className="selectors-wrapper">
             {Object.entries(filterSelectors).map(([k, v]) =>
                 <RoundSelector
@@ -131,10 +132,12 @@ const TournamentsPage = () => {
                 />
             )}
         </div>
-        <div className="adds-and-tournaments">
+        <div className="ads-and-tournaments">
             <div className="tournaments-wrapper">
                 {
-                    loading ? <div>صبر کنید ...</div> :
+                    loading ?
+                        <TournamentBox loading={true} />
+                        :
                         filteredTournaments.length > 0 ?
                             filteredTournaments.map(tournament =>
                                 <TournamentBox
@@ -145,7 +148,7 @@ const TournamentsPage = () => {
                                     image={tournament.image}
                                     gameDate={tournament.game_date}
                                     key={tournament._id}
-
+                                    loading={loading}
                                 />
                             ) : <div>
                                 تورنمنتی موجود نمی باشد
@@ -153,7 +156,7 @@ const TournamentsPage = () => {
                             </div>
                 }
             </div>
-            <div className="adds-container"></div>
+            <div className="ads-container"></div>
         </div>
     </div>;
 };

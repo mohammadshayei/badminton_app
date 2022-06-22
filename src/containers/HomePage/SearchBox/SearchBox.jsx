@@ -81,7 +81,7 @@ const SearchBox = () => {
                             <div key={item._id} className="found-item" onClick={() => onItemClickHandler(item._id)}>
                                 {item.title}
                             </div>)
-                        : <div>تورنمنتی یافت نشد</div>
+                        : <div>موردی پیدا نشد.</div>
                 }
             </div>
         </div>

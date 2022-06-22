@@ -11,6 +11,7 @@ const RoundSelector = ({ text, style, selected, onClick, type = 1 }) => {
             backgroundColor: selected ? type === 1 ? theme.primary : theme.on_primary : "transparent",
             borderColor: selected ? type === 1 ? theme.primary : theme.on_primary : type === 1 ? theme.border_color : theme.on_primary,
             color: selected ? type === 1 ? theme.on_primary : theme.on_background : type === 1 ? theme.on_background : theme.on_primary,
+            cursor: selected ? "default" : "pointer",
             ...style
         }}
         onClick={onClick}
