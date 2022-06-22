@@ -97,7 +97,7 @@ const Login = ({ navigate }) => {
                 <CustomInput
                     key={k}
                     {...v}
-                    onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                    onChange={(e) => onChange(e.target.value, k, order, setOrder, setFormIsValid)}
                 />)
             }
             <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>

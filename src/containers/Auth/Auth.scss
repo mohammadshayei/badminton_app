@@ -21,13 +21,14 @@
       border-radius: 20px;
       width: 100%;
       max-width: 350px;
+      min-width: 250px;
       padding: 1.5em 1.5em 0.5em 1.5em;
       box-shadow: 0 8px 10px rgba(0, 0, 0, 0.05);
       direction: rtl;
       .error-text {
         position: absolute;
         top: 10%;
-        font-size: clamp(0.6rem, 1vw, 0.8rem);
+        font-size: clamp(0.8rem, 1vw, 0.9rem);
       }
       .title-text {
         display: block;
@@ -45,7 +46,7 @@
       }
       .forgot-password {
         cursor: pointer;
-        font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+        font-size: clamp(0.75rem, 1vw, 0.9rem);
         width: 100%;
       }
       .buttons-wrapper {
@@ -53,12 +54,12 @@
       }
       .go-to {
         position: relative;
-        margin-top: 0.5rem;
-        font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+        margin-top: 1.5rem;
+        font-size: clamp(0.9rem, 1.4vw, 1rem);
         span {
           cursor: pointer;
           margin-right: 0.5rem;
-          font-size: clamp(0.7rem, 1.4vw, 0.95rem);
+          font-size: clamp(1rem, 1.4vw, 1.1rem);
         }
       }
       .from-get-info {

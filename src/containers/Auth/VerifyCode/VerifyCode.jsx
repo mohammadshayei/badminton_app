@@ -95,7 +95,7 @@ const VerifyCode = (props) => {
 
     useEffect(() => {
         if (countDown) {
-            const startingMinute =2;
+            const startingMinute = 2;
             let time = (startingMinute * 60) - 1;
             let seconds = time % 60;
             let minutes = Math.floor(time / 60);
