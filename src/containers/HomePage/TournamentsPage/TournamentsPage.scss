@@ -42,7 +42,7 @@
     overflow-x: scroll;
     overflow-y: hidden;
   }
-  .adds-and-tournaments {
+  .ads-and-tournaments {
     display: flex;
     flex-direction: column-reverse;
     gap: 1rem;
@@ -100,7 +100,7 @@
         }
       }
     }
-    .adds-container {
+    .ads-container {
       width: 100%;
       height: 45px;
       background-color: white;
@@ -113,7 +113,7 @@
     .selectors-wrapper {
       min-height: 3.5rem;
     }
-    .adds-and-tournaments {
+    .ads-and-tournaments {
       flex-direction: row;
       .tournaments-wrapper {
         width: 75%;
@@ -128,7 +128,7 @@
           }
         }
       }
-      .adds-container {
+      .ads-container {
         width: 25%;
         height: 250px;
       }

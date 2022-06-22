@@ -18,9 +18,9 @@ const TournamentsPage = () => {
     const [lives, setLives] = useState([])
     const [filterSelectors, setFilterSelectors] = useState({
         my_tournaments: {
-            text: "تورنمنت های من",
+            text: "مسابقات من",
             content: 'owner',
-            selected: true,
+            selected: false,
         },
         finished: {
             text: "تمام شده",
@@ -29,7 +29,7 @@ const TournamentsPage = () => {
         },
         now_playing: {
             text: "در حال انجام",
-            selected: false,
+            selected: true,
             content: 'now',
         },
         upcoming: {
@@ -69,7 +69,7 @@ const TournamentsPage = () => {
 
 
     useEffect(() => {
-        if(!token)return;
+        if (!token) return;
         setDialog(null);
         (async () => {
             try {
@@ -120,7 +120,7 @@ const TournamentsPage = () => {
 
             </div>
         }
-        <p className="title">تورنمنت ها</p>
+        <p className="title">{stringFa.tournaments}</p>
         <div className="selectors-wrapper">
             {Object.entries(filterSelectors).map(([k, v]) =>
                 <RoundSelector
@@ -131,7 +131,7 @@ const TournamentsPage = () => {
                 />
             )}
         </div>
-        <div className="adds-and-tournaments">
+        <div className="ads-and-tournaments">
             <div className="tournaments-wrapper">
                 {
                     loading ? <div>صبر کنید ...</div> :
@@ -152,7 +152,7 @@ const TournamentsPage = () => {
                             </div>
                 }
             </div>
-            <div className="adds-container"></div>
+            <div className="ads-container"></div>
         </div>
     </div>;
 };
