@@ -45,13 +45,15 @@ const Menu = (props) => {
     };
 
     const inRef = useRef();
+
     useOnClickOutside(inRef, () => {
         setMenuStatus(false)
     });
     const navigate = useNavigate()
 
-    const onMenuClickHandler = pageNumber => {
-        navigate(`/home?page=${pageNumber}`)
+    const onMenuClickHandler = index => {
+        let path = index === 1 ? '/tournaments' : index === 2 ? '/my_games' : "/live_scores"
+        navigate(`${path}`)
     }
     const showProfile = () => {
         navigate(`/profile`)
@@ -69,15 +71,15 @@ const Menu = (props) => {
             </div>
             <div className="sidebar-menu-items">
                 <ul className="pages">
-                    <li className={`app-bar-item ${props.pageId === '1' && "selected-page"}`} onClick={() => onMenuClickHandler(1)}>
+                    <li className={`app-bar-item ${props.selectedPageIndex === 1 && "selected-page"}`} onClick={() => onMenuClickHandler(1)}>
                         <img src={tournament} className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.tournaments}</span>
                     </li>
-                    <li className={`app-bar-item  ${props.pageId === '2' && "selected-page"}`} onClick={() => onMenuClickHandler(2)}>
+                    <li className={`app-bar-item  ${props.selectedPageIndex === 2 && "selected-page"}`} onClick={() => onMenuClickHandler(2)}>
                         <img src={umpire} className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.my_games}</span>
                     </li>
-                    <li className={`app-bar-item seprator ${props.pageId === '3' && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
+                    <li className={`app-bar-item seprator ${props.selectedPageIndex === 3 && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
                         <CgMediaLive className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.live_games}</span>
                     </li>
@@ -106,15 +108,15 @@ const Menu = (props) => {
             <div className="profile-content">
                 <div className="profile">
                     <div className="profile-details">
-                        {auth.referee ?
+                        {auth.user ?
                             <div className="avatar"
                                 onClick={() => showProfile()}
                             >
-                                <img src={auth.referee.image ? `${baseUrl}uploads/referees/${auth.referee.image}` : PROFILE_IMAGE} alt="pic" />
+                                <img src={auth.user.image ? `${baseUrl}uploads/users/${auth.user.image}` : PROFILE_IMAGE} alt="pic" />
                             </div> :
                             <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
                         <div className="name">
-                            {auth.referee ? auth.referee.username :
+                            {auth.user ? auth.user.username :
                                 <div className="loading-name">...</div>}
                         </div>
                     </div>

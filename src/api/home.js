@@ -311,3 +311,23 @@ export const fetchTournaments = async (token) => {
   });
   return { success: result.data.success, data: result.data.result };
 };
+export const searchTournaments = async (payload, token) => {
+  const result = await axios.post(
+    `${baseUrl}api/search_tournaments`,
+    { ...payload },
+    {
+      headers: { "auth-token": token },
+    }
+  );
+  return { success: result.data.success, data: result.data.result };
+};
+export const dynamicApi = async (payload, token, url) => {
+  const result = await axios.post(
+    `${baseUrl}api/${url}`,
+    { ...payload },
+    {
+      headers: { "auth-token": token },
+    }
+  );
+  return { success: result.data.success, data: result.data.result };
+};

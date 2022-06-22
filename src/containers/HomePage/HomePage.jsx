@@ -7,7 +7,7 @@ import * as detailActions from "../../store/actions/detail";
 import { useDispatch, useSelector } from "react-redux";
 import Menu from '../Menu/Menu';
 import CreateTournament from "./CreateTournament/CreateTournament";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import GamesPage from "./GamesPage/GamesPage";
 import LiveGames from "../LiveGames/LiveGames";
 import TournamentsPage from "./TournamentsPage/TournamentsPage";
@@ -20,54 +20,46 @@ const HomePage = () => {
   const [editMode, setEditMode] = useState(false)
 
   const [page, setPage] = useState(null);
+  const [selectedPageIndex, setSelectedPageIndex] = useState(1);
+
 
   const themeState = useTheme();
   const theme = themeState.computedTheme;
+  let { id } = useParams();
 
   const dispatch = useDispatch();
-  const locaiton = useLocation();
+  const location = useLocation();
   const navigate = useNavigate()
-
   const showMenu = useSelector(state => state.detail.showMenu);
-  const searchParams = new URLSearchParams(locaiton.search);
-  const pageNumber = searchParams.get("page");
 
   const setMenuStatus = (status) => {
     dispatch(detailActions.setMenuStatus(status));
   };
-  // useEffect(() => {
-  //   if (pageNumber) {
-  //     switch (pageNumber) {
-  //       case '1':
-  //         setPage(
-  //           <TournamentsPage />)
-  //         break;
-  //       case '2':
-  //         setPage(
-  //           <TournamentPage
-  //             setShowModal={setShowModal}
-  //             setEditMode={setEditMode}
-  //           />)
-  //         break;
-  //       case '3':
-  //         setPage(
-  //           <GamesPage />)
-  //         break;
-  //       case '4':
-  //         setPage(
-  //           <LiveGames
-  //           />)
-  //         break;
-
-  //       default:
-  //         navigate('/home?page=1')
-  //         break;
-  //     }
-  //   } else {
-  //     navigate('/home?page=1')
-  //   }
-  // }, [pageNumber]);
-
+  useEffect(() => {
+    if (id) {
+      setPage(<TournamentPage id={id} />)
+      setSelectedPageIndex(0)
+    } else {
+      switch (location.pathname) {
+        case "/tournaments":
+          setPage(<TournamentsPage />)
+          setSelectedPageIndex(1)
+          break;
+        case '/my_games':
+          setPage(<GamesPage />)
+          setSelectedPageIndex(2)
+          break;
+        case '/live_scores':
+          setPage(<LiveGames />)
+          setSelectedPageIndex(3)
+          break;
+        default:
+          navigate('/tournaments')
+          setSelectedPageIndex(1)
+          break;
+      }
+    }
+  }, [location.pathname, id]);
   return (
     <div
       className={`home-page-wrapper ${showMenu ? "menu-open" : ""}`}
@@ -84,16 +76,14 @@ const HomePage = () => {
         />
       </div>
       <Menu
-        setPage={setPage}
         setShowModal={setShowModal}
         setEditMode={setEditMode}
-        pageId={pageNumber}
+        selectedPageIndex={selectedPageIndex}
       />
       {showModal && <Modal show={showModal} modalClosed={() => setShowModal(false)}>
         <CreateTournament editMode={editMode} modalClosed={() => setShowModal(false)} />
       </Modal>}
-      {/* {page} */}
-      <TournamentsPage />
+      {page}
     </div>
   );
 };

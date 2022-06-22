@@ -4,19 +4,37 @@ import CustomInput from "../../../components/UI/CustomInput/CustomInput";
 import { useTheme } from "../../../styles/ThemeProvider";
 import { useEffect, useState } from "react";
 import { BsSearch, BsX } from "react-icons/bs";
+import { searchTournaments } from "../../../api/home";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SearchBox = () => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const [searchValue, setSearchValue] = useState("");
+    const [loading, setLoading] = useState(false)
+    const [foundTournaments, setFoundTournaments] = useState([])
     const [inputStyle, setInputStyle] = useState({
         backgroundColor: theme.surface,
         paddingLeft: "2rem",
         transition: "border-radius 200ms ease"
     });
 
-    const onSearch = (event) => {
+    const { token } = useSelector(state => state.auth)
+    const navigate = useNavigate()
+
+    const onSearch = async (event) => {
         setSearchValue(event.target.value);
+        if (event.target.value.length === 0) return;
+        setLoading(true)
+        const result = await searchTournaments({ name: event.target.value }, token)
+        setFoundTournaments(result.data.tournaments)
+        setLoading(false)
+    }
+    const onItemClickHandler = (id) => {
+        navigate(`/tournaments/${id}`)
+        setSearchValue('')
+        setFoundTournaments([])
     }
 
     useEffect(() => {
@@ -32,7 +50,6 @@ const SearchBox = () => {
         }
         setInputStyle(updatedInputStyle);
     }, [searchValue]);
-
 
     return <div className="search-box-container"
         style={{ backgroundColor: theme.secondary }}
@@ -58,12 +75,14 @@ const SearchBox = () => {
                     borderColor: theme.border_color
                 }}
             >
-                <div className="found-item">
-                    لیگ برتر بدمینتون ایران جام خلیج فارس
-                </div>
-                <div className="found-item">
-                    لیگ برتر بدمینتون ایران جام خلیج فارس
-                </div>
+                {
+                    foundTournaments.length > 0 ?
+                        foundTournaments.map(item =>
+                            <div key={item._id} className="found-item" onClick={() => onItemClickHandler(item._id)}>
+                                {item.title}
+                            </div>)
+                        : <div>تورنمنتی یافت نشد</div>
+                }
             </div>
         </div>
     </div>;

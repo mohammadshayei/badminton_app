@@ -64,7 +64,6 @@ const TournamentsPage = () => {
     }
 
     const onTournamentClickHandler = (id) => {
-        console.log(id)
         navigate(`/tournaments/${id}`)
     }
 
@@ -125,7 +124,7 @@ const TournamentsPage = () => {
         <div className="selectors-wrapper">
             {Object.entries(filterSelectors).map(([k, v]) =>
                 <RoundSelector
-                    k={k}
+                    key={k}
                     text={v.text}
                     selected={v.selected}
                     onClick={() => onSelectorClick(k)}

@@ -111,6 +111,11 @@ function App() {
     <Routes >
       {/* <Route path="/home" exact element={<HomePage />}></Route> */}
       <Route path="/tournaments" exact element={<HomePage />}></Route>
+      <Route path="/my_games" exact element={<HomePage />}></Route>
+      <Route path="/live_scores" exact element={<HomePage />}></Route>
+      <Route path="/tournaments/:id" element={<HomePage />} />
+
+
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route
         path="/scoreboard_view"
@@ -118,7 +123,6 @@ function App() {
         element={<ScoreboardView />}
       >
       </Route>
-      <Route path="/tournaments/:id" element={<TournamentPage />} />
       <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
