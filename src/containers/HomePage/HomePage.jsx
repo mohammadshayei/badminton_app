@@ -12,8 +12,7 @@ import GamesPage from "./GamesPage/GamesPage";
 import LiveGames from "../LiveGames/LiveGames";
 import TournamentsPage from "./TournamentsPage/TournamentsPage";
 import SearchBox from "./SearchBox/SearchBox";
-
-
+import TournamentForm from "./InputForms/TournamentForm/TournamentForm";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -53,12 +52,17 @@ const HomePage = () => {
           setPage(<LiveGames />)
           setSelectedPageIndex(3)
           break;
+        case '/new_tournament':
+          setPage(<TournamentForm />)
+          setSelectedPageIndex(4)
+          break;
         default:
           navigate('/tournaments')
           setSelectedPageIndex(1)
           break;
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, id]);
   return (
     <div
@@ -76,7 +80,6 @@ const HomePage = () => {
         />
       </div>
       <Menu
-        setShowModal={setShowModal}
         setEditMode={setEditMode}
         selectedPageIndex={selectedPageIndex}
       />

@@ -113,6 +113,7 @@ function App() {
       <Route path="/tournaments" exact element={<HomePage />}></Route>
       <Route path="/my_games" exact element={<HomePage />}></Route>
       <Route path="/live_scores" exact element={<HomePage />}></Route>
+      <Route path="/new_tournament" exact element={<HomePage />}></Route>
       <Route path="/tournaments/:id" element={<HomePage />} />
 
 
