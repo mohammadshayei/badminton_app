@@ -85,7 +85,7 @@ const Menu = (props) => {
                     </li>
                 </ul>
                 <div className='app-bar-item center-btn'
-                    onClick={() => props.setShowModal(true)}
+                    onClick={() => navigate(`/new_tournament`)}
                     style={{ backgroundColor: theme.primary }}
                 >
                     <span className="menu-item">{stringFa.new_tournament}</span>
