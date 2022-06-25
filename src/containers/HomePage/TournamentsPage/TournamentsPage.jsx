@@ -126,6 +126,7 @@ const TournamentsPage = () => {
             {Object.entries(filterSelectors).map(([k, v]) =>
                 <RoundSelector
                     key={k}
+                    selector={k}
                     text={v.text}
                     selected={v.selected}
                     onClick={() => onSelectorClick(k)}

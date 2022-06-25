@@ -8,7 +8,7 @@ import Header from './Header/Header'
 import TeamItem from './Items/TeamItem'
 import TournamentItemSearch from './TournamentItemSearch/TournamentItemSearch'
 import './TournamentPage.scss'
-import TeamsMatches from './TournamentParts/TeamsMatches'
+import TeamsMatches from './TournamentParts/TeamsMatches/TeamsMatches'
 
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
