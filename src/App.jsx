@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import * as detailActions from "./store/actions/detail";
 import * as authActions from "./store/actions/auth";
 import socketIOClient from "socket.io-client";
-
-import SetupPage from "./containers/SetupPage/SetupPage";
 import MainPage from "./containers/MainPage/MainPage";
 import Auth from "./containers/Auth/Auth";
 import { useSelector } from "react-redux";
@@ -17,8 +15,6 @@ import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import { getIp } from "./api/auth";
-import TournamentPage from "./containers/HomePage/TournamentPage/TournamentPage";
-import TournamentsPage from "./containers/HomePage/TournamentsPage/TournamentsPage";
 
 function App() {
 
@@ -124,7 +120,6 @@ function App() {
         element={<ScoreboardView />}
       >
       </Route>
-      <Route path="/setup" exact element={<SetupPage />}></Route>
       <Route path="/login" exact element={<Auth />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
       <Route path="/report" exact element={<GameReport />}></Route>
