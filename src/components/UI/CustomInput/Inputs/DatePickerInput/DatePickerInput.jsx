@@ -38,8 +38,8 @@ const DatePickerInput = (props) => {
                 portal
                 calendarPosition='top'
                 value={props.value}
-                minDate={props.elementConfig.minDate ? props.elementConfig.minDate : new Date()}
-                maxDate={props.elementConfig.maxDate}
+                minDate={props.elementConfig?.minDate ? props.elementConfig.minDate : new Date()}
+                maxDate={props.elementConfig?.maxDate}
                 render={(value, openCalendar) => {
                     return (
                         <DatePickerView

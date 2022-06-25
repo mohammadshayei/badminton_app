@@ -73,17 +73,23 @@ const DropDown = (props) => {
                     <BiChevronDown />
                 </div>
             </div>
-            <div ref={divRef} className={`dropdown-list ${drop && "drop"}`}
-                style={{ top: props.dropUp ? "unset" : "5rem", bottom: props.dropUp ? "3rem" : "unset" }}
-            >
-                <ul>
-                    {props.items.length > 0 ?
-                        (props.items.map((i, k) =>
-                            <li key={k} onClick={() => itemClickHandler(i)}>{i.text}</li>))
-                        :
-                        <p className="no-item">موردی تعریف نشده</p>
-                    }
-                </ul>
+            <div className="drop-down-list-top">
+                <div ref={divRef} className={`dropdown-list ${drop && "drop"}`}
+                    style={{
+                        backgroundColor: theme.surface,
+                        color: theme.on_surface,
+                        // top: props.dropUp ? "unset" : "5rem", bottom: props.dropUp ? "3rem" : "unset"
+                    }}
+                >
+                    <ul>
+                        {props.items.length > 0 ?
+                            (props.items.map((i, k) =>
+                                <li key={k} onClick={() => itemClickHandler(i)}>{i.text}</li>))
+                            :
+                            <p className="no-item">موردی تعریف نشده</p>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     )
