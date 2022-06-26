@@ -4,7 +4,7 @@ import CustomInput, { elementTypes } from "../../../../../components/UI/CustomIn
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import { stringFa } from "../../../../../assets/strings/stringFaCollection";
 
-const Match = ({ index }) => {
+const Match = ({ index, setShowGames }) => {
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -17,9 +17,9 @@ const Match = ({ index }) => {
                     color: theme.primary,
                 }}
             >
-                <p>تیم میزبان</p>
-                <p>تیم مهمان</p>
-                <p>سرداور</p>
+                <p>{stringFa.home}</p>
+                <p>{stringFa.away}</p>
+                <p>{stringFa.referee}</p>
             </div>
             <div className="table-row-body">
                 <div className="table-row-item">
@@ -50,7 +50,7 @@ const Match = ({ index }) => {
                     marginLeft: "0.8rem",
                     color: theme.error,
                 }}>
-                حذف
+                {stringFa.delete}
             </TransparentButton>
             <TransparentButton
                 ButtonStyle={{
@@ -63,8 +63,9 @@ const Match = ({ index }) => {
                 ButtonStyle={{
                     padding: "0",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)"
-                }}>
-                مشاهده بازی ها
+                }}
+                onClick={() => setShowGames(true)}>
+                {stringFa.show_games}
             </TransparentButton>
         </div>
     </>;
