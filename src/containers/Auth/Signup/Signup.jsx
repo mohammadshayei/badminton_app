@@ -129,7 +129,7 @@ const Singup = ({ locaiton, navigate }) => {
                         inputStyle={{
                             letterSpacing: k === 'password' && v.value.length > 0 ? '.4rem' : "",
                         }}
-                        onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                        onChange={(e) => onChange(e.target.value, k, order, setOrder, setFormIsValid)}
                     />
                 )
             }

@@ -26,7 +26,7 @@ const RefereeFooter = () => {
         setLoading(true)
         const result = await addReferee({ input: value, tournamentId: selectedTournament }, token)
         if (result.success) {
-            setDialog(<ErrorDialog type="success">{stringFa.referee_added}</ErrorDialog>)
+            setDialog(<ErrorDialog type="success">{stringFa.umpire_added}</ErrorDialog>)
             setValue('')
             addContent(result.data, 'referee')
         } else {

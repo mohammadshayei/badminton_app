@@ -118,7 +118,7 @@ const GetInfo = (props) => {
                         key={k}
                         {...v}
                         inputStyle={{ direction: "ltr" }}
-                        onChange={(e) => onChange(e, k, order, setOrder, setFormIsValid)}
+                        onChange={(e) => onChange(e.target.value, k, order, setOrder, setFormIsValid)}
                     />)
             }
             <div className="buttons-wrapper">

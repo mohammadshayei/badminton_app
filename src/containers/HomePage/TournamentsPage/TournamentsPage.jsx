@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useNavigate } from "react-router-dom";
+import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
+import { Link } from "react-router-dom";
 
 const TournamentsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -126,6 +128,7 @@ const TournamentsPage = () => {
             {Object.entries(filterSelectors).map(([k, v]) =>
                 <RoundSelector
                     key={k}
+                    selector={k}
                     text={v.text}
                     selected={v.selected}
                     onClick={() => onSelectorClick(k)}
@@ -156,7 +159,9 @@ const TournamentsPage = () => {
                             </div>
                 }
             </div>
-            <div className="ads-container"></div>
+            <div className="ads-container">
+                <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+            </div>
         </div>
     </div>;
 };

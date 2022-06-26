@@ -11,6 +11,8 @@ import TeamItem from './Items/TeamItem'
 import TournamentItemSearch from './TournamentItemSearch/TournamentItemSearch'
 import './TournamentPage.scss'
 import { AiOutlinePlus } from 'react-icons/ai'
+import TeamsMatches from './TournamentParts/TeamsMatches/TeamsMatches'
+
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -240,6 +242,7 @@ const TournamentPage = ({ id }) => {
             setContentLoading(false)
 
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part])
 
     useEffect(() => {
@@ -283,6 +286,7 @@ const TournamentPage = ({ id }) => {
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
             }
         })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part, item])
 
     return (
@@ -297,65 +301,66 @@ const TournamentPage = ({ id }) => {
             />
 
             {/* body is here */}
-
-            <div className='tournament-body'>
-                <div className='tournament-search'>
-                    <TournamentItemSearch
-                        searchValue={searchValue}
-                        searchListItems={
-                            searchListItems.filter(item => listItem
-                                .findIndex(i => i._id === item._id) < 0)}
-                        onSearch={onSearch}
-                        searchLoading={searchLoading}
-                        onAddItemToTournament={onAddItemToTournament}
-                    />
-                    {
-                        tournament?.chief._id === user?._id &&
-                        <Button
-                            onClick={onAddItemClickHandler}
-                        >
-                            <div className='button-add'>
-                                <AiOutlinePlus style={{ fontSize: 12 }} />
-                                {stringFa.add_team}
-                            </div>
-                        </Button>
-                    }
-                </div>
-                <div className='tournament-content'>
-                    <div className="tournament-list-items">
+            {part === "teamMatch" ?
+                <TeamsMatches /> :
+                <div className='tournament-body'>
+                    <div className='tournament-search'>
+                        <TournamentItemSearch
+                            searchValue={searchValue}
+                            searchListItems={
+                                searchListItems.filter(item => listItem
+                                    .findIndex(i => i._id === item._id) < 0)}
+                            onSearch={onSearch}
+                            searchLoading={searchLoading}
+                            onAddItemToTournament={onAddItemToTournament}
+                        />
                         {
-                            filteredListItems.length > 0 ?
-                                filteredListItems.map((item, index) =>
-                                    <TeamItem
-                                        key={item._id}
-                                        index={index + 1}
-                                        {...item}
-                                        onClick={() => onItemClick(item._id)}
-                                    />
-                                )
-                                : <div className='not_found'>
-                                    {stringFa.item_not_found}
+                            tournament?.chief._id === user?._id &&
+                            <Button
+                                onClick={onAddItemClickHandler}
+                            >
+                                <div className='button-add'>
+                                    <AiOutlinePlus style={{ fontSize: 12 }} />
+                                    {stringFa.add_team}
                                 </div>
+                            </Button>
                         }
                     </div>
-                    <div className="touranament-item-input"
-                        style={{ display: showInputForm ? 'flex' : 'none' }}>
-                        <TeamForm
-                            content={content}
-                            creator={tournament?.chief._id}
-                            tournamentId={tournament?._id}
-                            setShowInputForm={setShowInputForm}
-                            onAddItem={onAddItem}
-                            removeLoading={removeLoading}
-                            onRemoveItemFromTournament={onRemoveItemFromTournament}
+                    <div className='tournament-content'>
+                        <div className="tournament-list-items">
+                            {
+                                filteredListItems.length > 0 ?
+                                    filteredListItems.map((item, index) =>
+                                        <TeamItem
+                                            key={item._id}
+                                            index={index + 1}
+                                            {...item}
+                                            onClick={() => onItemClick(item._id)}
+                                        />
+                                    )
+                                    : <div className='not_found'>
+                                        {stringFa.item_not_found}
+                                    </div>
+                            }
+                        </div>
+                        <div className="touranament-item-input"
+                            style={{ display: showInputForm ? 'flex' : 'none' }}>
+                            <TeamForm
+                                content={content}
+                                creator={tournament?.chief._id}
+                                tournamentId={tournament?._id}
+                                setShowInputForm={setShowInputForm}
+                                onAddItem={onAddItem}
+                                removeLoading={removeLoading}
+                                onRemoveItemFromTournament={onRemoveItemFromTournament}
 
-                        />
+                            />
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
-
-        </div >
+            }
+        </div>
     )
 }
 

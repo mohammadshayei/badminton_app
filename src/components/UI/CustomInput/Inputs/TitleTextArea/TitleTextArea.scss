@@ -8,7 +8,7 @@
     display: flex;
     margin-right: 0.2rem;
     margin-bottom: 0.2rem;
-    font-size: clamp(0.75rem, 1.5vw, 1rem);
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
   }
   .title-textarea-element {
     direction: rtl;
@@ -16,7 +16,7 @@
     width: 100%;
     min-width: 250px;
     padding: 0.5em 1.5em;
-    font-size: clamp(0.75rem, 1.5vw, 1rem);
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
     border-radius: 15px;
     border: 1px solid;
     transition: box-shadow 0.15s ease-in-out;

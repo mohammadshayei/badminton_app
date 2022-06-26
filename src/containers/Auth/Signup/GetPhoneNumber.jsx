@@ -110,7 +110,7 @@ const GetPhoneNumber = (props) => {
                     inputStyle={{ direction: "ltr" }}
                     onChange={(e) => {
                         setError(null)
-                        onChange(e, k, order, setOrder, setFormIsValid)
+                        onChange(e.target.value, k, order, setOrder, setFormIsValid)
                     }}
                 />)}
             <div className="buttons-wrapper">
