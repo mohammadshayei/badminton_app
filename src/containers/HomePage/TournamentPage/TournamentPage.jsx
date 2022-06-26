@@ -9,6 +9,7 @@ import TeamItem from './Items/TeamItem'
 import TournamentItemSearch from './TournamentItemSearch/TournamentItemSearch'
 import './TournamentPage.scss'
 import TeamsMatches from './TournamentParts/TeamsMatches/TeamsMatches'
+import TodayMatch from './TournamentParts/TodayMatch/TodayMatch'
 
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
@@ -37,6 +38,10 @@ const TournamentPage = ({ id }) => {
             text: "مسابقات تیمی",
             selected: false,
         },
+        todayMatch: {
+            text: "مسابقه امروز",
+            selected: false,
+        }
     });
     const navigate = useNavigate()
     const location = useLocation()
@@ -190,25 +195,27 @@ const TournamentPage = ({ id }) => {
             {/* body is here */}
             {part === "teamMatch" ?
                 <TeamsMatches /> :
-                <div className='tournament-body'>
-                    <div className='tournament-search'>
-                        <TournamentItemSearch />
-                    </div>
-                    <div className='tournament-content'>
-                        <div className="tournament-list-items">
-                            {listItem.map((item, index) =>
-                                <TeamItem
-                                    key={item._id}
-                                    index={index + 1}
-                                    {...item}
-                                    onClick={() => onItemClick(item._id)}
-                                />
-                            )}
+                part === "todayMatch" ?
+                    <TodayMatch /> :
+                    <div className='tournament-body'>
+                        <div className='tournament-search'>
+                            <TournamentItemSearch />
                         </div>
-                        <div className="touranament-item-input"></div>
+                        <div className='tournament-content'>
+                            <div className="tournament-list-items">
+                                {listItem.map((item, index) =>
+                                    <TeamItem
+                                        key={item._id}
+                                        index={index + 1}
+                                        {...item}
+                                        onClick={() => onItemClick(item._id)}
+                                    />
+                                )}
+                            </div>
+                            <div className="touranament-item-input"></div>
 
-                    </div>
-                </div>}
+                        </div>
+                    </div>}
         </div>
     )
 }

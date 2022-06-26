@@ -145,5 +145,6 @@ export const stringFa = {
   away: "تیم مهمان",
   referee: "سرداور",
   delete: "حذف",
-  show_games: "مشاهده بازی ها"
+  show_games: "مشاهده بازی ها",
+  undefined: "تعیین نشده",
 };

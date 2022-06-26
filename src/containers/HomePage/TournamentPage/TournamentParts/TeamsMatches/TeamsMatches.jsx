@@ -47,20 +47,20 @@ const TeamsMatches = () => {
     const theme = themeState.computedTheme;
 
     //fetched data :
-    const matches = {
-        match1: {
-            number: "انفرادی اول",
+    const games = {
+        game1: {
+            index: "انفرادی اول",
             team1: { players: { player1: { name: "محمد محمدی", image: "" } }, scores: [21, 21] }
             , team2: { players: { player1: { name: "احمد احمدی", image: "" } }, scores: [19, 18] }
         },
-        match2: {
-            number: "انفرادی دوم",
+        game2: {
+            index: "انفرادی دوم",
             team1: { players: { player1: { name: "حمید حمیدی", image: "" } }, scores: [21, 21] }
             , team2: { players: { player1: { name: "رضا رضایی", image: "" } }, scores: [19, 18] }
         }
         ,
-        match3: {
-            number: "دونفره اول",
+        game3: {
+            index: "دونفره اول",
             team1: { players: { player1: { name: "حسن حسنی", image: "" }, player2: { name: "کریم کریمی", image: "" } }, scores: [21, 21] }
             , team2: { players: { player1: { name: "داوود داوودی", image: "" }, player2: { name: "جواد جوادی", image: "" } }, scores: [19, 18] }
         }
@@ -119,12 +119,12 @@ const TeamsMatches = () => {
                 }}
             >
                 <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
-                {Object.entries(matches).map(([k1, match]) =>
+                {Object.entries(games).map(([k1, game]) =>
                     <div key={k1} className="a-match-game">
-                        <div className="match-game-number">{match.number}</div>
+                        <div className="match-game-index">{game.index}</div>
                         <div className="match-game-details">
-                            {Object.entries(match).map(([k2, team]) =>
-                                k2 !== "number" &&
+                            {Object.entries(game).map(([k2, team]) =>
+                                k2 !== "index" &&
                                 <>
                                     <div key={k2} className={`match-game-team ${k2 === "team2" ? "left" : ''}`}>
                                         <div className="players">
