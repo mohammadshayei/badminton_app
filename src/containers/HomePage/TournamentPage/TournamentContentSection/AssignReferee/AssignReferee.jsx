@@ -20,10 +20,10 @@ const AssignReferee = (props) => {
         gameReferee: {
             value: '',
             id: '',
-            title: stringFa.refereee,
+            title: stringFa.umpire,
             elementType: elementTypes.dropDown,
             items: [],
-            validationMessage: stringFa.assign_refereee_error,
+            validationMessage: stringFa.assign_umpire_error,
             invalid: true,
             validation: {
                 required: true,
@@ -36,10 +36,10 @@ const AssignReferee = (props) => {
         serviceReferee: {
             value: '',
             id: '',
-            title: stringFa.referee_service,
+            title: stringFa.service_umpire,
             elementType: elementTypes.dropDown,
             items: [],
-            validationMessage: stringFa.assign_referee_service_error,
+            validationMessage: stringFa.assign_ser.service_umpire_error,
             invalid: true,
             validation: {
                 required: true,

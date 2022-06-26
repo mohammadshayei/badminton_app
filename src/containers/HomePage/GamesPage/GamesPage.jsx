@@ -31,7 +31,7 @@ const GamesPage = () => {
   const gameClickHandler = (i) => {
     let game = games.find(item => item.game._id === i).game
     if (!game.referee || !game.service_referee) {
-      setDialog(<ErrorDialog type="error">{stringFa.please_set_referees}</ErrorDialog>)
+      setDialog(<ErrorDialog type="error">{stringFa.please_set_umpires}</ErrorDialog>)
       return;
     }
     if (refereeId && game._id) {
