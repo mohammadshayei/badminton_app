@@ -328,3 +328,14 @@ export const dynamicApi = async (payload, token, url) => {
   );
   return { success: result.data.success, data: result.data.result };
 };
+export const formDataDynamic = async (image, payload, token, url) => {
+  const formData = new FormData();
+  if (image) formData.append("image", image);
+  for (const item in payload) {
+    formData.append(item, payload[item]);
+  }
+  const result = await axios.post(`${baseUrl}api/${url}`, formData, {
+    headers: { "auth-token": token },
+  });
+  return { success: result.data.success, data: result.data.result };
+};

@@ -432,6 +432,11 @@ const TournamentForm = () => {
             setFormIsValid={setFormIsValid}
         />
         <div className="buttons-wrapper">
+            <TransparentButton
+                onClick={onCancel}
+            >
+                {stringFa.cancel}
+            </TransparentButton>
             <Button
                 loading={loading}
                 onClick={onSaveClick}
@@ -439,11 +444,6 @@ const TournamentForm = () => {
             >
                 {stringFa.save}
             </Button>
-            <TransparentButton
-                onClick={onCancel}
-            >
-                {stringFa.cancel}
-            </TransparentButton>
         </div>
     </div>;
 };
