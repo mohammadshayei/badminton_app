@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useTheme } from '../../../../../styles/ThemeProvider';
 import './MultiInputTitle.scss'
 
 const MultiInputTitle = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const [focus, setFocus] = useState(false);
 
     return (
         <div className='multi-input-title-wrapper'>
@@ -17,11 +19,12 @@ const MultiInputTitle = (props) => {
                 </span>
             </p>
             <div className="input-box-warpper"
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: theme.darken_border_color,
-                    outlineColor: theme.primary,
+                    borderColor: focus ? theme.primary : theme.darken_border_color,
                 }}
             >
                 {

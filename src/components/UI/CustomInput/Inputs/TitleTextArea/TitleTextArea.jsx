@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTheme } from '../../../../../styles/ThemeProvider';
 import './TitleTextArea.scss'
 
 const TitleTextArea = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const [focus, setFocus] = useState(false);
 
     return (
         <div className='title-textarea-container' >
@@ -21,11 +22,12 @@ const TitleTextArea = (props) => {
                 className='title-textarea-element'
                 {...props.elementConfig}
                 value={props.value ? props.value : ''}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: theme.darken_border_color,
-                    outlineColor: theme.primary,
+                    borderColor: focus ? theme.primary : theme.darken_border_color,
                     ...props.inputStyle
                 }}
                 onChange={props.onChange}

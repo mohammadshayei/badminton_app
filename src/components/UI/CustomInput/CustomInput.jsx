@@ -10,10 +10,12 @@ import DropDown from './Inputs/DropDown/DropDown';
 import RadioImageButton from './Inputs/RadioImageButton/RadioImageButton';
 import OTPInput from './Inputs/OTPInput/OTPInput';
 import { useTheme } from '../../../styles/ThemeProvider';
+import { useState } from 'react';
 
 const CustomInput = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const [focus, setFocus] = useState(false);
 
     let inputElement = null;
     let validationMessage = null;
@@ -46,11 +48,12 @@ const CustomInput = (props) => {
                 className={`input-element ${props.inputClassName}`}
                 {...props.elementConfig}
                 value={props.value ? props.value : ''}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: theme.darken_border_color,
-                    outlineColor: theme.primary,
+                    borderColor: focus ? theme.primary : theme.darken_border_color,
                     ...props.inputStyle
                 }}
                 onChange={props.onChange}
@@ -102,11 +105,12 @@ const CustomInput = (props) => {
                 className={`input-element ${props.inputClassName}`}
                 {...props.elementConfig}
                 value={props.value}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: theme.darken_border_color,
-                    outlineColor: theme.primary,
+                    borderColor: focus ? theme.primary : theme.darken_border_color,
                     ...props.inputStyle
                 }}
                 onChange={props.onChange}
