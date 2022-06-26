@@ -25,6 +25,7 @@ const TitleInput = (props) => {
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
                     borderColor: theme.darken_border_color,
+                    outlineColor: theme.primary,
                     ...props.inputStyle
                 }}
                 onChange={props.onChange}

@@ -23,5 +23,8 @@
     outline: none;
     resize: none;
     user-select: auto;
+    &:focus {
+      outline: 1px solid;
+    }
   }
 }
