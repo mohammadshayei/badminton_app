@@ -1,0 +1,62 @@
+.team-wrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0rem;
+  .profile-avatar {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    width: 35%;
+    max-width: 190px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: 0 3px 8px 3px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin-bottom: 3rem;
+    &:active {
+      transform: scale(0.95) translateY(2rem);
+    }
+    transform: translateY(2rem);
+    overflow: hidden;
+    img {
+      cursor: pointer;
+      width: 100%;
+      object-fit: cover;
+    }
+    .upload-image-wrapper {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20%;
+      cursor: pointer;
+      background-color: rgba(#000000, 0.4);
+      .camera {
+        color: white;
+      }
+    }
+  }
+  .back-section{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 40px;
+    cursor: pointer;
+
+  }
+  .buttons-wrapper {
+    width: 100%;
+    display: flex;
+    padding: 0 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+}

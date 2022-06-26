@@ -1,6 +1,6 @@
 import "./InputForm.scss";
 import CustomInput, { elementTypes } from "../CustomInput/CustomInput";
-import { onChange } from "../../../utils/authFunction";
+import { onChange, onExit } from "../../../utils/authFunction";
 
 const InputForm = ({ order, setOrder, setFormIsValid, wrapperStyle }) => {
 
@@ -21,6 +21,7 @@ const InputForm = ({ order, setOrder, setFormIsValid, wrapperStyle }) => {
                             onChange(e.target.value, k, order, setOrder, setFormIsValid)
 
                     }}
+                    onExit={() => onExit(k, order, setOrder)}
                 />
             </div>)
         }

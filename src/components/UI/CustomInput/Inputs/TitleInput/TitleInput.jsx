@@ -5,7 +5,6 @@ import './TitleInput.scss'
 const TitleInput = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-
     return (
         <div className='title-input-container' style={{ ...props.inputContainer }}>
             <p className='title-class-name'>{props.title}
@@ -16,6 +15,17 @@ const TitleInput = (props) => {
                 >
                     {(props.validation) && (props.validation.required && '*')}
                 </span>
+                {
+                    //props.status ===0 requrest time -- 1->valid result -- 2->invaid result
+                    props.checkNeeded &&
+                    <span>loading...</span>
+                }
+                {
+                    props.status === 1 && <span>valid</span>
+                }
+                {
+                    props.status === 2 && <span>invalid</span>
+                }
             </p>
             <input
                 className='input-element'
@@ -29,6 +39,7 @@ const TitleInput = (props) => {
                     ...props.inputStyle
                 }}
                 onChange={props.onChange}
+                onBlur={props.onExit}
             />
         </div>
     )

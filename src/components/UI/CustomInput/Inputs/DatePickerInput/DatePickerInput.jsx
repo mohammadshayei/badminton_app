@@ -1,26 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
 import './DatePickerInput.scss'
 import DatePicker, { } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
-import DatePickerView from './DatePickerView'
 import { useTheme } from '../../../../../styles/ThemeProvider'
 
 const DatePickerInput = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const ref = useRef()
-    const [width, setWidth] = useState(0)
-    useEffect(() => {
-        onHandleSize()
-    }, [ref])
-    const onHandleSize = () => {
-        if (ref.current) setWidth(ref.current.clientWidth)
-    }
-    window.addEventListener('resize', onHandleSize)
     return (
-        <div className='title-date-picker-container' ref={ref}>
+        <div className='title-date-picker-container' >
             <p className='title-class-name'>{props.title}
                 <span className="required"
                     style={{
@@ -36,19 +25,17 @@ const DatePickerInput = (props) => {
                 onChange={props.onChange}
                 // fixMainPosition={true}
                 portal
+                placeholder='---- / -- / --'
                 calendarPosition='top'
                 value={props.value}
                 minDate={props.elementConfig?.minDate ? props.elementConfig.minDate : new Date()}
                 maxDate={props.elementConfig?.maxDate}
-                render={(value, openCalendar) => {
-                    return (
-                        <DatePickerView
-                            width={width}
-                            onClick={openCalendar}
-                            value={value}
-
-                        />
-                    )
+                inputClass='date-picker-container'
+                style={{
+                    backgroundColor: theme.surface,
+                    color: theme.on_surface,
+                    borderColor: theme.darken_border_color,
+                    outlineColor: theme.primary
                 }}
             />
         </div>

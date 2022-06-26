@@ -1,3 +1,6 @@
+import { baseUrl } from "../constants/Config";
+import axios from "axios";
+
 export const checkValidaty = (value, rules) => {
   let isValid = true;
   if (!rules) {
@@ -5,7 +8,7 @@ export const checkValidaty = (value, rules) => {
   }
 
   if (rules.required) {
-    isValid = value.trim() !== "" && isValid;
+    isValid = value.trim().length > 0 && isValid;
   }
   if (rules.bdRequired) {
     isValid = value && isValid;
@@ -36,11 +39,16 @@ export const onChange = (value, key, order, setOrder, setFormIsValid) => {
   upadtedElement.value = value;
   upadtedElement.invalid = !checkValidaty(value, upadtedElement.validation);
   // upadtedElement.touched = true;
+  upadtedElement.changed = true;
+
   updatedOrder[key] = upadtedElement;
 
   let formIsValid = true;
   for (let inputIdentifier in updatedOrder) {
-    formIsValid = !updatedOrder[inputIdentifier].invalid && formIsValid;
+    if (!updatedOrder[inputIdentifier].hidden)
+      formIsValid = !updatedOrder[inputIdentifier].invalid && formIsValid;
+    if (updatedOrder[inputIdentifier].status)
+      updatedOrder[inputIdentifier].status = 0;
   }
   setFormIsValid(formIsValid);
   setOrder(updatedOrder);
@@ -66,5 +74,22 @@ export const onChangeUnderline = (
     formIsValid = updatedOrder[inputIdentifier].invalid && formIsValid;
   }
   setFormIsValid(formIsValid);
+  setOrder(updatedOrder);
+};
+
+export const onExit = async (key, order, setOrder) => {
+  let updatedOrder = { ...order };
+  let upadtedElement = updatedOrder[key];
+  if (upadtedElement.url && upadtedElement.changed) {
+    // && upadtedElement.value.length>=upadtedElement.minLen
+    if (
+      upadtedElement.minLen &&
+      upadtedElement.value.length < upadtedElement.minLen
+    )
+      return;
+    upadtedElement.checkNeeded = true;
+    upadtedElement.changed = true;
+  }
+  updatedOrder[key] = upadtedElement;
   setOrder(updatedOrder);
 };

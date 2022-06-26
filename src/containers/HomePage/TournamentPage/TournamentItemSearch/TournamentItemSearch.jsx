@@ -7,39 +7,20 @@ import { BsSearch, BsX } from "react-icons/bs";
 import { searchTournaments } from "../../../../api/home";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 
-const TournamentItemSearch = () => {
+const TournamentItemSearch = ({ onAddItemToTournament, searchListItems, onSearch, searchValue, searchLoading }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-    const [searchValue, setSearchValue] = useState("");
-    const [loading, setLoading] = useState(false)
-    const [foundTournaments, setFoundTournaments] = useState([])
     const [inputStyle, setInputStyle] = useState({
         backgroundColor: theme.surface,
         paddingLeft: "2rem",
         transition: "border-radius 200ms ease"
     });
 
-    const { token } = useSelector(state => state.auth)
-    const navigate = useNavigate()
-
-    const onSearch = async (event) => {
-        setSearchValue(event.target.value);
-        if (event.target.value.length === 0) return;
-        setLoading(true)
-        const result = await searchTournaments({ name: event.target.value }, token)
-        setFoundTournaments(result.data.tournaments)
-        setLoading(false)
-    }
-    const onItemClickHandler = (id) => {
-        // navigate(`/tournaments/${id}?part=team`)
-        setSearchValue('')
-        setFoundTournaments([])
-    }
-
     useEffect(() => {
         let radiusT, radiusB;
-        if (searchValue.length === 0) { radiusB = "25px"; radiusT = "25px"; }
+        if (searchValue.length === 0 || searchListItems.length === 0) { radiusB = "25px"; radiusT = "25px"; }
         else { radiusB = "0"; radiusT = "20px"; }
         let updatedInputStyle = {
             ...inputStyle,
@@ -49,39 +30,43 @@ const TournamentItemSearch = () => {
             borderBottomRightRadius: radiusB
         }
         setInputStyle(updatedInputStyle);
-    }, [searchValue]);
-
+    }, [searchValue, searchListItems.length]);
     return <div className="tournament-search-container"
     >
         <CustomInput
             value={searchValue}
             elementType='input'
             elementConfig={{
-                placeholder: stringFa.search_tournament,
+                placeholder: stringFa.search_team,
                 type: 'text',
             }}
             inputContainer={{ padding: "0" }}
             inputStyle={inputStyle}
-            onChange={(e) => onSearch(e)}
+            onChange={onSearch}
         />
         <div className="founds">
-            <div className={`found-items ${searchValue.length === 0 ? "" : "open"}`}
+            <div className={`found-items ${searchListItems.length > 0 ? "open" : ""}`}
                 style={{
                     backgroundColor: theme.surface,
                     borderColor: theme.border_color
                 }}
             >
                 {
-                    foundTournaments.length > 0 ?
-                        foundTournaments.map(item =>
-                            <div key={item._id} className="found-item" onClick={() => onItemClickHandler(item._id)}>
-                                {item.title}
-                            </div>)
-                        : <div>موردی پیدا نشد.</div>
+                    searchListItems?.map(item =>
+                        <div key={item._id} className="found-item" >
+                            <p> {item.name}</p>
+                            <TransparentButton
+                                onClick={() => { onAddItemToTournament(item) }}
+                            >
+                                <p style={{ color: theme.primary }}>{stringFa.add}</p>
+
+                            </TransparentButton>
+                        </div>
+                    )
                 }
             </div>
         </div>
-    </div>;
+    </div >;
 };
 
 export default TournamentItemSearch;
