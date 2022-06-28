@@ -71,7 +71,7 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
             setTournamentDays(updatedTournamentsDay)
             const result = await dynamicApi(payload, token, 'set_date_on_day')
             setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
-          
+
             setDateLoading(false)
         } catch (error) {
             setDateLoading(false)
@@ -167,15 +167,6 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
                         )}
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
                 <div className="day-match-games"
                     style={{
                         display: showGames ? "flex" : "none",
@@ -183,12 +174,12 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
                     }}
                 >
                     <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
-                    {Object.entries(games).map(([k1, match]) =>
+                    {Object.entries(games).map(([k1, game]) =>
                         <div key={k1} className="a-match-game">
-                            <div className="match-game-number">{match.number}</div>
+                            <div className="match-game-index">{game.index}</div>
                             <div className="match-game-details">
-                                {Object.entries(match).map(([k2, team]) =>
-                                    k2 !== "number" &&
+                                {Object.entries(game).map(([k2, team]) =>
+                                    k2 !== "index" &&
                                     <>
                                         <div key={k2} className={`match-game-team ${k2 === "team2" ? "left" : ''}`}>
                                             <div className="players">
@@ -215,44 +206,7 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
                     )}
                 </div>
             </div>
-            <div className="day-match-games"
-                style={{
-                    display: showGames ? "flex" : "none",
-                    backgroundColor: theme.background_color
-                }}
-            >
-                <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
-                {Object.entries(games).map(([k1, game]) =>
-                    <div key={k1} className="a-match-game">
-                        <div className="match-game-index">{game.index}</div>
-                        <div className="match-game-details">
-                            {Object.entries(game).map(([k2, team]) =>
-                                k2 !== "index" &&
-                                <>
-                                    <div key={k2} className={`match-game-team ${k2 === "team2" ? "left" : ''}`}>
-                                        <div className="players">
-                                            {Object.entries(team.players).map(([k3, player]) =>
-                                                <div key={k3} className="player">
-                                                    <img className="player-image" src={player.image === '' ? IMAGE : player.image} alt="avatar" />
-                                                    <div className="player-name">{player.name}</div>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="scores">
-                                            {Object.entries(team.scores).map(([k4, score]) =>
-                                                <p key={k4}>
-                                                    {score}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-                                    {k2 === "team1" ? <p className="dash">-</p> : ''}
-                                </>
-                            )}
-                        </div>
-                    </div>
-                )}
-            </div>
+
         </div>
     )
 
