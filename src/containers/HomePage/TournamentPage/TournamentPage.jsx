@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -12,6 +13,9 @@ import TournamentItemSearch from './TournamentItemSearch/TournamentItemSearch'
 import './TournamentPage.scss'
 import { AiOutlinePlus } from 'react-icons/ai'
 import TeamsMatches from './TournamentParts/TeamsMatches/TeamsMatches'
+import PlayerForm from '../InputForms/PlayerForm/PlayerForm'
+import RefereeForm from '../InputForms/RefereeForm/RefereeForm'
+import GymForm from '../InputForms/GymForm/GymForm'
 import TodayMatch from './TournamentParts/TodayMatch/TodayMatch'
 
 const TournamentPage = ({ id }) => {
@@ -25,22 +29,24 @@ const TournamentPage = ({ id }) => {
     const [filteredListItems, setFilteredListItems] = useState([])
     const [searchListItems, setSearchListItem] = useState([])
     const [searchValue, setSearchValue] = useState('')
+    const [partTitle, setPartTitle] = useState('')
     const [content, setContent] = useState(null)
+    const [form, setForm] = useState(null)
     const [filterSelectors, setFilterSelectors] = useState({
         team: {
-            text: "تیم",
+            text: "تیم ها",
             selected: true,
         },
         player: {
-            text: "بازیکن",
+            text: "بازیکن ها",
             selected: false,
         },
         referee: {
-            text: "داور",
+            text: "داور ها",
             selected: false,
         },
         gym: {
-            text: "سالن",
+            text: "سالن ها",
             selected: false,
         },
         teamMatch: {
@@ -53,10 +59,10 @@ const TournamentPage = ({ id }) => {
         }
     });
     const [showInputForm, setShowInputForm] = useState(false)
+    const [createAccess, setCreateAccess] = useState(false)
 
 
     const { token, user } = useSelector(state => state.auth)
-
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -79,6 +85,7 @@ const TournamentPage = ({ id }) => {
             if (result.success) {
                 setSearchValue('')
                 setListItem(lst => [item, ...lst,])
+                setSearchListItem([])
             }
 
         } catch (error) {
@@ -119,6 +126,13 @@ const TournamentPage = ({ id }) => {
     const onRemoveItem = (itemId) => {
         setListItem(lst => lst.filter(item => item._id !== itemId))
     }
+    const onUpdateItem = (item) => {
+        let updatedListItem = [...listItem]
+        let findIndex = updatedListItem.findIndex(i => i._id === item._id)
+        if (findIndex < 0) return;
+        updatedListItem[findIndex] = item;
+        setListItem(updatedListItem)
+    }
     const onSelectorClick = (key) => {
         let updatedFilterSelectors = { ...filterSelectors };
         for (const filter in updatedFilterSelectors) {
@@ -136,11 +150,13 @@ const TournamentPage = ({ id }) => {
             setSearchListItem([])
             return;
         }
+        let path = part !== 'referee' ? part : 'user'
         setSearchLoading(true)
         try {
-            const result = await dynamicApi({ input: event.target.value }, token, `search_${part}`)
+            const result = await dynamicApi({ input: event.target.value }, token, `search_${path}`)
+            console.log(result)
             if (result.success)
-                setSearchListItem(result.data[`${part}s`])
+                setSearchListItem(result.data[`${path}s`])
             else
                 setSearchListItem([])
         } catch (error) {
@@ -150,6 +166,23 @@ const TournamentPage = ({ id }) => {
         setSearchLoading(false)
 
     }
+    const onBack = () => {
+        if (content)
+            navigate(`/tournaments/${id}?part=${part}`)
+        else setShowInputForm(false)
+    }
+
+
+
+
+    useEffect(() => {
+        if (part !== 'referee') {
+            //access for specefic user 
+            setCreateAccess(true)
+
+        } else
+            setCreateAccess(false)
+    }, [part, id, user])
 
 
 
@@ -193,6 +226,7 @@ const TournamentPage = ({ id }) => {
 
     useEffect(() => {
         if (!part) return;
+        setShowInputForm(false)
         let updatedFilterSelectors = { ...filterSelectors };
         for (const filter in updatedFilterSelectors) {
             updatedFilterSelectors[filter].selected = false;
@@ -208,21 +242,36 @@ const TournamentPage = ({ id }) => {
             switch (part) {
                 case 'team':
                     path = 'teams'
+                    setPartTitle(stringFa.team)
+                    setForm(
+                        <TeamForm
+                            content={content}
+                            creator={tournament?.chief._id}
+                            tournamentId={tournament?._id}
+                            setShowInputForm={setShowInputForm}
+                            onAddItem={onAddItem}
+                            removeLoading={removeLoading}
+                            onRemoveItemFromTournament={onRemoveItemFromTournament}
+
+                        />)
                     break;
                 case 'player':
                     path = 'players'
+                    setPartTitle(stringFa.player)
+                    setForm(<PlayerForm />)
+
                     break;
                 case 'referee':
                     path = 'referees'
+                    setPartTitle(stringFa.umpire)
                     break;
                 case 'gym':
                     path = 'gyms'
-                    break;
-                case 'teamMatch':
-                    path = 'teams'
+                    setPartTitle(stringFa.gym)
                     break;
                 default:
                     path = 'teams'
+                    setPartTitle(stringFa.team)
                     break;
             }
             try {
@@ -249,7 +298,6 @@ const TournamentPage = ({ id }) => {
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part])
-
     useEffect(() => {
         if (!id || !part || !item) {
             setContent(null)
@@ -265,7 +313,7 @@ const TournamentPage = ({ id }) => {
                     path = 'players'
                     break;
                 case 'referee':
-                    path = 'referees'
+                    path = 'users'
                     break;
                 case 'gym':
                     path = 'gyms'
@@ -294,81 +342,149 @@ const TournamentPage = ({ id }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part, item])
 
+    useEffect(() => {
+        switch (part) {
+            case 'team':
+                setForm(
+                    <TeamForm
+                        content={content}
+                        creator={tournament?.chief._id}
+                        tournamentId={tournament?._id}
+                        setShowInputForm={setShowInputForm}
+                        onAddItem={onAddItem}
+                        removeLoading={removeLoading}
+                        onRemoveItemFromTournament={onRemoveItemFromTournament}
+                        onBack={onBack}
+                        onUpdateItem={onUpdateItem}
+                    />
+                )
+                break;
+            case 'player':
+                setForm(
+                    <PlayerForm
+                        content={content}
+                        tournamentId={tournament?._id}
+                        setShowInputForm={setShowInputForm}
+                        onAddItem={onAddItem}
+                        removeLoading={removeLoading}
+                        onRemoveItemFromTournament={onRemoveItemFromTournament}
+                        onBack={onBack}
+                        onUpdateItem={onUpdateItem}
+                    />
+                )
+
+                break;
+            case 'referee':
+                setForm(
+                    <RefereeForm
+                        content={content}
+                        removeLoading={removeLoading}
+                        onRemoveItemFromTournament={onRemoveItemFromTournament}
+                        onBack={onBack}
+                    />
+                )
+                break;
+            case 'gym':
+                setForm(
+                    <GymForm
+                        content={content}
+                        tournamentId={tournament?._id}
+                        setShowInputForm={setShowInputForm}
+                        onAddItem={onAddItem}
+                        removeLoading={removeLoading}
+                        onRemoveItemFromTournament={onRemoveItemFromTournament}
+                        onBack={onBack}
+                        onUpdateItem={onUpdateItem}
+                    />
+                )
+                break;
+            default:
+                break;
+        }
+    }, [id, part, showInputForm, content, tournament])
+
     return (
         <div className='tournament-page-wrapper'>
             {dialog}
-            {/* header  */}
             <Header
                 tournament={tournament}
                 loading={loading}
                 filterSelectors={filterSelectors}
                 onSelectorClick={onSelectorClick}
-            />
 
-            {/* body is here */}
-            {part === "teamMatch" ?
-                <TeamsMatches /> :
-                part === "todayMatch" ?
-                    <TodayMatch /> :
-                    <div className='tournament-body'>
-                        <div className='tournament-search'>
-                            <TournamentItemSearch
-                                searchValue={searchValue}
-                                searchListItems={
-                                    searchListItems.filter(item => listItem
-                                        .findIndex(i => i._id === item._id) < 0)}
-                                onSearch={onSearch}
-                                searchLoading={searchLoading}
-                                onAddItemToTournament={onAddItemToTournament}
-                            />
-                            {
-                                tournament?.chief._id === user?._id &&
-                                <Button
-                                    onClick={onAddItemClickHandler}
-                                >
-                                    <div className='button-add'>
-                                        <AiOutlinePlus style={{ fontSize: 12 }} />
-                                        {stringFa.add_team}
-                                    </div>
-                                </Button>
-                            }
-                        </div>
-                        <div className='tournament-content'>
-                            <div className="tournament-list-items">
+            />
+            {
+                part === "teamMatch" ?
+                    <TeamsMatches
+                        tournamentId={id}
+                        gameDate={tournament?.game_date}
+                    /> :
+                    part === "todayMatch" ?
+                        <TodayMatch /> :
+                        <div className='tournament-body'>
+                            <div className='tournament-search'>
+                                <TournamentItemSearch
+                                    searchValue={searchValue}
+                                    searchPlaceHolder={`جستجو ${partTitle}`}
+                                    searchListItems={
+                                        searchListItems.filter(item => listItem
+                                            .findIndex(i => i._id === item._id) < 0)}
+                                    onSearch={onSearch}
+                                    searchLoading={searchLoading}
+                                    onAddItemToTournament={onAddItemToTournament}
+                                    selector={() => {
+                                        if (part === 'team') return 'name'
+                                        else if (part === 'player' || part === 'referee') return 'username'
+                                        if (part === 'gym') return 'title'
+                                    }}
+                                />
                                 {
-                                    filteredListItems.length > 0 ?
-                                        filteredListItems.map((item, index) =>
-                                            <TeamItem
-                                                key={item._id}
-                                                index={index + 1}
-                                                {...item}
-                                                onClick={() => onItemClick(item._id)}
-                                            />
-                                        )
-                                        : <div className='not_found'>
-                                            {stringFa.item_not_found}
+                                    createAccess &&
+                                    <Button
+                                        onClick={onAddItemClickHandler}
+                                    >
+                                        <div className='button-add'>
+                                            <AiOutlinePlus style={{ fontSize: 12 }} />
+                                            {`${partTitle} جدید`}
                                         </div>
+                                    </Button>
                                 }
                             </div>
-                            <div className="touranament-item-input"
-                                style={{ display: showInputForm ? 'flex' : 'none' }}>
-                                <TeamForm
-                                    content={content}
-                                    creator={tournament?.chief._id}
-                                    tournamentId={tournament?._id}
-                                    setShowInputForm={setShowInputForm}
-                                    onAddItem={onAddItem}
-                                    removeLoading={removeLoading}
-                                    onRemoveItemFromTournament={onRemoveItemFromTournament}
-
-                                />
+                            <div className='tournament-content'>
+                                <div className="tournament-list-items">
+                                    {
+                                        contentLoading ? <div>
+                                            لطفا صبر کنید
+                                        </div> :
+                                            filteredListItems.length > 0 ?
+                                                filteredListItems.map((item, index) =>
+                                                    <TeamItem
+                                                        key={item._id}
+                                                        index={index + 1}
+                                                        indexNeeded={part === 'team' ? true : false}
+                                                        item={item}
+                                                        selector={() => {
+                                                            if (part === 'team') return 'name'
+                                                            else if (part === 'player' || part === 'referee') return 'username'
+                                                            else if (part === 'gym') return 'title'
+                                                        }}
+                                                        onClick={() => onItemClick(item._id)}
+                                                    />
+                                                )
+                                                : <div className='not_found'>
+                                                    {stringFa.item_not_found}
+                                                </div>
+                                    }
+                                </div>
+                                <div className="touranament-item-input"
+                                    style={{ display: showInputForm ? 'flex' : 'none' }}>
+                                    {form}
+                                </div>
                             </div>
-
                         </div>
-                    </div>
             }
+
         </div>
     )
 }
-
-export default TournamentPage
+export default TournamentPage;

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useState, useCallback, useEffect, useLayoutEffect } from "react";
 import "./TeamForm.scss"
 import InputForm from "../../../../components/UI/InputForm/InputForm";
@@ -12,11 +13,10 @@ import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
-import { useNavigate } from "react-router-dom";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 
 
-const TeamForm = ({ content, removeLoading, creator, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
+const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(true)
     const [order, setOrder] = useState({
         ownerName: {
@@ -283,7 +283,6 @@ const TeamForm = ({ content, removeLoading, creator, tournamentId, setShowInputF
     const { token, user } = useSelector(state => state.auth)
 
     const imageRef = useRef(null)
-    const navigate = useNavigate()
 
     const uploadButtonClickHandler = useCallback(() => {
         imageRef.current.click();
@@ -310,13 +309,16 @@ const TeamForm = ({ content, removeLoading, creator, tournamentId, setShowInputF
             }
             if (!order.legalOwnerPhoneId.hidden && order.legalOwnerPhoneId.value.length > 0)
                 payload.legalOwnerInfo = order.legalOwnerPhoneId.value
-            let fetchedTournament = await
+            let result = await
                 formDataDynamic(imagePath, payload, token, 'edit_team')
             setDialog(
                 <ErrorDialog
-                    type={fetchedTournament.success ? 'success' : "error"}
-                >{fetchedTournament.data.message}</ErrorDialog>)
-
+                    type={result.success ? 'success' : "error"}
+                >{result.data.message}</ErrorDialog>)
+            if (result.success) {
+                onUpdateItem({ _id: content._id, name: order.teamName.value, selected: true })
+                onBack()
+            }
         } catch (error) {
             setLoading(false)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
@@ -344,8 +346,13 @@ const TeamForm = ({ content, removeLoading, creator, tournamentId, setShowInputF
                     type={created.success ? 'success' : "error"}
                 >{created.data.message}</ErrorDialog>)
             if (created.success) {
-                onAddItem({ _id: created.data.team, name: order.teamName.value })
+                onAddItem({
+                    _id: created.data.team,
+                    name: order.teamName.value,
+                    selected: true
+                })
                 setShowInputForm(false)
+                clear()
             }
         } catch (error) {
             setLoading(false)
@@ -355,12 +362,35 @@ const TeamForm = ({ content, removeLoading, creator, tournamentId, setShowInputF
 
     }
 
-    const onBack = () => {
-        if (content)
-            navigate(`/tournaments/${tournamentId}?part=team`)
-        else setShowInputForm(false)
-    }
+    const clear = () => {
+        setFormIsValid(false)
+        setImageSrc('')
+        let updatedOrder = { ...order }
+        updatedOrder.ownerName.hidden = true;
+        updatedOrder.ownerPhone.hidden = true;
+        updatedOrder.ownerId.hidden = true;
+        updatedOrder.teamCode.hidden = true;
+        updatedOrder.legalOwnerName.hidden = true;
+        updatedOrder.legalOwnerPhone.hidden = true;
+        updatedOrder.legalOwnerId.hidden = true;
 
+
+        updatedOrder.teamName.hidden = false;
+        updatedOrder.teamName.value = '';
+        updatedOrder.teamName.invalid = true;
+        updatedOrder.ownerPhoneId.hidden = false;
+        updatedOrder.ownerPhoneId.value = '';
+        updatedOrder.ownerPhoneId.invalid = true;
+        updatedOrder.caption.hidden = false;
+        updatedOrder.caption.value = ''
+        updatedOrder.address.hidden = false;
+        updatedOrder.address.value = '';
+        updatedOrder.legalOwnerPhoneId.hidden = false;
+        updatedOrder.legalOwnerPhoneId.value = '';
+
+
+        setOrder(updatedOrder)
+    }
     // for (let inputIdentifier in order) {
     //     if (!order[inputIdentifier].hidden)
     //         if (order[inputIdentifier].invalid) console.log(inputIdentifier)
@@ -416,33 +446,7 @@ const TeamForm = ({ content, removeLoading, creator, tournamentId, setShowInputF
 
             setOrder(updatedOrder)
         } else {
-            setFormIsValid(false)
-            setImageSrc('')
-            let updatedOrder = { ...order }
-            updatedOrder.ownerName.hidden = true;
-            updatedOrder.ownerPhone.hidden = true;
-            updatedOrder.ownerId.hidden = true;
-            updatedOrder.teamCode.hidden = true;
-            updatedOrder.legalOwnerName.hidden = true;
-            updatedOrder.legalOwnerPhone.hidden = true;
-            updatedOrder.legalOwnerId.hidden = true;
-
-
-            updatedOrder.teamName.hidden = false;
-            updatedOrder.teamName.value = '';
-            updatedOrder.teamName.invalid = true;
-            updatedOrder.ownerPhoneId.hidden = false;
-            updatedOrder.ownerPhoneId.value = '';
-            updatedOrder.ownerPhoneId.invalid = true;
-            updatedOrder.caption.hidden = false;
-            updatedOrder.caption.value = ''
-            updatedOrder.address.hidden = false;
-            updatedOrder.address.value = '';
-            updatedOrder.legalOwnerPhoneId.hidden = false;
-            updatedOrder.legalOwnerPhoneId.value = '';
-
-
-            setOrder(updatedOrder)
+            clear()
         }
     }, [content])
 

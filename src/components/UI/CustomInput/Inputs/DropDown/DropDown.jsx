@@ -78,7 +78,7 @@ const DropDown = (props) => {
                     style={{
                         backgroundColor: theme.surface,
                         color: theme.on_surface,
-                        borderColor: theme.border_color
+                        borderColor: theme.darken_border_color,
                         // top: props.dropUp ? "unset" : "5rem", bottom: props.dropUp ? "3rem" : "unset"
                     }}
                 >

@@ -1,5 +1,6 @@
 import { baseUrl } from "../constants/Config";
 import axios from "axios";
+import { elementTypes } from "../components/UI/CustomInput/CustomInput";
 
 export const checkValidaty = (value, rules) => {
   let isValid = true;
@@ -12,15 +13,15 @@ export const checkValidaty = (value, rules) => {
   }
   if (rules.bdRequired) {
     isValid = value && isValid;
+    console.log(isValid);
   }
+
   if (rules.minLength) {
     isValid = value.length >= rules.minLength && isValid;
   }
-
   if (rules.maxLength) {
     isValid = value.length <= rules.maxLength && isValid;
   }
-
   if (rules.isEmail) {
     const pattern =
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -33,11 +34,31 @@ export const checkValidaty = (value, rules) => {
   }
   return isValid;
 };
-export const onChange = (value, key, order, setOrder, setFormIsValid) => {
+export const onChange = (
+  value,
+  key,
+  order,
+  setOrder,
+  setFormIsValid,
+  index
+) => {
   let updatedOrder = { ...order };
   let upadtedElement = updatedOrder[key];
-  upadtedElement.value = value;
-  upadtedElement.invalid = !checkValidaty(value, upadtedElement.validation);
+  if (upadtedElement.elementType === elementTypes.dropDown) {
+    upadtedElement.value = value.text;
+    upadtedElement.id = value.id;
+    upadtedElement.invalid = !checkValidaty(
+      value.text,
+      upadtedElement.validation
+    );
+  } else if (upadtedElement.elementType === elementTypes.multiInputTitle) {
+    upadtedElement.value[index] = value;
+    let findError = upadtedElement.value.findIndex((item) => item === "");
+    upadtedElement.invalid = findError < 0 ? false : true;
+  } else {
+    upadtedElement.value = value;
+    upadtedElement.invalid = !checkValidaty(value, upadtedElement.validation);
+  }
   // upadtedElement.touched = true;
   upadtedElement.changed = true;
 

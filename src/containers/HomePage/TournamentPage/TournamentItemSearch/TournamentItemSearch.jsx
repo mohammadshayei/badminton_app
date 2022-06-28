@@ -4,12 +4,9 @@ import CustomInput from "../../../../components/UI/CustomInput/CustomInput";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { useEffect, useState } from "react";
 import { BsSearch, BsX } from "react-icons/bs";
-import { searchTournaments } from "../../../../api/home";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 
-const TournamentItemSearch = ({ onAddItemToTournament, searchListItems, onSearch, searchValue, searchLoading }) => {
+const TournamentItemSearch = ({ selector, searchPlaceHolder, onAddItemToTournament, searchListItems, onSearch, searchValue, searchLoading }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const [inputStyle, setInputStyle] = useState({
@@ -31,13 +28,15 @@ const TournamentItemSearch = ({ onAddItemToTournament, searchListItems, onSearch
         }
         setInputStyle(updatedInputStyle);
     }, [searchValue, searchListItems.length]);
+
+
     return <div className="tournament-search-container"
     >
         <CustomInput
             value={searchValue}
             elementType='input'
             elementConfig={{
-                placeholder: stringFa.search_team,
+                placeholder: searchPlaceHolder,
                 type: 'text',
             }}
             inputContainer={{ padding: "0" }}
@@ -54,7 +53,7 @@ const TournamentItemSearch = ({ onAddItemToTournament, searchListItems, onSearch
                 {
                     searchListItems?.map(item =>
                         <div key={item._id} className="found-item" >
-                            <p> {item.name}</p>
+                            <p> {item[selector()]}</p>
                             <TransparentButton
                                 onClick={() => { onAddItemToTournament(item) }}
                             >

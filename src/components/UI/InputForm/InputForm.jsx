@@ -14,11 +14,12 @@ const InputForm = ({ order, setOrder, setFormIsValid, wrapperStyle }) => {
             >
                 <CustomInput
                     {...v}
-                    onChange={(e) => {
-                        if (v.elementType === elementTypes.switchInput || v.elementType === elementTypes.datePicker)
+                    onChange={(e, indexArray) => {
+                        if (v.elementType === elementTypes.switchInput
+                            || v.elementType === elementTypes.datePicker || v.elementType === elementTypes.dropDown)
                             onChange(e, k, order, setOrder, setFormIsValid)
                         else
-                            onChange(e.target.value, k, order, setOrder, setFormIsValid)
+                            onChange(e.target.value, k, order, setOrder, setFormIsValid, indexArray)
 
                     }}
                     onExit={() => onExit(k, order, setOrder)}

@@ -28,7 +28,7 @@ const MultiInputTitle = (props) => {
                 }}
             >
                 {
-                    props.count > 0 && [...new Array(parseInt(props.count))].map((_, index) => (
+                    props.count > 0 && [...new Array(props.count)].map((_, index) => (
                         <div className='box-wrapper' key={index}>
                             <input
                                 type="text"

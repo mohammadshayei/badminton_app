@@ -33,7 +33,7 @@ const DatePickerInput = (props) => {
                 calendarPosition='top'
                 editable={false}
                 value={props.value}
-                minDate={props.elementConfig?.minDate ? props.elementConfig.minDate : new Date()}
+                minDate={props.elementConfig?.minDate ? props.elementConfig.minDate : ''}
                 maxDate={props.elementConfig?.maxDate}
                 inputClass='date-picker-container'
                 style={{

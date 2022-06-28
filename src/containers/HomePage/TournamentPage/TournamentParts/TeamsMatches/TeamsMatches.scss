@@ -3,7 +3,7 @@
   padding: 0.5rem;
   .day-selector-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.5rem;
     max-width: 100%;
     overflow-x: auto;
