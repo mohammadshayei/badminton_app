@@ -387,6 +387,7 @@ const TournamentForm = () => {
                 catering: order.catering.value,
                 hotel: order.hotel.value,
             }
+            console.log(payload)
             const result = await createTournament(payload, token)
             if (!result.success) {
                 setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
