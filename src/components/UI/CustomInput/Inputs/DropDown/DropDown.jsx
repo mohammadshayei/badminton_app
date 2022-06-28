@@ -50,7 +50,7 @@ const DropDown = (props) => {
     // }, [drop])
 
     return (
-        <div {...props.elementConfig} className='dropdown-container' >
+        <div {...props.elementConfig} className='dropdown-container' style={props.containerStyle}>
             <p className='title-class-name'>{props.title}
                 <span className="required"
                     style={{
@@ -68,7 +68,7 @@ const DropDown = (props) => {
                 }}
                 onClick={() => setDrop(!drop)}
             >
-                {props.value ? props.value : 'انتخاب کنید'}
+                {props.value ? props.value : props.placeHolder ? props.placeHolder : 'انتخاب کنید'}
                 <div className={`dropdown-indicator-icon ${drop && "rotate"}`}>
                     <BiChevronDown />
                 </div>
@@ -78,6 +78,7 @@ const DropDown = (props) => {
                     style={{
                         backgroundColor: theme.surface,
                         color: theme.on_surface,
+                        borderColor: theme.border_color
                         // top: props.dropUp ? "unset" : "5rem", bottom: props.dropUp ? "3rem" : "unset"
                     }}
                 >

@@ -153,7 +153,7 @@ export const stringFa = {
   owner_phone_id: "شماره همراه یا شماره ملی مالک",
   legal_owner_phone_id: "شماره همراه یا شماره ملی مالک حقوقی",
   search_team: "جستجوی تیم",
-  item_not_found:"موردی یافت نشد",
+  item_not_found: "موردی یافت نشد",
   search_tournament: "جستجوی مسابقه",
   home: "تیم میزبان",
   away: "تیم مهمان",

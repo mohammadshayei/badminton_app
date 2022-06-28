@@ -1,21 +1,46 @@
 .today-match-container {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   width: 100%;
   max-width: 100%;
+  .gym-and-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    font-size: 0.8rem;
+    .gym-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      div {
+        white-space: nowrap;
+      }
+    }
+  }
   .match-game {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.5rem;
     width: 100%;
-    padding: 0.5rem;
     font-size: 0.8rem; //4vw
-    border-radius: 20px;
+    padding-top: 0.5rem;
     .match-game-index {
       border-radius: 40px;
       padding: 0.5em 1em;
-      font-size: 0.7rem; //3vw
+    }
+    .match-game-number {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      width: 50%;
+      p {
+        white-space: nowrap;
+      }
     }
     .match-game-details {
       display: flex;
@@ -24,7 +49,7 @@
       width: 100%;
       .match-game-team {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
         .players {
           display: flex;
@@ -34,14 +59,12 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            .player-image {
-              width: 35px;
-              border-radius: 50%;
-              object-fit: cover;
-            }
           }
         }
       }
+    }
+    .left {
+      direction: rtl;
     }
     .dash {
       display: none;
