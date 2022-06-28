@@ -3,12 +3,12 @@
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  font-size: clamp(0.8rem, 1vw, 1rem);
+  font-size: 1rem;
   .title-class-name {
     display: flex;
     margin-right: 0.2rem;
     margin-bottom: 0.2rem;
-    font-size: clamp(1rem, 1.5vw, 1.1rem);
+    font-size: 1rem;
   }
   .dropdown-input {
     direction: rtl;
@@ -17,7 +17,7 @@
     align-items: center;
     width: 100%;
     min-width: 150px;
-    padding: 0.5em 1em;
+    padding: 0.3em 1em;
     border-radius: 25px;
     border: 1px solid;
     transition: box-shadow 0.15s ease-in-out;
