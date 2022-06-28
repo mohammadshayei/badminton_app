@@ -23,6 +23,9 @@
     transition: box-shadow 0.15s ease-in-out;
     outline: none;
     overflow: auto;
+    &:focus {
+      outline: 1px solid;
+    }
     .box-wrapper {
       display: flex;
       align-items: center;

@@ -20,10 +20,10 @@
     border-radius: 25px;
     border: 1px solid;
     transition: box-shadow 0.15s ease-in-out;
-    &:focus{
-      outline: 1px solid;      
+    &:focus {
+      outline: none;
     }
-  }  
+  }
   .rmdp-container {
     width: 100%;
   }

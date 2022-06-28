@@ -16,6 +16,7 @@ import TeamsMatches from './TournamentParts/TeamsMatches/TeamsMatches'
 import PlayerForm from '../InputForms/PlayerForm/PlayerForm'
 import RefereeForm from '../InputForms/RefereeForm/RefereeForm'
 import GymForm from '../InputForms/GymForm/GymForm'
+import TodayMatch from './TournamentParts/TodayMatch/TodayMatch'
 
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
@@ -52,6 +53,10 @@ const TournamentPage = ({ id }) => {
             text: "مسابقات تیمی",
             selected: false,
         },
+        todayMatch: {
+            text: "مسابقه امروز",
+            selected: false,
+        }
     });
     const [showInputForm, setShowInputForm] = useState(false)
     const [createAccess, setCreateAccess] = useState(false)
@@ -401,7 +406,6 @@ const TournamentPage = ({ id }) => {
     return (
         <div className='tournament-page-wrapper'>
             {dialog}
-            {/* header  */}
             <Header
                 tournament={tournament}
                 loading={loading}
@@ -409,78 +413,78 @@ const TournamentPage = ({ id }) => {
                 onSelectorClick={onSelectorClick}
 
             />
-
-            {/* body is here */}
-            {part === "teamMatch" ?
-                <TeamsMatches
-                    tournamentId={id}
-                    gameDate={tournament?.game_date}
-                /> :
-                <div className='tournament-body'>
-                    <div className='tournament-search'>
-                        <TournamentItemSearch
-                            searchValue={searchValue}
-                            searchPlaceHolder={`جستجو ${partTitle}`}
-                            searchListItems={
-                                searchListItems.filter(item => listItem
-                                    .findIndex(i => i._id === item._id) < 0)}
-                            onSearch={onSearch}
-                            searchLoading={searchLoading}
-                            onAddItemToTournament={onAddItemToTournament}
-                            selector={() => {
-                                if (part === 'team') return 'name'
-                                else if (part === 'player' || part === 'referee') return 'username'
-                                if (part === 'gym') return 'title'
-                            }}
-                        />
-                        {
-                            createAccess &&
-                            <Button
-                                onClick={onAddItemClickHandler}
-                            >
-                                <div className='button-add'>
-                                    <AiOutlinePlus style={{ fontSize: 12 }} />
-                                    {`${partTitle} جدید`}
-                                </div>
-                            </Button>
-                        }
-                    </div>
-                    <div className='tournament-content'>
-                        <div className="tournament-list-items">
-                            {
-                                contentLoading ? <div>
-                                    لطفا صبر کنید
-                                </div> :
-                                    filteredListItems.length > 0 ?
-                                        filteredListItems.map((item, index) =>
-                                            <TeamItem
-                                                key={item._id}
-                                                index={index + 1}
-                                                indexNeeded={part === 'team' ? true : false}
-                                                item={item}
-                                                selector={() => {
-                                                    if (part === 'team') return 'name'
-                                                    else if (part === 'player' || part === 'referee') return 'username'
-                                                    else if (part === 'gym') return 'title'
-                                                }}
-                                                onClick={() => onItemClick(item._id)}
-                                            />
-                                        )
-                                        : <div className='not_found'>
-                                            {stringFa.item_not_found}
+            {
+                part === "teamMatch" ?
+                    <TeamsMatches
+                        tournamentId={id}
+                        gameDate={tournament?.game_date}
+                    /> :
+                    part === "todayMatch" ?
+                        <TodayMatch /> :
+                        <div className='tournament-body'>
+                            <div className='tournament-search'>
+                                <TournamentItemSearch
+                                    searchValue={searchValue}
+                                    searchPlaceHolder={`جستجو ${partTitle}`}
+                                    searchListItems={
+                                        searchListItems.filter(item => listItem
+                                            .findIndex(i => i._id === item._id) < 0)}
+                                    onSearch={onSearch}
+                                    searchLoading={searchLoading}
+                                    onAddItemToTournament={onAddItemToTournament}
+                                    selector={() => {
+                                        if (part === 'team') return 'name'
+                                        else if (part === 'player' || part === 'referee') return 'username'
+                                        if (part === 'gym') return 'title'
+                                    }}
+                                />
+                                {
+                                    createAccess &&
+                                    <Button
+                                        onClick={onAddItemClickHandler}
+                                    >
+                                        <div className='button-add'>
+                                            <AiOutlinePlus style={{ fontSize: 12 }} />
+                                            {`${partTitle} جدید`}
                                         </div>
-                            }
+                                    </Button>
+                                }
+                            </div>
+                            <div className='tournament-content'>
+                                <div className="tournament-list-items">
+                                    {
+                                        contentLoading ? <div>
+                                            لطفا صبر کنید
+                                        </div> :
+                                            filteredListItems.length > 0 ?
+                                                filteredListItems.map((item, index) =>
+                                                    <TeamItem
+                                                        key={item._id}
+                                                        index={index + 1}
+                                                        indexNeeded={part === 'team' ? true : false}
+                                                        item={item}
+                                                        selector={() => {
+                                                            if (part === 'team') return 'name'
+                                                            else if (part === 'player' || part === 'referee') return 'username'
+                                                            else if (part === 'gym') return 'title'
+                                                        }}
+                                                        onClick={() => onItemClick(item._id)}
+                                                    />
+                                                )
+                                                : <div className='not_found'>
+                                                    {stringFa.item_not_found}
+                                                </div>
+                                    }
+                                </div>
+                                <div className="touranament-item-input"
+                                    style={{ display: showInputForm ? 'flex' : 'none' }}>
+                                    {form}
+                                </div>
+                            </div>
                         </div>
-                        <div className="touranament-item-input"
-                            style={{ display: showInputForm ? 'flex' : 'none' }}>
-                            {form}
-                        </div>
-
-                    </div>
-                </div>
             }
+
         </div>
     )
 }
-
-export default TournamentPage
+export default TournamentPage;

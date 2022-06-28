@@ -162,4 +162,5 @@ export const stringFa = {
   show_games: "مشاهده بازی ها",
   team: "تیم",
   player: "بازیکن",
+  undefined: "تعیین نشده",
 };

@@ -1,0 +1,50 @@
+.today-match-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+  .match-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.8rem; //4vw
+    border-radius: 20px;
+    .match-game-index {
+      border-radius: 40px;
+      padding: 0.5em 1em;
+      font-size: 0.7rem; //3vw
+    }
+    .match-game-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+      .match-game-team {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .players {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          .player {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            .player-image {
+              width: 35px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
+    .dash {
+      display: none;
+    }
+  }
+}

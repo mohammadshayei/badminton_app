@@ -3,10 +3,12 @@ import DatePicker, { } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import { useTheme } from '../../../../../styles/ThemeProvider'
+import { useState } from 'react'
 
 const DatePickerInput = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const [focus, setFocus] = useState(false);
 
     return (
         <div className='title-date-picker-container' >
@@ -20,6 +22,8 @@ const DatePickerInput = (props) => {
                 </span>
             </p>
             <DatePicker
+                onClose={() => setFocus(false)}
+                onOpen={() => setFocus(true)}
                 calendar={persian}
                 locale={persian_fa}
                 onChange={props.onChange}
@@ -27,6 +31,7 @@ const DatePickerInput = (props) => {
                 portal
                 placeholder='---- / -- / --'
                 calendarPosition='top'
+                editable={false}
                 value={props.value}
                 minDate={props.elementConfig?.minDate ? props.elementConfig.minDate : ''}
                 maxDate={props.elementConfig?.maxDate}
@@ -34,8 +39,7 @@ const DatePickerInput = (props) => {
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: theme.darken_border_color,
-                    outlineColor: theme.primary
+                    borderColor: focus ? theme.primary : theme.darken_border_color,
                 }}
             />
         </div>

@@ -64,7 +64,7 @@ const DropDown = (props) => {
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: theme.darken_border_color,
+                    borderColor: drop ? theme.primary : theme.darken_border_color,
                 }}
                 onClick={() => setDrop(!drop)}
             >
