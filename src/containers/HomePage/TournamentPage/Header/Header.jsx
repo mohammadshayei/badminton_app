@@ -19,7 +19,13 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
             <div className="header-image-and-content">
 
                 <div className="tournament-header-image">
-                    {loading ? <Skeleton className="image-skeleton" direction='rtl' circle={true} /> :
+                    {loading ?
+                        <Skeleton
+                            className="image-skeleton"
+                            baseColor={theme.border_color}
+                            highlightColor={theme.darken_border_color}
+                            direction='rtl'
+                            circle={true} /> :
                         tournament?.image ? <img src={`${baseUrl}uploads/tournaments/${tournament?.image}`} alt='' /> :
                             <GiTrophyCup />
                     }
@@ -28,7 +34,8 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                     <div className="tournament-title">
                         {loading ?
                             <Skeleton
-                                highlightColor={theme.border_color}
+                                baseColor={theme.border_color}
+                                highlightColor={theme.darken_border_color}
                                 width={270}
                                 direction='rtl' /> :
                             tournament?.title}
@@ -37,7 +44,8 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         <Icon icon="ion:create" />
                         {loading ?
                             <Skeleton
-                                highlightColor={theme.border_color}
+                                baseColor={theme.border_color}
+                                highlightColor={theme.darken_border_color}
                                 width={200}
                                 direction='rtl' /> :
                             tournament?.chief.username}
@@ -46,14 +54,16 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         <Icon icon="akar-icons:person-check" />
                         {loading ?
                             <Skeleton
-                                highlightColor={theme.border_color}
+                                baseColor={theme.border_color}
+                                highlightColor={theme.darken_border_color}
                                 width={100}
                                 direction='rtl' /> :
                             tournament?.age_category}
                     </div>
                     {loading ?
                         <Skeleton
-                            highlightColor={theme.border_color}
+                            baseColor={theme.border_color}
+                            highlightColor={theme.darken_border_color}
                             width={50}
                             direction='rtl' /> :
                         tournament?.period &&
@@ -67,7 +77,8 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         <div className="date">
                             {loading ?
                                 <Skeleton
-                                    highlightColor={theme.border_color}
+                                    baseColor={theme.border_color}
+                                    highlightColor={theme.darken_border_color}
                                     width={150}
                                     direction='rtl' /> :
                                 <>

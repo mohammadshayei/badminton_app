@@ -10,21 +10,23 @@
     display: flex;
     justify-content: center;
     width: 35%;
-    max-width: 190px;
+    max-width: 130px;
     aspect-ratio: 1;
     border-radius: 50%;
-    box-shadow: 0 3px 8px 3px rgba(0, 0, 0, 0.1);
     padding: 0;
-    margin-bottom: 3rem;
-    &:active {
-      transform: scale(0.95) translateY(2rem);
-    }
-    transform: translateY(2rem);
+    margin-bottom: 2rem;
     overflow: hidden;
+    -webkit-transform: translateZ(0) translateY(2rem);
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+    transform: translateZ(0) translateY(2rem);
+    mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
     img {
       cursor: pointer;
       width: 100%;
       object-fit: cover;
+    }
+    &:active {
+      transform: scale(0.95) translateY(2rem);
     }
     .upload-image-wrapper {
       position: absolute;
@@ -34,7 +36,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 20%;
+      height: 25%;
       cursor: pointer;
       background-color: rgba(#000000, 0.4);
       .camera {
@@ -42,13 +44,14 @@
       }
     }
   }
-  .back-section{
+  .back-section {
     position: absolute;
+    display: flex;
     left: 10px;
     top: 10px;
     font-size: 40px;
+    border-radius: 50%;
     cursor: pointer;
-
   }
   .buttons-wrapper {
     width: 100%;
@@ -58,5 +61,17 @@
     align-items: center;
     margin-bottom: 1rem;
     gap: 1rem;
+  }
+}
+
+@media only screen and (min-width: 780px) {
+  .team-wrapper {
+    .profile-avatar {
+      margin-bottom: 0;
+      transform: translateY(0);
+      &:active {
+        transform: scale(0.95);
+      }
+    }
   }
 }

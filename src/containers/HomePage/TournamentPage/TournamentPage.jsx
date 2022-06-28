@@ -17,6 +17,9 @@ import PlayerForm from '../InputForms/PlayerForm/PlayerForm'
 import RefereeForm from '../InputForms/RefereeForm/RefereeForm'
 import GymForm from '../InputForms/GymForm/GymForm'
 import TodayMatch from './TournamentParts/TodayMatch/TodayMatch'
+import Skeleton from 'react-loading-skeleton'
+import { useTheme } from '../../../styles/ThemeProvider'
+import { Icon } from '@iconify/react';
 
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
@@ -61,6 +64,8 @@ const TournamentPage = ({ id }) => {
     const [showInputForm, setShowInputForm] = useState(false)
     const [createAccess, setCreateAccess] = useState(false)
 
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
 
     const { token, user } = useSelector(state => state.auth)
 
@@ -444,7 +449,7 @@ const TournamentPage = ({ id }) => {
                                         onClick={onAddItemClickHandler}
                                     >
                                         <div className='button-add'>
-                                            <AiOutlinePlus style={{ fontSize: 12 }} />
+                                            <AiOutlinePlus style={{ fontSize: 15 }} />
                                             {`${partTitle} جدید`}
                                         </div>
                                     </Button>
@@ -453,9 +458,16 @@ const TournamentPage = ({ id }) => {
                             <div className='tournament-content'>
                                 <div className="tournament-list-items">
                                     {
-                                        contentLoading ? <div>
-                                            لطفا صبر کنید
-                                        </div> :
+                                        contentLoading ?
+                                            [1, 2, 3, 4].map((v) =>
+                                                <Skeleton
+                                                    key={v}
+                                                    className="tournament-item"
+                                                    direction='rtl'
+                                                    baseColor={theme.border_color}
+                                                    highlightColor={theme.darken_border_color}
+                                                    style={{ border: "none" }}
+                                                />) :
                                             filteredListItems.length > 0 ?
                                                 filteredListItems.map((item, index) =>
                                                     <TeamItem
@@ -472,12 +484,21 @@ const TournamentPage = ({ id }) => {
                                                     />
                                                 )
                                                 : <div className='not_found'>
+                                                    <Icon
+                                                        icon="uit:exclamation-circle"
+                                                        fontSize="3rem"
+                                                        opacity={0.3}
+                                                        color={theme.on_background}
+                                                    />
                                                     {stringFa.item_not_found}
                                                 </div>
                                     }
                                 </div>
                                 <div className="touranament-item-input"
-                                    style={{ display: showInputForm ? 'flex' : 'none' }}>
+                                    style={{
+                                        backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
+                                        display: showInputForm ? 'flex' : 'none'
+                                    }}>
                                     {form}
                                 </div>
                             </div>

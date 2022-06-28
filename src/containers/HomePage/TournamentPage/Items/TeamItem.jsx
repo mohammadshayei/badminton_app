@@ -3,6 +3,7 @@ import { useTheme } from "../../../../styles/ThemeProvider";
 const TeamItem = ({ item, index, indexNeeded, selector, onClick }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+
     return (
         <div
             className="tournament-item"
