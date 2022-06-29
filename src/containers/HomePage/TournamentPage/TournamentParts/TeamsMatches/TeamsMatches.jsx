@@ -11,6 +11,8 @@ import Match from "./Match";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
+import Skeleton from 'react-loading-skeleton'
+
 const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
     const [dayMatchs, setDayMatchs] = useState([])
@@ -155,13 +157,25 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
         >
             {dialog}
             <div className="day-selector-container">
-                {tournamentDays.map(day =>
-                    <Day
-                        key={day._id}
-                        day={day}
-                        selectDay={() => selectDay(day._id)}
-                    />
-                )}
+                {tournamentDays.length > 0 ?
+                    tournamentDays.map(day =>
+                        <Day
+                            key={day._id}
+                            day={day}
+                            selectDay={() => selectDay(day._id)}
+                        />
+                    ) :
+                    [...Array(5).keys()].map((v) =>
+                        <Skeleton
+                            key={v}
+                            className="day"
+                            direction="rtl"
+                            style={{ border: "none" }}
+                            baseColor={theme.border_color}
+                            highlightColor={theme.border_color}
+                        />
+                    )
+                }
             </div>
             <div className="day-content">
                 <div className={`day-events ${showGames ? "hide" : ""}`}>
@@ -180,7 +194,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                         />
                     </div>
                     <div className="teams-table">
-                        {teams?.length > 0 && [... new Array((teams.length) / 2)].map((_, i) =>
+                        {[...new Array(teams?.length > 0 ? (teams.length) / 2 : 3)].map((_, i) =>
                             <div className="table-row"
                                 style={{
                                     borderColor: theme.border_color

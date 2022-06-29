@@ -12,7 +12,7 @@ import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 import { formDataDynamic } from "../../../../api/home";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../../../constants/Config";
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline, IoAdd } from "react-icons/io5";
 
 const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -265,15 +265,12 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
     return <div className="input-wrapper">
         {dialog}
         <div
-            className="back-section"
-            style={{
-                backgroundColor: theme.background_color
-            }}
+            className="back-section gym-back"
             onClick={onBack}
         >
             {window.innerWidth > 780 ? <IoCloseOutline /> : <RiArrowLeftSLine />}
         </div>
-        <div className="default-image" onClick={uploadButtonClickHandler}>
+        <div className="default-image">
             <input type="file"
                 style={{ display: 'none' }}
                 ref={imageRef}
@@ -281,6 +278,9 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
             <img
                 src={imageSrc ? imageSrc : IMAGE}
                 alt="default" />
+            <div className="add-image-btn" onClick={uploadButtonClickHandler}>
+                <IoAdd />
+            </div>
         </div>
         <InputForm
             order={order}

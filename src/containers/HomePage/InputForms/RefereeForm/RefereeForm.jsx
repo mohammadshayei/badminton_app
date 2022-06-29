@@ -9,7 +9,7 @@ import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { baseUrl } from "../../../../constants/Config";
 import { useSelector } from "react-redux";
-
+import { IoCloseOutline } from "react-icons/io5";
 
 const RefereeForm = ({ itemLoading, creator, createAccess, content, onBack, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -89,7 +89,7 @@ const RefereeForm = ({ itemLoading, creator, createAccess, content, onBack, remo
                 className="back-section"
                 onClick={onBack}
             >
-                <RiArrowLeftSLine />
+                {window.innerWidth > 780 ? <IoCloseOutline /> : <RiArrowLeftSLine />}
             </div>
             <div className="profile-avatar" >
                 <img

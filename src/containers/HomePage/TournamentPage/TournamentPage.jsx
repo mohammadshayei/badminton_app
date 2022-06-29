@@ -495,7 +495,7 @@ const TournamentPage = ({ id }) => {
                                 <div className="tournament-list-items">
                                     {
                                         contentLoading ?
-                                            [1, 2, 3, 4].map((v) =>
+                                            [...Array(5).keys()].map((v) =>
                                                 <Skeleton
                                                     key={v}
                                                     className="tournament-item"
@@ -530,10 +530,10 @@ const TournamentPage = ({ id }) => {
                                                 </div>
                                     }
                                 </div>
-                                <div className="touranament-item-input"
+                                <div className={`touranament-item-input ${createAccess ? "item-input-form" : ""}`}
                                     style={{
                                         backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
-                                        display: showInputForm ? 'flex' : 'none'
+                                        display: showInputForm ? 'flex' : 'none',
                                     }}>
                                     {form}
                                 </div>
