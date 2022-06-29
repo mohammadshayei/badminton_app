@@ -1,20 +1,18 @@
-import "./GymForm.scss"
 import InputForm from "../../../../components/UI/InputForm/InputForm";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { useCallback, useRef, useState, useEffect, useLayoutEffect } from "react";
-import "../PlayerForm/PlayerForm.scss"
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import { AiFillCamera } from 'react-icons/ai'
-import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
+import IMAGE from "../../../../assets/images/default.png";
 import Button from "../../../../components/UI/Button/Button";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 import { formDataDynamic } from "../../../../api/home";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../../../constants/Config";
-
+import { IoCloseOutline } from "react-icons/io5";
 
 const GymForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -264,25 +262,25 @@ const GymForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, setSh
     }, [content])
 
 
-    return <div className="player-wrapper">
+    return <div className="input-wrapper">
         {dialog}
         <div
             className="back-section"
+            style={{
+                backgroundColor: theme.background_color
+            }}
             onClick={onBack}
         >
-            <RiArrowLeftSLine />
+            {window.innerWidth > 780 ? <IoCloseOutline /> : <RiArrowLeftSLine />}
         </div>
-        <div className="profile-avatar" onClick={uploadButtonClickHandler}>
+        <div className="default-image" onClick={uploadButtonClickHandler}>
             <input type="file"
                 style={{ display: 'none' }}
                 ref={imageRef}
                 onChange={onChangeImage} />
             <img
-                src={imageSrc ? imageSrc : PROFILE_IMAGE}
-                alt="avatar" />
-            <div className="upload-image-wrapper" >
-                <AiFillCamera className='camera' />
-            </div>
+                src={imageSrc ? imageSrc : IMAGE}
+                alt="default" />
         </div>
         <InputForm
             order={order}

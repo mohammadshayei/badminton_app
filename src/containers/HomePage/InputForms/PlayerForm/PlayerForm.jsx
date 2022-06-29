@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
-import "./PlayerForm.scss"
 import InputForm from "../../../../components/UI/InputForm/InputForm";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import { AiFillCamera } from 'react-icons/ai'
-import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
+import PROFILE_IMAGE from "../../../../assets/images/user_avatar.svg";
 import { useSelector } from "react-redux";
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
@@ -295,7 +294,7 @@ const PlayerForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, se
 
 
     return (
-        <div className="player-wrapper">
+        <div className="input-wrapper">
             {dialog}
             <div
                 className="back-section"

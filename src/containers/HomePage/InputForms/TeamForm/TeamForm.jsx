@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useState, useCallback, useEffect, useLayoutEffect } from "react";
-import "./TeamForm.scss"
 import InputForm from "../../../../components/UI/InputForm/InputForm";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
-import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
+import TEAM_IMAGE from '../../../../assets/images/team_avatar.png';
 import { AiFillCamera } from 'react-icons/ai'
 import { baseUrl } from "../../../../constants/Config";
 import { dynamicApi, formDataDynamic } from "../../../../api/home";
@@ -14,7 +13,7 @@ import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
-
+import { IoCloseOutline } from "react-icons/io5";
 
 const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(true)
@@ -713,13 +712,14 @@ const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tourn
     }, [order.legalOwnerPhoneId.checkNeeded])
 
     return (
-        <div className="team-wrapper">
+        <div className="input-wrapper">
             {dialog}
             <div
                 className="back-section"
                 onClick={onBack}
+                style={{ color: theme.on_background }}
             >
-                <RiArrowLeftSLine />
+                {window.innerWidth > 780 ? <IoCloseOutline /> : <RiArrowLeftSLine />}
             </div>
             <div className="profile-avatar" onClick={uploadButtonClickHandler}>
                 <input type="file"
@@ -727,7 +727,7 @@ const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tourn
                     ref={imageRef}
                     onChange={onChangeImage} />
                 <img
-                    src={imageSrc ? imageSrc : PROFILE_IMAGE}
+                    src={imageSrc ? imageSrc : TEAM_IMAGE}
                     alt="avatar" />
                 <div className="upload-image-wrapper" >
                     <AiFillCamera className='camera' />

@@ -1,19 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
-import "./RefereeForm.scss"
+import { useState, useLayoutEffect } from "react";
 import InputForm from "../../../../components/UI/InputForm/InputForm";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
-import { useNavigate } from "react-router-dom";
 import { RiArrowLeftSLine } from 'react-icons/ri'
-import { AiFillCamera } from 'react-icons/ai'
-import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
-import { useSelector } from "react-redux";
+import PROFILE_IMAGE from "../../../../assets/images/user_avatar.svg";
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
-import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
-import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
-import { dynamicApi, formDataDynamic } from "../../../../api/home";
 import { baseUrl } from "../../../../constants/Config";
 
 
@@ -89,7 +82,7 @@ const RefereeForm = ({ content, onBack, removeLoading, onRemoveItemFromTournamen
     }, [content])
 
     return (
-        <div className="player-wrapper">
+        <div className="input-wrapper">
             <div
                 className="back-section"
                 onClick={onBack}

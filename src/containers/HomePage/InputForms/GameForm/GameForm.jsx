@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./GameForm.scss"
 import InputForm from "../../../../components/UI/InputForm/InputForm";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
