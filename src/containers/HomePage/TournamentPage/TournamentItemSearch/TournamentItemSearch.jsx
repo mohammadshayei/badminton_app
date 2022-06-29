@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { BsSearch, BsX } from "react-icons/bs";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 
-const TournamentItemSearch = ({ selector, searchPlaceHolder, onAddItemToTournament, searchListItems, onSearch, searchValue, searchLoading }) => {
+const TournamentItemSearch = ({ createAccess, selector, searchPlaceHolder, onAddItemToTournament, searchListItems, onSearch, searchValue, searchLoading }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const [inputStyle, setInputStyle] = useState({
@@ -17,7 +17,7 @@ const TournamentItemSearch = ({ selector, searchPlaceHolder, onAddItemToTourname
 
     useEffect(() => {
         let radiusT, radiusB;
-        if (searchValue.length === 0 || searchListItems.length === 0) { radiusB = "25px"; radiusT = "25px"; }
+        if (searchValue.length === 0 || searchListItems.length === 0 || !createAccess) { radiusB = "25px"; radiusT = "25px"; }
         else { radiusB = "0"; radiusT = "20px"; }
         let updatedInputStyle = {
             ...inputStyle,
@@ -44,7 +44,7 @@ const TournamentItemSearch = ({ selector, searchPlaceHolder, onAddItemToTourname
             onChange={onSearch}
         />
         <div className="founds">
-            <div className={`found-items ${searchListItems.length > 0 ? "open" : ""}`}
+            <div className={`found-items ${(searchListItems.length > 0 && createAccess) ? "open" : ""}`}
                 style={{
                     backgroundColor: theme.surface,
                     borderColor: theme.border_color

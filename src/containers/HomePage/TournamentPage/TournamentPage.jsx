@@ -22,20 +22,8 @@ import { useTheme } from '../../../styles/ThemeProvider'
 import { Icon } from '@iconify/react';
 
 const TournamentPage = ({ id }) => {
-    const [tournament, setTournament] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [contentLoading, setContentLoading] = useState(false)
-    const [searchLoading, setSearchLoading] = useState(false)
-    const [removeLoading, setRemoveLoading] = useState(false)
-    const [dialog, setDialog] = useState(null)
-    const [listItem, setListItem] = useState([])
-    const [filteredListItems, setFilteredListItems] = useState([])
-    const [searchListItems, setSearchListItem] = useState([])
-    const [searchValue, setSearchValue] = useState('')
-    const [partTitle, setPartTitle] = useState('')
-    const [content, setContent] = useState(null)
-    const [form, setForm] = useState(null)
-    const [filterSelectors, setFilterSelectors] = useState({
+
+    let baseFilterSelector = {
         team: {
             text: "تیم ها",
             selected: true,
@@ -56,11 +44,25 @@ const TournamentPage = ({ id }) => {
             text: "مسابقات تیمی",
             selected: false,
         },
-        todayMatch: {
-            text: "مسابقه امروز",
-            selected: false,
-        }
-    });
+
+    }
+
+    const [tournament, setTournament] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [contentLoading, setContentLoading] = useState(false)
+    const [searchLoading, setSearchLoading] = useState(false)
+    const [removeLoading, setRemoveLoading] = useState(false)
+    const [itemLoading, setItemLoading] = useState(false)
+    const [dialog, setDialog] = useState(null)
+    const [listItem, setListItem] = useState([])
+    const [filteredListItems, setFilteredListItems] = useState([])
+    const [searchListItems, setSearchListItem] = useState([])
+    const [searchValue, setSearchValue] = useState('')
+    const [partTitle, setPartTitle] = useState('')
+    const [content, setContent] = useState(null)
+    const [form, setForm] = useState(null)
+    const [isReferee, setIsReferee] = useState(false)
+    const [filterSelectors, setFilterSelectors] = useState(null);
     const [showInputForm, setShowInputForm] = useState(false)
     const [createAccess, setCreateAccess] = useState(false)
 
@@ -77,7 +79,6 @@ const TournamentPage = ({ id }) => {
 
     const onItemClick = (itemId) => {
         navigate(`/tournaments/${tournament._id}?part=${part}&item=${itemId}`)
-
     }
     const onAddItemClickHandler = () => {
         setShowInputForm(true)
@@ -177,19 +178,40 @@ const TournamentPage = ({ id }) => {
         else setShowInputForm(false)
     }
 
+    useEffect(() => {
+        let updatedFilterSelectors = { ...baseFilterSelector }
 
+        if (isReferee) updatedFilterSelectors = {
+            ...updatedFilterSelectors,
+            todayMatch: {
+                text: "مسابقه امروز",
+                selected: false,
+
+            }
+        }
+        setFilterSelectors(updatedFilterSelectors)
+    }, [isReferee])
 
 
     useEffect(() => {
-        if (part !== 'referee') {
-            //access for specefic user 
-            setCreateAccess(true)
-
-        } else
+        if (part === 'referee') {
             setCreateAccess(false)
-    }, [part, id, user])
-
-
+        } else {
+            if (!user || !tournament) return;
+            if (part === 'team' || part === 'player' || part === 'gym') {
+                if (user._id === tournament.chief._id || isReferee)
+                    setCreateAccess(true)
+                else
+                    setCreateAccess(false)
+            }
+            else if (part === 'teamMatch') {
+                if (user._id === tournament.chief._id)
+                    setCreateAccess(true)
+                else
+                    setCreateAccess(false)
+            }
+        }
+    }, [part, user, tournament?.chief, isReferee])
 
     useEffect(() => {
         if (searchValue.length > 0) {
@@ -204,6 +226,7 @@ const TournamentPage = ({ id }) => {
     useEffect(() => {
         if (!id) return;
         setLoading(true);
+        setItemLoading(true)
         setDialog(null);
         (async () => {
             try {
@@ -213,6 +236,7 @@ const TournamentPage = ({ id }) => {
                     return;
                 }
                 setTournament(fetchedTournament.data.tournament)
+                setIsReferee(fetchedTournament.data.isReferee)
                 setLoading(false)
             } catch (error) {
                 setLoading(false)
@@ -230,7 +254,7 @@ const TournamentPage = ({ id }) => {
     }, [item])
 
     useEffect(() => {
-        if (!part) return;
+        if (!part || !filterSelectors) return;
         setShowInputForm(false)
         let updatedFilterSelectors = { ...filterSelectors };
         for (const filter in updatedFilterSelectors) {
@@ -335,25 +359,24 @@ const TournamentPage = ({ id }) => {
                     token, `get_${path.substring(0, path.length - 1)}`)
                 if (!fetchedItem.success) {
                     setDialog(<ErrorDialog type="error">{fetchedItem.data.message}</ErrorDialog>)
+                    setItemLoading(false)
                     return;
                 }
                 setContent(fetchedItem.data[path.substring(0, path.length - 1)])
-                setLoading(false)
+                setItemLoading(false)
             } catch (error) {
-                setLoading(false)
+                setItemLoading(false)
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
             }
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, part, item])
-
     useEffect(() => {
         switch (part) {
             case 'team':
                 setForm(
                     <TeamForm
                         content={content}
-                        creator={tournament?.chief._id}
                         tournamentId={tournament?._id}
                         setShowInputForm={setShowInputForm}
                         onAddItem={onAddItem}
@@ -361,6 +384,8 @@ const TournamentPage = ({ id }) => {
                         onRemoveItemFromTournament={onRemoveItemFromTournament}
                         onBack={onBack}
                         onUpdateItem={onUpdateItem}
+                        createAccess={createAccess}
+                        itemLoading={itemLoading}
                     />
                 )
                 break;
@@ -375,6 +400,8 @@ const TournamentPage = ({ id }) => {
                         onRemoveItemFromTournament={onRemoveItemFromTournament}
                         onBack={onBack}
                         onUpdateItem={onUpdateItem}
+                        createAccess={createAccess}
+                        itemLoading={itemLoading}
                     />
                 )
 
@@ -386,6 +413,8 @@ const TournamentPage = ({ id }) => {
                         removeLoading={removeLoading}
                         onRemoveItemFromTournament={onRemoveItemFromTournament}
                         onBack={onBack}
+                        creator={tournament?.chief._id}
+                        itemLoading={itemLoading}
                     />
                 )
                 break;
@@ -400,29 +429,35 @@ const TournamentPage = ({ id }) => {
                         onRemoveItemFromTournament={onRemoveItemFromTournament}
                         onBack={onBack}
                         onUpdateItem={onUpdateItem}
+                        createAccess={createAccess}
+                        itemLoading={itemLoading}
                     />
                 )
                 break;
             default:
                 break;
         }
-    }, [id, part, showInputForm, content, tournament])
+    }, [id, part, showInputForm, content, tournament, itemLoading, createAccess])
 
     return (
         <div className='tournament-page-wrapper'>
             {dialog}
-            <Header
-                tournament={tournament}
-                loading={loading}
-                filterSelectors={filterSelectors}
-                onSelectorClick={onSelectorClick}
+            {
+                filterSelectors &&
+                <Header
+                    tournament={tournament}
+                    loading={loading}
+                    filterSelectors={filterSelectors}
+                    onSelectorClick={onSelectorClick}
 
-            />
+                />
+            }
             {
                 part === "teamMatch" ?
                     <TeamsMatches
                         tournamentId={id}
                         gameDate={tournament?.game_date}
+                        createAccess={createAccess}
                     /> :
                     part === "todayMatch" ?
                         <TodayMatch /> :
@@ -442,6 +477,7 @@ const TournamentPage = ({ id }) => {
                                         else if (part === 'player' || part === 'referee') return 'username'
                                         if (part === 'gym') return 'title'
                                     }}
+                                    createAccess={createAccess}
                                 />
                                 {
                                     createAccess &&

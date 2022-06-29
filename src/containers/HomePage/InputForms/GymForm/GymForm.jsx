@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { baseUrl } from "../../../../constants/Config";
 import { IoCloseOutline } from "react-icons/io5";
 
-const GymForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
+const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         gymTitle: {
@@ -286,8 +286,10 @@ const GymForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, setSh
             order={order}
             setOrder={setOrder}
             setFormIsValid={setFormIsValid}
+            itemLoading={itemLoading}
+            createAccess={createAccess}
         />
-        {
+        {createAccess &&
             <div className="buttons-wrapper">
                 <Button
                     loading={loading}

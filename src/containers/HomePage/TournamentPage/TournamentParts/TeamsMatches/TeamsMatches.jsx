@@ -11,8 +11,7 @@ import Match from "./Match";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
-
-const TeamsMatches = ({ tournamentId, gameDate }) => {
+const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
     const [dayMatchs, setDayMatchs] = useState([])
     const [teams, setTeams] = useState([])
