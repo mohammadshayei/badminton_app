@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRef, useState, useCallback, useEffect, useLayoutEffect } from "react";
-import "./TeamForm.scss"
 import InputForm from "../../../../components/UI/InputForm/InputForm";
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
@@ -713,7 +712,7 @@ const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tourn
     }, [order.legalOwnerPhoneId.checkNeeded])
 
     return (
-        <div className="team-wrapper">
+        <div className="input-wrapper">
             {dialog}
             <div
                 className="back-section"
