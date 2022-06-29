@@ -15,7 +15,9 @@ import { useSelector } from "react-redux";
 const TeamsMatches = ({ tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
     const [dayMatchs, setDayMatchs] = useState([])
-    const [teamsCount, setTeamsCount] = useState(0)
+    const [teams, setTeams] = useState([])
+    const [referees, setReferees] = useState([])
+
 
     const [dateValue, setDateValue] = useState('')
     const [showGames, setShowGames] = useState(false);   //show a match games
@@ -71,6 +73,10 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
             setTournamentDays(updatedTournamentsDay)
             const result = await dynamicApi(payload, token, 'set_date_on_day')
             setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
+            if (!result.success) {
+                setDateValue(dateValue)
+                setTournamentDays(tournamentDays)
+            }
 
             setDateLoading(false)
         } catch (error) {
@@ -78,7 +84,7 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
     }
-    const selectDay = (key) => {
+    const selectDay = async (key) => {
         let selected;
         let updatedTournamentsDay = tournamentDays.map(item => {
             if (item._id === key)
@@ -90,9 +96,30 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
         })
         setTournamentDays(updatedTournamentsDay)
         setDateValue(selected.date)
-        setDayMatchs(selected.matchs)
-    }
 
+        setDialog(null)
+        try {
+            setLoading(true)
+            let payload = {
+                tournamentId,
+                dayId: key,
+            }
+            const result = await dynamicApi(payload, token, 'get_day_info')
+            if (!result.success) {
+                setDialog(<ErrorDialog type="error"> {result.data.message}</ErrorDialog >)
+            }
+            else {
+                setDayMatchs(result.data.selectedDay.matchs)
+            }
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+        }
+
+
+
+    }
     useEffect(() => {
         if (!tournamentId) return;
         (async () => {
@@ -110,7 +137,8 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
                 })
                 setDayMatchs(fetchedData.data.selectedDay.matchs)
                 setDateValue(fetchedData.data.selectedDay.date ? fetchedData.data.selectedDay.date : '')
-                setTeamsCount(fetchedData.data.teamsCount)
+                setTeams(fetchedData.data.teams)
+                setReferees(fetchedData.data.referees)
                 setTournamentDays(updatedTournamentsDay)
                 setLoading(false)
             } catch (error) {
@@ -120,8 +148,6 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
             setLoading(false)
         })()
     }, [tournamentId])
-
-
     return (
         <div className="teams-matches"
             style={{
@@ -152,17 +178,35 @@ const TeamsMatches = ({ tournamentId, gameDate }) => {
                                 minDate: gameDate ? new Date(gameDate.start) : null,
                                 maxDate: gameDate ? new Date(gameDate.end) : null
                             }}
-
                         />
                     </div>
                     <div className="teams-table">
-                        {[1, 2, 3].map((v, i) =>
+                        {teams?.length > 0 && [... new Array((teams.length) / 2)].map((_, i) =>
                             <div className="table-row"
                                 style={{
                                     borderColor: theme.border_color
                                 }}
                             >
-                                <Match key={i} index={i} setShowGames={setShowGames} />
+                                <Match
+                                    key={i}
+                                    index={i}
+                                    setShowGames={setShowGames}
+                                    teams={teams.map(item => {
+                                        return {
+                                            id: item.team._id,
+                                            text: item.team.name,
+                                        }
+                                    })}
+                                    referees={referees.map(item => {
+                                        return {
+                                            id: item.referee._id,
+                                            text: item.referee.username,
+                                        }
+                                    })}
+                                    tournamentId={tournamentId}
+                                    day={tournamentDays.find(item => item.selected)}
+                                    data={dayMatchs[i]?.match}
+                                />
                             </div>
                         )}
                     </div>

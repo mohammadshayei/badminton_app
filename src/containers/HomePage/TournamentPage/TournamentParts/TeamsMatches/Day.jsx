@@ -2,6 +2,7 @@ import "./TeamsMatches.scss"
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import { useEffect, useState } from "react";
 import { getDateInfo } from "../../../../../utils/funcs";
+import { daysName } from "../../../../../assets/strings/stringFaCollection";
 
 const Day = ({ selectDay, day }) => {
     const [dateInfo, setDateInfo] = useState(null)
@@ -10,7 +11,6 @@ const Day = ({ selectDay, day }) => {
 
     useEffect(() => {
         if (!day.date) return;
-        console.log('here')
         setDateInfo(getDateInfo(new Date(day.date)))
     }, [day.date])
 
@@ -18,8 +18,7 @@ const Day = ({ selectDay, day }) => {
         className="day"
         style={{
             cursor: day.selected ? "default" : "pointer",
-            borderColor: day.done ? day.selected ? theme.primary : theme.darken_border_color : "rgb(255, 180, 100)",
-            // transform: day.selected ? "scale(1.05)" : "scale(1)",
+            borderColor: day.status > 0 ? day.selected ? theme.primary : theme.darken_border_color : "rgb(255, 180, 100)",
             opacity: day.selected ? 1 : 0.7
         }}
         onClick={selectDay}
@@ -37,7 +36,8 @@ const Day = ({ selectDay, day }) => {
         >
             {dateInfo ?
                 <p className="day-digit">{dateInfo.dayCount}</p> :
-                day.counter}
+                daysName[day.counter - 1]
+            }
             <p>{dateInfo ? dateInfo.month : ""}</p>
         </div>
     </div>;
