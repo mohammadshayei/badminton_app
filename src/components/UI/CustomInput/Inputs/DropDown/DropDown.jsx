@@ -68,7 +68,13 @@ const DropDown = (props) => {
                 }}
                 onClick={() => setDrop(!drop)}
             >
-                {props.value ? props.value : props.placeHolder ? props.placeHolder : 'انتخاب کنید'}
+                <p
+                    style={{
+                        opacity: props.value ? 1 : 0.5
+                    }}
+                >
+                    {props.value ? props.value : props.placeHolder ? props.placeHolder : 'انتخاب کنید'}
+                </p>
                 <div className={`dropdown-indicator-icon ${drop && "rotate"}`}>
                     <BiChevronDown />
                 </div>

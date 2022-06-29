@@ -22,6 +22,12 @@
     border: 1px solid;
     transition: box-shadow 0.15s ease-in-out;
     cursor: pointer;
+    p {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
+    }
     .dropdown-indicator-icon {
       display: flex;
       align-items: center;
