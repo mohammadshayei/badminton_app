@@ -1,16 +1,158 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./TeamsMatches.scss";
 import TransparentButton from "../../../../../components/UI/Button/TransparentButton/TransparentButton";
 import CustomInput, { elementTypes } from "../../../../../components/UI/CustomInput/CustomInput";
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import { stringFa } from "../../../../../assets/strings/stringFaCollection";
+import { useEffect, useState } from "react";
+import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
+import { dynamicApi } from "../../../../../api/home";
+import { useSelector } from "react-redux";
 
-const Match = ({ index, setShowGames }) => {
+const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }) => {
+    const [loading, setLoading] = useState(false)
+    const [dialog, setDialog] = useState(null)
+    const [order, setOrder] = useState({
+        teamA: {
+            text: "",
+            id: "",
+            invalid: false,
+            touched: true,
+            shouldValidate: true,
+            validationMessage: "",
+
+        },
+        teamB: {
+            text: "",
+            id: "",
+            invalid: false,
+            validationMessage: "",
+            touched: true,
+            shouldValidate: true,
+        },
+        referee: {
+            text: "",
+            id: "",
+            invalid: false,
+            validationMessage: "",
+            touched: true,
+            shouldValidate: true,
+        }
+    })
+    const [saved, setSaved] = useState(false)
+
+    const { token } = useSelector(state => state.auth)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
+    const onChange = (value, key) => {
+        if (saved)
+            setSaved(false)
+        let updatedOrder = { ...order }
+        updatedOrder[key].text = value.text;
+        updatedOrder[key].id = value.id;
+        for (const key in updatedOrder) {
+            updatedOrder[key].invalid = false
+        }
+        setOrder(updatedOrder)
+    }
+    const onSave = async () => {
+        setLoading(true)
+        setDialog(null)
+        if (!day || !day.date)
+            setDialog(<ErrorDialog type="error">{stringFa.select_date}</ErrorDialog>)
+        try {
+            let payload, url;
+            if (data) {
+                payload = {
+                    refereeId: order.referee.id,
+                    teamAId: order.teamA.id,
+                    teamBId: order.teamB.id,
+                    dayId: day._id,
+                    matchId: data._id
+                }
+                url = 'edit_match'
+            }
+            else {
+                payload = {
+                    refereeId: order.referee.id,
+                    teamAId: order.teamA.id,
+                    teamBId: order.teamB.id,
+                    tournamentId,
+                    dayId: day._id
+                }
+                url = 'create_match'
+            }
+            const result = await dynamicApi(payload, token, url)
+            if (result.success) {
+                setDialog(<ErrorDialog type='success'>{result.data.message}</ErrorDialog>)
+            }
+            else {
+                let updatedOrder = { ...order }
+                switch (result.data.type) {
+                    case 0:
+                        setDialog(<ErrorDialog type='error'>{result.data.message}</ErrorDialog>)
+                        break;
+                    case 1:
+                        updatedOrder.teamA.invalid = true
+                        updatedOrder.teamA.validationMessage = result.data.message
+                        break;
+                    case 2:
+                        updatedOrder.teamB.invalid = true
+                        updatedOrder.teamB.validationMessage = result.data.message
+                        break;
+                    case 3:
+                        updatedOrder.referee.invalid = true
+                        updatedOrder.referee.validationMessage = result.data.message
+                        break;
+                    default:
+                        setDialog(<ErrorDialog type='error'>{result.data.message}</ErrorDialog>)
+                        break;
+                }
+                setOrder(updatedOrder)
+            }
+            setSaved(true)
+        } catch (error) {
+            setLoading(false)
+            setSaved(true)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+        }
+        setLoading(false)
+
+    }
+
+    useEffect(() => {
+        if (!data) {
+            let updatedOrder = { ...order }
+            updatedOrder.referee.id = ''
+            updatedOrder.referee.text = ''
+
+            updatedOrder.teamA.id = ''
+            updatedOrder.teamA.text = ''
+
+            updatedOrder.teamB.id = ''
+            updatedOrder.teamB.text = ''
+            setOrder(updatedOrder)
+            return;
+        };
+        let updatedOrder = { ...order }
+        updatedOrder.referee.id = data.referee._id
+        updatedOrder.referee.text = data.referee.username
+
+        updatedOrder.teamA.id = data.teamA._id
+        updatedOrder.teamA.text = data.teamA.name
+
+        updatedOrder.teamB.id = data.teamB._id
+        updatedOrder.teamB.text = data.teamB.name
+        setOrder(updatedOrder)
+        setSaved(true)
+    }, [data])
+
     return <>
+        {dialog}
         <div className="table-row-content">
+
             <div
                 className={`table-row-header ${index > 0 ? "not-main" : ""}`}
                 style={{
@@ -25,20 +167,44 @@ const Match = ({ index, setShowGames }) => {
                 <div className="table-row-item">
                     <CustomInput
                         elementType={elementTypes.dropDown}
-                        inputContainer={{ padding: "0" }}
-                        items={[]} />
+                        // inputContainer={{ padding: "0" }}
+                        items={teams ? teams : []}
+                        onChange={e => onChange(e, 'teamA')}
+                        value={order.teamA.text}
+                        invalid={order.teamA.invalid}
+                        touched={order.teamA.touched}
+                        shouldValidate={order.teamA.shouldValidate}
+                        placeHolder={stringFa.undefined}
+                        validationMessage={order.teamA.validationMessage}
+                    />
                 </div>
                 <div className="table-row-item">
                     <CustomInput
                         elementType={elementTypes.dropDown}
-                        inputContainer={{ padding: "0" }}
-                        items={[]} />
+                        // inputContainer={{ padding: "0" }}
+                        items={teams ? teams : []}
+                        onChange={e => onChange(e, 'teamB')}
+                        value={order.teamB.text}
+                        invalid={order.teamB.invalid}
+                        placeHolder={stringFa.undefined}
+                        touched={order.teamA.touched}
+                        shouldValidate={order.teamA.shouldValidate}
+                        validationMessage={order.teamB.validationMessage}
+                    />
                 </div>
                 <div className="table-row-item">
                     <CustomInput
                         elementType={elementTypes.dropDown}
-                        inputContainer={{ padding: "0" }}
-                        items={[]} />
+                        // inputContainer={{ padding: "0" }}
+                        items={referees ? referees : []}
+                        onChange={e => onChange(e, 'referee')}
+                        value={order.referee.text}
+                        invalid={order.referee.invalid}
+                        placeHolder={stringFa.undefined}
+                        shouldValidate={order.teamA.shouldValidate}
+                        touched={order.teamA.touched}
+                        validationMessage={order.referee.validationMessage}
+                    />
                 </div>
             </div>
         </div>
@@ -46,17 +212,15 @@ const Match = ({ index, setShowGames }) => {
             <TransparentButton
                 ButtonStyle={{
                     padding: "0",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                    marginLeft: "0.8rem",
-                    color: theme.error,
-                }}>
-                {stringFa.delete}
-            </TransparentButton>
-            <TransparentButton
-                ButtonStyle={{
-                    padding: "0",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)"
-                }}>
+                }}
+                onClick={onSave}
+                config={{
+                    disabled: (saved) || (!order.referee.id || !order.teamA.id || !order.teamB.id)
+                }}
+
+                loading={loading}
+            >
                 {stringFa.save}
             </TransparentButton>
             <TransparentButton

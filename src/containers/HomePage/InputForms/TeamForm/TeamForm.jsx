@@ -15,7 +15,7 @@ import { RiArrowLeftSLine } from 'react-icons/ri'
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 import { IoCloseOutline } from "react-icons/io5";
 
-const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
+const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, removeLoading, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(true)
     const [order, setOrder] = useState({
         ownerName: {
@@ -279,7 +279,7 @@ const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tourn
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const { token, user } = useSelector(state => state.auth)
+    const { token } = useSelector(state => state.auth)
 
     const imageRef = useRef(null)
 
@@ -721,7 +721,10 @@ const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tourn
             >
                 {window.innerWidth > 780 ? <IoCloseOutline /> : <RiArrowLeftSLine />}
             </div>
-            <div className="profile-avatar" onClick={uploadButtonClickHandler}>
+            <div
+                className="profile-avatar"
+                disabled={!createAccess}
+                onClick={uploadButtonClickHandler}>
                 <input type="file"
                     style={{ display: 'none' }}
                     ref={imageRef}
@@ -729,17 +732,21 @@ const TeamForm = ({ onUpdateItem, onBack, content, removeLoading, creator, tourn
                 <img
                     src={imageSrc ? imageSrc : TEAM_IMAGE}
                     alt="avatar" />
-                <div className="upload-image-wrapper" >
-                    <AiFillCamera className='camera' />
-                </div>
+                {createAccess &&
+                    <div className="upload-image-wrapper" >
+                        <AiFillCamera className='camera' />
+                    </div>
+                }
             </div>
             <InputForm
                 order={filteredOrder}
                 setOrder={setFilteredOrder}
                 setFormIsValid={setFormIsValid}
+                itemLoading={itemLoading}
+                createAccess={createAccess}
             />
             {
-                (user?._id === creator || user?._id === content?.owner._id) &&
+                createAccess &&
                 <div className="buttons-wrapper">
                     <Button
                         loading={loading}

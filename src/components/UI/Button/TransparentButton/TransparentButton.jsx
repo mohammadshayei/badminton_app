@@ -4,7 +4,6 @@ import './TransparentButton.scss'
 const TransparentButton = (props) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-
     return (
         <button
             className={`transparent-button-component ${props.buttonClass}`}

@@ -8,5 +8,10 @@
   .input-item {
     display: flex;
     align-items: center;
+    .tournament-item {
+      border-bottom: 1px solid;
+      padding-bottom: 0.5rem;
+      cursor: pointer;
+    }
   }
 }

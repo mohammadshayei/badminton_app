@@ -15,7 +15,7 @@ import { dynamicApi, formDataDynamic } from "../../../../api/home";
 import { baseUrl } from "../../../../constants/Config";
 
 
-const PlayerForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
+const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         username: {
@@ -318,8 +318,11 @@ const PlayerForm = ({ onUpdateItem, onAddItem, content, tournamentId, onBack, se
                 order={order}
                 setOrder={setOrder}
                 setFormIsValid={setFormIsValid}
+                itemLoading={itemLoading}
+                createAccess={createAccess}
             />
             {
+                createAccess &&
                 <div className="buttons-wrapper">
                     <Button
                         loading={loading}

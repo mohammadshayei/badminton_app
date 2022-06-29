@@ -8,9 +8,10 @@ import PROFILE_IMAGE from "../../../../assets/images/user_avatar.svg";
 import Button from "../../../../components/UI/Button/Button";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { baseUrl } from "../../../../constants/Config";
+import { useSelector } from "react-redux";
 
 
-const RefereeForm = ({ content, onBack, removeLoading, onRemoveItemFromTournament }) => {
+const RefereeForm = ({ itemLoading, creator, createAccess, content, onBack, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         username: {
@@ -66,6 +67,7 @@ const RefereeForm = ({ content, onBack, removeLoading, onRemoveItemFromTournamen
     const [imageSrc, setImageSrc] = useState('')
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const { user } = useSelector(state => state.auth)
 
     useLayoutEffect(() => {
         setImageSrc('')
@@ -98,8 +100,10 @@ const RefereeForm = ({ content, onBack, removeLoading, onRemoveItemFromTournamen
                 order={order}
                 setOrder={setOrder}
                 setFormIsValid={setFormIsValid}
+                itemLoading={itemLoading}
+                createAccess={false}
             />
-            {content &&
+            {creator === user?._id && content &&
                 <div className="buttons-wrapper">
                     <Button
                         back={theme.error}
