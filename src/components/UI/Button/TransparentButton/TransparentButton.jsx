@@ -1,22 +1,31 @@
 import { useTheme } from '../../../../styles/ThemeProvider';
 import './TransparentButton.scss'
+import { Icon } from '@iconify/react';
 
-const TransparentButton = (props) => {
+const TransparentButton = ({ buttonClass, ButtonStyle, onClick, config, loading, children }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+
     return (
         <button
-            className={`transparent-button-component ${props.buttonClass}`}
+            className={`transparent-button-component ${!loading ? 'transparent-button-click' : ''} ${buttonClass}`}
             style={{
                 color: theme.on_background,
-                ...props.ButtonStyle
+                ...ButtonStyle
             }}
             onClick={(e) => {
-                if (props.onClick) props.onClick();
+                if (onClick && !loading) onClick();
             }}
-            {...props.config}
+            {...config}
         >
-            {props.children}
+            {
+                loading ?
+                    <Icon icon="eos-icons:three-dots-loading"
+                        fontSize={35}
+                        color={theme.secondary}
+                    /> :
+                    children
+            }
         </button>
     )
 }
