@@ -73,7 +73,6 @@
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          border-bottom: 1px solid;
           padding: 0.5rem 0;
           .table-row-content {
             display: flex;
@@ -83,6 +82,7 @@
               flex-direction: column;
               justify-content: space-evenly;
               width: 25%;
+              padding-bottom: 0.75rem;
               white-space: nowrap;
             }
             .table-row-body {
@@ -90,7 +90,8 @@
               flex-direction: column;
               justify-content: space-evenly;
               width: 75%;
-              padding: 0.5rem 0;
+              padding-top: 0.5rem;
+              border-top: 1px solid;
               gap: 0.5rem;
               .table-row-item {
                 width: 100%;
@@ -258,7 +259,7 @@
             justify-content: space-between;
             gap: 1rem;
             .table-row-btns {
-              margin-bottom: 2rem;
+              margin-bottom: 1.5rem;
               gap: 1rem;
             }
           }

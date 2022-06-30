@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
+import { IoTrashBin } from "react-icons/io5";
 
 const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }) => {
     const [loading, setLoading] = useState(false)
@@ -163,7 +164,11 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
                 <p>{stringFa.away}</p>
                 <p>{stringFa.referee}</p>
             </div>
-            <div className="table-row-body">
+            <div className="table-row-body"
+                style={{
+                    borderColor: theme.border_color,
+                }}
+            >
                 <div className="table-row-item">
                     <CustomInput
                         elementType={elementTypes.dropDown}
@@ -213,7 +218,17 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
                 ButtonStyle={{
                     padding: "0",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                    color: theme.primary
+                    color: theme.error
+                }}
+                onClick={() => console.log("clear")}
+            >
+                <IoTrashBin />
+            </TransparentButton>
+            <TransparentButton
+                ButtonStyle={{
+                    padding: "0",
+                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                    color: theme.secondary
                 }}
                 onClick={onSave}
                 config={{

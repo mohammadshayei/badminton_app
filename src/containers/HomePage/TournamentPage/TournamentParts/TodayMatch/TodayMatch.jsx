@@ -302,7 +302,7 @@ const TodayMatch = ({ tournamentId }) => {
                                     ButtonStyle={{
                                         padding: "0",
                                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                                        color: theme.primary
+                                        color: theme.secondary
                                     }}
                                     onClick={onSave}
                                 >

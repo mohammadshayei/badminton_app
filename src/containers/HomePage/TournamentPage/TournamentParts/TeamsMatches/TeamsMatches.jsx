@@ -195,11 +195,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                     </div>
                     <div className="teams-table">
                         {[...new Array(teams?.length > 0 ? (teams.length) / 2 : 3)].map((_, i) =>
-                            <div className="table-row"
-                                style={{
-                                    borderColor: theme.border_color
-                                }}
-                            >
+                            <div className="table-row">
                                 <Match
                                     key={i}
                                     index={i}
