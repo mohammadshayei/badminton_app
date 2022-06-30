@@ -180,15 +180,21 @@ const TournamentPage = ({ id }) => {
 
     useEffect(() => {
         let updatedFilterSelectors = { ...baseFilterSelector }
+        if (isReferee) {
+            updatedFilterSelectors = {
+                ...updatedFilterSelectors,
+                todayMatch: {
+                    text: "مسابقه امروز",
+                    selected: false,
 
-        if (isReferee) updatedFilterSelectors = {
-            ...updatedFilterSelectors,
-            todayMatch: {
-                text: "مسابقه امروز",
-                selected: false,
-
+                }
             }
         }
+        for (const filter in updatedFilterSelectors) {
+            updatedFilterSelectors[filter].selected = false;
+        }
+        if (updatedFilterSelectors[part])
+            updatedFilterSelectors[part].selected = true;
         setFilterSelectors(updatedFilterSelectors)
     }, [isReferee])
 
@@ -254,8 +260,8 @@ const TournamentPage = ({ id }) => {
     }, [item])
 
     useEffect(() => {
-        if (!part || !filterSelectors) return;
         setShowInputForm(false)
+        if (!part || !filterSelectors) return;
         let updatedFilterSelectors = { ...filterSelectors };
         for (const filter in updatedFilterSelectors) {
             updatedFilterSelectors[filter].selected = false;
@@ -348,7 +354,10 @@ const TournamentPage = ({ id }) => {
                     path = 'gyms'
                     break;
                 case 'teamMatch':
-                    path = 'teams'
+                    path = 'teamMatch'
+                    break;
+                case 'todayMatch':
+                    path = 'todayMatch'
                     break;
                 default:
                     path = 'teams'
@@ -460,7 +469,7 @@ const TournamentPage = ({ id }) => {
                         createAccess={createAccess}
                     /> :
                     part === "todayMatch" ?
-                        <TodayMatch /> :
+                        <TodayMatch tournamentId={id} /> :
                         <div className='tournament-body'>
                             <div className='tournament-search'>
                                 <TournamentItemSearch
@@ -477,7 +486,7 @@ const TournamentPage = ({ id }) => {
                                         else if (part === 'player' || part === 'referee') return 'username'
                                         if (part === 'gym') return 'title'
                                     }}
-                                    createAccess={createAccess}
+                                    createAccess={part === 'referee' ? user?._id === tournament?.chief?._id : createAccess}
                                 />
                                 {
                                     createAccess &&
