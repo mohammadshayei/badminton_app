@@ -51,7 +51,9 @@ const DropDown = (props) => {
 
     return (
         <div {...props.elementConfig} className='dropdown-container' style={props.containerStyle}>
-            <p className='title-class-name'>{props.title}
+            <p className='title-class-name'
+                style={{ display: props.title ? "flex" : "none" }}
+            >{props.title}
                 <span className="required"
                     style={{
                         color: theme.error
