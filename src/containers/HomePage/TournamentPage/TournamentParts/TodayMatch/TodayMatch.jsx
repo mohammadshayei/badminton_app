@@ -8,11 +8,11 @@ import TransparentButton from "../../../../../components/UI/Button/TransparentBu
 import { dynamicApi } from "../../../../../api/home";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { useSelector } from "react-redux";
+import { IoTrashBin } from "react-icons/io5";
 
 const TodayMatch = ({ tournamentId }) => {
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
-
 
     const [games, setGames] = useState([
         {
@@ -21,7 +21,7 @@ const TodayMatch = ({ tournamentId }) => {
             court: "",
             gameNumber: "",
             players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
-            referees: { umpire: [{ _id: "", value: "" },], serviceReferee: [{ _id: "", value: "" },] },
+            officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false
         },
         {
@@ -30,7 +30,7 @@ const TodayMatch = ({ tournamentId }) => {
             court: "",
             gameNumber: "",
             players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
-            referees: { umpire: [{ _id: "", value: "" },], serviceReferee: [{ _id: "", value: "" },] },
+            officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false
 
         },
@@ -40,7 +40,7 @@ const TodayMatch = ({ tournamentId }) => {
             court: "",
             gameNumber: "",
             players: { a: [{ _id: "", value: "" }, { _id: "", value: "" }], b: [{ _id: "", value: "" }, { _id: "", value: "" }] },
-            referees: { umpire: [{ _id: "", value: "" },], serviceReferee: [{ _id: "", value: "" },] },
+            officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false
 
         }, {
@@ -49,7 +49,7 @@ const TodayMatch = ({ tournamentId }) => {
             court: "",
             gameNumber: "",
             players: { a: [{ _id: "", value: "" }, { _id: "", value: "" }], b: [{ _id: "", value: "" }, { _id: "", value: "" }] },
-            referees: { umpire: [{ _id: "", value: "" },], serviceReferee: [{ _id: "", value: "" },] },
+            officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false
 
         }, {
@@ -58,16 +58,18 @@ const TodayMatch = ({ tournamentId }) => {
             court: "",
             gameNumber: "",
             players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
-            referees: { umpire: [{ _id: "", value: "" },], serviceReferee: [{ _id: "", value: "" },] },
+            officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false
 
         }
     ])
     const [gyms, setGyms] = useState([])
-    const [referees, setReferees] = useState([])
+    const [officials, setOfficials] = useState([])
     const [teamAPlayers, setTeamAPlayers] = useState([])
     const [teamBPlayers, setTeamBPlayers] = useState([])
     const [gym, setGym] = useState({ id: "", value: "" })
+    const [showOfficals, setShowOfficals] = useState(false);
+
 
     const { token } = useSelector(state => state.auth)
 
@@ -82,7 +84,7 @@ const TodayMatch = ({ tournamentId }) => {
         let updatedGames = [...games]
         let gmIndex = updatedGames.findIndex(item => item._id === key)
         if (gmIndex < 0) return;
-        if (type === 'gm')
+        if (type === 'gameNumber')
             updatedGames[gmIndex].gameNumber = e.target.value;
         else
             updatedGames[gmIndex].court = e.target.value;
@@ -106,7 +108,7 @@ const TodayMatch = ({ tournamentId }) => {
                     setTeamAPlayers(result.data.teamAPlayers)
                     setTeamBPlayers(result.data.teamBPlayers)
                     setGyms(result.data.gyms)
-                    setReferees(result.data.referees)
+                    setOfficials(result.data.referees)
                 }
 
                 setLoading(false)
@@ -126,8 +128,8 @@ const TodayMatch = ({ tournamentId }) => {
             updatedGames[gameIndex].players[teamKey][playerIndex]._id = e.id
             updatedGames[gameIndex].players[teamKey][playerIndex].value = e.text
         } else {
-            updatedGames[gameIndex].referees[teamKey][playerIndex]._id = e.id
-            updatedGames[gameIndex].referees[teamKey][playerIndex].value = e.text
+            updatedGames[gameIndex].officials[teamKey][playerIndex]._id = e.id
+            updatedGames[gameIndex].officials[teamKey][playerIndex].value = e.text
         }
         setGames(updatedGames)
     }
@@ -176,7 +178,7 @@ const TodayMatch = ({ tournamentId }) => {
                                             minWidth: "100px",
                                             direction: "ltr"
                                         }}
-                                        onChange={(e) => onChangeCourt_GameNumber(e, game._id, 'gm')}
+                                        onChange={(e) => onChangeCourt_GameNumber(e, game._id, 'gameNumber')}
                                         value={game.gameNumber}
                                     />
                                 </div>
@@ -200,7 +202,7 @@ const TodayMatch = ({ tournamentId }) => {
                                             minWidth: "100px",
                                             direction: "ltr"
                                         }}
-                                        onChange={(e) => onChangeCourt_GameNumber(e, game._id, 'cr')}
+                                        onChange={(e) => onChangeCourt_GameNumber(e, game._id, 'court')}
                                         value={game.court}
 
                                     />
@@ -210,13 +212,13 @@ const TodayMatch = ({ tournamentId }) => {
                             <div className="match-game-details">
                                 {
                                     Object.entries(game.players).map(([k2, v]) =>
-                                        <div key={k2} className={`match-game-team ${k2 === 'b' ? "left" : ''}`}>
-                                            <div className="team-name">
+                                        <div key={k2} className={`game-detail-section ${k2 === 'b' ? "left" : ''}`}>
+                                            <div className="detail-name">
                                                 {k2 === 'b' ? 'team2' : 'team1'}
                                             </div>
-                                            <div className="players">
+                                            <div className="detail-items">
                                                 {[...new Array(v.length)].map((_, k3) =>
-                                                    <div key={k3} className="player">
+                                                    <div key={k3} className="detail-item">
                                                         <CustomInput
                                                             placeHolder={stringFa.undefined}
                                                             elementType={elementTypes.dropDown}
@@ -241,53 +243,81 @@ const TodayMatch = ({ tournamentId }) => {
                                         </div>)
                                 }
                             </div>
-                            <div className="match-game-details">
+                            <div className="match-game-details match-game-officials"
+                                style={{
+                                    backgroundColor: officials.length === 2 ? theme.primary : theme.border_color,
+                                    padding: showOfficals ? "0.5rem" : "0",
+                                    maxHeight: showOfficals ? "250px" : "1px",
+                                }}
+                            >
                                 {
-                                    Object.entries(game.referees).map(([k2, v]) =>
-                                        <div key={k2} className={`match-game-team ${k2 === 'serviceReferee' ? "left" : ''}`}>
-                                            <div className="team-name">
-                                                {k2 === 'serviceReferee' ? 'داور سرویس' : 'داور'}
+                                    Object.entries(game.officials).map(([k2, v]) =>
+                                        <div key={k2} className={`game-detail-section ${k2 === 'serviceJudge' ? "left" : ''}`}
+                                            style={{ opacity: showOfficals ? 1 : 0 }}
+                                        >
+                                            <div className="detail-name">
+                                                {k2 === 'serviceJudge' ? 'داور سرویس' : 'داور'}
                                             </div>
-                                            <div className="players">
-                                                {[...new Array(v.length)].map((_, k3) =>
-                                                    <div key={k3} className="player">
-                                                        <CustomInput
-                                                            placeHolder={stringFa.undefined}
-                                                            elementType={elementTypes.dropDown}
-                                                            items={referees.map(item => {
-                                                                return {
-                                                                    id: item.referee._id,
-                                                                    text: item.referee.username,
-                                                                }
-                                                            })}
-                                                            inputContainer={{ padding: "0" }}
-                                                            onChange={(e) => onChange(e, game._id, k2, k3, 'referee')}
-                                                            value={game.referees[k2][k3].value}
-                                                        />
-                                                    </div>
-                                                )}
-                                            </div>
+                                            {[...new Array(v.length)].map((_, k3) =>
+                                                <div key={k3} className="detail-items">
+                                                    <CustomInput
+                                                        placeHolder={stringFa.undefined}
+                                                        elementType={elementTypes.dropDown}
+                                                        items={officials.map(item => {
+                                                            return {
+                                                                id: item.referee._id,
+                                                                text: item.referee.username,
+                                                            }
+                                                        })}
+                                                        inputContainer={{ padding: "0" }}
+                                                        onChange={(e) => onChange(e, game._id, k2, k3, 'official')}
+                                                        value={game.officials[k2][k3].value}
+                                                    />
+                                                </div>
+                                            )}
                                         </div>)
                                 }
                             </div>
-                            <TransparentButton
-                                config={{
-                                    disabled: !(
-                                        game.court && game.gameNumber
-                                        && game.referees.serviceReferee[0].value
-                                        && game.referees.umpire[0].value
-                                        && game.players.a.findIndex(item => !item.value) < 0
-                                        && game.players.b.findIndex(item => !item.value) < 0)
+                            <div className="match-game-buttons">
+                                <TransparentButton
+                                    ButtonStyle={{
+                                        padding: "0",
+                                        fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                                        color: theme.error
+                                    }}
+                                    onClick={() => console.log("clear")}
+                                >
+                                    <IoTrashBin />
+                                </TransparentButton>
+                                <TransparentButton
+                                    config={{
+                                        disabled: !(
+                                            game.court && game.gameNumber
+                                            && game.officials.serviceJudge[0].value
+                                            && game.officials.umpire[0].value
+                                            && game.players.a.findIndex(item => !item.value) < 0
+                                            && game.players.b.findIndex(item => !item.value) < 0)
 
-                                }}
-                                ButtonStyle={{
-                                    padding: "0",
-                                    fontSize: "clamp(0.8rem,1vw,0.9rem)"
-                                }}
-                                onClick={onSave}
-                            >
-                                {stringFa.save}
-                            </TransparentButton>
+                                    }}
+                                    ButtonStyle={{
+                                        padding: "0",
+                                        fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                                        color: theme.primary
+                                    }}
+                                    onClick={onSave}
+                                >
+                                    {stringFa.save}
+                                </TransparentButton>
+                                <TransparentButton
+                                    ButtonStyle={{
+                                        padding: "0",
+                                        fontSize: "clamp(0.6rem,0.9vw,0.8rem)"
+                                    }}
+                                    onClick={() => setShowOfficals(!showOfficals)}
+                                >
+                                    {showOfficals ? '- ' : '+ '}{stringFa.officials}
+                                </TransparentButton>
+                            </div>
                         </div>)
                 }
             </>
@@ -296,84 +326,3 @@ const TodayMatch = ({ tournamentId }) => {
 };
 
 export default TodayMatch;
-// {
-//     games.map((game, k1) =>
-//         <div key={k1} className="match-game"
-//             style={{
-//                 backgroundColor: theme.surface
-//             }}
-//         >
-//             <div className="match-game-header">
-//                 <div className="match-game-number">
-//                     <CustomInput
-//                         elementConfig={{
-//                             placeholder: stringFa.number_of_game,
-//                         }}
-//                         inputContainer={{
-//                             padding: "0",
-//                             width: "100px",
-//                         }}
-//                         inputStyle={{
-//                             fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
-//                             minWidth: "100px",
-//                             direction: "ltr"
-//                         }}
-//                     />
-//                 </div>
-//                 <div className="match-game-index"
-//                     style={{
-//                         backgroundColor: theme.darken_border_color, //if done -> theme.primary
-//                         color: theme.on_primary
-//                     }}
-//                 >{game[0]}</div>
-//                 <div className="match-game-number  game-court">
-//                     <CustomInput
-//                         elementConfig={{
-//                             placeholder: "court",
-//                         }}
-//                         inputContainer={{
-//                             padding: "0",
-//                             width: "100px",
-//                         }}
-//                         inputStyle={{
-//                             fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
-//                             minWidth: "100px",
-//                             direction: "ltr"
-//                         }}
-//                     />
-//                 </div>
-//             </div>
-
-//             <div className="match-game-details">
-//                 {game.map((team, k2) =>
-//                     k2 > 0 &&
-//                     <div key={k2} className={`match-game-team ${k2 === 2 ? "left" : ''}`}>
-//                         <div className="team-name">
-//                             {team.teamName}
-//                         </div>
-//                         <div className="players">
-//                             {Object.entries(team.players).map(([k3, player]) =>
-//                                 <div key={k3} className="player">
-//                                     <CustomInput
-//                                         placeHolder={stringFa.undefined}
-//                                         elementType={elementTypes.dropDown}
-//                                         items={[]}
-//                                         inputContainer={{ padding: "0" }}
-//                                     />
-//                                 </div>
-//                             )}
-//                         </div>
-//                         {/* {k2 === 1 ? <p className="dash">-</p> : ''} */}
-//                     </div>
-//                 )}
-//             </div>
-//             <TransparentButton
-//                 config={{ disabled: true }}
-//                 ButtonStyle={{
-//                     padding: "0",
-//                     fontSize: "clamp(0.8rem,1vw,0.9rem)"
-//                 }}>
-//                 {stringFa.save}
-//             </TransparentButton>
-//         </div>)
-// }

@@ -164,7 +164,7 @@ export const stringFa = {
   player: "بازیکن",
   undefined: "تعیین نشده",
   select_date: "لطفا تاریخ را تعیین کنید",
-
+  officials: "داورها",
 };
 
 export const daysName = [

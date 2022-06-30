@@ -212,7 +212,8 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
             <TransparentButton
                 ButtonStyle={{
                     padding: "0",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)"
+                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                    color: theme.primary
                 }}
                 onClick={onSave}
                 config={{
