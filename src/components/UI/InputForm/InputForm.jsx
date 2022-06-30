@@ -4,7 +4,7 @@ import { onChange, onExit } from "../../../utils/authFunction";
 import TextComponent from "../TextComponent/TextComponent";
 
 const InputForm = ({ createAccess, itemLoading, order, setOrder, setFormIsValid, wrapperStyle }) => {
-    return <div className="inputs-wrapper"
+    return <div className={`inputs-wrapper ${createAccess ? "form" : ""}`}
         style={wrapperStyle}>
         {Object.entries(order).map(([k, v]) =>
             <div
