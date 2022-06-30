@@ -65,7 +65,9 @@ const Menu = (props) => {
     }
 
     return (
-        <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}>
+        <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}
+            style={{ backgroundColor: themeState.isDark ? theme.surface : "rgba(0, 0, 0, 0.4)" }}
+        >
             <div className={`sidebar-menu-icon ${showMenu && "open"}`} onClick={() => setMenuStatus(!showMenu)}>
                 <div className="burger-icon"></div>
             </div>
@@ -95,7 +97,7 @@ const Menu = (props) => {
                         <MdLanguage className="list-icon" />
                         <span className="menu-item">{stringFa.select_lan}</span>
                     </li>
-                    <li>
+                    <li onClick={() => themeState.toggle()}>
                         <MdDarkMode className="list-icon" />
                         <span className="menu-item">{stringFa.dark_theme}</span>
                     </li>
