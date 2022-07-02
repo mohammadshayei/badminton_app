@@ -56,6 +56,7 @@
           justify-self: center;
           width: 15vw;
           max-width: 80px;
+          min-width: 65px;
           img {
             width: 100%;
           }
@@ -75,25 +76,25 @@
               display: flex;
               flex-wrap: wrap;
               align-items: center;
-              min-width: 150px;
               width: 100%;
               .day {
                 display: flex;
                 align-items: center;
                 margin: 2px 0;
-                width: 18vw;
-                min-width: 50px;
-                max-width: 55px;
+                flex: 1;
+                max-width: 45px;
                 .day-link {
-                  height: 3px;
-                  width: 25%;
+                  height: 4px;
+                  width: 20%;
+                  min-width: 3px;
                 }
                 .day-credit {
                   display: flex;
                   justify-content: center;
                   align-items: center;
                   font-size: 0.7rem;
-                  width: 50%;
+                  width: 60%;
+                  min-width: 22px;
                   aspect-ratio: 1;
                   border-radius: 50%;
                 }
@@ -108,6 +109,35 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         border-radius: 15px;
         padding: 1rem;
+        .ads-container {
+          display: block;
+          width: 100%;
+          max-height: 100px;
+          margin-bottom: 1rem;
+          overflow: hidden;
+          img {
+            width: 100%;
+            margin: 0;
+            cursor: pointer;
+            object-fit: scale-down;
+          }
+        }
+        .team-name-and-logo {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem;
+          cursor: pointer;
+          .team-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 50px;
+            img {
+              width: 100%;
+            }
+          }
+        }
       }
     }
     .ads-container {
@@ -131,6 +161,11 @@
           .tournaments {
             align-self: flex-start;
             grid-column: auto;
+          }
+        }
+        .teams-container {
+          .ads-container {
+            display: none;
           }
         }
       }

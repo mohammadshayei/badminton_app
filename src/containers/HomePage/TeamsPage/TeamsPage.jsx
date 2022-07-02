@@ -9,6 +9,7 @@ import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { Icon } from '@iconify/react';
 import RoundSelector from "../../../components/UI/RoundSelector/RoundSelector";
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
+import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import DEFAULT_LOGO from '../../../assets/images/team_avatar.png';
 
 const TeamsPage = () => {
@@ -18,7 +19,7 @@ const TeamsPage = () => {
     const [teams, setTeams] = useState(null);
     const [filteredTeams, setFilteredTeams] = useState([]);
 
-    const tournamentDays = 8,
+    const tournamentDays = 7,
         tournamentPaidDays = 2,
         pastDays = 1;
 
@@ -106,20 +107,20 @@ const TeamsPage = () => {
                                         {v > 0 && <div className="day-link"
                                             style={{
                                                 backgroundColor: v < pastDays + 1 ?
-                                                    theme.primary : v > pastDays +
-                                                        1 ? theme.error :
+                                                    theme.primary : v > tournamentPaidDays ?
+                                                        theme.error :
                                                         theme.darken_border_color
                                             }}
                                         ></div>}
                                         <div className="day-credit"
                                             style={{
                                                 backgroundColor: v < pastDays ?
-                                                    theme.primary : v > pastDays ?
+                                                    theme.primary : v >= tournamentPaidDays ?
                                                         theme.error :
                                                         theme.darken_border_color,
                                                 color: v < pastDays ?
                                                     theme.on_primary :
-                                                    v > pastDays ?
+                                                    v >= tournamentPaidDays ?
                                                         theme.on_error :
                                                         theme.on_background,
                                             }}
@@ -127,7 +128,7 @@ const TeamsPage = () => {
                                         {v < tournamentDays - 1 && <div className="day-link"
                                             style={{
                                                 backgroundColor: v < pastDays ?
-                                                    theme.primary : v > pastDays ?
+                                                    theme.primary : v >= tournamentPaidDays ?
                                                         theme.error :
                                                         theme.darken_border_color
                                             }}
@@ -143,19 +144,24 @@ const TeamsPage = () => {
                         backgroundColor: theme.surface
                     }}
                 >
+                    <div className="ads-container">
+                        <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+                    </div>
                     {
                         loading ?
                             "Loading..."
                             :
                             // filteredTeams.length > 0 ?
                             // filteredTeams.map(team =>
-                            [...Array(3).keys()].map(team =>
-                                <div className="team-name-and-logo">
+                            [...Array(7).keys()].map(team =>
+                                <div className="team-name-and-logo"
+                                    style={{ backgroundColor: team === 1 ? theme.hover : "transparent" }}
+                                >
                                     <div className="team-logo">
                                         <img src={DEFAULT_LOGO} alt="logo" />
                                     </div>
                                     <div className="team-name">
-                                        team name
+                                        نام تیم
                                     </div>
                                 </div>
                             )
