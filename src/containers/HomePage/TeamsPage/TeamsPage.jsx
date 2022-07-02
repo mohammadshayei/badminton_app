@@ -18,6 +18,10 @@ const TeamsPage = () => {
     const [teams, setTeams] = useState(null);
     const [filteredTeams, setFilteredTeams] = useState([]);
 
+    const tournamentDays = 8,
+        tournamentPaidDays = 2,
+        pastDays = 1;
+
     const { token } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
@@ -75,7 +79,8 @@ const TeamsPage = () => {
             </div>
         }
         <p className="title">{stringFa.teams}</p>
-        <div className="ads-and-teams">
+        <div className="teams-and-ads">
+
             <div className="teams-wrapper">
                 <div className="my-team-box"
                     style={{
@@ -88,36 +93,77 @@ const TeamsPage = () => {
                     <div className="team-name">رعد پدافند هوایی قم</div>
                     <div className="tournaments">
                         <div className="tournament">
-                            <div className="tournament-name">لیگ برتر بدمینتون ایران جام خلیج فارس</div>
+                            <div className="tournament-name"
+                                style={{ color: theme.primary }}
+                            >لیگ برتر بدمینتون ایران جام خلیج فارس</div>
                             <div className="tournament-days-credit">
-                                {[...Array(8).keys()].map((v) =>
-                                    <>
-                                        {v > 0 && <div className="day-link"></div>}
-                                        <div className="day-credit">{v + 1}</div>
-                                    </>
+                                {[...Array(tournamentDays).keys()].map((v) =>
+                                    <div className="day"
+                                        style={{
+                                            justifyContent: v === 0 ? "flex-end" : "flex-start",
+                                        }}
+                                    >
+                                        {v > 0 && <div className="day-link"
+                                            style={{
+                                                backgroundColor: v < pastDays + 1 ?
+                                                    theme.primary : v > pastDays +
+                                                        1 ? theme.error :
+                                                        theme.darken_border_color
+                                            }}
+                                        ></div>}
+                                        <div className="day-credit"
+                                            style={{
+                                                backgroundColor: v < pastDays ?
+                                                    theme.primary : v > pastDays ?
+                                                        theme.error :
+                                                        theme.darken_border_color,
+                                                color: v < pastDays ?
+                                                    theme.on_primary :
+                                                    v > pastDays ?
+                                                        theme.on_error :
+                                                        theme.on_background,
+                                            }}
+                                        >{v + 1}</div>
+                                        {v < tournamentDays - 1 && <div className="day-link"
+                                            style={{
+                                                backgroundColor: v < pastDays ?
+                                                    theme.primary : v > pastDays ?
+                                                        theme.error :
+                                                        theme.darken_border_color
+                                            }}
+                                        ></div>}
+                                    </div>
                                 )}
                             </div>
                         </div>
                     </div>
                 </div>
-                {
-                    loading ?
-                        "Loading..."
-                        :
-                        filteredTeams.length > 0 ?
-                            filteredTeams.map(team =>
+                <div className="teams-container"
+                    style={{
+                        backgroundColor: theme.surface
+                    }}
+                >
+                    {
+                        loading ?
+                            "Loading..."
+                            :
+                            // filteredTeams.length > 0 ?
+                            // filteredTeams.map(team =>
+                            [...Array(3).keys()].map(team =>
                                 <div className="team-name-and-logo">
                                     <div className="team-logo">
-                                        <img src="" alt="logo" />
+                                        <img src={DEFAULT_LOGO} alt="logo" />
                                     </div>
                                     <div className="team-name">
                                         team name
                                     </div>
                                 </div>
-                            ) : <div>
-                                تیم موجود نمی باشد
-                            </div>
-                }
+                            )
+                        // : <div>
+                        //     تیم موجود نمی باشد
+                        // </div>
+                    }
+                </div>
             </div>
             <div className="ads-container">
                 <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />

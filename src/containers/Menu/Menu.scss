@@ -59,6 +59,7 @@
   .sidebar-menu-items {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     ul {
       list-style-type: none;
@@ -78,12 +79,34 @@
           font-size: 1.5rem;
           margin-left: 1rem;
         }
+        .menu-item {
+          display: none;
+          white-space: nowrap;
+        }
+        .img-icon {
+          max-width: 1.5rem;
+          filter: brightness(100);
+        }
         &:hover {
           background-color: rgba(0, 0, 0, 0.2);
         }
       }
+      .selected-page {
+        background: #fff;
+        color: #000;
+        .img-icon {
+          filter: brightness(0);
+        }
+        &:hover {
+          background: #fff;
+          color: #000;
+        }
+      }
     }
     .app-bar-item {
+      display: flex;
+    }
+    .center-btn {
       display: none;
     }
   }
@@ -156,6 +179,22 @@
 }
 .active {
   transform: translateX(0);
+  .sidebar-menu-items {
+    ul {
+      li {
+        .menu-item {
+          display: block;
+        }
+      }
+    }
+  }
+  .profile-content {
+    .profile {
+      .profile-details {
+        display: flex;
+      }
+    }
+  }
 }
 
 @media only screen and (min-width: 780px) and (min-height: 500px) {
@@ -165,7 +204,6 @@
     overflow: hidden;
     .sidebar-menu-items {
       position: relative;
-      justify-content: space-between;
       ul {
         li {
           .list-icon {
@@ -173,34 +211,13 @@
             min-width: 1.5rem;
             font-size: 1.5rem;
           }
-          .menu-item {
-            display: none;
-            white-space: nowrap;
-          }
-          .img-icon {
-            max-width: 1.5rem;
-            filter: brightness(100);
-          }
         }
         .seprator {
           margin-bottom: 2rem;
         }
-        .selected-page {
-          background: #fff;
-          color: #000;
-          .img-icon {
-            filter: brightness(0);
-          }
-          &:hover {
-            background: #fff;
-            color: #000;
-          }
-        }
-      }
-      .app-bar-item {
-        display: flex;
       }
       .center-btn {
+        display: block;
         position: absolute;
         top: 50%;
         transform: translate(65%, -50%) rotate(270deg);
@@ -227,22 +244,6 @@
   .active {
     width: 200px;
     transform: translate(0, 0);
-    .sidebar-menu-items {
-      ul {
-        li {
-          .menu-item {
-            display: block;
-          }
-        }
-      }
-    }
-    .profile-content {
-      .profile {
-        .profile-details {
-          display: flex;
-        }
-      }
-    }
   }
 }
 
