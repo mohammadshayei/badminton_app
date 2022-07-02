@@ -14,10 +14,14 @@ import ErrorDialog from '../../components/UI/Error/ErrorDialog';
 import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import AssignLand from './AssignLand/AssignLand';
+import LiveGameBox from '../LiveGameBox/LiveGameBox';
 
 const LiveGames = () => {
     const [loading, setLoading] = useState(false)
-    const [games, setGames] = useState([]);
+    const [duration, setDuration] = useState([]);
+    const [games, setGames] = useState([
+
+    ]);
     const [gamesStats, setGamesStats] = useState(null);
     const [gamesViewers, setGamesViewers] = useState(null);
     const [timer, setTimer] = useState(0)
@@ -28,30 +32,41 @@ const LiveGames = () => {
 
     const navigate = useNavigate()
 
+    const getDuration = () => {
+        let newDurations = [];
+        var today = new Date();
+        games.forEach(game => {
+            var diffInMs = Math.abs(today - new Date(game.game_time.start))
+            var diffInMin = Math.trunc(diffInMs / (1000 * 60));
+            newDurations = [...newDurations, `${diffInMin} '`];
+        });
+        setDuration(newDurations);
+    }
+
     const gameClickHandler = (id) => {
         navigate(`/scoreboard_view?gameId=${id}`)
     }
 
-    useEffect(() => {
-        let controller = new AbortController();
-        (async () => {
-            try {
-                setLoading(true)
-                const result = await getLiveGames()
-                if (result.success) {
-                    setGames(result.data)
-                } else {
-                    setDialog(null)
-                    setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-                }
-                setLoading(false)
-                controller = null
-            } catch (e) {
-                // Handle fetch error
-            }
-        })();
-        return () => controller?.abort();
-    }, [])
+    // useEffect(() => {
+    //     let controller = new AbortController();
+    //     (async () => {
+    //         try {
+    //             setLoading(true)
+    //             const result = await getLiveGames()
+    //             if (result.success) {
+    //                 setGames(result.data)
+    //             } else {
+    //                 setDialog(null)
+    //                 setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+    //             }
+    //             setLoading(false)
+    //             controller = null
+    //         } catch (e) {
+    //             // Handle fetch error
+    //         }
+    //     })();
+    //     return () => controller?.abort();
+    // }, [])
     useEffect(() => {
         if (socket && games) {
             if (timer === 0) {
@@ -177,59 +192,13 @@ const LiveGames = () => {
                         <Loading /> :
                         games.length > 0 ? (
                             games.map((game, key) => (
-                                <div key={game._id} className="game-box"
-                                    onClick={() => gameClickHandler(game._id)}>
-                                    <div className='game-box-rocket'>
-                                        {game.game_type === "single" ? (
-                                            <img src={rocket} alt="" />
-                                        ) : (
-                                            <img src={rockets} alt="" />
-                                        )}
-                                        <div className="show-status">
-                                            <div className="all-viewer">
-                                                <HiStatusOnline />
-                                                <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
-                                            </div>
-                                            <div className="online-viewer">
-                                                <AiOutlineEye />
-                                                <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].allCount : 0}</p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="details">
-                                        <div title={game.tournament.title} className="title">{game.tournament.title}</div>
-                                        <p className="game-number">{`${stringFa.game_number} ${game.game_number}`}</p>
-                                        <div className="name-score">
-                                            <div className="team">
-                                                <p className="players-name">
-                                                    <span> {`${game.teamA.players[0].player.username}
-                                                        ${game.game_type === "double" ? "  ,  " + game.teamA.players[1].player.username : "  "}`}
-                                                    </span>
-                                                </p>
-                                                {game.teamA.setWon === 1 && (
-                                                    <img src={SHUTTLE_IMAGE} alt="" />
-                                                )}
-                                            </div>
-                                            <div className="score-box">
-                                                <p className='span-score'>
-                                                    {`${gamesStats && gamesStats[game._id] ? gamesStats[game._id].teamA : game.teamA.score}    :   ${gamesStats && gamesStats[game._id] ? gamesStats[game._id].teamB : game.teamB.score}`}
-                                                </p>
-                                            </div>
-                                            <div className="team">
-                                                {game.teamB.setWon === 1 && (
-                                                    <img src={SHUTTLE_IMAGE} alt="" />
-                                                )}
-                                                <p className="players-name">
-                                                    <span> {`${game.teamB.players[0].player.username}
-                                                        ${game.game_type === "double" ? "  ,  " + game.teamB.players[1].player.username : "  "}`}
-                                                    </span>
-                                                </p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <LiveGameBox
+                                    key={game._id}
+                                    duration={duration[key]}
+                                    game={game}
+                                    gamesViewers={gamesViewers}
+                                    gamesStats={gamesStats}
+                                />
                             ))
                         ) : (
                             <div className="hint">
@@ -239,6 +208,11 @@ const LiveGames = () => {
                 }
             </div>
             <div className='button-container'>
+                <div className="online-user">
+                    <p>
+                        count : {usersOnlineCount}
+                    </p>
+                </div>
                 <Button
                     onClick={() => { setShowModal(true) }}
                     ButtonStyle={{
@@ -250,11 +224,6 @@ const LiveGames = () => {
                 >
                     {stringFa.assign_scorebaord_to_court}
                 </Button>
-                <div className="online-user">
-                    <p>
-                        count : {usersOnlineCount}
-                    </p>
-                </div>
             </div>
         </div>
     )

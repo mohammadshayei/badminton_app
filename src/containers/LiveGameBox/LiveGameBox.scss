@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
+  min-width: 320px;
   border: 1px solid;
   border-radius: 18px;
   font-size: clamp(0.65rem, 3vw, 0.8rem);
@@ -69,7 +70,6 @@
       align-items: center;
       .team {
         display: flex;
-        flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
         width: 100%;
@@ -79,7 +79,6 @@
         max-height: 3.2rem;
         .players-and-shuttle {
           display: flex;
-          flex-direction: row-reverse;
           align-items: center;
           gap: 2rem;
           .team-players {
