@@ -10,7 +10,7 @@ import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
 import { IoTrashBin } from "react-icons/io5";
 
-const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }) => {
+const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId, onShowMatchGames }) => {
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
     const [order, setOrder] = useState({
@@ -122,7 +122,55 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
         setLoading(false)
 
     }
+    const onRemove = async () => {
+        setDialog(null)
+        if (!data)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+        try {
+            let payload = {
+                matchId: data._id
+            }
+            const result = await dynamicApi(payload, token, 'remove_match_from_day')
+            if (result.success) {
+                setDialog(<ErrorDialog type='success'>{result.data.message}</ErrorDialog>)
+                setOrder({
+                    teamA: {
+                        text: "",
+                        id: "",
+                        invalid: false,
+                        touched: true,
+                        shouldValidate: true,
+                        validationMessage: "",
 
+                    },
+                    teamB: {
+                        text: "",
+                        id: "",
+                        invalid: false,
+                        validationMessage: "",
+                        touched: true,
+                        shouldValidate: true,
+                    },
+                    referee: {
+                        text: "",
+                        id: "",
+                        invalid: false,
+                        validationMessage: "",
+                        touched: true,
+                        shouldValidate: true,
+                    }
+                })
+            }
+            else {
+                setDialog(<ErrorDialog type='error'>{result.data.message}</ErrorDialog>)
+            }
+            setSaved(true)
+        } catch (error) {
+            setSaved(true)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+        }
+
+    }
     useEffect(() => {
         if (!data) {
             let updatedOrder = { ...order }
@@ -149,7 +197,6 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
         setOrder(updatedOrder)
         setSaved(true)
     }, [data])
-
     return <>
         {dialog}
         <div className="table-row-content">
@@ -220,7 +267,10 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
                     fontSize: "clamp(0.8rem,1vw,0.9rem)",
                     color: theme.error
                 }}
-                onClick={() => console.log("clear")}
+                config={{
+                    disabled: !data
+                }}
+                onClick={() => onRemove()}
             >
                 <IoTrashBin />
             </TransparentButton>
@@ -242,9 +292,16 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId }
             <TransparentButton
                 ButtonStyle={{
                     padding: "0",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)"
+                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
                 }}
-                onClick={() => setShowGames(true)}>
+                config={{
+                    disabled: !data || data.games.length === 0
+                }}
+                onClick={() => {
+                    onShowMatchGames(data?._id)
+                    setShowGames(true)
+                }}
+            >
                 {stringFa.show_games}
             </TransparentButton>
         </div>

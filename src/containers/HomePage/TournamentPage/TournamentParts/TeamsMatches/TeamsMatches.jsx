@@ -12,6 +12,7 @@ import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
 import Skeleton from 'react-loading-skeleton'
+import { baseUrl } from "../../../../../constants/Config";
 
 const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
@@ -25,7 +26,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
     const [loading, setLoading] = useState(false)
     const [dateLoading, setDateLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
-
+    const [games, setGames] = useState([])
 
     const { token } = useSelector(state => state.auth)
 
@@ -33,7 +34,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
     const theme = themeState.computedTheme;
 
     //fetched data :
-    const games = {
+    const games1 = {
         game1: {
             index: "انفرادی اول",
             team1: { players: { player1: { name: "محمد محمدی", image: "" } }, scores: [21, 21] }
@@ -51,6 +52,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
             , team2: { players: { player1: { name: "داوود داوودی", image: "" }, player2: { name: "جواد جوادی", image: "" } }, scores: [19, 18] }
         }
     }
+
 
 
     const onChangeDatePicker = async (e) => {
@@ -121,6 +123,54 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
 
 
     }
+
+    const onShowMatchGames = (key) => {
+        let match = dayMatchs.find(item => item.match._id === key)?.match
+        if (!match) return;
+        let updatedGames = match.games.map(item => {
+            let title;
+            switch (item.game.index) {
+                case 0:
+                    title = 'انفرادی اول'
+                    break;
+                case 1:
+                    title = 'انفرادی دوم'
+                    break;
+                case 2:
+                    title = 'دونفره اول'
+                    break;
+                case 3:
+                    title = 'دونفره دوم'
+                    break;
+                case 4:
+                    title = 'انفرادی سوم'
+                    break;
+                default:
+                    break;
+            }
+            return {
+                title,
+                players: {
+                    a: item.game.teamA.players.map(i => {
+                        return {
+                            _id: i.player._id,
+                            username: i.player.username,
+                            image: i.player.image
+                        }
+                    }), b: item.game.teamB.players.map(i => {
+                        return {
+                            _id: i.player._id,
+                            username: i.player.username,
+                            image: i.player.image
+                        }
+                    }),
+                },
+                status: item.game.status,
+                scores: []
+            }
+        })
+        setGames(updatedGames)
+    }
     useEffect(() => {
         if (!tournamentId) return;
         (async () => {
@@ -149,6 +199,9 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
             setLoading(false)
         })()
     }, [tournamentId])
+
+
+
     return (
         <div className="teams-matches"
             style={{
@@ -200,6 +253,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                                     key={i}
                                     index={i}
                                     setShowGames={setShowGames}
+                                    onShowMatchGames={onShowMatchGames}
                                     teams={teams.map(item => {
                                         return {
                                             id: item.team._id,
@@ -227,36 +281,37 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                     }}
                 >
                     <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
-                    {Object.entries(games).map(([k1, game]) =>
-                        <div key={k1} className="a-match-game">
-                            <div className="match-game-index">{game.index}</div>
+                    {games.length > 0 ? games.map((game) =>
+                        <div key={game._id} className="a-match-game">
+                            <div className="match-game-index">{game.title}</div>
                             <div className="match-game-details">
-                                {Object.entries(game).map(([k2, team]) =>
-                                    k2 !== "index" &&
+                                {Object.entries(game.players).map(([key, players]) =>
                                     <>
-                                        <div key={k2} className={`match-game-team ${k2 === "team2" ? "left" : ''}`}>
+                                        <div key={key} className={`match-game-team ${key === "b" ? "left" : ''}`}>
                                             <div className="players">
-                                                {Object.entries(team.players).map(([k3, player]) =>
-                                                    <div key={k3} className="player">
-                                                        <img className="player-image" src={player.image === '' ? IMAGE : player.image} alt="avatar" />
-                                                        <div className="player-name">{player.name}</div>
+                                                {players.map((player) =>
+                                                    <div key={player._id} className="player">
+                                                        <img className="player-image" src={!player.image ? IMAGE : `${baseUrl}uploads/players/${player.image}`} alt="avatar" />
+                                                        <div className="player-name">{player.username}</div>
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="scores">
+                                            {/* <div className="scores">
                                                 {Object.entries(team.scores).map(([k4, score]) =>
                                                     <p key={k4}>
                                                         {score}
                                                     </p>
                                                 )}
-                                            </div>
+                                            </div> */}
                                         </div>
-                                        {k2 === "team1" ? <p className="dash">-</p> : ''}
+                                        {key === "a" ? <p className="dash">-</p> : ''}
                                     </>
                                 )}
                             </div>
                         </div>
-                    )}
+                    ) :
+                        <div>بازی ای برای این مسابقه تعریف نشده است</div>
+                    }
                 </div>
             </div>
 

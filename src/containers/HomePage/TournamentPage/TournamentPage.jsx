@@ -87,6 +87,7 @@ const TournamentPage = ({ id }) => {
         try {
             const result = await dynamicApi(
                 { itemId: item._id, tournamentId: id }, token, `add_${part}_to_tournament`)
+            console.log(result)
             setDialog(<ErrorDialog type={result.success ? 'success' : "error"}> {result.data.message}</ErrorDialog >)
             if (result.success) {
                 setSearchValue('')
@@ -160,7 +161,6 @@ const TournamentPage = ({ id }) => {
         setSearchLoading(true)
         try {
             const result = await dynamicApi({ input: event.target.value }, token, `search_${path}`)
-            console.log(result)
             if (result.success)
                 setSearchListItem(result.data[`${path}s`])
             else
