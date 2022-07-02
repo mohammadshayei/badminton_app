@@ -13,6 +13,7 @@ import LiveGames from "../LiveGames/LiveGames";
 import TournamentsPage from "./TournamentsPage/TournamentsPage";
 import SearchBox from "./SearchBox/SearchBox";
 import TournamentForm from "./InputForms/TournamentForm/TournamentForm";
+import TeamsPage from "./TeamsPage/TeamsPage";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -44,17 +45,21 @@ const HomePage = () => {
           setPage(<TournamentsPage />)
           setSelectedPageIndex(1)
           break;
+        case '/teams':
+          setPage(<TeamsPage />)
+          setSelectedPageIndex(2)
+          break;
         case '/my_games':
           setPage(<GamesPage />)
-          setSelectedPageIndex(2)
+          setSelectedPageIndex(3)
           break;
         case '/live_scores':
           setPage(<LiveGames />)
-          setSelectedPageIndex(3)
+          setSelectedPageIndex(4)
           break;
         case '/new_tournament':
           setPage(<TournamentForm />)
-          setSelectedPageIndex(4)
+          setSelectedPageIndex(5)
           break;
         default:
           navigate('/tournaments')

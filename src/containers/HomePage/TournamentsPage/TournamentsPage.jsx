@@ -12,7 +12,7 @@ import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useNavigate } from "react-router-dom";
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
-import { Link } from "react-router-dom";
+import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 
 const TournamentsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -137,6 +137,9 @@ const TournamentsPage = () => {
         </div>
         <div className="ads-and-tournaments">
             <div className="tournaments-wrapper">
+                <div className="ads-container">
+                    <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+                </div>
                 {
                     loading ?
                         <TournamentBox loading={true} />

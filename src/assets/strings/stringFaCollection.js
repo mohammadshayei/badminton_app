@@ -42,7 +42,8 @@ export const stringFa = {
   new_player: "بازیکن جدید",
   new_gym: "سالن جدید",
   select_lan: "انتخاب زبان",
-  dark_theme: "پوسته تیره",
+  dark_theme: "تم تیره",
+  light_theme: "تم روشن",
   settings: "تنظیمات",
   save: "ذخیره",
   previous: "قبلی",
@@ -165,6 +166,7 @@ export const stringFa = {
   undefined: "تعیین نشده",
   select_date: "لطفا تاریخ را تعیین کنید",
   officials: "داورها",
+  teams: "تیم ها",
 };
 
 export const daysName = [

@@ -69,36 +69,36 @@ const LiveGameBox = ({ game, gamesViewers, gamesStats, duration }) => {
     }, [gamesStats?.[game._id]?.teamB, game.teamB.score]);
 
     return <div
-        className="game-box"
+        className="live-game-box"
         onClick={() => gameClickHandler(game._id)}
         style={{
             backgroundColor: theme.surface,
             borderColor: theme.darken_border_color
         }}
     >
-        <div className='game-box-title'
+        <div className='live-game-box-title'
             style={{
                 backgroundColor: theme.background_color,
             }}
         >
+            <p title={game.tournament.title} className="tournament-title">{game.tournament.title}</p>
             <div className="show-status">
-                <div className="live-indicator" />
-                <div className="duration">
-                    {duration ? duration : <div className="loading-time">...</div>}
-                    {/* <div className="loading-time">...</div> */}
-                </div>
                 <div className="online-viewers"
                     style={{
                         color: theme.darken_border_color
                     }}
                 >
-                    <AiOutlineEye />
                     <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
+                    <AiOutlineEye />
                 </div>
+                <div className="duration">
+                    {duration ? duration : <div className="loading-time">...</div>}
+                    {/* <div className="loading-time">...</div> */}
+                </div>
+                <div className="live-indicator" />
             </div>
-            <p title={game.tournament.title} className="tournament-title">{game.tournament.title}</p>
         </div>
-        <div className="game-box-details">
+        <div className="live-game-box-details">
             <div className="name-score">
                 <div className="team devider"
                     style={{

@@ -11,6 +11,7 @@ import PROFILE_IMAGE from "../../assets/images/avatars/default-avatar.png";
 import { CgMediaLive } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../constants/Config";
+import { MdLightMode, MdShield } from "react-icons/md";
 
 function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -52,7 +53,7 @@ const Menu = (props) => {
     const navigate = useNavigate()
 
     const onMenuClickHandler = index => {
-        let path = index === 1 ? '/tournaments' : index === 2 ? '/my_games' : "/live_scores"
+        let path = index === 1 ? '/tournaments' : index === 2 ? '/teams' : index === 3 ? '/my_games' : "/live_scores"
         navigate(`${path}`)
     }
     const showProfile = () => {
@@ -65,21 +66,27 @@ const Menu = (props) => {
     }
 
     return (
-        <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}>
+        <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}
+            style={{ backgroundColor: themeState.isDark ? theme.surface : "rgba(0, 0, 0, 0.4)" }}
+        >
             <div className={`sidebar-menu-icon ${showMenu && "open"}`} onClick={() => setMenuStatus(!showMenu)}>
                 <div className="burger-icon"></div>
             </div>
             <div className="sidebar-menu-items">
                 <ul className="pages">
                     <li className={`app-bar-item ${props.selectedPageIndex === 1 && "selected-page"}`} onClick={() => onMenuClickHandler(1)}>
-                        <img src={tournament} className="list-icon img-icon" />
+                        <img src={tournament} className="list-icon img-icon" alt="tournaments-icon" />
                         <span className="menu-item">{stringFa.tournaments}</span>
                     </li>
-                    <li className={`app-bar-item  ${props.selectedPageIndex === 2 && "selected-page"}`} onClick={() => onMenuClickHandler(2)}>
-                        <img src={umpire} className="list-icon img-icon" />
+                    <li className={`app-bar-item ${props.selectedPageIndex === 2 && "selected-page"}`} onClick={() => onMenuClickHandler(2)}>
+                        <MdShield className="list-icon" />
+                        <span className="menu-item">{stringFa.teams}</span>
+                    </li>
+                    <li className={`app-bar-item  ${props.selectedPageIndex === 3 && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
+                        <img src={umpire} className="list-icon img-icon" alt="my-games-icon" />
                         <span className="menu-item">{stringFa.my_games}</span>
                     </li>
-                    <li className={`app-bar-item seprator ${props.selectedPageIndex === 3 && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
+                    <li className={`app-bar-item seprator ${props.selectedPageIndex === 4 && "selected-page"}`} onClick={() => onMenuClickHandler(4)}>
                         <CgMediaLive className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.live_games}</span>
                     </li>
@@ -95,9 +102,9 @@ const Menu = (props) => {
                         <MdLanguage className="list-icon" />
                         <span className="menu-item">{stringFa.select_lan}</span>
                     </li>
-                    <li>
-                        <MdDarkMode className="list-icon" />
-                        <span className="menu-item">{stringFa.dark_theme}</span>
+                    <li onClick={() => themeState.toggle()}>
+                        {themeState.isDark ? <MdLightMode className="list-icon" /> : <MdDarkMode className="list-icon" />}
+                        <span className="menu-item">{themeState.isDark ? stringFa.light_theme : stringFa.dark_theme}</span>
                     </li>
                     {/* <li>
                     <MdSettings className="list-icon" />

@@ -1,62 +1,156 @@
-.games-page-wrapper {
-  position: relative;
+.games-page {
   display: flex;
-  //   display: grid;
-  //   grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  //   grid-template-rows: repeat(auto-fit, 7rem);
-  //   column-gap: 1rem;
-  justify-content: center;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: 83vh;
   direction: rtl;
-  height: calc(100vh - 6rem);
-  padding-top: 1rem;
-  overflow: auto;
-  padding-bottom: 50px;
-  .game-box {
-    display: flex;
-    flex-direction: row-reverse;
+  overflow: scroll;
+  .live-scores-bar {
+    position: relative;
     align-items: center;
-    justify-content: space-between;
-    border-radius: 26px;
-    padding: 1em 1.5em;
-    width: 22rem;
-    background-color: rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(5px);
-    margin-bottom: 0.7rem;
-    cursor: pointer;
-    .details {
-      width: 88%;
-      padding: 0 0.5em;
-      text-align: right;
-      .title {
-        font-size: 1.1rem;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    min-height: 2rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    .live-score-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: clamp(0.65rem, 5vw, 1.5rem);
+      cursor: pointer;
+      .live-icon {
+        animation: flashing 1s infinite alternate;
       }
-      .game-number {
-        font-size: 0.9rem;
+      p {
+        font-size: clamp(0.65rem, 1.3vw, 0.9rem);
         white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .players-name {
-        font-size: 0.7rem;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
       }
     }
-    img {
-      max-width: 12%;
+  }
+  .title {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    padding: 0.5rem 0.5rem;
+  }
+  .games-and-ads {
+    width: 100%;
+    .games-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0.5rem;
+      gap: 1rem;
+      width: 100%;
+      .ads-container {
+        display: block;
+        width: 100%;
+        max-height: 100px;
+        overflow: hidden;
+        img {
+          width: 100%;
+          margin: 0;
+          cursor: pointer;
+          object-fit: scale-down;
+        }
+      }
+      .game-box {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 450px;
+        border-radius: 15px;
+        font-size: clamp(0.6rem, 3vw, 0.8rem);
+        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.03);
+        cursor: pointer;
+        overflow: hidden;
+        .game-box-title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.4em 0.8em;
+          .game-box-title-text {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          .game-number-and-court {
+            display: flex;
+            justify-content: center;
+            gap: 0.2rem;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            font-weight: bold;
+            .game-box-game-number {
+              margin-right: 0.5rem;
+            }
+          }
+        }
+        .game-box-details {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.5rem;
+          width: 100%;
+          min-height: 60px;
+          padding: 0.5em 1em;
+          .game-box-players {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            .game-box-players-name {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+    .ads-container {
+      display: none;
     }
   }
 }
 
-@media only screen and (min-width: 560px) {
-  .games-page-wrapper {
-    // grid-template-columns: repeat(auto-fit, 25rem);
+@media only screen and (min-width: 780px) {
+  .games-page {
+    padding: 0 1rem;
+    .games-and-ads {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      .games-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.5rem;
+        gap: 1rem;
+        width: 100%;
+        .ads-container {
+          display: none;
+        }
+      }
+      .ads-container {
+        display: block;
+        width: 35vw;
+        max-width: 300px;
+        padding: 0;
+        max-height: unset;
+        overflow: hidden;
+        img {
+          width: 100%;
+          margin: 0;
+          cursor: pointer;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 780px) {
+  .games-page {
+    .title {
+      padding: 0.5rem 0;
+    }
   }
 }
