@@ -14,6 +14,7 @@ import TournamentsPage from "./TournamentsPage/TournamentsPage";
 import SearchBox from "./SearchBox/SearchBox";
 import TournamentForm from "./InputForms/TournamentForm/TournamentForm";
 import TeamsPage from "./TeamsPage/TeamsPage";
+import TeamPage from "./TeamPage/TeamPage";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -37,7 +38,10 @@ const HomePage = () => {
   };
   useEffect(() => {
     if (id) {
-      setPage(<TournamentPage id={id} />)
+      if (location.pathname.includes('/tournaments'))
+        setPage(<TournamentPage id={id} />)
+      else if (location.pathname.includes('/teams'))
+        setPage(<TeamPage id={id} />)
       setSelectedPageIndex(0)
     } else {
       switch (location.pathname) {

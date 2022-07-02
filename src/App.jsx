@@ -112,7 +112,7 @@ function App() {
       <Route path="/live_scores" exact element={<HomePage />}></Route>
       <Route path="/new_tournament" exact element={<HomePage />}></Route>
       <Route path="/tournaments/:id" element={<HomePage />} />
-
+      <Route path="/teams/:id" element={<HomePage />} />
 
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./TeamsPage.scss"
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import * as homeActions from "../../../store/actions/home";
 import { useTheme } from "../../../styles/ThemeProvider";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
@@ -29,10 +29,10 @@ const TeamsPage = () => {
     const { token } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
 
     const onTeamClickHandler = (id) => {
-        // navigate(`/teams/${id}?part=team`)
+        navigate(`/teams/${id}?part=informations`)
     }
 
     useEffect(() => {
@@ -88,6 +88,7 @@ const TeamsPage = () => {
                     style={{
                         backgroundColor: theme.surface,
                     }}
+                    onClick={() => onTeamClickHandler("my_team_id")}
                 >
                     <div className="team-logo">
                         <img src={DEFAULT_LOGO} alt="logo" />
@@ -157,6 +158,7 @@ const TeamsPage = () => {
                             [...Array(7).keys()].map(team =>
                                 <div className="team-name-and-logo"
                                     style={{ backgroundColor: team === 1 ? theme.hover : "transparent" }}
+                                    onClick={() => onTeamClickHandler(team)}
                                 >
                                     <div className="team-logo">
                                         <img src={DEFAULT_LOGO} alt="logo" />
