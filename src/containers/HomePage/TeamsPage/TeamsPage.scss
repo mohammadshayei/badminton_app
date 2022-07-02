@@ -87,6 +87,7 @@
                   height: 4px;
                   width: 20%;
                   min-width: 3px;
+                  transition: background-color 200ms ease-out;
                 }
                 .day-credit {
                   display: flex;
@@ -97,6 +98,7 @@
                   min-width: 22px;
                   aspect-ratio: 1;
                   border-radius: 50%;
+                  transition: background-color 400ms ease-out;
                 }
               }
             }
@@ -146,14 +148,12 @@
   }
 }
 
-@media only screen and (min-width: 780px) and (min-height: 500px) {
+@media only screen and (min-width: 780px) {
   .teams-page {
-    padding: 1rem;
     .teams-and-ads {
       display: flex;
       width: 100%;
       .teams-wrapper {
-        grid-template-columns: 3fr 1fr;
         .my-team-box {
           .team-logo {
             grid-row: 1 / 3;

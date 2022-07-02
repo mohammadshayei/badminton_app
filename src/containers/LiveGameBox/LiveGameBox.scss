@@ -1,4 +1,4 @@
-.game-box {
+.live-game-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,7 @@
   font-size: clamp(0.65rem, 3vw, 0.8rem);
   cursor: pointer;
   overflow: hidden;
-  .game-box-title {
+  .live-game-box-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,7 +58,7 @@
       }
     }
   }
-  .game-box-details {
+  .live-game-box-details {
     width: 100%;
     text-align: right;
     .name-score {
@@ -119,9 +119,9 @@
 }
 
 @media only screen and (max-height: 550px) {
-  .game-box {
+  .live-game-box {
     font-size: clamp(0.65rem, 2vw, 0.75rem);
-    .game-box-details {
+    .live-game-box-details {
       .name-score {
         .team {
           .players-and-shuttle {

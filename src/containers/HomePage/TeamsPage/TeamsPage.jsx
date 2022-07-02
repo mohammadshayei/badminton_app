@@ -20,15 +20,16 @@ const TeamsPage = () => {
     const [filteredTeams, setFilteredTeams] = useState([]);
 
     const tournamentDays = 7,
-        tournamentPaidDays = 2,
+        tournamentPaidDays = 4,
         pastDays = 1;
+
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
 
     const { token } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
 
-    const themeState = useTheme();
-    const theme = themeState.computedTheme;
 
     const onTeamClickHandler = (id) => {
         // navigate(`/teams/${id}?part=team`)

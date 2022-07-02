@@ -51,15 +51,15 @@ const HomePage = () => {
           break;
         case '/my_games':
           setPage(<GamesPage />)
-          setSelectedPageIndex(2)
+          setSelectedPageIndex(3)
           break;
         case '/live_scores':
           setPage(<LiveGames />)
-          setSelectedPageIndex(3)
+          setSelectedPageIndex(4)
           break;
         case '/new_tournament':
           setPage(<TournamentForm />)
-          setSelectedPageIndex(4)
+          setSelectedPageIndex(5)
           break;
         default:
           navigate('/tournaments')
