@@ -431,6 +431,7 @@ const TournamentForm = () => {
             order={order}
             setOrder={setOrder}
             setFormIsValid={setFormIsValid}
+            createAccess={true}
         />
         <div className="buttons-wrapper">
             <TransparentButton

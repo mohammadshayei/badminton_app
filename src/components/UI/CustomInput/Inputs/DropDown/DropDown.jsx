@@ -27,6 +27,7 @@ function useOnClickOutside(ref, reff, handler) {
     }, [ref, handler]);
 }
 
+
 const DropDown = (props) => {
     const [drop, setDrop] = useState(false)
 
@@ -38,6 +39,7 @@ const DropDown = (props) => {
     useOnClickOutside(inRef, divRef, () => {
         setDrop(false);
     });
+    
 
     const itemClickHandler = (item) => {
         props.onChange(item)
@@ -67,6 +69,7 @@ const DropDown = (props) => {
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
                     borderColor: (props.invalid && props.shouldValidate && props.touched) ? theme.error : drop ? theme.primary : theme.darken_border_color,
+                    ...props.inputStyle,
                 }}
                 onClick={() => setDrop(!drop)}
             >
