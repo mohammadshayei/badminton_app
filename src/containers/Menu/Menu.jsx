@@ -57,7 +57,7 @@ const Menu = (props) => {
         navigate(`${path}`)
     }
     const showProfile = () => {
-        navigate(`/profile`)
+        navigate(`/profile?part=userInfo`)
         setMenuStatus(!showMenu)
     }
     const logOut = () => {
@@ -115,13 +115,14 @@ const Menu = (props) => {
             <div className="profile-content">
                 <div className="profile">
                     <div className="profile-details">
-                        {auth.user ?
-                            <div className="avatar"
-                                onClick={() => showProfile()}
-                            >
+                        <div className="avatar"
+                            onClick={() => showProfile()}
+                        >
+                            {auth.user ?
                                 <img src={auth.user.image ? `${baseUrl}uploads/users/${auth.user.image}` : PROFILE_IMAGE} alt="pic" />
-                            </div> :
-                            <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
+                                :
+                                <img className="loading" src={PROFILE_IMAGE} alt="pic" />}
+                        </div>
                         <div className="name">
                             {auth.user ? auth.user.username :
                                 <div className="loading-name">...</div>}

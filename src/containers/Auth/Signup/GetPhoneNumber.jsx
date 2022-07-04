@@ -19,9 +19,10 @@ const GetPhoneNumber = (props) => {
             value: '',
             elementType: 'input',
             elementConfig: {
+                inputmode: "numeric",
                 placeholder: stringFa.phone,
                 type: 'text',
-                pattern: "\d*",
+                pattern: "[0-9]+",
                 maxLength: 11,
             },
             // validationMessage: stringFa.phone_error,

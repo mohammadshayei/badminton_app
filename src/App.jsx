@@ -111,8 +111,9 @@ function App() {
       <Route path="/my_games" exact element={<HomePage />}></Route>
       <Route path="/live_scores" exact element={<HomePage />}></Route>
       <Route path="/new_tournament" exact element={<HomePage />}></Route>
+      <Route path="/profile" exact element={<HomePage />}></Route>
       <Route path="/tournaments/:id" element={<HomePage />} />
-
+      <Route path="/teams/:id" element={<HomePage />} />
 
       <Route path="/scoreboard" exact element={<MainPage />}></Route>
       <Route
@@ -125,7 +126,6 @@ function App() {
       <Route path="/signup" exact element={<Auth />}></Route>
       <Route path="/report" exact element={<GameReport />}></Route>
       <Route path="/wait" exact element={<WaitPage />}></Route>
-      <Route path="/profile" exact element={<ProfilePage />}></Route>
 
     </Routes>
 

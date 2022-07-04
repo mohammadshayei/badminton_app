@@ -56,6 +56,7 @@ const OTPInput = (props) => {
                         ? "invalid"
                         : ""
                         }`}
+                    inputMode="numeric"
                     key={index}
                     ref={(props.config.autoFocus && index === 0) ? focusDiv : focusDiv2}
                     maxLength={1}

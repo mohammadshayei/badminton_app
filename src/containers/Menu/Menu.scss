@@ -244,6 +244,13 @@
   .active {
     width: 200px;
     transform: translate(0, 0);
+    .profile-content {
+      .profile {
+        .profile-details {
+          display: flex;
+        }
+      }
+    }
   }
 }
 

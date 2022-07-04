@@ -1,48 +1,30 @@
 .profile-page-wrapper {
   position: relative;
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
-  .menu-icon {
-    display: block;
-    position: absolute;
-    transform: translate(-80%, 10%);
-    top: 0;
-    right: 0;
-    font-size: 1.8rem;
-    cursor: pointer;
-  }
-  .profile-card {
+  width: 100%;
+  height: calc(100% - 5.6rem);
+  direction: rtl;
+  overflow: auto;
+  .user-info {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 1;
-    height: 65vh;
-    max-height: 500px;
-    max-width: 500px;
-    margin-top: 10vh;
-    border-radius: clamp(10px, 4vw, 20px);
-    box-shadow: 0 3px 8px 3px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
     .profile-avatar {
-      position: absolute;
-      background-color: white;
-      top: 0;
+      position: relative;
       display: flex;
       justify-content: center;
+      align-items: center;
       width: 45%;
       max-width: 190px;
+      min-width: 130px;
       aspect-ratio: 1;
       border-radius: 50%;
-      box-shadow: 0 3px 8px 3px rgba(0, 0, 0, 0.1);
-      padding: 0;
-      &:active {
-        transform: scale(0.95) translateY(-50%);
-      }
-      transform: translateY(-50%);
       overflow: hidden;
+      &:active {
+        transform: scale(0.95);
+      }
       img {
         cursor: pointer;
         width: 100%;
@@ -72,70 +54,13 @@
       padding: 1rem;
       width: 100%;
       max-width: 400px;
-      overflow-y: auto;
       font-size: clamp(0.75rem, 1.5vw, 1.1rem);
-      .pair-item-container {
-        display: grid;
-        justify-content: space-evenly;
-        grid-template-columns: 1fr;
-      }
     }
     .buttons-wrapper {
-      position: absolute;
-      bottom: 0;
       display: flex;
       justify-content: center;
-      padding: 0.6rem 0 1.5rem 0;
-      gap: 1rem;
+      gap: 0.5rem;
       font-size: clamp(0.75rem, 1.2vw, 0.9rem);
     }
-  }
-}
-
-@media only screen and (min-width: 780px) and (min-height: 500px) {
-  .profile-page-wrapper {
-    padding: 2rem calc(2rem + 70px) 2rem 2rem;
-  }
-}
-
-@media only screen and (max-height: 750px) {
-  .profile-page-wrapper {
-    .profile-card {
-      height: 60vh;
-      .profile-avatar {
-        width: 30%;
-      }
-    }
-  }
-}
-
-@media only screen and (max-height: 600px) {
-  .profile-page-wrapper {
-    .profile-card {
-      justify-content: flex-start;
-      margin-top: 0;
-      padding-bottom: 4rem;
-      padding-top: 1rem;
-      .profile-avatar {
-        display: none;
-      }
-      .buttons-wrapper {
-        padding: 0.5rem 0 0.5rem 0;
-      }
-    }
-  }
-}
-
-.loading {
-  cursor: default;
-  animation: loading-pic 0.8s infinite alternate;
-}
-
-@keyframes loading-pic {
-  from {
-    opacity: 0.5;
-  }
-  to {
-    opacity: 1;
   }
 }

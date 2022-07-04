@@ -72,36 +72,6 @@
             .tournament-name {
               font-size: 0.7rem;
             }
-            .tournament-days-credit {
-              display: flex;
-              flex-wrap: wrap;
-              align-items: center;
-              width: 100%;
-              .day {
-                display: flex;
-                align-items: center;
-                margin: 2px 0;
-                flex: 1;
-                max-width: 45px;
-                .day-link {
-                  height: 4px;
-                  width: 20%;
-                  min-width: 3px;
-                  transition: background-color 200ms ease-out;
-                }
-                .day-credit {
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  font-size: 0.7rem;
-                  width: 60%;
-                  min-width: 22px;
-                  aspect-ratio: 1;
-                  border-radius: 50%;
-                  transition: background-color 400ms ease-out;
-                }
-              }
-            }
           }
         }
       }
