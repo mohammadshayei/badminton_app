@@ -1,7 +1,7 @@
 .profile-page-wrapper {
   position: relative;
   width: 100%;
-  height: calc(100% - 5.6rem);
+  flex: 1;
   direction: rtl;
   overflow: auto;
   .user-info {

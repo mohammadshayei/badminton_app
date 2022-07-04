@@ -1,6 +1,6 @@
 .live-games-page-wrapper {
   position: relative;
-  height: calc(100vh - 6rem);
+  flex: 1;
   direction: rtl;
   .live-games {
     display: flex;

@@ -1,5 +1,7 @@
 .home-page-wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
   transition: color 0.2s ease-out, background 0.2s ease-out;
