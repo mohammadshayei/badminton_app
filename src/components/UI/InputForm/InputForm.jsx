@@ -4,6 +4,13 @@ import { onChange, onExit } from "../../../utils/authFunction";
 import TextComponent from "../TextComponent/TextComponent";
 
 const InputForm = ({ createAccess, itemLoading, order, setOrder, setFormIsValid, wrapperStyle }) => {
+
+    const checkNumericInput = (e) => {
+        if (/\D/g.test(e.target.value)) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        }
+    }
+
     return <div className={`inputs-wrapper ${createAccess ? "form" : ""}`}
         style={wrapperStyle}>
         {Object.entries(order).map(([k, v]) =>
@@ -17,6 +24,9 @@ const InputForm = ({ createAccess, itemLoading, order, setOrder, setFormIsValid,
                         <CustomInput
                             {...v}
                             onChange={(e, indexArray) => {
+                                if (v.validation.isNumeric) {
+                                    checkNumericInput(e)
+                                }
                                 if (v.elementType === elementTypes.switchInput
                                     || v.elementType === elementTypes.datePicker || v.elementType === elementTypes.dropDown)
                                     onChange(e, k, order, setOrder, setFormIsValid)
