@@ -18,6 +18,7 @@ const GetInfo = (props) => {
         input: {
             value: '',
             elementConfig: {
+                inputmode: "numeric",
                 placeholder: stringFa.phone_or_nationalnumber,
                 type: 'text',
                 autoFocus: true,
