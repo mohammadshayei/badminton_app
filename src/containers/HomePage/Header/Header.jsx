@@ -2,8 +2,9 @@ import './Header.scss'
 import { useTheme } from '../../../styles/ThemeProvider';
 import { Icon } from '@iconify/react';
 import RoundSelector from '../../../components/UI/RoundSelector/RoundSelector';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import TransparentButton from '../../../components/UI/Button/TransparentButton/TransparentButton';
 
 const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClick }) => {
     const themeState = useTheme();
@@ -14,7 +15,7 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
             style={{ backgroundColor: theme.secondary, color: theme.on_secondary }}
             className='header-container'
         >
-            <div className="header-image-and-content">
+            {(title || image) && <div className="header-image-and-content">
                 <div className="header-image">
                     {loading ?
                         <Skeleton
@@ -34,7 +35,14 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                                 highlightColor={theme.darken_border_color}
                                 width={270}
                                 direction='rtl' /> :
-                            title
+                            <>
+                                {title}
+                                <TransparentButton
+                                    ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
+                                >
+                                    <Icon icon="akar-icons:edit" />
+                                </TransparentButton>
+                            </>
                         }
                     </div>
                     {detail &&
@@ -92,7 +100,7 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                         </>
                     }
                 </div>
-            </div>
+            </div>}
             <div className="selectors-wrapper">
                 {Object.entries(filterSelectors).map(([k, v]) =>
                     <RoundSelector
