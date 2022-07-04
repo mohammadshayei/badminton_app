@@ -11,6 +11,7 @@ import RoundSelector from "../../../components/UI/RoundSelector/RoundSelector";
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
 import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import DEFAULT_LOGO from '../../../assets/images/team_avatar.png';
+import CreditBar from "../../../components/UI/CreditBar/CreditBar";
 
 const TeamsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -99,45 +100,12 @@ const TeamsPage = () => {
                             <div className="tournament-name"
                                 style={{ color: theme.primary }}
                             >لیگ برتر بدمینتون ایران جام خلیج فارس</div>
-                            <div className="tournament-days-credit">
-                                {[...Array(tournamentDays).keys()].map((v) =>
-                                    <div className="day"
-                                        style={{
-                                            justifyContent: v === 0 ? "flex-end" : "flex-start",
-                                        }}
-                                    >
-                                        {v > 0 && <div className="day-link"
-                                            style={{
-                                                backgroundColor: v < pastDays + 1 ?
-                                                    theme.primary : v > tournamentPaidDays ?
-                                                        theme.error :
-                                                        theme.darken_border_color
-                                            }}
-                                        ></div>}
-                                        <div className="day-credit"
-                                            style={{
-                                                backgroundColor: v < pastDays ?
-                                                    theme.primary : v >= tournamentPaidDays ?
-                                                        theme.error :
-                                                        theme.darken_border_color,
-                                                color: v < pastDays ?
-                                                    theme.on_primary :
-                                                    v >= tournamentPaidDays ?
-                                                        theme.on_error :
-                                                        theme.on_background,
-                                            }}
-                                        >{v + 1}</div>
-                                        {v < tournamentDays - 1 && <div className="day-link"
-                                            style={{
-                                                backgroundColor: v < pastDays ?
-                                                    theme.primary : v >= tournamentPaidDays ?
-                                                        theme.error :
-                                                        theme.darken_border_color
-                                            }}
-                                        ></div>}
-                                    </div>
-                                )}
-                            </div>
+                            <CreditBar
+                                days={tournamentDays}
+                                paid={tournamentPaidDays}
+                                past={pastDays}
+                                showDetail={false}
+                            />
                         </div>
                     </div>
                 </div>
