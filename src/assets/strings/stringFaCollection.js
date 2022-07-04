@@ -121,7 +121,7 @@ export const stringFa = {
   competition_type: "نوع مسابقه",
   download: "دانلود",
   please_set_umpires: "لطفا داور های بازی را تعیین کنید",
-  assign_scorebaord_to_court: "court",
+  assign_scorebaord_to_court: "ست کردن زمین",
   gym_error: "باشگاه خود را انتخاب کنید",
   land_error: "زمین خود را انتخاب کنید",
   tournament: "مسابقه",

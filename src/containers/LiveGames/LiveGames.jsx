@@ -286,16 +286,12 @@ const LiveGames = () => {
             <div className='button-container'>
                 <div className="online-user">
                     <p>
-                        count : {usersOnlineCount}
+                        کاربر در حال تماشا : {usersOnlineCount}
                     </p>
                 </div>
                 <Button
                     onClick={() => { setShowModal(true) }}
                     ButtonStyle={{
-                        fontSize: '1.2rem',
-                        padding: '.4rem 1.5rem',
-                        backgroundColor: 'white',
-                        color: 'black',
                     }}
                 >
                     {stringFa.assign_scorebaord_to_court}
