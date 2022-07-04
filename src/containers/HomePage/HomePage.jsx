@@ -15,6 +15,7 @@ import SearchBox from "./SearchBox/SearchBox";
 import TournamentForm from "./InputForms/TournamentForm/TournamentForm";
 import TeamsPage from "./TeamsPage/TeamsPage";
 import TeamPage from "./TeamPage/TeamPage";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -63,6 +64,10 @@ const HomePage = () => {
           break;
         case '/new_tournament':
           setPage(<TournamentForm />)
+          setSelectedPageIndex(5)
+          break;
+        case '/profile':
+          setPage(<ProfilePage />)
           setSelectedPageIndex(5)
           break;
         default:
