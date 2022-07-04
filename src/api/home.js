@@ -328,6 +328,12 @@ export const dynamicApi = async (payload, token, url) => {
   );
   return { success: result.data.success, data: result.data.result };
 };
+export const dynamicGetApi = async (token, url) => {
+  const result = await axios.get(`${baseUrl}api/${url}`, {
+    headers: { "auth-token": token },
+  });
+  return { success: result.data.success, data: result.data.result };
+};
 export const formDataDynamic = async (image, payload, token, url) => {
   const formData = new FormData();
   if (image) formData.append("image", image);

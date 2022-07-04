@@ -76,10 +76,22 @@ const TournamentPage = ({ id }) => {
     const searchParams = new URLSearchParams(location.search);
     const part = searchParams.get("part");
     const item = searchParams.get("item");
+    const matchId = searchParams.get("matchId");
+
 
     const onItemClick = (itemId) => {
         navigate(`/tournaments/${tournament._id}?part=${part}&item=${itemId}`)
+        setListItem(lst => lst.map(item => {
+            return {
+                ...item,
+                selected: item._id === itemId ? true : false
+            }
+        }))
     }
+    const onShowGame = (gId) => {
+        navigate(`/tournaments/${tournament._id}?part=teamMatch&matchId=${gId}`)
+    }
+
     const onAddItemClickHandler = () => {
         setShowInputForm(true)
     }
@@ -87,7 +99,6 @@ const TournamentPage = ({ id }) => {
         try {
             const result = await dynamicApi(
                 { itemId: item._id, tournamentId: id }, token, `add_${part}_to_tournament`)
-            console.log(result)
             setDialog(<ErrorDialog type={result.success ? 'success' : "error"}> {result.data.message}</ErrorDialog >)
             if (result.success) {
                 setSearchValue('')
@@ -200,6 +211,22 @@ const TournamentPage = ({ id }) => {
 
 
     useEffect(() => {
+        if (!content) {
+            setShowInputForm(false)
+
+        } else
+            setShowInputForm(true)
+        setListItem(lst => lst.map(item => {
+            return {
+                ...item,
+                selected: content?._id === item._id ? true : false
+            }
+        }))
+
+    }, [content])
+
+
+    useEffect(() => {
         if (part === 'referee') {
             setCreateAccess(false)
         } else {
@@ -263,10 +290,10 @@ const TournamentPage = ({ id }) => {
         setShowInputForm(false)
         if (!part || !filterSelectors) return;
         let updatedFilterSelectors = { ...filterSelectors };
-        for (const filter in updatedFilterSelectors) {
-            updatedFilterSelectors[filter].selected = false;
+        for (const key in updatedFilterSelectors) {
+            if (key === part) updatedFilterSelectors[key].selected = true
+            else updatedFilterSelectors[key].selected = false;
         }
-        updatedFilterSelectors[part].selected = true;
         setFilterSelectors(updatedFilterSelectors);
     }, [part])
 
@@ -317,10 +344,10 @@ const TournamentPage = ({ id }) => {
                     return;
                 }
                 setListItem(fetchedItems.data[path]
-                    .map((item, index) => {
+                    .map((item) => {
                         return {
                             ...item[path.substring(0, path.length - 1)],
-                            selected: index === 0 ? true : false
+                            selected: false
                         }
                     }
                     ))
@@ -370,7 +397,9 @@ const TournamentPage = ({ id }) => {
                     setDialog(<ErrorDialog type="error">{fetchedItem.data.message}</ErrorDialog>)
                     setItemLoading(false)
                     return;
+
                 }
+
                 setContent(fetchedItem.data[path.substring(0, path.length - 1)])
                 setItemLoading(false)
             } catch (error) {
@@ -448,6 +477,7 @@ const TournamentPage = ({ id }) => {
         }
     }, [id, part, showInputForm, content, tournament, itemLoading, createAccess])
 
+
     return (
         <div className='tournament-page-wrapper'>
             {dialog}
@@ -458,7 +488,6 @@ const TournamentPage = ({ id }) => {
                     loading={loading}
                     filterSelectors={filterSelectors}
                     onSelectorClick={onSelectorClick}
-
                 />
             }
             {
@@ -467,6 +496,8 @@ const TournamentPage = ({ id }) => {
                         tournamentId={id}
                         gameDate={tournament?.game_date}
                         createAccess={createAccess}
+                        onShowGame={onShowGame}
+                        matchId={matchId}
                     /> :
                     part === "todayMatch" ?
                         <TodayMatch tournamentId={id} /> :

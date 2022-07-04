@@ -96,7 +96,11 @@ const TournamentsPage = () => {
     useEffect(() => {
         if (!tournaments) return;
         let key = Object.entries(filterSelectors).find(([_, v]) => v.selected)[1].content
-        let updatedFilteredTournaments = tournaments.filter(item => item.state === key)
+        let updatedFilteredTournaments;
+        if (key === 'owner')
+            updatedFilteredTournaments = tournaments.filter(item => item.owner)
+        else
+            updatedFilteredTournaments = tournaments.filter(item => item.state === key)
         setfilteredTournaments(updatedFilteredTournaments)
 
     }, [tournaments, filterSelectors])

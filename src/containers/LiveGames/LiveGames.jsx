@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getLiveGames } from '../../api/liveGame';
@@ -22,6 +23,9 @@ const LiveGames = () => {
     const [games, setGames] = useState([
 
     ]);
+    const [gamesFetched, setGamesFetched] = useState(false)
+    const [gamesScores, setGamesScores] = useState([])
+    const [endGamesScores, setEndGamesScores] = useState([])
     const [gamesStats, setGamesStats] = useState(null);
     const [gamesViewers, setGamesViewers] = useState(null);
     const [timer, setTimer] = useState(0)
@@ -47,106 +51,103 @@ const LiveGames = () => {
         navigate(`/scoreboard_view?gameId=${id}`)
     }
 
-    // useEffect(() => {
-    //     let controller = new AbortController();
-    //     (async () => {
-    //         try {
-    //             setLoading(true)
-    //             const result = await getLiveGames()
-    //             if (result.success) {
-    //                 setGames(result.data)
-    //             } else {
-    //                 setDialog(null)
-    //                 setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-    //             }
-    //             setLoading(false)
-    //             controller = null
-    //         } catch (e) {
-    //             // Handle fetch error
-    //         }
-    //     })();
-    //     return () => controller?.abort();
-    // }, [])
+    useEffect(() => {
+        let controller = new AbortController();
+        (async () => {
+            try {
+                setLoading(true)
+                const result = await getLiveGames()
+                if (result.success) {
+                    setGames(result.data)
+                    setGamesFetched(true)
+                } else {
+                    setDialog(null)
+                    setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+                }
+                setLoading(false)
+                controller = null
+            } catch (e) {
+                // Handle fetch error
+            }
+        })();
+        return () => controller?.abort();
+    }, [])
     useEffect(() => {
         if (socket && games) {
             if (timer === 0) {
-                socket.on('get_change_score_set', (payload => {
-                    const { scoreA, scoreB, gameId } = payload;
+                socket.on('get_change_event_set', (payload => {
+                    const { scoreA, scoreB, serverA, serverB, gameId } = payload;
+                    setTimer(100)
                     let updatedGamesStats = { ...gamesStats }
                     if (updatedGamesStats[gameId]) {
-                        updatedGamesStats[gameId].teamA = scoreA;
-                        updatedGamesStats[gameId].teamB = scoreB;
+                        updatedGamesStats[gameId].teamA = { score: scoreA, server: serverA };
+                        updatedGamesStats[gameId].teamB = { score: scoreB, server: serverB };
                     } else {
-                        updatedGamesStats = { ...updatedGamesStats, [gameId]: { teamA: scoreA, teamB: scoreB } }
+                        updatedGamesStats = {
+                            ...updatedGamesStats, [gameId]: {
+                                teamA: { score: scoreA, server: serverA }
+                                , teamB: { score: scoreB, server: serverB },
+                            }
+                        }
                     }
                     setGamesStats(updatedGamesStats)
                     setTimeout(() => {
                         setTimer(0)
-                    }, 50)
+                    }, 100)
                 }))
             }
 
         }
     }, [socket, games, timer])
+
+
     useEffect(() => {
-        if (socket && games) {
-            socket.on('get_winner_team', (payload => {
-                let { teamName, gameId } = payload;
-                let updatedGames = [...games]
-                let gameIndex = updatedGames.findIndex(item => item._id === gameId)
-                if (gameIndex >= 0) {
-                    if (teamName === 'team1')
-                        updatedGames[gameIndex].teamA.setWon =
-                            updatedGames[gameIndex].teamA.setWon + 1
-                    else
-                        updatedGames[gameIndex].teamB.setWon =
-                            updatedGames[gameIndex].teamB.setWon + 1
-                    setGames(updatedGames)
-                }
+        if (!socket || !games) return;
 
-            }))
-            socket.on('get_live_game', (payload => {
-                let { game } = payload;
-                let updatedGames = [...games]
-                console.log('live games')
+        socket.on('get_live_game', (payload => {
+            let { game } = payload;
+            let updatedGames = [...games]
+            if (updatedGames.findIndex(item => item._id === game._id) < 0)
                 updatedGames.push(game)
-                setGames(updatedGames)
-            }
-
-            ))
-            socket.on('get_exit_game', (payload => {
-                let { gameId } = payload;
-                let updatedGames = [...games]
-                updatedGames = updatedGames.filter(game => game._id !== gameId)
-                setGames(updatedGames)
-            }
-
-            ))
-            socket.emit('setup_viewer_page')
-            socket.on('get_viewer_page_info', (payload => {
-                const { data, usersOnlineCount } = payload;
-                if (!gamesViewers && games.length > 0) {
-                    setUsersOnlineCount(usersOnlineCount)
-                    let updatedGamesViewers = { ...gamesViewers }
-                    games.forEach(game => {
-                        updatedGamesViewers = {
-                            ...updatedGamesViewers, [game._id]:
-                            {
-                                count: data && data[game._id] ? data[game._id].length : 0,
-                                allCount: game.viewer
-                            }
-                        }
-
-                    })
-                    setGamesViewers(updatedGamesViewers)
-
-                }
-            }
-            ))
-
-
+            setGames(updatedGames)
         }
-    }, [socket, games])
+
+        ))
+        socket.on('get_exit_game', (payload => {
+            let { gameId } = payload;
+            let updatedGames = [...games]
+            updatedGames = updatedGames.filter(game => game._id !== gameId)
+            setGames(updatedGames)
+            let updatedGamesScores = gamesScores.filter(item => item.gameId !== gameId)
+            setGamesScores(updatedGamesScores)
+            let updatedEndGamesScores = endGamesScores.filter(item => item.gameId !== gameId)
+            setEndGamesScores(updatedEndGamesScores)
+        }
+
+        ))
+        socket.emit('setup_viewer_page')
+        socket.on('get_viewer_page_info', (payload => {
+            const { data, usersOnlineCount } = payload;
+            if (!gamesViewers && games.length > 0) {
+                setUsersOnlineCount(usersOnlineCount)
+                let updatedGamesViewers = { ...gamesViewers }
+                games.forEach(game => {
+                    updatedGamesViewers = {
+                        ...updatedGamesViewers, [game._id]:
+                        {
+                            count: data && data[game._id] ? data[game._id].length : 0,
+                            allCount: game.viewer
+                        }
+                    }
+
+                })
+                setGamesViewers(updatedGamesViewers)
+
+            }
+        }
+        ))
+    }, [games, socket])
+
     useEffect(() => {
         if (socket) {
             socket.on('send_viewer_game', (payload => {
@@ -180,6 +181,79 @@ const LiveGames = () => {
         }
     }, [socket]);
 
+    useEffect(() => {
+        if (!socket || !gamesFetched) return;
+        socket.on('get_winner_team', (payload => {
+            let { scores, gameId } = payload;
+            let updatedGamesScores = [...gamesScores]
+            let index = updatedGamesScores.findIndex(item => item.gameId === gameId)
+            if (index > -1) {
+                updatedGamesScores[index] = {
+                    scores,
+                    gameId,
+                }
+            }
+            else {
+                updatedGamesScores.push({
+                    gameId,
+                    scores
+                })
+            }
+            setGamesScores(updatedGamesScores)
+
+
+        }))
+
+    }, [gamesFetched, socket, gamesScores])
+
+    useEffect(() => {
+        if (!socket || !gamesFetched) return;
+        socket.on('get_end_game_stats', (payload => {
+            let { gameId, teamA, teamB } = payload;
+            let updatedData = [...endGamesScores]
+            let index = updatedData.findIndex(item => item.gameId === gameId)
+            if (index > -1) {
+                updatedData[index] = {
+                    scores: { a: teamA, b: teamB },
+                    gameId,
+                }
+            }
+            else {
+                updatedData.push({
+                    gameId,
+                    scores: { a: teamA, b: teamB },
+                })
+            }
+            setEndGamesScores(updatedData)
+            setTimeout(() => {
+                let updatedGames = [...games]
+                updatedGames = updatedGames.filter(game => game._id !== gameId)
+                setGames(updatedGames)
+                let updatedGamesScores = gamesScores.filter(item => item.gameId !== gameId)
+                setGamesScores(updatedGamesScores)
+                let updatedEndGamesScores = endGamesScores.filter(item => item.gameId !== gameId)
+                setEndGamesScores(updatedEndGamesScores)
+            }, 5000);
+
+        }))
+    }, [endGamesScores, socket, gamesFetched])
+
+
+
+
+    useEffect(() => {
+        if (!games) return;
+        getDuration();
+        const interval = setInterval(() => {
+            getDuration();
+        }, 50000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [gamesFetched]);
+
+
     return (
         <div className="live-games-page-wrapper">
             {dialog}
@@ -198,6 +272,8 @@ const LiveGames = () => {
                                     game={game}
                                     gamesViewers={gamesViewers}
                                     gamesStats={gamesStats}
+                                    gamesScores={gamesScores}
+                                    endGamesScores={endGamesScores}
                                 />
                             ))
                         ) : (

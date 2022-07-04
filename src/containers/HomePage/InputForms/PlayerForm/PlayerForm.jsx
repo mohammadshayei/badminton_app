@@ -103,7 +103,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
     const [teamLoading, setTeamLoading] = useState(false)
-
+    const [changed, setChanged] = useState(false)
 
 
     const { token, user } = useSelector(state => state.auth)
@@ -152,7 +152,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setLoading(false)
-
+        setChanged(false)
     }
     const onSave = async () => {
         setLoading(true)
@@ -185,6 +185,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setLoading(false)
+        setChanged(false)
 
     }
 
@@ -320,6 +321,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
                 setFormIsValid={setFormIsValid}
                 itemLoading={itemLoading}
                 createAccess={createAccess}
+                setChanged={setChanged}
             />
             {
                 createAccess &&
@@ -331,7 +333,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
                             if (content) onSaveChange()
                             else onSave()
                         }}
-                        config={{ disabled: !formIsValid }}
+                        config={{ disabled: !formIsValid || !changed }}
                     >
                         {
                             content ? stringFa.save_change : stringFa.save

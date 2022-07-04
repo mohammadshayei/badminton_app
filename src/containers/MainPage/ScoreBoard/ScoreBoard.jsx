@@ -38,7 +38,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [warmUpTimer, setWarmUpTimer] = useState("00:00");
   const [twentySeconds, setTwentySeconds] = useState(false);
   const [serverDirection, setServerDirection] = useState("");
-
+  const [disabledButton, setDisabledButton] = useState(false)
 
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
@@ -149,7 +149,14 @@ const ScoreBoard = ({ disable, setDisable }) => {
     setDialog(null)
     //balls , score and setwon in team ,events 
     if (socket) {
-      socket.emit('set_winner_team', { teamName, gameId })
+      socket.emit('set_winner_team', {
+        scores: {
+          a: [...info.team1.scores, info.team1.score],
+          b: [...info.team2.scores, info.team2.score]
+        },
+        gameId,
+        teamName
+      })
     }
     let payload = {
       setId,
@@ -199,10 +206,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
     };
   }, []);
   useEffect(() => {
-    let temp = info.team1.isRightTeam ?
-      info.team1.score % 2 === 0 ? "down-left" : "up-left" :
-      info.team1.score % 2 === 0 ? "up-right" : "down-right";
-    setServerDirection(temp)
+    setDisabledButton(true)
+    setTimeout(() => {
+      setDisabledButton(false)
+    }, 1000);
     switch (info.team1.score) {
       case maxPoint - 1:
         if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
@@ -247,10 +254,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
       setWinPoint(null)
   }, [info.team1.score])
   useEffect(() => {
-    let temp = info.team2.isRightTeam ?
-      info.team2.score % 2 === 0 ? "down-left" : "up-left" :
-      info.team2.score % 2 === 0 ? "up-right" : "down-right";
-    setServerDirection(temp)
+    setDisabledButton(true)
+    setTimeout(() => {
+      setDisabledButton(false)
+    }, 1000);
     switch (info.team2.score) {
       case maxPoint - 1:
         if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)
@@ -338,17 +345,20 @@ const ScoreBoard = ({ disable, setDisable }) => {
     })()
   }, [teamWon])
 
-  useEffect(() => {
-    const payload = {
-      scoreA: info.team1.score,
-      scoreB: info.team2.score,
-      gameId,
-    }
-    if (socket) {
-      socket.emit('set_change_score_set', payload)
-    }
+  // useEffect(() => {
+  //   const payload = {
+  //     scoreA: info.team1.score,
+  //     scoreB: info.team2.score,
+  //     serverA: info.team1.server,
+  //     serverB: info.team2.server,
+  //     gameId,
+  //   }
+  //   if (socket) {
+  //     socket.emit('set_change_score_set', payload)
+  //   }
 
-  }, [info.team2.score, info.team1.score])
+  // }, [info.team2.score, info.team1.score])
+
   useEffect(() => {
     if (breakTime === 2 || breakTime === 3) {
       const startingMinute = breakTime - 1;
@@ -463,6 +473,52 @@ const ScoreBoard = ({ disable, setDisable }) => {
   //   }
   // }, [serviceOver, winPoint])
 
+
+  useEffect(() => {
+    let temp;
+    if (info.events.length === 0)
+      return;
+
+    let index = info.events.length - 1;
+    while (index >= 0) {
+      if (info.events[index].type === 'score') break;
+      index--;
+    }
+    if (!info.events[index]) return;
+    if (info.team1.players.findIndex(item => item.id === info.events[index].by) > -1) {
+      temp = info.team1.isRightTeam ?
+        parseInt(info.events[index].content) % 2 === 0 ? "down-left" : "up-left" :
+        parseInt(info.events[index].content) % 2 === 0 ? "up-right" : "down-right";
+
+    } else {
+      temp = info.team2.isRightTeam ?
+        parseInt(info.events[index].content) % 2 === 0 ? "down-left" : "up-left" :
+        parseInt(info.events[index].content) % 2 === 0 ? "up-right" : "down-right";
+    }
+    setServerDirection(temp)
+  }, [info.eventCounter])
+
+  useEffect(() => {
+    let temp;
+    if (info.events.length === 0) {
+      if (info.team1.server > 0) {
+        temp = info.team1.isRightTeam ?
+          "down-left" :
+          "up-right";
+
+      } else {
+        temp = info.team2.isRightTeam ?
+          "down-left" :
+          "up-right";
+      }
+      setServerDirection(temp)
+
+      return;
+    }
+  }, [info.team1.server, info.team2.server, info.team1.isRightTeam, info.team2.isRightTeam])
+
+
+
   return (
     <div
       className="scoreboard-container"
@@ -515,6 +571,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
                 position={v.isRightTeam ? "right" : "left"}
                 teamKey={k}
                 setServiceOver={setServiceOver}
+                disabledButton={disabledButton}
               />)
             ) : <Loading style={{ direction: "ltr" }} />
             : <Loading style={{ direction: "ltr" }} />)}

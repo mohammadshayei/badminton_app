@@ -13,14 +13,16 @@ import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
 import Skeleton from 'react-loading-skeleton'
 import { baseUrl } from "../../../../../constants/Config";
+import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
+import { useNavigate } from "react-router-dom";
 
-const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
+const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
     const [dayMatchs, setDayMatchs] = useState([])
     const [teams, setTeams] = useState([])
     const [referees, setReferees] = useState([])
 
-
+    let navigate = useNavigate()
     const [dateValue, setDateValue] = useState('')
     const [showGames, setShowGames] = useState(false);   //show a match games
     const [loading, setLoading] = useState(false)
@@ -32,27 +34,6 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-
-    //fetched data :
-    const games1 = {
-        game1: {
-            index: "انفرادی اول",
-            team1: { players: { player1: { name: "محمد محمدی", image: "" } }, scores: [21, 21] }
-            , team2: { players: { player1: { name: "احمد احمدی", image: "" } }, scores: [19, 18] }
-        },
-        game2: {
-            index: "انفرادی دوم",
-            team1: { players: { player1: { name: "حمید حمیدی", image: "" } }, scores: [21, 21] }
-            , team2: { players: { player1: { name: "رضا رضایی", image: "" } }, scores: [19, 18] }
-        }
-        ,
-        game3: {
-            index: "دونفره اول",
-            team1: { players: { player1: { name: "حسن حسنی", image: "" }, player2: { name: "کریم کریمی", image: "" } }, scores: [21, 21] }
-            , team2: { players: { player1: { name: "داوود داوودی", image: "" }, player2: { name: "جواد جوادی", image: "" } }, scores: [19, 18] }
-        }
-    }
-
 
 
     const onChangeDatePicker = async (e) => {
@@ -88,6 +69,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
         }
     }
     const selectDay = async (key) => {
+        setShowGames(false)
         let selected;
         let updatedTournamentsDay = tournamentDays.map(item => {
             if (item._id === key)
@@ -124,53 +106,11 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
 
     }
 
-    const onShowMatchGames = (key) => {
-        let match = dayMatchs.find(item => item.match._id === key)?.match
-        if (!match) return;
-        let updatedGames = match.games.map(item => {
-            let title;
-            switch (item.game.index) {
-                case 0:
-                    title = 'انفرادی اول'
-                    break;
-                case 1:
-                    title = 'انفرادی دوم'
-                    break;
-                case 2:
-                    title = 'دونفره اول'
-                    break;
-                case 3:
-                    title = 'دونفره دوم'
-                    break;
-                case 4:
-                    title = 'انفرادی سوم'
-                    break;
-                default:
-                    break;
-            }
-            return {
-                title,
-                players: {
-                    a: item.game.teamA.players.map(i => {
-                        return {
-                            _id: i.player._id,
-                            username: i.player.username,
-                            image: i.player.image
-                        }
-                    }), b: item.game.teamB.players.map(i => {
-                        return {
-                            _id: i.player._id,
-                            username: i.player.username,
-                            image: i.player.image
-                        }
-                    }),
-                },
-                status: item.game.status,
-                scores: []
-            }
-        })
-        setGames(updatedGames)
+    const getReport = (id) => {
+        navigate(`/report?id=${id}`);
     }
+
+
     useEffect(() => {
         if (!tournamentId) return;
         (async () => {
@@ -200,6 +140,73 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
         })()
     }, [tournamentId])
 
+    useEffect(() => {
+        if (!matchId) {
+            setShowGames(false)
+            return;
+        }
+        let match = dayMatchs.find(item => item.match._id === matchId)?.match
+        if (!match) return;
+        setShowGames(true)
+
+        let updatedGames = match?.games?.map(item => {
+            let title;
+            switch (item.game.index) {
+                case 0:
+                    title = 'انفرادی اول'
+                    break;
+                case 1:
+                    title = 'انفرادی دوم'
+                    break;
+                case 2:
+                    title = 'دونفره اول'
+                    break;
+                case 3:
+                    title = 'دونفره دوم'
+                    break;
+                case 4:
+                    title = 'انفرادی سوم'
+                    break;
+                default:
+                    break;
+            }
+            return {
+                _id: item.game._id,
+                title,
+                players: {
+                    a: item.game.teamA.players.map(i => {
+                        return {
+                            _id: i.player._id,
+                            username: i.player.username,
+                            image: i.player.image
+                        }
+                    }), b: item.game.teamB.players.map(i => {
+                        return {
+                            _id: i.player._id,
+                            username: i.player.username,
+                            image: i.player.image
+                        }
+                    }),
+                },
+                status: item.game.status,
+                scores: {
+                    a: item.game.sets.map(i => {
+                        return {
+                            score: i.set.teamA.score,
+                            winner: i.set.teamA.setWon
+                        }
+                    }),
+                    b: item.game.sets.map(i => {
+                        return {
+                            score: i.set.teamB.score,
+                            winner: i.set.teamB.setWon
+                        }
+                    }),
+                }
+            }
+        })
+        setGames(updatedGames)
+    }, [matchId, dayMatchs.length])
 
 
     return (
@@ -233,18 +240,27 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
             <div className="day-content">
                 <div className={`day-events ${showGames ? "hide" : ""}`}>
                     <div className="date-of-day">
-                        <CustomInput
-                            title={stringFa.date}
-                            elementType={elementTypes.datePicker}
-                            value={dateValue}
-                            inputContainer={{ paddingBottom: "0" }}
-                            onChange={onChangeDatePicker}
-                            validation={{ bdRequired: true }}
-                            elementConfig={{
-                                minDate: gameDate ? new Date(gameDate.start) : null,
-                                maxDate: gameDate ? new Date(gameDate.end) : null
-                            }}
-                        />
+                        {
+                            createAccess ?
+                                <CustomInput
+                                    title={stringFa.date}
+                                    elementType={elementTypes.datePicker}
+                                    value={dateValue}
+                                    inputContainer={{ paddingBottom: "0" }}
+                                    onChange={onChangeDatePicker}
+                                    validation={{ bdRequired: true }}
+                                    elementConfig={{
+                                        minDate: gameDate ? new Date(gameDate.start) : null,
+                                        maxDate: gameDate ? new Date(gameDate.end) : null,
+                                        disabled: !createAccess
+
+                                    }}
+                                /> :
+                                <TextComponent
+                                    value={new Date(dateValue).toLocaleDateString('fa-IR')}
+                                    title={stringFa.date}
+                                />
+                        }
                     </div>
                     <div className="teams-table">
                         {[...new Array(teams?.length > 0 ? (teams.length) / 2 : 3)].map((_, i) =>
@@ -253,7 +269,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                                     key={i}
                                     index={i}
                                     setShowGames={setShowGames}
-                                    onShowMatchGames={onShowMatchGames}
+                                    onShowGame={onShowGame}
                                     teams={teams.map(item => {
                                         return {
                                             id: item.team._id,
@@ -269,6 +285,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                                     tournamentId={tournamentId}
                                     day={tournamentDays.find(item => item.selected)}
                                     data={dayMatchs[i]?.match}
+                                    createAccess={createAccess}
                                 />
                             </div>
                         )}
@@ -281,9 +298,16 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                     }}
                 >
                     <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
-                    {games.length > 0 ? games.map((game) =>
+                    {games?.length > 0 ? games.map((game) =>
                         <div key={game._id} className="a-match-game">
                             <div className="match-game-index">{game.title}</div>
+                            {game.status === 3 &&
+                                <div className="match-game-report"
+                                    style={{ color: theme.primary }}
+                                    onClick={() => getReport(game._id)}
+                                // onClick={()=>console.log('here')}
+                                >
+                                    گزازش بازی</div>}
                             <div className="match-game-details">
                                 {Object.entries(game.players).map(([key, players]) =>
                                     <>
@@ -296,17 +320,24 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                                                     </div>
                                                 )}
                                             </div>
-                                            {/* <div className="scores">
-                                                {Object.entries(team.scores).map(([k4, score]) =>
-                                                    <p key={k4}>
-                                                        {score}
+                                            <div className="scores">
+                                                {
+                                                    game.status === 2 && key === 'a' &&
+                                                    <p style={{ color: theme.primary, marginTop: "3rem" }}>
+                                                        مشاهده بازی
+                                                    </p>
+                                                }
+                                                {game.status === 3 && game.scores[key].map((item, k4) =>
+                                                    <p style={{ fontWeight: item.winner && 'bold' }} key={k4}>
+                                                        {item.score}
                                                     </p>
                                                 )}
-                                            </div> */}
+                                            </div>
                                         </div>
                                         {key === "a" ? <p className="dash">-</p> : ''}
                                     </>
                                 )}
+
                             </div>
                         </div>
                     ) :
@@ -315,7 +346,7 @@ const TeamsMatches = ({ createAccess, tournamentId, gameDate }) => {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 
 };

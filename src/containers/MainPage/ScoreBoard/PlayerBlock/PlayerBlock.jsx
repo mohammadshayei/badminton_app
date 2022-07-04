@@ -72,7 +72,7 @@ const PlayerBlock = (props) => {
       foulHappend({ foulType: null });
   }
   useEffect(() => {
-    if (!info.readyForSendData) return;
+    if (!info.readyForSendData || info.midStage) return;
     props.setServiceOver(false)
     if (info.undoMode) return;
     const detail = {
@@ -179,7 +179,11 @@ const PlayerBlock = (props) => {
         </div>
         <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
           style={{ opacity: info.foulHappend ? 0 : 1 }}>
-          <div disabled={props.disable} className="player-block-icon up-btn">
+          <div
+            disabled={props.disable
+              // || props.disabledButton
+            }
+            className="player-block-icon up-btn">
             <Button
               back={theme.primary}
               hover={theme.primary}

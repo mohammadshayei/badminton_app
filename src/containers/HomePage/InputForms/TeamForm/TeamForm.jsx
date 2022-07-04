@@ -274,7 +274,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
     const [loading, setLoading] = useState(false)
     const [imageSrc, setImageSrc] = useState('')
     const [imagePath, setImagePath] = useState('')
-
+    const [changed, setChanged] = useState(false)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -323,6 +323,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setLoading(false)
+        setChanged(false)
 
     }
     const onSave = async () => {
@@ -358,6 +359,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setLoading(false)
+        setChanged(false)
 
     }
 
@@ -744,6 +746,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                 setFormIsValid={setFormIsValid}
                 itemLoading={itemLoading}
                 createAccess={createAccess}
+                setChanged={setChanged}
             />
             {
                 createAccess &&
@@ -755,7 +758,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                             if (content) onSaveChange()
                             else onSave()
                         }}
-                        config={{ disabled: !formIsValid }}
+                        config={{ disabled: !formIsValid || !changed }}
                     >
                         {
                             content ? stringFa.save_change : stringFa.save

@@ -108,7 +108,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
     const [imageSrc, setImageSrc] = useState('')
     const [imagePath, setImagePath] = useState('')
     const [loading, setLoading] = useState(false)
-
+    const [changed, setChanged] = useState(false)
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const { token, user } = useSelector(state => state.auth)
@@ -153,7 +153,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setLoading(false)
-
+        setChanged(false)
     }
     const onSave = async () => {
         setLoading(true)
@@ -190,7 +190,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setLoading(false)
-
+        setChanged(false)
     }
     const clear = () => {
         setFormIsValid(false)
@@ -288,6 +288,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
             setFormIsValid={setFormIsValid}
             itemLoading={itemLoading}
             createAccess={createAccess}
+            setChanged={setChanged}
         />
         {createAccess &&
             <div className="buttons-wrapper">
@@ -298,7 +299,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
                         if (content) onSaveChange()
                         else onSave()
                     }}
-                    config={{ disabled: !formIsValid }}
+                    config={{ disabled: !formIsValid || !changed }}
                 >
                     {
                         content ? stringFa.save_change : stringFa.save

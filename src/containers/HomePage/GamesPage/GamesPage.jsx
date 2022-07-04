@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./GamesPage.scss";
 import { stringFa } from "../../../assets/strings/stringFaCollection.js";
 import { useSelector } from "react-redux";
-import { getRefereeGames } from "../../../api/home";
+import { dynamicGetApi } from "../../../api/home";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../../styles/ThemeProvider";
@@ -21,30 +21,37 @@ const GamesPage = () => {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
-  const token = useSelector(state => state.auth.token)
-  const refereeId = useSelector(state => state.auth.refereeId)
+  const { token, user } = useSelector(state => state.auth)
   const navigate = useNavigate()
 
-  useEffect(async () => {
+  useEffect(() => {
+    if (!token) return;
     setLoading(true)
-    const result = await getRefereeGames({ id: refereeId }, token)
-    if (result.success) {
-      setGames(result.data)
-    } else {
-      setDialog(null)
-      setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-    }
-    setLoading(false)
-  }, [])
+    setDialog(null);
+    (async () => {
+      try {
+        const result = await dynamicGetApi(token, 'get_umpire_games')
+        if (result.success)
+          setGames(result.data.games)
+        else
+          setDialog(<ErrorDialog type={"error"}> {result.data.message}</ErrorDialog >)
+      } catch (error) {
+        setLoading(false)
+        console.log(error)
+        setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+      }
+      setLoading(false)
+    })()
+  }, [token])
 
   const gameClickHandler = (i) => {
     let game = games.find(item => item.game._id === i).game
-    if (!game.referee || !game.service_referee) {
-      setDialog(<ErrorDialog type="error">{stringFa.please_set_umpires}</ErrorDialog>)
-      return;
-    }
-    if (refereeId && game._id) {
-      navigate(`/scoreboard?gameId=${game._id}&refereeId=${refereeId}`)
+    // if (!game.referee || !game.service_referee) {
+    //   setDialog(<ErrorDialog type="error">{stringFa.please_set_umpires}</ErrorDialog>)
+    //   return;
+    // }
+    if (user && game._id) {
+      navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
     }
   }
 
