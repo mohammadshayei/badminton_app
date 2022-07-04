@@ -1,0 +1,80 @@
+.header-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+  .header-image-and-content {
+    display: flex;
+    gap: 1.5rem;
+    .header-image {
+      display: none;
+    }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      direction: rtl;
+      font-size: 0.8rem;
+      padding-bottom: 0;
+      .header-title {
+        max-width: 100%;
+        white-space: nowrap;
+        font-size: clamp(1.5rem, 2vw, 1.8rem);
+        word-spacing: 2px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .header-detail {
+        opacity: 0.7;
+      }
+      .header-detail-gap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .header-detail-date {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        .date {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+      }
+    }
+  }
+  .selectors-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 0 0.5rem 0.1rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+}
+
+@media only screen and (min-width: 780px) and (min-height: 500px) {
+  .header-container {
+    padding: 0 5rem;
+    .header-image-and-content {
+      padding: 0.5rem 0;
+      .header-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(5rem, 5vw, 6rem);
+        .image-skeleton {
+          width: 6rem;
+          height: 6rem;
+        }
+        img {
+          max-width: 100px;
+        }
+      }
+    }
+  }
+}
