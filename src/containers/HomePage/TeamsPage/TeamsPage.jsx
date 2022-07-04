@@ -124,7 +124,9 @@ const TeamsPage = () => {
                             // filteredTeams.length > 0 ?
                             // filteredTeams.map(team =>
                             [...Array(7).keys()].map(team =>
-                                <div className="team-name-and-logo"
+                                <div
+                                    key={team}
+                                    className="team-name-and-logo"
                                     style={{ backgroundColor: team === 1 ? theme.hover : "transparent" }}
                                     onClick={() => onTeamClickHandler(team)}
                                 >

@@ -152,7 +152,6 @@ const TeamPage = ({ id }) => {
                         </div> */}
                     </div>
         }
-
     </div>;
 
 };

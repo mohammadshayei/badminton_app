@@ -3,6 +3,8 @@ import "./MemberShipInfo.scss"
 import CreditBar from "../../../components/UI/CreditBar/CreditBar";
 import { useTheme } from "../../../styles/ThemeProvider";
 import { Icon } from '@iconify/react';
+import CustomInput, { elementTypes } from "../../../components/UI/CustomInput/CustomInput";
+import { stringFa } from "../../../assets/strings/stringFaCollection";
 
 const MemberShipInfo = ({ tournament }) => {
     const [pricing, setPricing] = useState([
@@ -33,6 +35,11 @@ const MemberShipInfo = ({ tournament }) => {
             price: "4,000,000 تومان"
         }
     ]);
+    const [tournaments, setTournaments] = useState([
+        { text: "لیگ برتر بدمینتون ایران جام خلیج فارس" },
+        { text: "انتخابی کشوری" }
+    ]);
+    const [selected, setSelected] = useState("لیگ برتر بدمینتون ایران جام خلیج فارس");
 
 
     const themeState = useTheme();
@@ -46,7 +53,19 @@ const MemberShipInfo = ({ tournament }) => {
         <div className="tournament-section">
             <div className="tournament-title"
                 style={{ color: theme.primary }}
-            >لیگ برتر بدمینتون ایران جام خلیج فارس</div>
+            >
+                <CustomInput
+                    elementType={elementTypes.dropDown}
+                    items={tournaments ? tournaments : []}
+                    onChange={e => setSelected(e.text)}
+                    value={selected}
+                    // invalid={order.teamB.invalid}
+                    // touched={order.teamA.touched}
+                    // shouldValidate={order.teamA.shouldValidate}
+                    // validationMessage={order.teamB.validationMessage}
+                    placeHolder={stringFa.undefined}
+                />
+            </div>
             <CreditBar
                 days={tournamentDays}
                 paid={tournamentPaidDays}
