@@ -1,9 +1,67 @@
 .tournaments-form-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 1rem 0;
+  direction: rtl;
+  overflow: auto;
+  .tournament-avatar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    min-height: 130px;
+    border-radius: 50%;
+    -webkit-transform: translateZ(0);
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+    transform: translateZ(0);
+    mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+    img {
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      font-size: 5rem;
+    }
+    &:active {
+      transform: scale(0.95);
+    }
+    .upload-image-wrapper {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 25%;
+      cursor: pointer;
+      background-color: rgba(#000000, 0.4);
+      .camera {
+        color: white;
+      }
+    }
+  }
   .buttons-wrapper {
     width: 100%;
     display: flex;
-    padding: 0 1rem;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@media only screen and (min-width: 980px) {
+  .tournaments-form-wrapper {
+    padding: 1rem 10%;
   }
 }

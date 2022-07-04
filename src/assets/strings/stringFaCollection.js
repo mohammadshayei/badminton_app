@@ -50,7 +50,7 @@ export const stringFa = {
   tournament_title: "عنوان مسابقه",
   period_number: "شماره دوره",
   age_ragne: "رده سنی",
-  tournament_title_error: "عنوان مسابقه را تعیین کنید",
+  tournament_title_error: "عنوان مسابقه باید حداقل 2 کاراکتر باشد",
   period_number_error: "شماره دوره را تعیین کنید",
   age_ragne_error: "رده سنی را تعیین کنید",
   start_date: "تاریخ شروع",
