@@ -2,25 +2,30 @@
 import { useEffect, useState } from "react";
 import "./TeamPage.scss"
 import { useNavigate, useLocation } from 'react-router-dom'
-import Header from "../TournamentPage/Header/Header";
+import Header from "../Header/Header";
 import Button from "../../../components/UI/Button/Button";
+import DEFAULT_LOGO from '../../../assets/images/team_avatar.png';
+import MemberShipInfo from "../MemberShipInfo/MemberShipInfo";
 
 const TeamPage = ({ id }) => {
-    const [team, setTeam] = useState(null);
+    const [team, setTeam] = useState({
+        title: "رعد پدافند هوایی قم",
+        image: null,
+    });
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null);
     const [content, setContent] = useState(null)
     const [filterSelectors, setFilterSelectors] = useState({
         informations: {
-            text: "اطلاعات",
+            text: "اطلاعات عضویت",
             selected: true,
+        },
+        games: {
+            text: "مسابقات",
+            selected: false,
         },
         players: {
             text: "بازیکن ها",
-            selected: false,
-        },
-        games: {
-            text: "بازی ها",
             selected: false,
         },
     });
@@ -56,14 +61,15 @@ const TeamPage = ({ id }) => {
     return <div className='team-page-wrapper'>
         {dialog}
         <Header
-            tournament={team}
+            title={team.title}
+            image={team.image ? team.image : <img src={DEFAULT_LOGO} alt="logo" />}
             loading={loading}
             filterSelectors={filterSelectors}
             onSelectorClick={onSelectorClick}
         />
         {
             part === "informations" ?
-                "informations"
+                <MemberShipInfo />
                 :
                 part === "games" ?
                     "games" :
