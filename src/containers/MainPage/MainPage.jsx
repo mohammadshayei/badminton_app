@@ -10,7 +10,7 @@ import * as infoActions from "../../store/actions/setInfo"
 import * as gameActions from "../../store/actions/gameInfo"
 import Selector from "../HomePage/GamesPage/Selector/Selector";
 import Modal from "../../components/UI/Modal/Modal";
-import { checkRefereeGetGame, interruptSet } from "../../api/home";
+import { checkRefereeGetGame, dynamicApi, interruptSet } from "../../api/home";
 import ErrorDialog from "../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import Loading from './../../components/UI/Loading/Loading';
@@ -22,14 +22,14 @@ const MainPage = () => {
   const [disable, setDisable] = useState(true);
 
 
-  const token = useSelector(state => state.auth.token)
 
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const locaiton = useLocation();
   const navigate = useNavigate()
   const info = useSelector((state) => state.info);
-  const socket = useSelector(state => state.auth.socket)
+  const { token, socket } = useSelector(state => state.auth)
+
 
 
   const searchParams = new URLSearchParams(locaiton.search);
@@ -101,7 +101,6 @@ const MainPage = () => {
           setId: lastSet._id
         }
         setupMidStageSetOnScoreboard(payload)
-        changeReadyStatus(true)
         setDisable(false)
       } else {
         const payload = {
@@ -110,38 +109,40 @@ const MainPage = () => {
           _id: lastSet._id
         }
         setupEmptySetOnScoreboard(payload)
-        changeReadyStatus(true)
       }
     } else {
       setShowModal(true);
-      changeReadyStatus(true)
     }
+    changeReadyStatus(true)
   }
-  useEffect(async () => {
-    if (refereeId && gameId) {
-      setLoading(true)
-      const result = await checkRefereeGetGame({ refereeId, gameId }, token)
-      if (result.success) {
-        setScoreboard(result.data.game);
-        setSelectedGameReferee(result.data.game)
-        setGameId(result.data.game._id)
-        initiateScorboard(result.data.game)
-        // setShowModal(true);
-      } else {
-        setDialog(null)
-        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+  useEffect(() => {
+    (async () => {
+      if (refereeId && gameId) {
+        setLoading(true)
+        const result = await dynamicApi({ userId: refereeId, gameId }, token, 'check_user_get_game')
+        if (result.success) {
+          setScoreboard(result.data.game.game);
+          setSelectedGameReferee(result.data.game.game)
+          setGameId(result.data.game.game._id)
+          initiateScorboard(result.data.game.game)
+          // setShowModal(true);
+        } else {
+          setDialog(null)
+          setDialog(<ErrorDialog type="error">{result.message}</ErrorDialog>)
+          setTimeout(() => {
+            navigate('/my_games')
+          }, 3000);
+        }
+        setLoading(false)
+      }
+      else {
+        setDialog(<ErrorDialog type="error">{stringFa.url_wrong}</ErrorDialog>)
         setTimeout(() => {
-          navigate('/home?page=2')
+          navigate('/my_games')
         }, 3000);
       }
-      setLoading(false)
-    }
-    else {
-      setDialog(<ErrorDialog type="error">{stringFa.url_wrong}</ErrorDialog>)
-      setTimeout(() => {
-        navigate('/home?page=2')
-      }, 3000);
-    }
+    })()
+
 
   }, [refereeId, gameId]);
 

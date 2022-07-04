@@ -106,6 +106,9 @@
             gap: 2rem;
             padding: 0.3rem 0;
           }
+          .btn-alignment {
+            padding: 0.3rem 0;
+          }
         }
       }
     }
@@ -132,6 +135,7 @@
         align-items: center;
         width: 100%;
         padding: 0.5rem;
+        position: relative;
         font-size: 0.8rem; //4vw
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 20px;
@@ -140,6 +144,12 @@
           border-radius: 40px;
           padding: 0.5em 1em;
           font-size: 0.7rem; //3vw
+        }
+        .match-game-report{
+          position: absolute;
+          left: 1rem;
+          top:7px;
+          cursor: pointer;
         }
         .match-game-details {
           display: flex;
@@ -259,8 +269,11 @@
             justify-content: space-between;
             gap: 1rem;
             .table-row-btns {
-              margin-bottom: 1.5rem;
+              margin: auto 0;
               gap: 1rem;
+            }
+            .btn-alignment {
+              padding-top: 2.5rem;
             }
           }
         }

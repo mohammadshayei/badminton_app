@@ -78,7 +78,7 @@ const EventsBox = (props) => {
 
 
   useEffect(() => {
-    if (info.midStage, info._id) {
+    if (info.midStage && info._id) {
       setLog([]);
       let newLog = [];
       newLog = [...newLog, {
@@ -153,7 +153,6 @@ const EventsBox = (props) => {
 
       setLog(newLog)
     }
-    setMidStageStatus(false)
   }, [info.midStage])
 
   useEffect(() => {
@@ -188,6 +187,7 @@ const EventsBox = (props) => {
   info.team1.receiver, info.team2.receiver, info.team2.setWon, info.team1.setWon, info._id])
 
   useEffect(() => {
+    setMidStageStatus(false)
     if (info.midStage) return;
     if (!info.undoMode) {
       if (info.events.length === 0)

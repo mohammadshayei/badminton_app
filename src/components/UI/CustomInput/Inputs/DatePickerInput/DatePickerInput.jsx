@@ -26,6 +26,7 @@ const DatePickerInput = (props) => {
                 onOpen={() => setFocus(true)}
                 calendar={persian}
                 locale={persian_fa}
+                {...props.elementConfig}
                 onChange={props.onChange}
                 // fixMainPosition={true}
                 portal

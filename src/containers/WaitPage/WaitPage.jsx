@@ -49,16 +49,18 @@ const WaitPage = () => {
             url: 'images/slide_4.jpg',
         },
     ];
-    useEffect(async () => {
-        setLoading(true)
-        const result = await getLiveGames()
-        if (result.success) {
-            setGames(result.data)
-        } else {
-            setDialog(null)
-            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-        }
-        setLoading(false)
+    useEffect(() => {
+        (async () => {
+            setLoading(true)
+            const result = await getLiveGames()
+            if (result.success) {
+                setGames(result.data)
+            } else {
+                setDialog(null)
+                setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
+            }
+            setLoading(false)
+        })()
     }, [])
     useEffect(() => {
         if (socket && games) {

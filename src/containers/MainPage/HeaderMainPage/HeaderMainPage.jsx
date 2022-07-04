@@ -38,7 +38,7 @@ const HeaderMainPage = () => {
       socket.emit('send_exit_game', { gameId })
 
     }
-    navigate('/home')
+    navigate('/my_games')
   }
 
   return (

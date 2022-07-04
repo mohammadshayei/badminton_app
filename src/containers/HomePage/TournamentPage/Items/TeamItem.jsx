@@ -13,10 +13,13 @@ const TeamItem = ({ item, index, indexNeeded, selector, onClick }) => {
             onClick={onClick}
         >
             {indexNeeded ?
-                <p style={{ color: item.selected && theme.primary }}>
+                <p style={{ color: window.innerWidth >= 780 && item.selected && theme.primary }}>
                     {index}. {item[selector()]}
                 </p>
-                : <p>{item[selector()]}</p>
+                : <p
+                    style={{ color: window.innerWidth >= 780 && item.selected && theme.primary }}>
+                    {item[selector()]}
+                </p>
             }
 
         </div>

@@ -9,8 +9,9 @@ import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
 import { IoTrashBin } from "react-icons/io5";
+import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 
-const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId, onShowMatchGames }) => {
+const Match = ({ onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
     const [order, setOrder] = useState({
@@ -217,93 +218,126 @@ const Match = ({ data, day, index, setShowGames, referees, teams, tournamentId, 
                 }}
             >
                 <div className="table-row-item">
-                    <CustomInput
-                        elementType={elementTypes.dropDown}
-                        // inputContainer={{ padding: "0" }}
-                        items={teams ? teams : []}
-                        onChange={e => onChange(e, 'teamA')}
-                        value={order.teamA.text}
-                        invalid={order.teamA.invalid}
-                        touched={order.teamA.touched}
-                        shouldValidate={order.teamA.shouldValidate}
-                        placeHolder={stringFa.undefined}
-                        validationMessage={order.teamA.validationMessage}
-                    />
+                    {
+                        createAccess ?
+                            <CustomInput
+                                elementType={elementTypes.dropDown}
+                                // inputContainer={{ padding: "0" }}
+                                items={teams ? teams : []}
+                                onChange={e => onChange(e, 'teamA')}
+                                value={order.teamA.text}
+                                invalid={order.teamA.invalid}
+                                touched={order.teamA.touched}
+                                shouldValidate={order.teamA.shouldValidate}
+                                placeHolder={stringFa.undefined}
+                                validationMessage={order.teamA.validationMessage}
+                            />
+                            :
+                            <TextComponent
+                                value={order.teamA.text}
+                                style={{ justifyContent: "center" }}
+                            />
+                    }
                 </div>
                 <div className="table-row-item">
-                    <CustomInput
-                        elementType={elementTypes.dropDown}
-                        // inputContainer={{ padding: "0" }}
-                        items={teams ? teams : []}
-                        onChange={e => onChange(e, 'teamB')}
-                        value={order.teamB.text}
-                        invalid={order.teamB.invalid}
-                        placeHolder={stringFa.undefined}
-                        touched={order.teamA.touched}
-                        shouldValidate={order.teamA.shouldValidate}
-                        validationMessage={order.teamB.validationMessage}
-                    />
+                    {createAccess ?
+                        <CustomInput
+                            elementType={elementTypes.dropDown}
+                            // inputContainer={{ padding: "0" }}
+                            items={teams ? teams : []}
+                            onChange={e => onChange(e, 'teamB')}
+                            value={order.teamB.text}
+                            invalid={order.teamB.invalid}
+                            placeHolder={stringFa.undefined}
+                            touched={order.teamA.touched}
+                            shouldValidate={order.teamA.shouldValidate}
+                            validationMessage={order.teamB.validationMessage}
+                        />
+                        :
+                        <TextComponent
+                            value={order.teamB.text}
+                            style={{ justifyContent: "center" }}
+                        />
+                    }
+
                 </div>
                 <div className="table-row-item">
-                    <CustomInput
-                        elementType={elementTypes.dropDown}
-                        // inputContainer={{ padding: "0" }}
-                        items={referees ? referees : []}
-                        onChange={e => onChange(e, 'referee')}
-                        value={order.referee.text}
-                        invalid={order.referee.invalid}
-                        placeHolder={stringFa.undefined}
-                        shouldValidate={order.teamA.shouldValidate}
-                        touched={order.teamA.touched}
-                        validationMessage={order.referee.validationMessage}
-                    />
+                    {
+                        createAccess ?
+                            <CustomInput
+                                elementType={elementTypes.dropDown}
+                                // inputContainer={{ padding: "0" }}
+                                items={referees ? referees : []}
+                                onChange={e => onChange(e, 'referee')}
+                                value={order.referee.text}
+                                invalid={order.referee.invalid}
+                                placeHolder={stringFa.undefined}
+                                shouldValidate={order.teamA.shouldValidate}
+                                touched={order.teamA.touched}
+                                validationMessage={order.referee.validationMessage}
+                            /> :
+                            <TextComponent
+                                value={order.referee.text}
+                                style={{ justifyContent: "center" }}
+                            />
+                    }
                 </div>
             </div>
         </div>
-        <div className="table-row-btns">
-            <TransparentButton
-                ButtonStyle={{
-                    padding: "0",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                    color: theme.error
-                }}
-                config={{
-                    disabled: !data
-                }}
-                onClick={() => onRemove()}
-            >
-                <IoTrashBin />
-            </TransparentButton>
-            <TransparentButton
-                ButtonStyle={{
-                    padding: "0",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                    color: theme.secondary
-                }}
-                onClick={onSave}
-                config={{
-                    disabled: (saved) || (!order.referee.id || !order.teamA.id || !order.teamB.id)
-                }}
+        <div className={`table-row-btns ${index === 0 ? 'btn-alignment' : ''}`}>
+            {
+                createAccess &&
+                <TransparentButton
+                    ButtonStyle={{
+                        padding: "0",
+                        fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                        color: theme.error
+                    }}
+                    config={{
+                        disabled: !data
+                    }}
+                    onClick={() => onRemove()}
+                >
+                    <IoTrashBin />
+                </TransparentButton>
+            }
+            {
+                createAccess &&
+                <TransparentButton
+                    ButtonStyle={{
+                        padding: "0",
+                        fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                        color: theme.secondary
+                    }}
+                    onClick={onSave}
+                    config={{
+                        disabled: (saved) || (!order.referee.id || !order.teamA.id || !order.teamB.id)
+                    }}
 
-                loading={loading}
-            >
-                {stringFa.save}
-            </TransparentButton>
-            <TransparentButton
-                ButtonStyle={{
-                    padding: "0",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                }}
-                config={{
-                    disabled: !data || data.games.length === 0
-                }}
-                onClick={() => {
-                    onShowMatchGames(data?._id)
-                    setShowGames(true)
-                }}
-            >
-                {stringFa.show_games}
-            </TransparentButton>
+                    loading={loading}
+                >
+                    {stringFa.save}
+                </TransparentButton>
+            }
+            {
+                data?.games?.length > 0 &&
+                <TransparentButton
+                    ButtonStyle={{
+                        padding: "0",
+                        fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                    }}
+                    config={{
+
+                    }}
+                    onClick={() => {
+                        onShowGame(data?._id)
+                        setShowGames(true)
+                    }}
+                >
+                    {stringFa.show_games}
+                </TransparentButton>
+            }
+
         </div>
     </>;
 };

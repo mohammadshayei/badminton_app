@@ -17,7 +17,7 @@ const WinnerModal = (props) => {
     };
 
     const onButtonClick = () => {
-        navigate('/home')
+        navigate('/my_games')
         removeScores();
     }
 

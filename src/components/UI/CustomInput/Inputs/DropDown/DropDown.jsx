@@ -39,7 +39,7 @@ const DropDown = (props) => {
     useOnClickOutside(inRef, divRef, () => {
         setDrop(false);
     });
-    
+
 
     const itemClickHandler = (item) => {
         props.onChange(item)
@@ -90,6 +90,7 @@ const DropDown = (props) => {
                         backgroundColor: theme.surface,
                         color: theme.on_surface,
                         borderColor: theme.darken_border_color,
+                        ...props.listStyle
                         // top: props.dropUp ? "unset" : "5rem", bottom: props.dropUp ? "3rem" : "unset"
                     }}
                 >

@@ -3,7 +3,7 @@ import CustomInput, { elementTypes } from "../CustomInput/CustomInput";
 import { onChange, onExit } from "../../../utils/authFunction";
 import TextComponent from "../TextComponent/TextComponent";
 
-const InputForm = ({ createAccess, itemLoading, order, setOrder, setFormIsValid, wrapperStyle }) => {
+const InputForm = ({ setChanged, createAccess, itemLoading, order, setOrder, setFormIsValid, wrapperStyle }) => {
 
     const checkNumericInput = (e) => {
         if (/\D/g.test(e.target.value)) {
@@ -27,6 +27,8 @@ const InputForm = ({ createAccess, itemLoading, order, setOrder, setFormIsValid,
                                 if (v.validation.isNumeric) {
                                     checkNumericInput(e)
                                 }
+                                if (setChanged)
+                                    setChanged(true)
                                 if (v.elementType === elementTypes.switchInput
                                     || v.elementType === elementTypes.datePicker || v.elementType === elementTypes.dropDown)
                                     onChange(e, k, order, setOrder, setFormIsValid)
@@ -37,7 +39,7 @@ const InputForm = ({ createAccess, itemLoading, order, setOrder, setFormIsValid,
                             onExit={() => onExit(k, order, setOrder)}
                         />
                         : <TextComponent
-                            value={v.value}
+                            value={v.elementType === elementTypes.datePicker ? new Date(v.value).toLocaleDateString('fa-IR') : v.value}
                             title={v.title}
                         />
                 }

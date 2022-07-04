@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Report.scss'
 import Button from "../../../components/UI/Button/Button"
 import { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import PlayerBox from './PlayerBox';
 import SetReport from './SetReport';
 import OneTable from './OneTable';
+import TransparentButton from '../Button/TransparentButton/TransparentButton';
 
 const GameReport = () => {
     const [game, setGame] = useState(null)
@@ -23,15 +24,17 @@ const GameReport = () => {
     const locaiton = useLocation();
     const searchParams = new URLSearchParams(locaiton.search);
     const id = searchParams.get("id");
-    useEffect(async () => {
-        if (id !== '') {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!id) return;
+        (async () => {
             const result = await getGame(id, token)
             if (result.success) {
                 setGame(result.data)
             } else {
                 alert(result.error)
             }
-        }
+        })()
     }, [id])
     const download = () => {
         const input = document.getElementById('GamePrint');
@@ -43,6 +46,9 @@ const GameReport = () => {
                 pdf.save(`${game.tournament.title}_${game.game_number}.pdf`);
             })
             ;
+    }
+    const onBack = () => {
+        navigate(-1)
     }
     useEffect(() => {
         if (game) {
@@ -77,17 +83,19 @@ const GameReport = () => {
     return (
         <div className='game-report-wrapper'>
             <div className="actions-box">
+                <TransparentButton
+                    onClick={onBack}
+                >
+                    {stringFa.back}
+                </TransparentButton>
                 <Button
                     onClick={download}
                     ButtonStyle={{
-                        fontSize: '1.2rem',
-                        padding: '.4rem 4rem',
-                        background: 'white',
-                        color: 'black',
                     }}
                 >
                     {stringFa.download}
                 </Button>
+
             </div>
             {game &&
                 <div id="GamePrint" className="game-report" >

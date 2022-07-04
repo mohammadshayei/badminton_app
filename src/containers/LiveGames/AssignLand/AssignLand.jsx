@@ -9,6 +9,7 @@ import { setUpSinglePage } from '../../../utils/homeFunction'
 
 import './AssignLand.scss'
 import { useNavigate } from 'react-router-dom'
+import { dynamicApi, dynamicGetApi } from '../../../api/home'
 
 const AssignLand = ({ games }) => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -33,7 +34,6 @@ const AssignLand = ({ games }) => {
             shouldValidate: true,
             isFocused: false,
             touched: false,
-            isHalf: false
         },
         gyms: {
             value: '',
@@ -49,7 +49,6 @@ const AssignLand = ({ games }) => {
             shouldValidate: true,
             isFocused: false,
             touched: false,
-            isHalf: false
         },
         lands: {
             value: '',
@@ -65,7 +64,7 @@ const AssignLand = ({ games }) => {
             shouldValidate: true,
             isFocused: false,
             touched: false,
-            isHalf: false
+            listStyle:{maxHeight:90}
         }
     })
     const token = useSelector(state => state.auth.token)
@@ -91,54 +90,56 @@ const AssignLand = ({ games }) => {
         }
     }
 
-
-
-    useEffect(async () => {
-        setLoading(true)
-        let updatedOrder = { ...order }
-        let result = await getTournaments(token)
-        if (result.success) {
-            setTournaments(result.data)
-            updatedOrder.tournaments.items = [];
-            result.data.forEach(tournament => {
-                updatedOrder.tournaments.items = [...updatedOrder.tournaments.items,
-                { text: tournament.title, id: tournament._id }]
-            });
-            setOrder(updatedOrder)
-        }
-        else {
-            setDialog(null)
-            setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-        }
-        setLoading(false)
+    useEffect(() => {
+        (async () => {
+            setLoading(true)
+            let updatedOrder = { ...order }
+            let result = await dynamicGetApi(token, 'get_tournaments_to_assing_land')
+            if (result.success) {
+                setTournaments(result.data.tournaments)
+                updatedOrder.tournaments.items = [];
+                result.data.tournaments.forEach(tournament => {
+                    updatedOrder.tournaments.items = [...updatedOrder.tournaments.items,
+                    { text: tournament.title, id: tournament._id }]
+                });
+                setOrder(updatedOrder)
+            }
+            else {
+                setDialog(null)
+                setDialog(<ErrorDialog type="error">{result.message}</ErrorDialog>)
+            }
+            setLoading(false)
+        })()
     }, [])
-    useEffect(async () => {
-        if (tournaments) {
+    useEffect(() => {
+        if (!tournaments) return;
+        (async () => {
             let updatedOrder = { ...order }
             updatedOrder.gyms.items = [];
             updatedOrder.gyms.value = '';
             let tournament = tournaments.find(tournament => tournament._id === order.tournaments.id)
             setGyms(tournament.gyms)
-            tournament.gyms.forEach(gym => {
+            tournament.gyms.forEach(item => {
                 updatedOrder.gyms.items = [...updatedOrder.gyms.items,
-                { text: gym.title, id: gym._id }]
+                { text: item.gym.title, id: item.gym._id }]
             });
             setOrder(updatedOrder)
-        }
+        })()
 
     }, [order.tournaments.id])
-    useEffect(async () => {
-        if (gyms) {
+    useEffect(() => {
+        if (!gyms) return;
+        (async () => {
             let updatedOrder = { ...order }
             updatedOrder.lands.items = [];
             updatedOrder.lands.value = '';
-            let gym = gyms.find(gym => gym._id === order.gyms.id)
+            let gym = gyms.find(item => item.gym._id === order.gyms.id)?.gym
             gym.land_numbers.forEach(land => {
                 updatedOrder.lands.items = [...updatedOrder.lands.items,
                 { text: land.number, id: land._id }]
             });
             setOrder(updatedOrder)
-        }
+        })()
 
     }, [order.gyms.id])
 
