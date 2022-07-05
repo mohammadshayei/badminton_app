@@ -121,7 +121,7 @@ export const stringFa = {
   competition_type: "نوع مسابقه",
   download: "دانلود",
   please_set_umpires: "لطفا داور های بازی را تعیین کنید",
-  assign_scorebaord_to_court: "ست کردن زمین",
+  assign_scorebaord_to_court: "اسکوربورد خودکار",
   gym_error: "باشگاه خود را انتخاب کنید",
   land_error: "زمین خود را انتخاب کنید",
   tournament: "مسابقه",
@@ -167,6 +167,7 @@ export const stringFa = {
   select_date: "لطفا تاریخ را تعیین کنید",
   officials: "داورها",
   teams: "تیم ها",
+  live_score: "نتیجه زنده"
 };
 
 export const daysName = [

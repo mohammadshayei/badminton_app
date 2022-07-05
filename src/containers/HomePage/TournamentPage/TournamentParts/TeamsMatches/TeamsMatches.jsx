@@ -303,11 +303,10 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                             <div className="match-game-index">{game.title}</div>
                             {game.status === 3 &&
                                 <div className="match-game-report"
-                                    style={{ color: theme.primary }}
+                                    style={{ color: theme.secondary }}
                                     onClick={() => getReport(game._id)}
-                                // onClick={()=>console.log('here')}
                                 >
-                                    گزازش بازی</div>}
+                                    گزارش بازی</div>}
                             <div className="match-game-details">
                                 {Object.entries(game.players).map(([key, players]) =>
                                     <>
@@ -321,12 +320,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                                 )}
                                             </div>
                                             <div className="scores">
-                                                {
-                                                    game.status === 2 && key === 'a' &&
-                                                    <p style={{ color: theme.primary, marginTop: "3rem" }}>
-                                                        مشاهده بازی
-                                                    </p>
-                                                }
                                                 {game.status === 3 && game.scores[key].map((item, k4) =>
                                                     <p style={{ fontWeight: item.winner && 'bold' }} key={k4}>
                                                         {item.score}
@@ -334,7 +327,16 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                                 )}
                                             </div>
                                         </div>
-                                        {key === "a" ? <p className="dash">-</p> : ''}
+                                        {key === 'a' ?
+                                            game.status === 2 ?
+                                                <p className="live-game"
+                                                    style={{ color: theme.secondary }}>
+                                                    {stringFa.live_score}
+                                                    <div className="live-indicator" />
+                                                </p> :
+                                                <p className="dash">-</p> :
+                                            ''
+                                        }
                                     </>
                                 )}
 

@@ -1,6 +1,6 @@
 .tournament-page-wrapper {
   width: 100%;
-  height: 83%;
+  flex: 1;
   direction: rtl;
   overflow: auto;
   .tournament-body {
@@ -44,6 +44,9 @@
           padding-bottom: 0.5rem;
           cursor: pointer;
         }
+      }
+      .hide {
+        display: none;
       }
       .touranament-item-input {
         position: absolute;
@@ -107,6 +110,7 @@
             justify-content: center;
             align-items: center;
             max-height: 150px;
+            width: 100%;
             overflow: hidden;
             img {
               width: 100%;
@@ -140,9 +144,6 @@
             border-radius: 50%;
             cursor: pointer;
             z-index: 10;
-          }
-          .gym-back {
-            color: white;
           }
           .buttons-wrapper {
             width: 100%;
@@ -195,6 +196,9 @@
               left: 20px;
             }
           }
+        }
+        .hide {
+          display: flex;
         }
         .item-input-form {
           max-width: 800px;
