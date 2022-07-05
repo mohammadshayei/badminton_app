@@ -8,6 +8,7 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
     const theme = themeState.computedTheme;
 
     useEffect(() => {
+        if (data?.teamA.score === 0) return;
         var scoreA = document.getElementById("teamA");
         if (scoreA) {
             scoreA.style.animationName = "none";
@@ -20,6 +21,7 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
     }, [data?.teamA.score]);
 
     useEffect(() => {
+        if (data?.teamB.score === 0) return;
         var scoreB = document.getElementById("teamB");
         if (scoreB) {
             scoreB.style.animationName = "none";
