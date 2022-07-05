@@ -31,7 +31,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 scoreA.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreA.style.animationName = ""
+                        scoreA.style.animationName = "pulse"
                     }, 0);
                 });
             }
@@ -44,7 +44,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 scoreA.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreA.style.animationName = ""
+                        scoreA.style.animationName = "pulse"
                     }, 0);
                 });
             }
@@ -66,7 +66,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 scoreB.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreB.style.animationName = ""
+                        scoreB.style.animationName = "pulse"
                     }, 0);
                 });
             }
@@ -79,7 +79,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 scoreB.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreB.style.animationName = ""
+                        scoreB.style.animationName = "pulse"
                     }, 0);
                 });
             }

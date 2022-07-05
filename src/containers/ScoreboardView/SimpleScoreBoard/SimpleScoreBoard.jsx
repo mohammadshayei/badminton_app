@@ -14,7 +14,7 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
             scoreA.style.animationName = "none";
             requestAnimationFrame(() => {
                 setTimeout(() => {
-                    scoreA.style.animationName = ""
+                    scoreA.style.animationName = "score-pulse"
                 }, 0);
             });
         }
@@ -27,7 +27,7 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
             scoreB.style.animationName = "none";
             requestAnimationFrame(() => {
                 setTimeout(() => {
-                    scoreB.style.animationName = ""
+                    scoreB.style.animationName = "score-pulse"
                 }, 0);
             });
         }

@@ -89,9 +89,9 @@
             text-overflow: ellipsis;
             font-size: clamp(0.65rem, 3vw, 0.85rem);
             overflow: hidden;
-            .team-plyaers-score{
+            .team-plyaers-score {
               display: flex;
-              gap:.5rem
+              gap: 0.5rem;
             }
           }
           .shuttle-icon {
@@ -109,7 +109,8 @@
           font-size: clamp(0.65rem, 3.5vw, 1rem);
           padding-left: 0.5rem;
           overflow: hidden;
-          animation: pulse 1s forwards;
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
           p {
             z-index: 99;
           }

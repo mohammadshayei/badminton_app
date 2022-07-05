@@ -20,6 +20,7 @@
       margin: auto 0;
     }
     .player-score-and-set {
+      background-color: #00000033;
       display: flex;
       width: 100%;
       height: fit-content;
@@ -27,7 +28,8 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 25px;
       border-bottom-right-radius: 25px;
-      animation: score-pulse 1s forwards;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
       .set-score {
         margin: 0 1rem;
         font-size: clamp(1rem, 8vw, 12vh);
