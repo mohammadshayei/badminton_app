@@ -1,0 +1,25 @@
+.callback-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+  text-align: center;
+  padding: 1rem;
+  direction: rtl;
+  .callback-page-icon {
+    display: flex;
+    justify-content: center;
+    font-size: clamp(2rem, 20vw, 7rem);
+    margin-top: auto;
+  }
+  .callback-page-title {
+    font-size: clamp(2rem, 9vw, 2.5rem);
+    font-family: IRANSans;
+    margin-bottom: 2rem;
+  }
+  .callback-page-message {
+    margin-bottom: auto;
+  }
+}

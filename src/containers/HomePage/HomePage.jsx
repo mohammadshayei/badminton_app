@@ -16,6 +16,7 @@ import TournamentForm from "./InputForms/TournamentForm/TournamentForm";
 import TeamsPage from "./TeamsPage/TeamsPage";
 import TeamPage from "./TeamPage/TeamPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
+import PurchaseCallBack from "../PurchaseCallBack/PurchaseCallBack";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -68,7 +69,11 @@ const HomePage = () => {
           break;
         case '/profile':
           setPage(<ProfilePage />)
-          setSelectedPageIndex(5)
+          setSelectedPageIndex(6)
+          break;
+        case '/pay':
+          setPage(<PurchaseCallBack />)
+          setSelectedPageIndex(7)
           break;
         default:
           navigate('/tournaments')

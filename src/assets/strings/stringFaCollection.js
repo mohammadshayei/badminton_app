@@ -167,7 +167,12 @@ export const stringFa = {
   select_date: "لطفا تاریخ را تعیین کنید",
   officials: "داورها",
   teams: "تیم ها",
-  live_score: "نتیجه زنده"
+  live_score: "نتیجه زنده",
+  callback_status_NOK_title: "پرداخت ناموفق",
+  callback_status_NOK_message: "چنانچه مبلغی از حساب شما کسر شده است، حداکثر طی 72 ساعت آینده به حساب شما باز خواهد گشت.",
+  callback_status_OK_title: "پرداخت موفق",
+  callback_status_OK_message: "پرداخت شما با موفقیت انجام شد.",
+
 };
 
 export const daysName = [
