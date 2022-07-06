@@ -1,21 +1,33 @@
 @font-face {
+  font-family: IRANSansLight;
+  font-weight: light;
+  src: url("./assets/fonts/iran-sans/eot/IRANSansWeb\(NoEn\)_Light.eot");
+  src: url("./assets/fonts/iran-sans/ttf/IRANSansWeb\(NoEn\)_Light.ttf");
+  src: url("./assets/fonts/iran-sans/woff/IRANSansWeb\(NoEn\)_Light.woff");
+}
+@font-face {
   font-family: IRANSans;
-  font-style: normal;
   font-weight: normal;
   src: url("./assets/fonts/iran-sans/eot/IRANSansWeb\(NoEn\)_Medium.eot");
   src: url("./assets/fonts/iran-sans/ttf/IRANSansWeb\(NoEn\)_Medium.ttf");
   src: url("./assets/fonts/iran-sans/woff/IRANSansWeb\(NoEn\)_Medium.woff");
 }
 @font-face {
+  font-family: IRANSans;
+  font-weight: bold;
+  src: url("./assets/fonts/iran-sans/eot/IRANSansWeb\(NoEn\).eot");
+  src: url("./assets/fonts/iran-sans/ttf/IRANSansWeb\(NoEn\)_Bold.ttf");
+  src: url("./assets/fonts/iran-sans/woff/IRANSansWeb\(NoEn\)_Bold.woff");
+}
+@font-face {
   font-family: LCDPhone;
   src: url("assets/fonts/LcdPhone.woff") format("woff");
-  font-style: normal;
   font-weight: normal;
 }
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: IRANSans, Arial, Helvetica, sans-serif;
+  font-family: IRANSansLight, IRANSans, Arial, Helvetica, sans-serif, LCDPhone;
   user-select: none;
   padding: 0;
 }
