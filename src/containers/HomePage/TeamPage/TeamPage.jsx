@@ -58,9 +58,11 @@ const TeamPage = ({ id }) => {
         if (!part || !filterSelectors) return;
         let updatedFilterSelectors = { ...filterSelectors };
         for (const filter in updatedFilterSelectors) {
-            updatedFilterSelectors[filter].selected = false;
+            if (filter === part)
+                updatedFilterSelectors[filter].selected = true;
+            else
+                updatedFilterSelectors[filter].selected = false;
         }
-        updatedFilterSelectors[part].selected = true;
         setFilterSelectors(updatedFilterSelectors);
     }, [part])
 
