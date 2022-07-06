@@ -15,6 +15,7 @@ import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import { getIp } from "./api/auth";
+import PayPage from "./containers/PayPage/PayPage";
 
 function App() {
 
@@ -123,6 +124,7 @@ function App() {
       >
       </Route>
       <Route path="/login" exact element={<Auth />}></Route>
+      <Route path="/pay" exact element={<PayPage />}></Route>
       <Route path="/signup" exact element={<Auth />}></Route>
       <Route path="/report" exact element={<GameReport />}></Route>
       <Route path="/wait" exact element={<WaitPage />}></Route>

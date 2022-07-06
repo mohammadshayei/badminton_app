@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { IoTrashBin } from "react-icons/io5";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 
-const Match = ({ onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
+const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
     const [order, setOrder] = useState({
@@ -129,7 +129,8 @@ const Match = ({ onShowGame, createAccess, data, day, index, setShowGames, refer
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         try {
             let payload = {
-                matchId: data._id
+                matchId: data._id,
+                date: dateValue
             }
             const result = await dynamicApi(payload, token, 'remove_match_from_day')
             if (result.success) {

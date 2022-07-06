@@ -1,53 +1,144 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import "./MemberShipInfo.scss"
 import CreditBar from "../../../components/UI/CreditBar/CreditBar";
 import { useTheme } from "../../../styles/ThemeProvider";
 import { Icon } from '@iconify/react';
 import CustomInput, { elementTypes } from "../../../components/UI/CustomInput/CustomInput";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
+import { separatorComma } from "../../../utils/funcs";
+import { dynamicApi } from "../../../api/home";
+import { useSelector } from "react-redux";
+import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 
-const MemberShipInfo = ({ tournament }) => {
-    const [pricing, setPricing] = useState([
-        {
-            days: 3,
-            price: "3,600,000",
-            hover: false,
-            disabled: false
-        },
-        {
-            days: 4,
-            price: "4,800,000",
-            hover: false,
-            disabled: true
-        },
-        {
-            days: 7,
-            price: "8,400,000",
-            newPrice: "7,000,000",
-            hover: false,
-            disabled: true
-        }
-    ]);
-    const [paymentHistory, setPaymentHistory] = useState([
-        {
-            date: "1401/05/19",
-            description: "4 روز",
-            price: "4,000,000 تومان"
-        }
-    ]);
-    const [tournaments, setTournaments] = useState([
-        { text: "لیگ برتر بدمینتون ایران جام خلیج فارس" },
-        { text: "انتخابی کشوری" }
-    ]);
-    const [selected, setSelected] = useState("لیگ برتر بدمینتون ایران جام خلیج فارس");
-
-
+const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
+    const [pricing, setPricing] = useState([]);
+    const [paymentHistory, setPaymentHistory] = useState([]);
+    const [tournaments, setTournaments] = useState([]);
+    const [selectedTournament, setSelectedTournament] = useState({ value: "", id: "" })
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    const [loading, setLoading] = useState(false)
+    const { token } = useSelector(state => state.auth)
 
-    const tournamentDays = 7,
-        tournamentPaidDays = 4,
-        pastDays = 1;
+    const onChangeTournament = async (e) => {
+        setDialog(null)
+        setSelectedTournament({ id: e.id, value: e.text })
+        try {
+
+            const fetchedData = await dynamicApi({ teamId, tournamentId: e.id }, token, 'get_tournament_team_info')
+            if (!fetchedData.success) {
+                setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
+                setLoading(false)
+                return;
+            }
+            setData({ ...data, ...fetchedData.data.data })
+        } catch (error) {
+            setLoading(false)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+
+        }
+    }
+
+    const onItemClick = async (info) => {
+        setDialog(null)
+        try {
+            let payload = {
+                tournamentId: selectedTournament.id,
+                accountCodeId: teamId,
+                descriptionArticle: `خرید پکیج ${info.days} روزه`,
+                debtor: 0,
+                creditor: info.price.replace(/,/gi, "",true),
+                dayCount: info.days
+            }
+            const result = await dynamicApi(payload, token, 'create_document')
+            if (!result.success) {
+                setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
+                return;
+            }
+            window.location.replace(result.data.url)
+        } catch (error) {
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+
+        }
+    }
+
+    useEffect(() => {
+        if (!data) return;
+        setTournaments(data.tournaments.map(item => {
+            return {
+                id: item.tournament._id,
+                text: item.tournament.title,
+            }
+        }))
+    }, [data?.tournaments])
+    useEffect(() => {
+        if (!data) return;
+        setSelectedTournament({
+            value: data.selectedTournament.title,
+            id: data.selectedTournament._id
+        })
+    }, [data?.selectedTournament])
+    useEffect(() => {
+        if (!data) return;
+        let updatedPricing = [
+            {
+                days: data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2,
+                price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * 1200000),
+                hover: false,
+                disabled: false
+            },
+            {
+                days: data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2,
+                price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * 1200000),
+                hover: false,
+                disabled: false
+            },
+            {
+                days: data.days,
+                price: separatorComma(data.days * 1200000),
+                newPrice: separatorComma(data.days * 1000000),
+                hover: false,
+                disabled: false
+            }
+        ]
+        if (data.paid === data.days) {
+            updatedPricing[0].disabled = true;
+            updatedPricing[1].disabled = true;
+            updatedPricing[2].disabled = true;
+        } else if (data.paid === 0) {
+            updatedPricing[0].disabled = false;
+            updatedPricing[1].disabled = false;
+            updatedPricing[2].disabled = false;
+        } else if (data.days % 2 === 0) {
+            updatedPricing[0].disabled = true;
+            updatedPricing[1].disabled = false;
+            updatedPricing[2].disabled = true;
+        } else {
+            if ((data.days + 1) / 2 === data.paid) {
+                updatedPricing[0].disabled = false;
+                updatedPricing[1].disabled = true;
+                updatedPricing[2].disabled = true;
+            } else {
+                updatedPricing[0].disabled = true;
+                updatedPricing[1].disabled = false;
+                updatedPricing[2].disabled = true;
+            }
+        }
+        setPricing(updatedPricing)
+    }, [data?.paid, data?.days])
+
+    useEffect(() => {
+        if (!data) return;
+        setPaymentHistory(data.docs.map(item => {
+            return {
+                date: new Date(item.date).toLocaleDateString('fa-IR'),
+                description: item.description,
+                price: separatorComma(item.creditor),
+                _id: item._id
+            }
+        }))
+    }, [data?.docs])
 
     return <div className="membership-info-container">
         <div className="tournament-section">
@@ -57,19 +148,16 @@ const MemberShipInfo = ({ tournament }) => {
                 <CustomInput
                     elementType={elementTypes.dropDown}
                     items={tournaments ? tournaments : []}
-                    onChange={e => setSelected(e.text)}
-                    value={selected}
-                    // invalid={order.teamB.invalid}
-                    // touched={order.teamA.touched}
-                    // shouldValidate={order.teamA.shouldValidate}
-                    // validationMessage={order.teamB.validationMessage}
+                    onChange={onChangeTournament}
+                    value={selectedTournament.value}
                     placeHolder={stringFa.undefined}
                 />
             </div>
             <CreditBar
-                days={tournamentDays}
-                paid={tournamentPaidDays}
-                past={pastDays}
+                days={data?.days}
+                paid={data?.paid}
+                past={data?.past}
+                dates={data?.pastDate}
                 showDetail={true}
                 style={{
                     justifyContent: "center"
@@ -83,6 +171,7 @@ const MemberShipInfo = ({ tournament }) => {
                         key={idx}
                         disabled={price.disabled}
                         className="pricing-box"
+                        onClick={() => onItemClick(price)}
                         style={{
                             backgroundColor: idx === pricing.length - 1 ? theme.secondary : theme.surface,
                             color: idx === pricing.length - 1 ? theme.on_secondary : theme.on_surface
@@ -149,19 +238,23 @@ const MemberShipInfo = ({ tournament }) => {
                         <p>شرح</p>
                         <p>قیمت</p>
                     </div>
-                    {paymentHistory.map((item, i) => {
+                    {paymentHistory.length > 0 ? paymentHistory.map((item, i) => {
                         return (
                             <div className="history-row"
                                 key={i}
                                 style={{
-                                    color: theme.primary
+                                    color: theme.error
                                 }}
                             >
                                 <p>{item.date}</p>
                                 <p>{item.description}</p>
                                 <p>{item.price}</p>
                             </div>)
-                    })}
+                    })
+                        : <div>
+                            تاریخجه خرید های شما خالی است
+                        </div>
+                    }
                 </div>
 
             </div>

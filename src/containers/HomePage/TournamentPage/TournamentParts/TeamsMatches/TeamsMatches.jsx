@@ -58,7 +58,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
             const result = await dynamicApi(payload, token, 'set_date_on_day')
             setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
             if (!result.success) {
-                setDateValue(dateValue)
+                // setDateValue(dateValue)
                 setTournamentDays(tournamentDays)
             }
 
@@ -286,6 +286,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                     day={tournamentDays.find(item => item.selected)}
                                     data={dayMatchs[i]?.match}
                                     createAccess={createAccess}
+                                    dateValue={dateValue}
                                 />
                             </div>
                         )}

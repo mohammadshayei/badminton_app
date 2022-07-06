@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./TeamsPage.scss"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import * as homeActions from "../../../store/actions/home";
 import { useTheme } from "../../../styles/ThemeProvider";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
@@ -12,13 +11,15 @@ import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
 import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import DEFAULT_LOGO from '../../../assets/images/team_avatar.png';
 import CreditBar from "../../../components/UI/CreditBar/CreditBar";
+import { dynamicApi, dynamicGetApi } from "../../../api/home";
+import { baseUrl } from "../../../constants/Config";
 
 const TeamsPage = () => {
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
     const [lives, setLives] = useState([])
-    const [teams, setTeams] = useState(null);
-    const [filteredTeams, setFilteredTeams] = useState([]);
+    const [myTeams, setMyTeams] = useState([])
+    const [teams, setTeams] = useState([])
 
     const tournamentDays = 7,
         tournamentPaidDays = 4,
@@ -35,27 +36,27 @@ const TeamsPage = () => {
     const onTeamClickHandler = (id) => {
         navigate(`/teams/${id}?part=informations`)
     }
-
     useEffect(() => {
         if (!token) return;
         setDialog(null);
-        // (async () => {
-        //     try {
-        //         setLoading(true)
-        //         const fetchedData = await fetchTournaments(token)
-        //         if (!fetchedData.success) {
-        //             setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
-        //             return;
-        //         }
-        //         setTournaments(fetchedData.data.tournaments)
-        //         setLives(fetchedData.data.lives)
-        //         setLoading(false)
-        //     } catch (error) {
-        //         setLoading(false)
-        //         setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+        (async () => {
+            try {
+                setLoading(true)
+                const fetchedData = await dynamicGetApi(token, 'get_global_teams')
+                if (!fetchedData.success) {
+                    setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
+                    setLoading(false)
+                    return;
+                }
+                setMyTeams(fetchedData.data.myTeams)
+                setTeams(fetchedData.data.teams)
+                setLoading(false)
+            } catch (error) {
+                setLoading(false)
+                setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
 
-        //     }
-        // })()
+            }
+        })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
 
@@ -83,32 +84,42 @@ const TeamsPage = () => {
         }
         <p className="title">{stringFa.teams}</p>
         <div className="teams-and-ads">
-
             <div className="teams-wrapper">
-                <div className="my-team-box"
-                    style={{
-                        backgroundColor: theme.surface,
-                    }}
-                    onClick={() => onTeamClickHandler("my_team_id")}
-                >
-                    <div className="team-logo">
-                        <img src={DEFAULT_LOGO} alt="logo" />
-                    </div>
-                    <div className="team-name">رعد پدافند هوایی قم</div>
-                    <div className="tournaments">
-                        <div className="tournament">
-                            <div className="tournament-name"
-                                style={{ color: theme.primary }}
-                            >لیگ برتر بدمینتون ایران جام خلیج فارس</div>
-                            <CreditBar
-                                days={tournamentDays}
-                                paid={tournamentPaidDays}
-                                past={pastDays}
-                                showDetail={false}
-                            />
-                        </div>
-                    </div>
-                </div>
+                {
+                    myTeams.map(team =>
+                        <div className="my-team-box"
+                            style={{
+                                backgroundColor: theme.surface,
+                            }}
+                            onClick={() => onTeamClickHandler(team._id)}
+                        >
+                            <div className="team-logo">
+                                <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
+                            </div>
+                            <div className="team-name">{team.name}</div>
+                            <div className="tournaments">
+                                {
+                                    team.tournaments.map(tournament => <div className="tournament">
+                                        <div
+                                            key={tournament._id}
+                                            className="tournament-name"
+                                            style={{ color: theme.primary }}
+                                        >
+                                            {tournament.title}
+                                        </div>
+                                        <CreditBar
+                                            days={tournament.days}
+                                            paid={tournament.paid}
+                                            past={tournament.past}
+                                            showDetail={false}
+                                        />
+                                    </div>)
+                                }
+
+                            </div>
+                        </div>)
+                }
+
                 <div className="teams-container"
                     style={{
                         backgroundColor: theme.surface
@@ -121,20 +132,18 @@ const TeamsPage = () => {
                         loading ?
                             "Loading..."
                             :
-                            // filteredTeams.length > 0 ?
-                            // filteredTeams.map(team =>
-                            [...Array(7).keys()].map(team =>
+                            teams.map(team =>
                                 <div
-                                    key={team}
+                                    key={team._id}
                                     className="team-name-and-logo"
                                     style={{ backgroundColor: team === 1 ? theme.hover : "transparent" }}
                                     onClick={() => onTeamClickHandler(team)}
                                 >
                                     <div className="team-logo">
-                                        <img src={DEFAULT_LOGO} alt="logo" />
+                                        <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
                                     </div>
                                     <div className="team-name">
-                                        نام تیم
+                                        {team.name}
                                     </div>
                                 </div>
                             )
