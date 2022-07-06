@@ -4,7 +4,6 @@ import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { useCallback, useRef, useState, useEffect, useLayoutEffect } from "react";
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
-import { AiFillCamera } from 'react-icons/ai'
 import IMAGE from "../../../../assets/images/default.png";
 import Button from "../../../../components/UI/Button/Button";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
@@ -168,7 +167,6 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
                 address: order.address.value,
                 tournamentId,
             }
-            console.log(payload)
             let created = await
                 formDataDynamic(imagePath, payload, token, 'create_gym')
             setDialog(

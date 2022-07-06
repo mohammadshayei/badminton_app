@@ -60,6 +60,7 @@
     }
   }
   .live-game-box-details {
+    position: relative;
     width: 100%;
     text-align: right;
     .name-score {
@@ -84,17 +85,19 @@
           .team-players {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: flex-start;
             white-space: nowrap;
             text-overflow: ellipsis;
             font-size: clamp(0.65rem, 3vw, 0.85rem);
             overflow: hidden;
-            .team-plyaers-score{
+            .team-plyaers-score {
               display: flex;
-              gap:.5rem
+              gap: 0.5rem;
             }
           }
           .shuttle-icon {
+            position: absolute;
+            right: 45%;
             font-size: clamp(0.9rem, 3vw, 1.5rem);
           }
         }
@@ -109,7 +112,8 @@
           font-size: clamp(0.65rem, 3.5vw, 1rem);
           padding-left: 0.5rem;
           overflow: hidden;
-          animation: pulse 1s forwards;
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
           p {
             z-index: 99;
           }

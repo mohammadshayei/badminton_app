@@ -6,6 +6,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { GiTrophyCup } from "react-icons/gi";
 import { baseUrl } from '../../../../constants/Config';
+import TransparentButton from '../../../../components/UI/Button/TransparentButton/TransparentButton';
 
 const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
     const themeState = useTheme();
@@ -17,7 +18,6 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
             className='touranment-header-container'
         >
             <div className="header-image-and-content">
-
                 <div className="tournament-header-image">
                     {loading ?
                         <Skeleton
@@ -38,7 +38,16 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                                 highlightColor={theme.darken_border_color}
                                 width={270}
                                 direction='rtl' /> :
-                            tournament?.title}
+                            <>
+                                {tournament?.title}
+                                <TransparentButton
+                                    ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
+                                >
+                                    <Icon icon="akar-icons:edit" />
+                                </TransparentButton>
+
+                            </>
+                        }
                     </div>
                     <div className="tournament-detail tournament-detail-gap">
                         <Icon icon="ion:create" />

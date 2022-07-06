@@ -27,11 +27,11 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
         if (!gamesStats) {
             let set = game?.sets[game?.sets?.length - 1]
             if (!set?.set) return;
-            if (set.set.mid_game.teamA.score !== teamAScore) {
+            if (set.set.mid_game.teamA.score > 0 && set.set.mid_game.teamA.score !== teamAScore) {
                 scoreA.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreA.style.animationName = ""
+                        scoreA.style.animationName = "pulse"
                     }, 0);
                 });
             }
@@ -40,11 +40,11 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
 
         } else {
             if (!gamesStats[game._id]) return;
-            if (gamesStats[game._id].teamA.score !== teamAScore) {
+            if (gamesStats[game._id].teamA.score > 0 && gamesStats[game._id].teamA.score !== teamAScore) {
                 scoreA.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreA.style.animationName = ""
+                        scoreA.style.animationName = "pulse"
                     }, 0);
                 });
             }
@@ -62,11 +62,11 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
         if (!gamesStats) {
             let set = game?.sets[game?.sets?.length - 1]
             if (!set?.set) return;
-            if (set.set.mid_game.teamB.score !== teamBScore) {
+            if (set.set.mid_game.teamB.score > 0 && set.set.mid_game.teamB.score !== teamBScore) {
                 scoreB.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreB.style.animationName = ""
+                        scoreB.style.animationName = "pulse"
                     }, 0);
                 });
             }
@@ -75,11 +75,11 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
 
         } else {
             if (!gamesStats[game._id]) return;
-            if (gamesStats[game._id].teamB.score !== teamBScore) {
+            if (gamesStats[game._id].teamB.score > 0 && gamesStats[game._id].teamB.score !== teamBScore) {
                 scoreB.style.animationName = "none";
                 requestAnimationFrame(() => {
                     setTimeout(() => {
-                        scoreB.style.animationName = ""
+                        scoreB.style.animationName = "pulse"
                     }, 0);
                 });
             }

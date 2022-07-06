@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useRef, useCallback } from "react";
 import "./TournamentForm.scss"
 import { stringFa } from "../../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../../components/UI/CustomInput/CustomInput";
@@ -9,6 +10,9 @@ import TransparentButton from "../../../../components/UI/Button/TransparentButto
 import { createTournament } from "../../../../api/home";
 import { useSelector } from "react-redux";
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
+import { GiTrophyCup } from "react-icons/gi";
+import { AiFillCamera } from 'react-icons/ai'
+import { useTheme } from "../../../../styles/ThemeProvider";
 
 const TournamentForm = () => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -16,6 +20,7 @@ const TournamentForm = () => {
         title: {
             value: '',
             title: stringFa.tournament_title,
+            hint: stringFa.tournament_title_error,
             elementConfig: {
                 type: 'text',
             },
@@ -36,13 +41,16 @@ const TournamentForm = () => {
         dayCount: {
             value: '',
             title: stringFa.day_count,
+            hint: "تعداد روزها به عدد",
             elementConfig: {
                 type: 'text',
+                inputmode: "numeric",
             },
             elementType: elementTypes.titleInput,
             validationMessage: stringFa.day_count_error,
             invalid: true,
             validation: {
+                isNumeric: true,
                 required: true,
                 minLength: 1,
             },
@@ -125,6 +133,7 @@ const TournamentForm = () => {
             validationMessage: stringFa.period_number_error,
             invalid: false,
             validation: {
+                isNumeric: true,
             },
             shouldValidate: false,
             isFocused: false,
@@ -346,16 +355,29 @@ const TournamentForm = () => {
     })
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
+    const [imageSrc, setImageSrc] = useState('')
+
+    const themeState = useTheme();
+    const theme = themeState.computedTheme;
 
     const { token } = useSelector(state => state.auth)
-
 
     let navigate = useNavigate()
     const onCancel = () => {
         navigate('/tournaments')
     }
 
+    const imageRef = useRef(null)
 
+    const uploadButtonClickHandler = useCallback(() => {
+        imageRef.current.click();
+    }, [])
+
+    const onChangeImage = (event) => {
+        if (event.target.files[0]) {
+            setImageSrc(URL.createObjectURL(event.target.files[0]));
+        }
+    }
 
     const onSaveClick = async () => {
         setDialog(null)
@@ -387,7 +409,6 @@ const TournamentForm = () => {
                 catering: order.catering.value,
                 hotel: order.hotel.value,
             }
-            console.log(payload)
             const result = await createTournament(payload, token)
             if (!result.success) {
                 setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
@@ -424,9 +445,29 @@ const TournamentForm = () => {
         setOrder(updatedOrder)
     }, [order.endDate.value])
 
-
     return <div className="tournaments-form-wrapper">
         {dialog}
+        <div className="tournament-avatar" onClick={uploadButtonClickHandler}>
+            <input type="file"
+                style={{ display: 'none' }}
+                ref={imageRef}
+                onChange={onChangeImage} />
+            {imageSrc ? <img
+                src={imageSrc}
+                alt="avatar" /> :
+                <div className="profile-image"
+                    style={{
+                        backgroundColor: theme.surface,
+                        color: theme.darken_border_color
+                    }}
+                >
+                    <GiTrophyCup />
+                </div>
+            }
+            <div className="upload-image-wrapper" >
+                <AiFillCamera className='camera' />
+            </div>
+        </div>
         <InputForm
             order={order}
             setOrder={setOrder}

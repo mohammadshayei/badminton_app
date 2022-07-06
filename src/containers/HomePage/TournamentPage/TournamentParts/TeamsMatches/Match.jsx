@@ -321,14 +321,15 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
                 </TransparentButton>
             }
             {
-                data?.games?.length > 0 &&
+
                 <TransparentButton
                     ButtonStyle={{
                         padding: "0",
                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                        opacity: data?.games?.length > 0 ? 1 : 0,
                     }}
                     config={{
-
+                        disabled: !data?.games?.length > 0
                     }}
                     onClick={() => {
                         onShowGame(data?._id)

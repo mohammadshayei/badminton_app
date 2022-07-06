@@ -107,7 +107,6 @@ const TournamentPage = ({ id }) => {
             }
 
         } catch (error) {
-            console.log(error)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
     }
@@ -532,7 +531,7 @@ const TournamentPage = ({ id }) => {
                                 }
                             </div>
                             <div className='tournament-content'>
-                                <div className="tournament-list-items">
+                                <div className={`tournament-list-items ${showInputForm ? 'hide' : ''}`}>
                                     {
                                         contentLoading ?
                                             [...Array(5).keys()].map((v) =>
