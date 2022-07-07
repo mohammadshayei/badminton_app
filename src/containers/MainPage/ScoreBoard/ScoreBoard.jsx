@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useTheme } from "../../../styles/ThemeProvider";
 // import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
@@ -39,6 +40,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [twentySeconds, setTwentySeconds] = useState(false);
   const [serverDirection, setServerDirection] = useState("");
   const [disabledButton, setDisabledButton] = useState(false)
+  const [setOverConfirmation, setSetOverConfirmation] = useState(false);
 
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
@@ -178,6 +180,17 @@ const ScoreBoard = ({ disable, setDisable }) => {
     }
   }
 
+  const setOverConfirmed = (team) => {
+    setOver({ teamKey: team });
+    if (info[team].setWon < 1) {
+      switchSide();
+      setBreakTime(3);
+    }
+    setDisable(true);
+    setHalfTime(false);
+    endSet(team);
+    setMaxPoint(21);
+  }
 
   useEffect(() => {
     if (info.setOver) {
@@ -222,15 +235,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
         break;
       case maxPoint:
         setWinPoint(null)
-        setOver({ teamKey: "team1" });
-        if (info.team1.setWon < 1) {
-          switchSide();
-          setBreakTime(3);
-        }
-        setDisable(true);
-        setHalfTime(false);
-        endSet('team1');
-        setMaxPoint(21);
+        setSetOverConfirmation(true)
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -270,15 +275,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
         break;
       case maxPoint:
         setWinPoint(null)
-        setOver({ teamKey: "team2" });
-        if (info.team2.setWon < 1) {
-          switchSide();
-          setBreakTime(3);
-        }
-        setDisable(true);
-        setHalfTime(false);
-        endSet('team2');
-        setMaxPoint(21);
+        setSetOverConfirmation(true)
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -548,6 +545,14 @@ const ScoreBoard = ({ disable, setDisable }) => {
         <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => console.log("")}>
           <WinnerModal teamWon={teamWon} />
         </Modal>}
+      {setOverConfirmation &&
+        <Modal show={setOverConfirmation} modalClosed={() => console.log("")}>
+          <WinnerModal
+            setSetOverConfirmation={setSetOverConfirmation}
+            undo={onUndoClickHandler}
+            setOverConfirmed={setOverConfirmed} />
+        </Modal>
+      }
       {chooseServer && <Modal show={chooseServer} >
         <Selector setShow={setChooseServer} selectedGame={gameId} />
       </Modal>}
