@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import "./Events.scss";
 import { useTheme } from "../../../styles/ThemeProvider";
@@ -82,7 +83,7 @@ const Events = (props) => {
     useEffect(() => {
         for (let index = info.events.length - 1; index >= 0; index--) {
             if (info.events[index].type !== "increaseBall") {
-                if (info.events[index].by == "none")
+                if (info.events[index].by === "none")
                     setDisableEvent(true);
                 else
                     setDisableEvent(false);
@@ -93,39 +94,40 @@ const Events = (props) => {
 
     return (
         <div className='events-container' style={{
-            gap: props.hide ? "0.8rem" : 0,
             ...props.style
         }}>
             {events.map((item, index) =>
                 info.foulHappend ? (
                     info.foulHappend === item.text ? (
-                        <div className='event' style={{
-                            ...props.eventStyle,
-                            width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
-                        }} key={index}>
+                        <div
+                            className='event'
+                            style={{
+                                width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
+                            }}
+                            key={index}
+                        >
                             {index === 6 && props.hide ? (
                                 <div
                                     className='letter-icon'
-                                    style={{ color: theme.primary, ...props.letterStyle }}
+                                    style={{ color: theme.primary }}
                                 >
                                     DIS
                                 </div>
                             ) : (
-                                <div className={`${item.className}`} style={{
-                                    paddingTop: item.className.includes("card") ? "90%" : "0",
-                                    ...item.style
-                                }}>
-                                    {item.content}
+                                <div className={`${item.className}`}
+                                    style={{
+                                        ...item.style,
+                                    }}>
+                                    {item.content} {/* show when event happens */}
                                 </div>
                             )}
                             {!props.hide && item.text}
                         </div>
                     ) : (
                         <div className='event' style={{
-                            ...props.eventStyle,
                             width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }} key={index}>
-                            <div style={item.style}></div>
+                            <div style={item.style}></div>  {/* hide when event happens */}
                         </div>
                     )
                 ) : (
@@ -133,7 +135,6 @@ const Events = (props) => {
                         disabled={(index === 2 || index === 4 || index === 8) && disableEvent}
                         className='event'
                         style={{
-                            ...props.eventStyle,
                             width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }}
                         key={index}
@@ -142,17 +143,16 @@ const Events = (props) => {
                         {index === 6 && props.hide ? (
                             <div
                                 className='letter-icon'
-                                style={{ color: theme.primary, ...props.letterStyle }}
+                                style={{ color: theme.primary }}
                             >
                                 DIS
                             </div>
                         ) : (
                             <div className={`${item.className}`}
                                 style={{
-                                    paddingTop: item.className.includes("card") ? "90%" : "0",
                                     ...item.style
                                 }}>
-                                {item.content}
+                                {item.content}  {/* all events */}
                             </div>
                         )}
                         {!props.hide && item.text}

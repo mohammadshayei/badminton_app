@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./PlayerBlock.scss";
 import PROFILE_IMAGE from "../../../../assets/images/avatars/default-avatar.png";
@@ -9,7 +10,7 @@ import * as infoActions from "../../../../store/actions/setInfo"
 import { baseUrl } from "../../../../constants/Config";
 
 const PlayerBlock = (props) => {
-  const [dynamicStyle, setdynamicStyle] = useState({ flexDirection: "column" });
+  const [dynamicStyle, setdynamicStyle] = useState({});
   const [scoreStyle, setScoreStyle] = useState({ color: "#AB0000" });
 
   const themeState = useTheme();
@@ -31,7 +32,6 @@ const PlayerBlock = (props) => {
   const setPlayerPlace = (teamKey) => {
     dispatch(infoActions.setPlayerPlace(teamKey));
   };
-
 
   const selectPlayer = (id) => {
     if (info.foulHappend) {
@@ -113,95 +113,48 @@ const PlayerBlock = (props) => {
       if (key === "server")
         if (info[props.teamKey].isTop) {
           setdynamicStyle({
-            flexDirection:
-              info[props.teamKey][key] === 1 ? "column" : "column-reverse"
+            name1: info[props.teamKey][key] === 1 ? 1 : 4,
+            image1: info[props.teamKey][key] === 1 ? 2 : 3,
+            name2: info[props.teamKey][key] === 1 ? 4 : 1,
+            image2: info[props.teamKey][key] === 1 ? 3 : 2,
           })
         } else {
           setdynamicStyle({
-            flexDirection:
-              info[props.teamKey][key] === 1 ? "column-reverse" : "column"
+            name1: info[props.teamKey][key] === 1 ? 4 : 1,
+            image1: info[props.teamKey][key] === 1 ? 3 : 2,
+            name2: info[props.teamKey][key] === 1 ? 1 : 4,
+            image2: info[props.teamKey][key] === 1 ? 2 : 3,
           })
         }
       else
         if (info.team1.score === 0 && info.team2.score === 0)
           if (info[props.teamKey].isTop) {
             setdynamicStyle({
-              flexDirection:
-                info[props.teamKey][key] === 1 ? "column" : "column-reverse"
+              name1: info[props.teamKey][key] === 1 ? 1 : 4,
+              image1: info[props.teamKey][key] === 1 ? 2 : 3,
+              name2: info[props.teamKey][key] === 1 ? 4 : 1,
+              image2: info[props.teamKey][key] === 1 ? 3 : 2,
             })
           } else {
             setdynamicStyle({
-              flexDirection:
-                info[props.teamKey][key] === 1 ? "column-reverse" : "column"
+              name1: info[props.teamKey][key] === 1 ? 4 : 1,
+              image1: info[props.teamKey][key] === 1 ? 3 : 2,
+              name2: info[props.teamKey][key] === 1 ? 1 : 4,
+              image2: info[props.teamKey][key] === 1 ? 2 : 3,
             })
           }
     }
   }, [props.score, info[props.teamKey].isTop])
+
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}
       onClick={cancelFoul}
     >
-      <div
-        className={`player-block-action-container ${props.position === "right" && "action-rev"
-          }`}
-      >
-        <div className={`player-block-image-and-title ${info.foulHappend && 'blink'}`}
-          style={dynamicStyle}
-        >
-          <p className="player-name">{props.player && props.player.name}</p>
-          <div className="player-img"
-            style={{
-              boxShadow: props.server === 1 ? "0 0 0 1vw #F7FF00" :
-                (props.playerD && props.receiver === 1) && `0 0 0 1vw ${theme.primary_variant}`
-            }}
-            onClick={() => selectPlayer(props.player.id)}
-          >
-            <img src={props.player && props.player.avatar !== '' ?
-              `${baseUrl}uploads/players/${props.player.avatar}` :
-              PROFILE_IMAGE} alt="badminton player" />
-          </div>
-          {props.playerD &&
-            <div className="player-img"
-              style={{
-                boxShadow: props.server === 2 ? "0 0 0 1vw #F7FF00" :
-                  props.receiver === 2 && `0 0 0 1vw ${theme.primary_variant}`
-              }}
-              onClick={() => selectPlayer(props.playerD.id)}
-            >
-              <img src={props.playerD.avatar ?
-                `${baseUrl}uploads/players/${props.playerD.avatar}` :
-                PROFILE_IMAGE}
-                alt="badminton second player"
-              />
-            </div>
-          }
-          {props.playerD && <p className="player-name">{props.playerD.name}</p>}
-        </div>
-        <div disabled={info.foulHappend ? 1 : 0} className="player-block-icon-container"
-          style={{ opacity: info.foulHappend ? 0 : 1 }}>
-          <div
-            disabled={props.disable
-              // || props.disabledButton
-            }
-            className="player-block-icon up-btn">
-            <Button
-              back={theme.primary}
-              hover={theme.primary}
-              ButtonStyle={{
-                borderRadius: "clamp(5px,1vw,10px)",
-                width: "9vw",
-                maxWidth: "100px",
-                padding: "90% 0"
-              }}
-              onClick={() => increaseScore({ teamKey: props.teamKey })}
-            >
-              <HiOutlinePlusSm color={theme.on_primary} className="btn-icon-img" />
-            </Button>
-          </div>
-        </div>
-      </div>
-      <div disabled={info.foulHappend ? 1 : 0} className="score-place-and-set-container"
+      <div disabled={info.foulHappend ? 1 : 0} className="set-container"
         style={{ opacity: info.foulHappend ? 0 : 1 }}>
+        <p className={`set`}>
+          {props.setWon}
+        </p>
         {props.scores.length > 0 &&
           <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}>
             {props.scores.map((s, i) =>
@@ -210,18 +163,79 @@ const PlayerBlock = (props) => {
               </p>
             )}
           </div>}
-        <p
-          className={`set ${props.position === "right" && "set-rev"}`}
+      </div>
+      <div className={`player-block-action-container`}>
+        <p className="player-name"
+          style={{
+            gridRowStart: dynamicStyle.name1 ? dynamicStyle.name1 : props.playerD ? 1 : 4,
+            padding: props.position === "left" ?
+              dynamicStyle.name1 === 1 ? "0 1.5rem 0 0" : "0" :
+              dynamicStyle.name1 === 1 ? "0 0 0 1rem" : "0"
+          }}
+        >{props.player && props.player.name}</p>
+        <div className={`player-img ${info.foulHappend && 'blink'}`}
+          onClick={() => selectPlayer(props.player.id)}
+          style={{
+            gridRow: dynamicStyle.image1 ? `${dynamicStyle.image1} / span 1` : props.playerD ? "2 / 3" : " 2 / 4",
+          }}
         >
-          {props.setWon}
+          <img src={props.player && props.player.avatar !== '' ?
+            `${baseUrl}uploads/players/${props.player.avatar}` :
+            PROFILE_IMAGE} alt="badminton player"
+            style={{
+              boxShadow: props.server === 1 ? "0 0 0 1.5vh #F7FF00" :
+                (props.playerD && props.receiver === 1) && `0 0 0 1.5vh ${theme.primary}`
+            }} />
+        </div>
+        {props.playerD &&
+          <div className={`player-img ${info.foulHappend && 'blink'}`}
+            onClick={() => selectPlayer(props.playerD.id)}
+            style={{
+              gridRow: dynamicStyle.image2 ? `${dynamicStyle.image2} / span 1` : " 3 / 4",
+            }}
+          >
+            <img src={props.playerD.avatar ?
+              `${baseUrl}uploads/players/${props.playerD.avatar}` :
+              PROFILE_IMAGE}
+              alt="badminton second player"
+              style={{
+                boxShadow: props.server === 2 ? "0 0 0 1.5vh #F7FF00" :
+                  props.receiver === 2 && `0 0 0 1.5vh ${theme.primary}`
+              }}
+            />
+          </div>
+        }
+        {props.playerD &&
+          <p className="player-name"
+            style={{
+              gridRowStart: dynamicStyle.name2 ? dynamicStyle.name2 : 4,
+              padding: props.position === "left" ?
+                dynamicStyle.name2 === 1 ? "0 1.5rem 0 0" : "0" :
+                dynamicStyle.name2 === 1 ? "0 0 0 1rem" : "0"
+            }}
+          >
+            {props.playerD.name}
+          </p>}
+        <p className="score-text" style={{ ...scoreStyle }}>
+          {props.score}
         </p>
-        <div className="score-place-container">
-          <p className="score-text" style={{
-            fontSize: props.score > 9 ? "14vw" : "20vw",
-            ...scoreStyle
-          }}>
-            {props.score}
-          </p>
+        <div disabled={props.disable || info.foulHappend ? 1 : 0}
+          className="player-block-icon"
+          style={{ opacity: info.foulHappend ? 0 : 1 }}
+        >
+          <Button
+            back={theme.primary}
+            hover={theme.primary}
+            ButtonStyle={{
+              borderRadius: "clamp(5px,1vw,10px)",
+              width: "9vw",
+              height: "100%",
+              padding: "0"
+            }}
+            onClick={() => increaseScore({ teamKey: props.teamKey })}
+          >
+            <HiOutlinePlusSm color={theme.on_primary} className="btn-icon-img" />
+          </Button>
         </div>
       </div>
     </div>

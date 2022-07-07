@@ -28,9 +28,7 @@ const HeaderMainPage = () => {
     dispatch(infoActions.decreaseBall());
   };
 
-  const eventsStyle = { color: "#fff", flexDirection: "row-reverse", flexWrap: "nowrap", alignItems: "center" }
-  const eventStyle = { margin: "0.1rem 0.3rem", padding: "0 0.1rem" }
-  const letterStyle = { fontSize: "1.75rem", padding: "0" }
+  const eventsStyle = { flexDirection: "row-reverse" }
 
   const onExit = async () => {
     exitGame({ id: gameId }, token)
@@ -46,20 +44,17 @@ const HeaderMainPage = () => {
       <div className="events-container">
         <Events
           style={eventsStyle}
-          eventStyle={eventStyle}
-          letterStyle={letterStyle}
           hide={true}
         />
       </div>
       <Button
         onClick={onExit}
+        back={theme.error}
+        hover={theme.error_variant}
         ButtonStyle={{
-          fontSize: 'clamp(1rem, 3vw, 20px)',
+          fontSize: 'clamp(1.3rem, 3vw, 3vh)',
           padding: "0 1em",
-          marginRight: "2rem",
-          alignSelf: "stretch",
-          background: theme.error,
-          color: theme.on_error,
+          marginRight: "3vw",
         }}
       >
         {stringFa.exit}
@@ -73,8 +68,9 @@ const HeaderMainPage = () => {
           back={theme.primary}
           hover={theme.primary}
           ButtonStyle={{
-            padding: "0 1em",
-            margin: "0 0.2rem"
+            padding: "0 0.5em",
+            margin: "0 0.2rem",
+            fontSize: 'clamp(1.3rem, 3vw, 5vh)',
           }}
           onClick={() => {
             increaseBall();
@@ -87,8 +83,9 @@ const HeaderMainPage = () => {
           back={theme.primary}
           hover={theme.primary}
           ButtonStyle={{
-            padding: "0 1em",
-            margin: "0 0.2rem"
+            padding: "0 0.5em",
+            margin: "0 0.2rem",
+            fontSize: 'clamp(1.3rem, 3vw, 5vh)',
           }}
           onClick={() => {
             if (info.balls > 1) {
