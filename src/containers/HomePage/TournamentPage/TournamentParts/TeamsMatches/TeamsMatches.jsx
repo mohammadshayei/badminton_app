@@ -341,11 +341,11 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                         </div>
                                         {key === 'a' ?
                                             game.status === 2 ?
-                                                <p className="live-game"
+                                                <div className="live-game"
                                                     style={{ color: theme.secondary }}>
                                                     {stringFa.live_score}
                                                     <div className="live-indicator" />
-                                                </p> :
+                                                </div> :
                                                 <p className="dash">-</p> :
                                             ''
                                         }

@@ -169,6 +169,7 @@
                 gap: 0.5rem;
                 .player-image {
                   width: 35px;
+                  height: 35px;
                   border-radius: 50%;
                   object-fit: cover;
                 }
@@ -182,6 +183,8 @@
         }
         .live-game {
           position: relative;
+          width: fit-content;
+          align-self: flex-end;
           .live-indicator {
             position: absolute;
             top: 0;
@@ -262,6 +265,9 @@
             .dash {
               display: block;
             }
+          }
+          .live-game {
+            align-self: center;
           }
           .left {
             direction: ltr;
