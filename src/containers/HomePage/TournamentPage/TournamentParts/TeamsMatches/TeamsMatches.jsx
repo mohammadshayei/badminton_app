@@ -15,6 +15,7 @@ import Skeleton from 'react-loading-skeleton'
 import { baseUrl } from "../../../../../constants/Config";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
@@ -34,7 +35,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-
+    const showGamesRef = useRef();
 
     const onChangeDatePicker = async (e) => {
         setDialog(null)
@@ -208,6 +209,15 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         setGames(updatedGames)
     }, [matchId, dayMatchs.length])
 
+    useEffect(() => {
+        let showTimeOut = setTimeout(() => {
+            showGamesRef.current.scrollIntoView({ inline: "center" })
+        }, 500);
+
+        return () => {
+            clearTimeout(showTimeOut)
+        };
+    }, [showGames]);
 
     return (
         <div className="teams-matches"
@@ -293,6 +303,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                     </div>
                 </div>
                 <div className="day-match-games"
+                    ref={showGamesRef}
                     style={{
                         display: showGames ? "flex" : "none",
                         backgroundColor: theme.background_color
