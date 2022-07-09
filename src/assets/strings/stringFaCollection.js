@@ -179,6 +179,7 @@ export const stringFa = {
   price: "قیمت",
   special_offer: "پیشنهاد ویژه",
   day: "روز",
+  loading: "در حال بارگزاری"
 };
 
 export const daysName = [
