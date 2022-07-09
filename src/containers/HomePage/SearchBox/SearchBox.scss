@@ -1,15 +1,18 @@
 .search-box-container {
-  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
   width: 100%;
-  padding: 2.6rem 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem;
   z-index: 9;
+  direction: rtl;
   .search-icon {
     position: absolute;
-    opacity: 0.5;
+    opacity: 0.3;
     font-size: clamp(1.2rem, 2vw, 1.5rem);
-    bottom: 0;
-    transform: translateY(-100%);
-    left: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.5em;
   }
   .founds {
     position: relative;
@@ -55,11 +58,41 @@
       }
     }
   }
+  .user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    .user-details {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      cursor: pointer;
+      .name {
+        font-size: clamp(0.8rem, 1vw, 1rem);
+      }
+    }
+    .log-out {
+      font-size: 1.2rem;
+    }
+    .user-item {
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: background 400ms ease;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
 }
 
 @media only screen and (min-width: 780px) and (min-height: 500px) {
   .search-box-container {
     padding: 0.5rem;
+    flex-direction: row;
     .search-icon {
       top: 50%;
       left: 0.8em;

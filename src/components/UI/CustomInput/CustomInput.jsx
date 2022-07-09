@@ -122,6 +122,7 @@ const CustomInput = (props) => {
         <div className='input-container' style={{ ...props.inputContainer }}>
             {inputElement}
             {validationMessage}
+            {props.children}
         </div>
     )
 };
