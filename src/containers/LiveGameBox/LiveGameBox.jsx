@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import "./LiveGameBox.scss"
 import { Icon } from '@iconify/react';
@@ -5,6 +6,7 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { useTheme } from "../../styles/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration }) => {
     const [teamAScore, setTeamAScore] = useState(0);
@@ -23,7 +25,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
     }
     useEffect(() => {
         let updatedTeamAScore, updatedServerA;
-        var scoreA = document.getElementById(game._id + "A");
+        var scoreA = document.getElementById(game?._id + "A");
         if (!gamesStats) {
             let set = game?.sets[game?.sets?.length - 1]
             if (!set?.set) return;
@@ -54,11 +56,11 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
         }
         setTeamAScore(updatedTeamAScore)
         setServerA(updatedServerA)
-    }, [gamesStats?.[game._id]?.teamA, game.teamA.score]);
+    }, [gamesStats?.[game._id]?.teamA, game?.teamA.score]);
 
     useEffect(() => {
         let updatedTeamBScore, updatedServerB;
-        var scoreB = document.getElementById(game._id + "B");
+        var scoreB = document.getElementById(game?._id + "B");
         if (!gamesStats) {
             let set = game?.sets[game?.sets?.length - 1]
             if (!set?.set) return;
@@ -89,7 +91,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
         }
         setTeamBScore(updatedTeamBScore)
         setServerB(updatedServerB)
-    }, [gamesStats?.[game._id]?.teamB, game.teamB.score]);
+    }, [gamesStats?.[game._id]?.teamB, game?.teamB.score]);
 
     useEffect(() => {
         let updatedScores = []
@@ -102,7 +104,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 }
             })
         }
-        let gameIndex = gamesScores.findIndex(item => item.gameId === game._id)
+        let gameIndex = gamesScores?.findIndex(item => item.gameId === game._id)
         if (gameIndex > -1) {
             setTeamAScore(0)
             setTeamBScore(0)
@@ -114,11 +116,11 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
             }
         }
         setScores(updatedScores)
-    }, [game.sets, gamesScores])
+    }, [game?.sets, gamesScores])
 
     useEffect(() => {
         let updatedEndScores = []
-        let gameIndex = endGamesScores.findIndex(item => item.gameId === game._id)
+        let gameIndex = endGamesScores?.findIndex(item => item.gameId === game._id)
         if (gameIndex > -1) {
             for (let index = 0; index < endGamesScores[gameIndex].scores.a.length; index++) {
                 updatedEndScores.push({
@@ -132,7 +134,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
 
     return <div
         className="live-game-box"
-        onClick={() => gameClickHandler(game._id)}
+        onClick={() => gameClickHandler(game?._id)}
         style={{
             backgroundColor: theme.surface,
             borderColor: theme.darken_border_color
@@ -143,14 +145,14 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 backgroundColor: theme.background_color,
             }}
         >
-            <p title={game.tournament.title} className="tournament-title">{game.tournament.title}</p>
+            <p title={game?.tournament.title} className="tournament-title">{game?.tournament.title || <Skeleton width="10vw" />}</p>
             <div className="show-status">
                 <div className="online-viewers"
                     style={{
                         color: theme.darken_border_color
                     }}
                 >
-                    <p>{gamesViewers && gamesViewers[game._id] ? gamesViewers[game._id].count : 0}</p>
+                    <p>{gamesViewers && gamesViewers[game?._id] ? gamesViewers[game?._id].count : 0}</p>
                     <AiOutlineEye />
                 </div>
                 <div className="duration">
@@ -169,9 +171,9 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 >
                     <div className="players-and-shuttle">
                         <div className="team-players">
-                            <div className='team-plyaers-score'>
-                                <span title={game.teamA.players[0].player.username}>
-                                    {`${game.teamA.players[0].player.username}`}
+                            <div className='team-players-score'>
+                                <span title={game?.teamA.players[0].player.username}>
+                                    {game?.teamA.players[0].player.username || <Skeleton width="7vw" />}
                                 </span>
                                 {serverA === 1 && (
                                     <Icon className="shuttle-icon"
@@ -179,10 +181,10 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                         color={theme.primary} />
                                 )}
                             </div>
-                            {game.game_type === "double" &&
-                                <div className='team-plyaers-score'>
-                                    <span title={game.teamA.players[1].player.username}>
-                                        {`${game.teamA.players[1].player.username}`}
+                            {game?.game_type === "double" &&
+                                <div className='team-players-score'>
+                                    <span title={game?.teamA.players[1].player.username}>
+                                        {`${game?.teamA.players[1].player.username}`}
                                     </span>
                                     {serverA === 2 && (
                                         <Icon className="shuttle-icon"
@@ -194,7 +196,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                         </div>
 
                     </div>
-                    <div id={game._id + "A"} className="span-score">
+                    <div id={game?._id + "A"} className="span-score">
                         {
                             endScores.length > 0 ?
                                 endScores.map((item, index) =>
@@ -212,22 +214,18 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                         )
                                     }
                                     <p>
-                                        {`${teamAScore}`}
+                                        {teamAScore || <Skeleton width="2vw" />}
                                     </p>
                                 </>
                         }
-
-
-
                     </div>
-
                 </div>
                 <div className="team">
                     <div className="players-and-shuttle">
                         <div className="team-players">
-                            <div className='team-plyaers-score'>
-                                <span title={game.teamB.players[0].player.username}>
-                                    {`${game.teamB.players[0].player.username}`}
+                            <div className='team-players-score'>
+                                <span title={game?.teamB.players[0].player.username}>
+                                    {game?.teamB.players[0].player.username || <Skeleton width="7vw" />}
                                 </span>
                                 {serverB === 1 && (
                                     <Icon className="shuttle-icon"
@@ -235,10 +233,10 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                         color={theme.primary} />
                                 )}
                             </div>
-                            {game.game_type === "double" &&
-                                <div className='team-plyaers-score'>
-                                    <span title={game.teamB.players[1].player.username}>
-                                        {`${game.teamB.players[1].player.username}`}
+                            {game?.game_type === "double" &&
+                                <div className='team-players-score'>
+                                    <span title={game?.teamB.players[1].player.username}>
+                                        {`${game?.teamB.players[1].player.username}`}
                                     </span>
                                     {serverB === 2 && (
                                         <Icon className="shuttle-icon"
@@ -249,7 +247,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                             }
                         </div>
                     </div>
-                    <div id={game._id + "B"} className="span-score">
+                    <div id={game?._id + "B"} className="span-score">
                         {endScores.length > 0 ? endScores.map((item, index) =>
                             <p key={index} style={{ fontWeight: item.b > item.a && "bold" }}>
                                 {item.b}
@@ -262,7 +260,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                     </p>
                                 )}
                                 <p>
-                                    {`${teamBScore}`}
+                                    {teamBScore || <Skeleton width="2vw" />}
                                 </p>
                             </>
                         }

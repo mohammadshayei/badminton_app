@@ -105,7 +105,7 @@ function App() {
 
 
   return (
-    <SkeletonTheme direction='rtl' baseColor={theme.border_color} Color={theme.darken_border_color}>
+    <SkeletonTheme direction='rtl' baseColor={theme.border_color} highlightColor={theme.darken_border_color}>
       <Routes >
         {/* <Route path="/home" exact element={<HomePage />}></Route> */}
         <Route path="/tournaments" exact element={<HomePage />}></Route>
