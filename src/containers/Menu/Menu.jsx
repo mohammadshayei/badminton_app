@@ -55,6 +55,8 @@ const Menu = (props) => {
     const onMenuClickHandler = index => {
         let path = index === 1 ? '/tournaments' : index === 2 ? '/teams' : index === 3 ? '/my_games' : "/live_scores"
         navigate(`${path}`)
+        if (window.innerWidth < 780)
+            setMenuStatus(false)
     }
     const showProfile = () => {
         navigate(`/profile?part=userInfo`)

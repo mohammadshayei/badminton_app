@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { useTheme } from "../../../styles/ThemeProvider";
 // import FooterScoreBoard from "./FooterScoreBoard/FooterScoreBoard";
@@ -39,6 +40,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [twentySeconds, setTwentySeconds] = useState(false);
   const [serverDirection, setServerDirection] = useState("");
   const [disabledButton, setDisabledButton] = useState(false)
+  const [setOverConfirmation, setSetOverConfirmation] = useState(false);
 
   // const [flashEffect, setFlashEffect] = useState("")
   const [dialog, setDialog] = useState(null)
@@ -178,6 +180,17 @@ const ScoreBoard = ({ disable, setDisable }) => {
     }
   }
 
+  const setOverConfirmed = (team) => {
+    setOver({ teamKey: team });
+    if (info[team].setWon < 1) {
+      switchSide();
+      setBreakTime(3);
+    }
+    setDisable(true);
+    setHalfTime(false);
+    endSet(team);
+    setMaxPoint(21);
+  }
 
   useEffect(() => {
     if (info.setOver) {
@@ -222,15 +235,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
         break;
       case maxPoint:
         setWinPoint(null)
-        setOver({ teamKey: "team1" });
-        if (info.team1.setWon < 1) {
-          switchSide();
-          setBreakTime(3);
-        }
-        setDisable(true);
-        setHalfTime(false);
-        endSet('team1');
-        setMaxPoint(21);
+        setSetOverConfirmation(true)
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -270,15 +275,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
         break;
       case maxPoint:
         setWinPoint(null)
-        setOver({ teamKey: "team2" });
-        if (info.team2.setWon < 1) {
-          switchSide();
-          setBreakTime(3);
-        }
-        setDisable(true);
-        setHalfTime(false);
-        endSet('team2');
-        setMaxPoint(21);
+        setSetOverConfirmation(true)
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -533,14 +530,29 @@ const ScoreBoard = ({ disable, setDisable }) => {
           {stringFa.rotate_screen_error}
         </div>
       </div> {/* ${flashEffect}*/}
-      {eventPicker && <Modal show={eventPicker} modalClosed={() => setEventPicker(false)}>
-        <Events setClose={setEventPicker} />
-        <Button onClick={() => setEventPicker(false)}>انصراف</Button>
-      </Modal>}
+      {eventPicker &&
+        <Modal
+          show={eventPicker}
+          modalClosed={() => setEventPicker(false)}
+          style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        >
+          <Events setClose={setEventPicker} />
+          <Button onClick={() => setEventPicker(false)}>
+            {stringFa.cancel}
+          </Button>
+        </Modal>}
       {(teamWon === "team1" || teamWon === "team2") &&
         <Modal show={(teamWon === "team1" || teamWon === "team2") && true} modalClosed={() => console.log("")}>
           <WinnerModal teamWon={teamWon} />
         </Modal>}
+      {setOverConfirmation &&
+        <Modal show={setOverConfirmation} modalClosed={() => console.log("")}>
+          <WinnerModal
+            setSetOverConfirmation={setSetOverConfirmation}
+            undo={onUndoClickHandler}
+            setOverConfirmed={setOverConfirmed} />
+        </Modal>
+      }
       {chooseServer && <Modal show={chooseServer} >
         <Selector setShow={setChooseServer} selectedGame={gameId} />
       </Modal>}
@@ -606,8 +618,6 @@ const ScoreBoard = ({ disable, setDisable }) => {
       {(!disable || breakTime !== 0) && (
         <div className="action-buttons"
           style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
-          <FaExclamation className="action-btn" style={{ color: theme.primary }}
-            onClick={() => setEventPicker(true)} />
           <ImUndo2
             className="action-btn"
             style={{
@@ -615,6 +625,8 @@ const ScoreBoard = ({ disable, setDisable }) => {
               filter: info.events.length === 0 && "grayscale(10)"
             }}
             onClick={onUndoClickHandler} />
+          <FaExclamation className="action-btn" style={{ color: theme.primary }}
+            onClick={() => setEventPicker(true)} />
         </div>
       )}
     </div >

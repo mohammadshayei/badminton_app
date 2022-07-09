@@ -1,14 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getLiveGames } from '../../api/liveGame';
 import { stringFa } from '../../assets/strings/stringFaCollection';
-import Loading from '../../components/UI/Loading/Loading';
-import rocket from "../../assets/images/rocket.png";
-import rockets from "../../assets/images/rockets.png";
-import SHUTTLE_IMAGE from "../../assets/images/badminton_ball.png";
-import { HiStatusOnline } from 'react-icons/hi'
-import { AiOutlineEye } from 'react-icons/ai'
 import './LiveGames.scss'
 import { useNavigate } from 'react-router-dom';
 import ErrorDialog from '../../components/UI/Error/ErrorDialog';
@@ -263,7 +257,8 @@ const LiveGames = () => {
             <div className="live-games">
                 {
                     loading ?
-                        <Loading /> :
+                        <LiveGameBox />
+                        :
                         games.length > 0 ? (
                             games.map((game, key) => (
                                 <LiveGameBox

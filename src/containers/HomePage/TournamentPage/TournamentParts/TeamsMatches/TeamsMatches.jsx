@@ -6,7 +6,7 @@ import CustomInput, { elementTypes } from "../../../../../components/UI/CustomIn
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import IMAGE from '../../../../../assets/images/user_avatar.svg';
 import { IoIosArrowBack } from "react-icons/io";
-import Day from "./Day";
+import Day from "../Day";
 import Match from "./Match";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
@@ -15,6 +15,7 @@ import Skeleton from 'react-loading-skeleton'
 import { baseUrl } from "../../../../../constants/Config";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDate }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
@@ -35,7 +36,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-
+    const showGamesRef = useRef();
 
     const onChangeDatePicker = async (e) => {
         setDialog(null)
@@ -102,9 +103,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
             setLoading(false)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
-
-
-
     }
 
     const getReport = (id) => {
@@ -232,6 +230,15 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         setGames(updatedGames)
     }, [matchId, dayMatchs.length])
 
+    useEffect(() => {
+        let showTimeOut = setTimeout(() => {
+            showGamesRef.current.scrollIntoView({ inline: "center" })
+        }, 500);
+
+        return () => {
+            clearTimeout(showTimeOut)
+        };
+    }, [showGames]);
 
     useEffect(() => {
         if (!socket || !games) return;
@@ -285,10 +292,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                         <Skeleton
                             key={v}
                             className="day"
-                            direction="rtl"
                             style={{ border: "none" }}
-                            baseColor={theme.border_color}
-                            highlightColor={theme.border_color}
                         />
                     )
                 }
@@ -356,6 +360,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                     </div>
                 </div>
                 <div className="day-match-games"
+                    ref={showGamesRef}
                     style={{
                         display: showGames ? "flex" : "none",
                         backgroundColor: theme.background_color
@@ -363,14 +368,25 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                 >
                     <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
                     {games?.length > 0 ? games.map((game) =>
-                        <div key={game._id} className="a-match-game">
-                            <div className="match-game-index">{game.title}</div>
+                        <div key={game._id} className="a-match-game"
+                            style={{
+                                borderColor: theme.darken_border_color
+                            }}
+                        >
+                            <div className="match-game-index"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                    color: theme.on_surface
+                                }}
+                            >{game.title}</div>
                             {game.status === 3 &&
                                 <div className="match-game-report"
                                     style={{ color: theme.secondary }}
                                     onClick={() => getReport(game._id)}
                                 >
-                                    گزارش بازی</div>}
+                                    {stringFa.game_scoresheet}
+                                </div>
+                            }
                             <div className="match-game-details">
                                 {Object.entries(game.players).map(([key, players]) =>
                                     <>
@@ -393,12 +409,12 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                         </div>
                                         {key === 'a' ?
                                             game.status === 2 ?
-                                                <p className="live-game"
+                                                <div className="live-game"
                                                     onClick={() => onGoToLiveScore(game._id)}
                                                     style={{ color: theme.secondary, cursor: "pointer" }}>
                                                     {stringFa.live_score}
                                                     <div className="live-indicator" />
-                                                </p> :
+                                                </div> :
                                                 <p className="dash">-</p> :
                                             ''
                                         }

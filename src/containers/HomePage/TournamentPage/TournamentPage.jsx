@@ -20,6 +20,7 @@ import TodayMatch from './TournamentParts/TodayMatch/TodayMatch'
 import Skeleton from 'react-loading-skeleton'
 import { useTheme } from '../../../styles/ThemeProvider'
 import { Icon } from '@iconify/react';
+import Games from './TournamentParts/Games/Games'
 
 const TournamentPage = ({ id }) => {
 
@@ -44,7 +45,10 @@ const TournamentPage = ({ id }) => {
             text: "مسابقات تیمی",
             selected: false,
         },
-
+        games: {
+            text: "بازی ها",
+            selected: false,
+        },
     }
 
     const [tournament, setTournament] = useState(null)
@@ -202,7 +206,6 @@ const TournamentPage = ({ id }) => {
             updatedFilterSelectors[part].selected = true;
         setFilterSelectors(updatedFilterSelectors)
     }, [isReferee])
-
 
     useEffect(() => {
         if (!item) {
@@ -504,38 +507,26 @@ const TournamentPage = ({ id }) => {
                     /> :
                     part === "todayMatch" ?
                         <TodayMatch tournamentId={id} /> :
-                        <div className='tournament-body'>
-                            <div className='tournament-search'>
-                                <TournamentItemSearch
-                                    searchValue={searchValue}
-                                    searchPlaceHolder={`جستجو ${partTitle}`}
-                                    searchListItems={
-                                        searchListItems.filter(item => listItem
-                                            .findIndex(i => i._id === item._id) < 0)}
-                                    onSearch={onSearch}
-                                    searchLoading={searchLoading}
-                                    onAddItemToTournament={onAddItemToTournament}
-                                    selector={() => {
-                                        if (part === 'team') return 'name'
-                                        else if (part === 'player' || part === 'referee') return 'username'
-                                        if (part === 'gym') return 'title'
-                                    }}
-                                    createAccess={part === 'referee' ? user?._id === tournament?.chief?._id : createAccess}
-                                />
-                                {
-                                    createAccess &&
-                                    <Button
-                                        onClick={onAddItemClickHandler}
-                                    >
-                                        <div className='button-add'>
-                                            <AiOutlinePlus style={{ fontSize: 15 }} />
-                                            {`${partTitle} جدید`}
-                                        </div>
-                                    </Button>
-                                }
-                            </div>
-                            <div className='tournament-content'>
-                                <div className={`tournament-list-items ${showInputForm ? 'hide' : ''}`}>
+                        part === "games" ?
+                            <Games tournamentId={id} /> :
+                            <div className='tournament-body'>
+                                <div className='tournament-search'>
+                                    <TournamentItemSearch
+                                        searchValue={searchValue}
+                                        searchPlaceHolder={`جستجو ${partTitle}`}
+                                        searchListItems={
+                                            searchListItems.filter(item => listItem
+                                                .findIndex(i => i._id === item._id) < 0)}
+                                        onSearch={onSearch}
+                                        searchLoading={searchLoading}
+                                        onAddItemToTournament={onAddItemToTournament}
+                                        selector={() => {
+                                            if (part === 'team') return 'name'
+                                            else if (part === 'player' || part === 'referee') return 'username'
+                                            if (part === 'gym') return 'title'
+                                        }}
+                                        createAccess={part === 'referee' ? user?._id === tournament?.chief?._id : createAccess}
+                                    />
                                     {
                                         contentLoading ?
                                             [...Array(5).keys()].map((v) =>
@@ -582,7 +573,6 @@ const TournamentPage = ({ id }) => {
                                     {form}
                                 </div>
                             </div>
-                        </div>
             }
 
         </div>

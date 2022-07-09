@@ -12,8 +12,10 @@
     top: 0;
     left: 0;
     right: 0;
+    padding: 0.5rem;
     z-index: 999;
     height: 12vh;
+    min-height: 3rem;
     background-color: transparent;
     overflow: hidden;
     .events-container {
@@ -21,12 +23,15 @@
     }
     .add-shuttle {
       display: flex;
+      padding: 0.5rem;
       height: 12vh;
+      min-height: 3rem;
+      max-height: 4rem;
       .shuttle-img {
         width: 4vw;
         height: 4vw;
-        max-width: 50px;
-        max-height: 50px;
+        max-width: 40px;
+        max-height: 40px;
         align-self: center;
       }
       .btn-content {
@@ -51,7 +56,7 @@
   }
 }
 
-@media only screen and (min-width: 560px) and (min-height: 500px) {
+@media only screen and (min-height: 500px) {
   .header-main-container {
     position: relative;
     background-color: #313131;
@@ -62,10 +67,5 @@
     .add-shuttle {
       height: 8vh;
     }
-  }
-}
-
-@media only screen and (min-width: 850px) {
-  .header-main-container {
   }
 }

@@ -85,12 +85,9 @@ const PurchaseCallBack = () => {
             >
                 {statusIcon ? statusIcon :
                     <Skeleton
-                        direction='rtl'
                         width={100}
                         height={100}
-                        circle={true}
-                        baseColor={theme.border_color}
-                        highlightColor={theme.darken_border_color} />
+                        circle={true} />
                 }
             </div>
             <p className='callback-page-title'
@@ -99,21 +96,14 @@ const PurchaseCallBack = () => {
                 }}
             >
                 {statusTitle ? statusTitle :
-                    <Skeleton
-                        direction='rtl'
-                        width={150}
-                        baseColor={theme.border_color}
-                        highlightColor={theme.darken_border_color} />
+                    <Skeleton width={150} />
                 }
             </p>
             <p className='callback-page-message'>
                 {statusMessage ? statusMessage :
                     <Skeleton
                         count={2}
-                        direction='rtl'
-                        width={250}
-                        baseColor={theme.border_color}
-                        highlightColor={theme.darken_border_color} />
+                        width={250} />
                 }
             </p>
             <div className="callback-page-butttons">

@@ -10,22 +10,24 @@ import { separatorComma } from "../../../utils/funcs";
 import { dynamicApi } from "../../../api/home";
 import { useSelector } from "react-redux";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
+import Loading from "../../../components/UI/Loading/Loading";
 
 const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
     const [pricing, setPricing] = useState([]);
     const [paymentHistory, setPaymentHistory] = useState([]);
     const [tournaments, setTournaments] = useState([]);
     const [selectedTournament, setSelectedTournament] = useState({ value: "", id: "" })
+    const [loading, setLoading] = useState(false)
+
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-    const [loading, setLoading] = useState(false)
+
     const { token } = useSelector(state => state.auth)
 
     const onChangeTournament = async (e) => {
         setDialog(null)
         setSelectedTournament({ id: e.id, value: e.text })
         try {
-
             const fetchedData = await dynamicApi({ teamId, tournamentId: e.id }, token, 'get_tournament_team_info')
             if (!fetchedData.success) {
                 setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
@@ -33,6 +35,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 return;
             }
             setData({ ...data, ...fetchedData.data.data })
+            setLoading(false)
         } catch (error) {
             setLoading(false)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
@@ -48,7 +51,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 accountCodeId: teamId,
                 descriptionArticle: `خرید پکیج ${info.days} روزه`,
                 debtor: 0,
-                creditor: info.price.replace(/,/gi, "",true),
+                creditor: info.price.replace(/,/gi, "", true),
                 dayCount: info.days
             }
             const result = await dynamicApi(payload, token, 'create_document')
@@ -81,6 +84,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
     }, [data?.selectedTournament])
     useEffect(() => {
         if (!data) return;
+        setLoading(true)
         let updatedPricing = [
             {
                 days: data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2,
@@ -125,6 +129,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 updatedPricing[2].disabled = true;
             }
         }
+        setLoading(false)
         setPricing(updatedPricing)
     }, [data?.paid, data?.days])
 
@@ -150,10 +155,9 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                     items={tournaments ? tournaments : []}
                     onChange={onChangeTournament}
                     value={selectedTournament.value}
-                    placeHolder={stringFa.undefined}
                 />
             </div>
-            <CreditBar
+            {data && <CreditBar
                 days={data?.days}
                 paid={data?.paid}
                 past={data?.past}
@@ -163,103 +167,107 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 style={{
                     justifyContent: "center"
                 }}
-            />
+            />}
         </div>
-        <div className="payment-section">
-            <div className="pricing-container">
-                {pricing.map((price, idx) =>
-                    <div
-                        key={idx}
-                        disabled={price.disabled}
-                        className="pricing-box"
-                        onClick={() => onItemClick(price)}
-                        style={{
-                            backgroundColor: idx === pricing.length - 1 ? theme.secondary : theme.surface,
-                            color: idx === pricing.length - 1 ? theme.on_secondary : theme.on_surface
-                        }}
-                    >
-                        {idx === pricing.length - 1 &&
-                            <div className="ribbon" >
-                                <span style={{ backgroundColor: theme.error }}>
-                                    پیشنهاد ویژه
-                                </span>
-                            </div>}
-                        <p className="days">{`${price.days} روز`}</p>
-                        {price.newPrice &&
-                            <p className='price old'
+        {loading ?
+            <Loading /> :
+            <div className="payment-section">
+                {pricing.length > 0 &&
+                    <div className="pricing-container">
+                        {pricing.map((price, idx) =>
+                            <div
+                                key={idx}
+                                disabled={price.disabled}
+                                className="pricing-box"
+                                onClick={() => onItemClick(price)}
                                 style={{
-                                    color: idx === pricing.length - 1 ?
-                                        theme.on_secondary :
-                                        theme.on_surface
-                                }}
-                            >{`${price.price} تومان`}</p>
-                        }
-                        <p className="price"
-                            style={{
-                                color: idx === pricing.length - 1 ? theme.on_secondary : theme.secondary
-                            }}
-                        >{`${price.newPrice ? price.newPrice : price.price} تومان`}</p>
-                        <Icon
-                            className="pricing-icon"
-                            icon="ic:round-navigate-next"
-                            hFlip={true}
-                            color={idx === pricing.length - 1 ? theme.on_secondary : theme.primary}
-                        />
-                    </div>
-                )}
-                <p>توجه : %9 مالیات بر ارزش افزوده به قیمت ها اضافه می‌شود.</p>
-                <div className="subscription-details">
-                    <Icon
-                        icon="akar-icons:check"
-                        color={theme.primary}
-                    />
-                    <p>شرکت در لیگ به عنوان میزبان</p>
-                </div>
-                <div className="subscription-details">
-                    <Icon
-                        icon="akar-icons:check"
-                        color={theme.primary}
-                    />
-                    <p>پشتیبانی فنی</p>
-                </div>
-            </div>
-            <div className="history-container"
-                style={{
-                    backgroundColor: theme.surface,
-                    color: theme.on_surface
-                }}
-            >
-                <div className="history-table">
-                    <div className="history-header"
-                        style={{
-                            borderColor: theme.border_color
-                        }}
-                    >
-                        <p>تاریخ</p>
-                        <p>شرح</p>
-                        <p>قیمت</p>
-                    </div>
-                    {paymentHistory.length > 0 ? paymentHistory.map((item, i) => {
-                        return (
-                            <div className="history-row"
-                                key={i}
-                                style={{
-                                    color: theme.error
+                                    backgroundColor: idx === pricing.length - 1 ? theme.secondary : theme.surface,
+                                    color: idx === pricing.length - 1 ? theme.on_secondary : theme.on_surface
                                 }}
                             >
-                                <p>{item.date}</p>
-                                <p>{item.description}</p>
-                                <p>{item.price}</p>
-                            </div>)
-                    })
-                        : <div>
-                            تاریخجه خرید های شما خالی است
+                                {idx === pricing.length - 1 &&
+                                    <div className="ribbon" >
+                                        <span style={{ backgroundColor: theme.error }}>
+                                            {stringFa.special_offer}
+                                        </span>
+                                    </div>}
+                                <p className="days">{`${price.days} ${stringFa.day}`}</p>
+                                {price.newPrice &&
+                                    <p className='price old'
+                                        style={{
+                                            color: idx === pricing.length - 1 ?
+                                                theme.on_secondary :
+                                                theme.on_surface
+                                        }}
+                                    >{`${price.price} تومان`}</p>
+                                }
+                                <p className="price"
+                                    style={{
+                                        color: idx === pricing.length - 1 ? theme.on_secondary : theme.secondary
+                                    }}
+                                >{`${price.newPrice ? price.newPrice : price.price} تومان`}</p>
+                                <Icon
+                                    className="pricing-icon"
+                                    icon="ic:round-navigate-next"
+                                    hFlip={true}
+                                    color={idx === pricing.length - 1 ? theme.on_secondary : theme.primary}
+                                />
+                            </div>
+                        )}
+                        <p>توجه : %9 مالیات بر ارزش افزوده به قیمت ها اضافه می‌شود.</p>
+                        <div className="subscription-details">
+                            <Icon
+                                icon="akar-icons:check"
+                                color={theme.primary}
+                            />
+                            <p>شرکت در لیگ به عنوان میزبان</p>
                         </div>
-                    }
-                </div>
+                        <div className="subscription-details">
+                            <Icon
+                                icon="akar-icons:check"
+                                color={theme.primary}
+                            />
+                            <p>پشتیبانی فنی</p>
+                        </div>
+                    </div>
+                }
+                <div className="history-container"
+                    style={{
+                        backgroundColor: theme.surface,
+                        color: theme.on_surface
+                    }}
+                >
+                    <div className="history-table">
+                        <div className="history-header"
+                            style={{
+                                borderColor: theme.border_color
+                            }}
+                        >
+                            <p>{stringFa.date}</p>
+                            <p>{stringFa.description}</p>
+                            <p>{stringFa.price}</p>
+                        </div>
+                        {paymentHistory.length > 0 ? paymentHistory.map((item, i) => {
+                            return (
+                                <div className="history-row"
+                                    key={i}
+                                    style={{
+                                        color: theme.error
+                                    }}
+                                >
+                                    <p>{item.date}</p>
+                                    <p>{item.description}</p>
+                                    <p>{item.price}</p>
+                                </div>)
+                        })
+                            : <div className="history-row">
+                                موردی وجود ندارد
+                            </div>
+                        }
+                    </div>
 
-            </div>
-        </div>
+                </div>
+            </div>}
     </div >;
 };
 

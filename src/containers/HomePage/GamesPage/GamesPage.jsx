@@ -99,27 +99,18 @@ const GamesPage = () => {
                 >
                   <Skeleton
                     className="game-box-title-text"
-                    direction='rtl'
-                    baseColor={theme.border_color}
                     width={250}
-                    highlightColor={theme.border_color}
                   />
                 </div>
                 <div className="game-box-details">
                   <div className="game-box-players">
                     <Skeleton
                       className="game-box-players-name"
-                      direction='rtl'
-                      baseColor={theme.border_color}
                       width={150}
-                      highlightColor={theme.border_color}
                     />
                     <Skeleton
                       className="game-box-players-name"
-                      direction='rtl'
-                      baseColor={theme.border_color}
                       width={150}
-                      highlightColor={theme.border_color}
                     />
                   </div>
                 </div>
@@ -170,7 +161,7 @@ const GamesPage = () => {
                 ))
               ) : (
                 <div className="hint">
-                  {stringFa.no_game_to_see}
+                  {stringFa.there_is_no_game}
                 </div>
               )
           }

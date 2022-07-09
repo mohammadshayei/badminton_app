@@ -175,6 +175,13 @@ export const stringFa = {
   callback_status_OK_message: "پرداخت شما با موفقیت انجام شد.",
   remove_player_from_team: "حذف از تیم",
   close:'بستن'
+  there_is_no_game: "بازی موجود نیست",
+  game_scoresheet: "گزارش بازی",
+  description: "شرح",
+  price: "قیمت",
+  special_offer: "پیشنهاد ویژه",
+  day: "روز",
+  loading: "در حال بارگزاری"
 };
 
 export const daysName = [

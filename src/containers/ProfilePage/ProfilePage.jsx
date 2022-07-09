@@ -65,7 +65,7 @@ const ProfilePage = () => {
                     part === "informations" ?
                         <MemberShipInfo />
                         :
-                        "games"
+                        <UserInfo setDialog={setDialog} />
 
             }
         </div>

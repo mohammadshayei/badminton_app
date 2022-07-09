@@ -14,8 +14,13 @@ import { baseUrl } from "./constants/Config";
 import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
 import { getIp } from "./api/auth";
+import { SkeletonTheme } from 'react-loading-skeleton'
+import { useTheme } from "./styles/ThemeProvider";
 
 function App() {
+
+  const themeState = useTheme();
+  const theme = themeState.computedTheme;
 
   const socket = useSelector(state => state.auth.socket)
   const token = useSelector((state) => state.auth.token);
@@ -50,9 +55,6 @@ function App() {
   window.addEventListener("resize", () => {
     setSize(window.innerHeight, window.innerWidth);
   });
-
-
-
 
   useEffect(() => {
     (async () => {
@@ -103,32 +105,33 @@ function App() {
 
 
   return (
-    <Routes >
-      {/* <Route path="/home" exact element={<HomePage />}></Route> */}
-      <Route path="/tournaments" exact element={<HomePage />}></Route>
-      <Route path="/teams" exact element={<HomePage />}></Route>
-      <Route path="/my_games" exact element={<HomePage />}></Route>
-      <Route path="/live_scores" exact element={<HomePage />}></Route>
-      <Route path="/new_tournament" exact element={<HomePage />}></Route>
-      <Route path="/profile" exact element={<HomePage />}></Route>
-      <Route path="/tournaments/:id" element={<HomePage />} />
-      <Route path="/teams/:id" element={<HomePage />} />
-      <Route path="/pay" exact element={<HomePage />}></Route>
+    <SkeletonTheme direction='rtl' baseColor={theme.border_color} highlightColor={theme.darken_border_color}>
+      <Routes >
+        {/* <Route path="/home" exact element={<HomePage />}></Route> */}
+        <Route path="/tournaments" exact element={<HomePage />}></Route>
+        <Route path="/teams" exact element={<HomePage />}></Route>
+        <Route path="/my_games" exact element={<HomePage />}></Route>
+        <Route path="/live_scores" exact element={<HomePage />}></Route>
+        <Route path="/new_tournament" exact element={<HomePage />}></Route>
+        <Route path="/profile" exact element={<HomePage />}></Route>
+        <Route path="/tournaments/:id" element={<HomePage />} />
+        <Route path="/teams/:id" element={<HomePage />} />
+        <Route path="/pay" exact element={<HomePage />}></Route>
 
-      <Route path="/scoreboard" exact element={<MainPage />}></Route>
-      <Route
-        path="/scoreboard_view"
-        exact
-        element={<ScoreboardView />}
-      >
-      </Route>
-      <Route path="/login" exact element={<Auth />}></Route>
-      <Route path="/signup" exact element={<Auth />}></Route>
-      <Route path="/report" exact element={<GameReport />}></Route>
-      <Route path="/wait" exact element={<WaitPage />}></Route>
+        <Route path="/scoreboard" exact element={<MainPage />}></Route>
+        <Route
+          path="/scoreboard_view"
+          exact
+          element={<ScoreboardView />}
+        >
+        </Route>
+        <Route path="/login" exact element={<Auth />}></Route>
+        <Route path="/signup" exact element={<Auth />}></Route>
+        <Route path="/report" exact element={<GameReport />}></Route>
+        <Route path="/wait" exact element={<WaitPage />}></Route>
 
-    </Routes>
-
+      </Routes>
+    </SkeletonTheme>
   );
 }
 

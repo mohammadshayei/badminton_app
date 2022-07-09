@@ -94,26 +94,13 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                     {[...Array(2).keys()].map((v) =>
                         <div k={v} className={`player-block-view ${v > 0 ? 'player-block-rev' : ''}`}>
                             <div className="players-name">
-                                <Skeleton
-                                    width={500}
-                                    direction="rtl"
-                                    baseColor={theme.border_color}
-                                    highlightColor={theme.darken_border_color} />
-                                <Skeleton
-                                    width={500}
-                                    direction="rtl"
-                                    baseColor={theme.border_color}
-                                    highlightColor={theme.darken_border_color} />
+                                <Skeleton width={500} />
+                                <Skeleton width={500} />
                             </div>
                             <div className={`player-score-and-set ${v === 0 ? 'score-and-set-rev' : ''}`}>
                                 <div className="score-digit">
-                                    <Skeleton
-                                        width={100}
-                                        direction="rtl"
-                                        baseColor={theme.border_color}
-                                        highlightColor={theme.darken_border_color} />
+                                    <Skeleton width={100} />
                                 </div>
-
                             </div>
                         </div>)}
                 </>
