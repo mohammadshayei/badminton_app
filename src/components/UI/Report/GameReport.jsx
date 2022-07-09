@@ -151,7 +151,7 @@ const GameReport = () => {
                                     Umpire : {game.referee.username}
                                 </p>
                                 <p>
-                                    Service Judge : {game.service_referee.username}
+                                    Service Judge : {game.service_referee ? game.service_referee.username : stringFa.undefined}
                                 </p>
                                 <p>
                                     Start match : {matchTime.start}
