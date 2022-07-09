@@ -159,6 +159,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 past={data?.past}
                 dates={data?.pastDate}
                 showDetail={true}
+                showNumbers={true}
                 style={{
                     justifyContent: "center"
                 }}

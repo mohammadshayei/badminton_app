@@ -2,7 +2,7 @@ import "./CreditBar.scss"
 import { useTheme } from "../../../styles/ThemeProvider";
 import { getDateInfo } from "../../../utils/funcs";
 
-const CreditBar = ({ days, paid, past, showDetail, style, dates }) => {
+const CreditBar = ({ days, paid, past, showDetail, style, dates, showNumbers }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     return <div className="tournament-days-credit"
@@ -59,7 +59,7 @@ const CreditBar = ({ days, paid, past, showDetail, style, dates }) => {
                                 theme.on_error :
                                 theme.on_background,
                     }}
-                >{v + 1}</div>
+                >{showNumbers && v + 1}</div>
                 <div className="day-link"
                     style={{
                         backgroundColor: v === days - 1 ? theme.backgroundColor :

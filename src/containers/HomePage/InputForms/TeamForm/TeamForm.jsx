@@ -290,6 +290,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         if (event.target.files[0]) {
             setImageSrc(URL.createObjectURL(event.target.files[0]));
             setImagePath(event.target.files[0])
+            setChanged(false)
         }
     }
 
@@ -316,7 +317,8 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                 >{result.data.message}</ErrorDialog>)
             if (result.success) {
                 onUpdateItem({ _id: content._id, name: order.teamName.value, selected: true })
-                onBack()
+                if (window.innerWidth < 780)
+                    onBack()
             }
         } catch (error) {
             setLoading(false)
@@ -351,7 +353,8 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                     name: order.teamName.value,
                     selected: true
                 })
-                setShowInputForm(false)
+                if (window.innerWidth < 780)
+                    setShowInputForm(false)
                 clear()
             }
         } catch (error) {
