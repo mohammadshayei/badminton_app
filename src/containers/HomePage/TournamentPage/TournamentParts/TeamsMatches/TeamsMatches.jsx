@@ -6,7 +6,7 @@ import CustomInput, { elementTypes } from "../../../../../components/UI/CustomIn
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import IMAGE from '../../../../../assets/images/user_avatar.svg';
 import { IoIosArrowBack } from "react-icons/io";
-import Day from "./Day";
+import Day from "../Day";
 import Match from "./Match";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi } from "../../../../../api/home";
@@ -102,9 +102,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
             setLoading(false)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
-
-
-
     }
 
     const getReport = (id) => {

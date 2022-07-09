@@ -1,8 +1,8 @@
-import "./TeamsMatches.scss"
-import { useTheme } from "../../../../../styles/ThemeProvider";
+import "./TeamsMatches/TeamsMatches.scss"
+import { useTheme } from "../../../../styles/ThemeProvider";
 import { useEffect, useState } from "react";
-import { getDateInfo } from "../../../../../utils/funcs";
-import { daysName } from "../../../../../assets/strings/stringFaCollection";
+import { getDateInfo } from "../../../../utils/funcs";
+import { daysName } from "../../../../assets/strings/stringFaCollection";
 
 const Day = ({ selectDay, day }) => {
     const [dateInfo, setDateInfo] = useState(null)

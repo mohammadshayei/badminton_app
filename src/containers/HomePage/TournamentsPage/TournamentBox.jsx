@@ -40,7 +40,7 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
         </div>
         <div className="box-content">
             <div className="tournament-title">
-                {loading ? <Skeleton className="title-skeleton" /> : title}
+                {title || <Skeleton className="title-skeleton" />}
             </div>
             <div className="tournament-detail">
                 {loading ? <Skeleton className="detail-skeleton" /> :
