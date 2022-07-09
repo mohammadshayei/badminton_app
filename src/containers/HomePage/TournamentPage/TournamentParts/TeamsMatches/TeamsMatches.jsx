@@ -311,14 +311,25 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                 >
                     <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
                     {games?.length > 0 ? games.map((game) =>
-                        <div key={game._id} className="a-match-game">
-                            <div className="match-game-index">{game.title}</div>
+                        <div key={game._id} className="a-match-game"
+                            style={{
+                                borderColor: theme.darken_border_color
+                            }}
+                        >
+                            <div className="match-game-index"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                    color: theme.on_surface
+                                }}
+                            >{game.title}</div>
                             {game.status === 3 &&
                                 <div className="match-game-report"
                                     style={{ color: theme.secondary }}
                                     onClick={() => getReport(game._id)}
                                 >
-                                    گزارش بازی</div>}
+                                    {stringFa.game_scoresheet}
+                                </div>
+                            }
                             <div className="match-game-details">
                                 {Object.entries(game.players).map(([key, players]) =>
                                     <>

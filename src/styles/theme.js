@@ -25,12 +25,12 @@ const lightTheme = {
 };
 
 const darkTheme = {
-  background_color: "#121212",
+  background_color: "#151515",
   surface: "rgba(255,255,255,0.16)",
-  primary: "#7edfde",
+  primary: "#48d2d2",
   primary_variant: "",
-  secondary: "#81dfed",
-  secondary_variant: "#0F8FA3",
+  secondary: "#2ac7de",
+  secondary_variant: "#13a4bd",
   error: "#CF6679",
   error_variant: "#9e0420",
   success: "#6FCF97",
@@ -43,8 +43,8 @@ const darkTheme = {
   on_error: "#FFFFFF",
   star_color: "#FF9F43",
   arrows_color: "#8D8D8D",
-  border_color: "#0000001a",
-  darken_border_color: "#00000033",
+  border_color: "#FFFFFF1a",
+  darken_border_color: "#FFFFFF33",
   borderBlur: "",
   button_disabled: "",
   hover: "rgba(255,255,255,0.2)",

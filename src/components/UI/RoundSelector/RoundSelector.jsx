@@ -20,9 +20,9 @@ const RoundSelector = ({ text, selector, style, selected, onClick, type = 1 }) =
         id={selector}
         className="round-selector-component"
         style={{
-            backgroundColor: selected ? type === 1 ? theme.primary : theme.on_primary : "transparent",
+            backgroundColor: selected ? type === 1 ? theme.primary : "white" : "transparent",
             borderColor: selected ? type === 1 ? theme.primary : theme.on_primary : type === 1 ? theme.border_color : theme.on_primary,
-            color: selected ? type === 1 ? theme.on_primary : theme.on_background : type === 1 ? theme.on_background : theme.on_primary,
+            color: selected ? type === 1 ? theme.on_primary : "black" : type === 1 ? theme.on_background : theme.on_primary,
             cursor: selected ? "default" : "pointer",
             ...style
         }}

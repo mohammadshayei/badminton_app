@@ -170,7 +170,7 @@ const GamesPage = () => {
                 ))
               ) : (
                 <div className="hint">
-                  {stringFa.no_game_to_see}
+                  {stringFa.there_is_no_game}
                 </div>
               )
           }

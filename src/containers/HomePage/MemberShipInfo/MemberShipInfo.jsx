@@ -48,7 +48,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 accountCodeId: teamId,
                 descriptionArticle: `خرید پکیج ${info.days} روزه`,
                 debtor: 0,
-                creditor: info.price.replace(/,/gi, "",true),
+                creditor: info.price.replace(/,/gi, "", true),
                 dayCount: info.days
             }
             const result = await dynamicApi(payload, token, 'create_document')
@@ -180,10 +180,10 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                         {idx === pricing.length - 1 &&
                             <div className="ribbon" >
                                 <span style={{ backgroundColor: theme.error }}>
-                                    پیشنهاد ویژه
+                                    {stringFa.special_offer}
                                 </span>
                             </div>}
-                        <p className="days">{`${price.days} روز`}</p>
+                        <p className="days">{`${price.days} ${stringFa.day}`}</p>
                         {price.newPrice &&
                             <p className='price old'
                                 style={{
@@ -234,9 +234,9 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                             borderColor: theme.border_color
                         }}
                     >
-                        <p>تاریخ</p>
-                        <p>شرح</p>
-                        <p>قیمت</p>
+                        <p>{stringFa.date}</p>
+                        <p>{stringFa.description}</p>
+                        <p>{stringFa.price}</p>
                     </div>
                     {paymentHistory.length > 0 ? paymentHistory.map((item, i) => {
                         return (
@@ -251,8 +251,8 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                                 <p>{item.price}</p>
                             </div>)
                     })
-                        : <div>
-                            تاریخجه خرید های شما خالی است
+                        : <div className="history-row">
+                            موردی وجود ندارد
                         </div>
                     }
                 </div>

@@ -208,7 +208,6 @@ const TournamentPage = ({ id }) => {
         setFilterSelectors(updatedFilterSelectors)
     }, [isReferee])
 
-
     useEffect(() => {
         if (!content) {
             setShowInputForm(false)
