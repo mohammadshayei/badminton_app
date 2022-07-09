@@ -29,8 +29,9 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
     const [dateLoading, setDateLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
     const [games, setGames] = useState([])
+    const [maxMatchCount, setMaxMatchCount] = useState(0)
 
-    const { token } = useSelector(state => state.auth)
+    const { token, socket } = useSelector(state => state.auth)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -110,7 +111,29 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         navigate(`/report?id=${id}`);
     }
 
+    const changeStatusDay = (status) => {
+        let updatedTournamentsDay = [...tournamentDays]
+        let selectedDayIndex = updatedTournamentsDay.findIndex(item => item.selected)
+        if (selectedDayIndex < 0) return;
+        updatedTournamentsDay[selectedDayIndex].status = status;
+        setTournamentDays(updatedTournamentsDay)
+    }
 
+    const deleteMatch = id => {
+        let updatedDayMatchs = dayMatchs.filter(item => item.match._id !== id)
+        setDayMatchs(updatedDayMatchs)
+        changeStatusDay(0)
+    }
+    const addMatch = match => {
+        let updatedDayMatchs = [...dayMatchs]
+        updatedDayMatchs.push({ match, _id: 'someid' })
+        setDayMatchs(updatedDayMatchs)
+        if (dayMatchs?.length === (maxMatchCount - 1))
+            changeStatusDay(1)
+    }
+    const onGoToLiveScore = (id) => {
+        navigate(`/scoreboard_view?gameId=${id}`)
+    }
     useEffect(() => {
         if (!tournamentId) return;
         (async () => {
@@ -127,6 +150,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                     }
                 })
                 setDayMatchs(fetchedData.data.selectedDay.matchs)
+                setMaxMatchCount(fetchedData.data.teams.length / 2)
                 setDateValue(fetchedData.data.selectedDay.date ? fetchedData.data.selectedDay.date : '')
                 setTeams(fetchedData.data.teams)
                 setReferees(fetchedData.data.referees)
@@ -209,6 +233,38 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
     }, [matchId, dayMatchs.length])
 
 
+    useEffect(() => {
+        if (!socket || !games) return;
+
+        socket.on('get_live_game', (payload => {
+            let { game } = payload;
+            let updatedGames = [...games]
+            let gameIndex = updatedGames.findIndex(item => item._id === game._id)
+            if (gameIndex < 0) return;
+            updatedGames[gameIndex].status = 2;
+            setGames(updatedGames)
+        }
+
+        ))
+        socket.on('get_exit_game', (payload => {
+            let { gameId } = payload;
+            let updatedGames = [...games]
+            let gameIndex = updatedGames.findIndex(item => item._id === gameId)
+            if (gameIndex < 0) return;
+            updatedGames[gameIndex].status = 1;
+            setGames(updatedGames)
+        }
+        ))
+        socket.on('get_end_game_stats', (payload => {
+            const { gameId } = payload;
+            let updatedGames = [...games]
+            let gameIndex = updatedGames.findIndex(item => item._id === gameId)
+            if (gameIndex < 0) return;
+            updatedGames[gameIndex].status = 3;
+            setGames(updatedGames)
+        }))
+    }, [games, socket])
+
     return (
         <div className="teams-matches"
             style={{
@@ -257,39 +313,46 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                     }}
                                 /> :
                                 <TextComponent
-                                    value={new Date(dateValue).toLocaleDateString('fa-IR')}
+                                    value={dateValue ? new Date(dateValue).toLocaleDateString('fa-IR') : stringFa.undefined}
                                     title={stringFa.date}
                                 />
                         }
                     </div>
                     <div className="teams-table">
-                        {[...new Array(teams?.length > 0 ? (teams.length) / 2 : 3)].map((_, i) =>
-                            <div className="table-row">
-                                <Match
-                                    key={i}
-                                    index={i}
-                                    setShowGames={setShowGames}
-                                    onShowGame={onShowGame}
-                                    teams={teams.map(item => {
-                                        return {
-                                            id: item.team._id,
-                                            text: item.team.name,
-                                        }
-                                    })}
-                                    referees={referees.map(item => {
-                                        return {
-                                            id: item.referee._id,
-                                            text: item.referee.username,
-                                        }
-                                    })}
-                                    tournamentId={tournamentId}
-                                    day={tournamentDays.find(item => item.selected)}
-                                    data={dayMatchs[i]?.match}
-                                    createAccess={createAccess}
-                                    dateValue={dateValue}
-                                />
-                            </div>
-                        )}
+                        {
+                            [...new Array(teams?.length > 1 ? Math.trunc((teams.length) / 2) : 1)].map((_, i) =>
+                                <div className="table-row">
+                                    <Match
+                                        key={i}
+                                        index={i}
+                                        setShowGames={setShowGames}
+                                        onShowGame={onShowGame}
+                                        teams={teams.filter(item => dayMatchs?.findIndex(i =>
+                                            i.match.teamA._id === item.team._id || i.match.teamB._id === item.team._id) < 0)
+                                            .map(item => {
+                                                return {
+                                                    id: item.team._id,
+                                                    text: item.team.name,
+                                                }
+                                            })}
+                                        referees={referees.filter(item => dayMatchs?.findIndex(i => i.match.referee._id === item.referee._id) < 0).map(item => {
+                                            return {
+                                                id: item.referee._id,
+                                                text: item.referee.username,
+                                            }
+                                        })}
+                                        tournamentId={tournamentId}
+                                        day={tournamentDays.find(item => item.selected)}
+                                        data={dayMatchs[i]?.match}
+                                        createAccess={createAccess}
+                                        dateValue={dateValue}
+                                        deleteMatch={deleteMatch}
+                                        addMatch={addMatch}
+                                        matchId={matchId}
+                                    />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
                 <div className="day-match-games"
@@ -331,7 +394,8 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                         {key === 'a' ?
                                             game.status === 2 ?
                                                 <p className="live-game"
-                                                    style={{ color: theme.secondary }}>
+                                                    onClick={() => onGoToLiveScore(game._id)}
+                                                    style={{ color: theme.secondary, cursor: "pointer" }}>
                                                     {stringFa.live_score}
                                                     <div className="live-indicator" />
                                                 </p> :

@@ -43,12 +43,15 @@
           border-bottom: 1px solid;
           padding-bottom: 0.5rem;
           cursor: pointer;
+          .tournament-item-bar{
+            opacity: 0.6;
+          }
         }
       }
       .hide {
         display: none;
       }
-      .touranament-item-input {
+      .tournament-item-input {
         position: absolute;
         top: 0;
         left: 0;
@@ -162,13 +165,12 @@
 
 @media only screen and (min-width: 780px) {
   .tournament-page-wrapper {
-    height: 93%;
     .tournament-body {
       .tournament-search {
         width: fit-content;
       }
       .tournament-content {
-        .touranament-item-input {
+        .tournament-item-input {
           position: relative;
           width: 100%;
           max-width: fit-content;

@@ -15,7 +15,10 @@ import { dynamicApi, formDataDynamic } from "../../../../api/home";
 import { baseUrl } from "../../../../constants/Config";
 
 
-const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
+const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
+    onUpdateItem, onAddItem,
+    content, onBack, setShowInputForm,
+    removeLoading, onPlayerItemFromTeam }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         username: {
@@ -64,26 +67,6 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
             checkNeeded: false,
             status: 0,
         },
-        team: {
-            value: '',
-            title: stringFa.team,
-            elementConfig: {
-                type: 'text',
-            },
-            elementType: elementTypes.dropDown,
-            invalid: true,
-            validation: {
-                required: true
-            },
-            shouldValidate: true,
-            isFocused: false,
-            touched: false,
-            hidden: false,
-            id: '',
-            items: [],
-
-
-        },
         birthDate: {
             value: '',
             title: stringFa.birth_data,
@@ -128,11 +111,10 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
         setLoading(true)
         setDialog(null);
         try {
-
             let payload = {
                 username: order.username.value,
                 playerId: content._id,
-                teamId: order.team.id,
+                teamId: teamId,
                 nationalNumber: order.id.value,
                 birthDate: new Date(order.birthDate.value),
             }
@@ -161,13 +143,12 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
         try {
             let payload = {
                 username: order.username.value,
-                teamId: order.team.id,
+                teamId,
                 nationalNumber: order.id.value,
                 birthDate: new Date(order.birthDate.value),
-                tournamentId,
             }
             let created = await
-                formDataDynamic(imagePath, payload, token, 'create_player')
+                formDataDynamic(imagePath, payload, token, 'create_team_player')
             setDialog(
                 <ErrorDialog
                     type={created.success ? 'success' : "error"}
@@ -180,7 +161,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
                 })
                 if (window.innerWidth < 780)
                     setShowInputForm(false)
-                clear()
+                // clear()
             }
         } catch (error) {
             setLoading(false)
@@ -204,10 +185,6 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
         updatedOrder.birthDate.value = '';
         updatedOrder.birthDate.invalid = true;
 
-        updatedOrder.team.value = '';
-        updatedOrder.team.id = '';
-        updatedOrder.team.invalid = true;
-
         setOrder(updatedOrder)
     }
 
@@ -227,40 +204,11 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
             updatedOrder.birthDate.value = content.birth_date;
             updatedOrder.birthDate.invalid = false;
 
-            updatedOrder.team.id = content.team._id;
-            updatedOrder.team.value = content.team.name;
-            updatedOrder.team.invalid = false;
-
             setOrder(updatedOrder)
         } else {
             clear()
         }
     }, [content])
-
-    useEffect(() => {
-        if (!tournamentId) return;
-        (async () => {
-            try {
-                setTeamLoading(true)
-                let fetchedItems = await dynamicApi({ id: tournamentId }, token, 'get_teams')
-                if (!fetchedItems.success) {
-                    setDialog(<ErrorDialog type="error">{fetchedItems.data.message}</ErrorDialog>)
-                    return;
-                }
-                let updatedOrder = { ...order }
-                updatedOrder.team.items = [...fetchedItems.data.teams.map(item => {
-                    return {
-                        text: item.team.name, id: item.team._id
-                    }
-                })]
-                setOrder(updatedOrder)
-            } catch (error) {
-                setTeamLoading(false)
-                setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
-            }
-            setTeamLoading(false)
-        })()
-    }, [tournamentId])
 
     useEffect(() => {
         if (!order.id.checkNeeded) return;
@@ -346,10 +294,10 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
                             <Button
                                 back={theme.error}
                                 hover={theme.error_variant}
-                                onClick={() => onRemoveItemFromTournament(content._id)}
+                                onClick={() => onPlayerItemFromTeam(content._id)}
                                 loading={removeLoading}
                             >
-                                {stringFa.remove_from_tournament}
+                                {stringFa.remove_player_from_team}
                             </Button> :
                             <TransparentButton
                                 onClick={() => { setShowInputForm(false) }}
@@ -364,4 +312,4 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
     )
 };
 
-export default PlayerForm;
+export default TeamPlayerForm;

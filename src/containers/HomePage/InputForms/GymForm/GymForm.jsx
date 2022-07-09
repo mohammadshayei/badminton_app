@@ -121,6 +121,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
         if (event.target.files[0]) {
             setImageSrc(URL.createObjectURL(event.target.files[0]));
             setImagePath(event.target.files[0])
+            setChanged(true)
         }
     }
     const onSaveChange = async () => {
@@ -144,7 +145,8 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
                 >{result.data.message}</ErrorDialog>)
             if (result.success) {
                 onUpdateItem({ _id: content._id, title: order.gymTitle.value, selected: true })
-                onBack()
+                if (window.innerWidth < 780)
+                    onBack()
             }
 
         } catch (error) {
@@ -179,7 +181,8 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
                     title: order.gymTitle.value,
                     selected: true
                 })
-                setShowInputForm(false)
+                if (window.innerWidth < 780)
+                    setShowInputForm(false)
                 clear()
             }
         } catch (error) {

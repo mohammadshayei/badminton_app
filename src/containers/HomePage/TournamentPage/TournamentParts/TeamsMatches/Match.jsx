@@ -10,10 +10,12 @@ import { dynamicApi } from "../../../../../api/home";
 import { useSelector } from "react-redux";
 import { IoTrashBin } from "react-icons/io5";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
+import { useNavigate } from "react-router-dom";
 
-const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
-    const [loading, setLoading] = useState(false)
+const Match = ({ matchId, deleteMatch, addMatch, dateValue, onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
+    const [loading, setLoading] = useState('')
     const [dialog, setDialog] = useState(null)
+    const [removeAble, setRemoveAble] = useState(false)
     const [order, setOrder] = useState({
         teamA: {
             text: "",
@@ -42,8 +44,10 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
         }
     })
     const [saved, setSaved] = useState(false)
-
     const { token } = useSelector(state => state.auth)
+
+    const navigate = useNavigate()
+
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -60,7 +64,7 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
         setOrder(updatedOrder)
     }
     const onSave = async () => {
-        setLoading(true)
+        setLoading('save')
         setDialog(null)
         if (!day || !day.date)
             setDialog(<ErrorDialog type="error">{stringFa.select_date}</ErrorDialog>)
@@ -89,6 +93,24 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
             const result = await dynamicApi(payload, token, url)
             if (result.success) {
                 setDialog(<ErrorDialog type='success'>{result.data.message}</ErrorDialog>)
+                setRemoveAble(true)
+                let matchData = {
+                    games: [],
+                    referee: {
+                        username: order.referee.text,
+                        _id: order.referee.id,
+                    },
+                    teamA: {
+                        name: order.teamA.text,
+                        _id: order.teamA.id,
+                    },
+                    teamB: {
+                        name: order.teamB.text,
+                        _id: order.teamB.id,
+                    },
+                    _id: result.data.id
+                }
+                addMatch(matchData)
             }
             else {
                 let updatedOrder = { ...order }
@@ -115,16 +137,19 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
                 setOrder(updatedOrder)
             }
             setSaved(true)
+
+
         } catch (error) {
-            setLoading(false)
+            setLoading('')
             setSaved(true)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
-        setLoading(false)
+        setLoading('')
 
     }
     const onRemove = async () => {
         setDialog(null)
+        setLoading('delete')
         if (!data)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         try {
@@ -165,12 +190,18 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
             }
             else {
                 setDialog(<ErrorDialog type='error'>{result.data.message}</ErrorDialog>)
+                setSaved(true)
+                return;
             }
             setSaved(true)
+            setRemoveAble(false)
+            deleteMatch(data._id)
         } catch (error) {
+            setLoading('')
             setSaved(true)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
+        setLoading('')
 
     }
     useEffect(() => {
@@ -185,6 +216,7 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
             updatedOrder.teamB.id = ''
             updatedOrder.teamB.text = ''
             setOrder(updatedOrder)
+            setRemoveAble(false)
             return;
         };
         let updatedOrder = { ...order }
@@ -198,6 +230,8 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
         updatedOrder.teamB.text = data.teamB.name
         setOrder(updatedOrder)
         setSaved(true)
+        if (data.games?.length === 0)
+            setRemoveAble(true)
     }, [data])
     return <>
         {dialog}
@@ -295,9 +329,10 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
                         color: theme.error
                     }}
                     config={{
-                        disabled: !data
+                        disabled: !removeAble
                     }}
                     onClick={() => onRemove()}
+                    loading={loading === 'delete'}
                 >
                     <IoTrashBin />
                 </TransparentButton>
@@ -315,7 +350,7 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
                         disabled: (saved) || (!order.referee.id || !order.teamA.id || !order.teamB.id)
                     }}
 
-                    loading={loading}
+                    loading={loading === 'save'}
                 >
                     {stringFa.save}
                 </TransparentButton>
@@ -332,11 +367,17 @@ const Match = ({ dateValue, onShowGame, createAccess, data, day, index, setShowG
                         disabled: !data?.games?.length > 0
                     }}
                     onClick={() => {
-                        onShowGame(data?._id)
-                        setShowGames(true)
+                        if (matchId) {
+                            navigate(`/tournaments/${tournamentId}?part=teamMatch`)
+                            setShowGames(false)
+                        }
+                        else {
+                            setShowGames(true)
+                            onShowGame(data?._id)
+                        }
                     }}
                 >
-                    {stringFa.show_games}
+                    {matchId ? stringFa.close : stringFa.show_games}
                 </TransparentButton>
             }
 

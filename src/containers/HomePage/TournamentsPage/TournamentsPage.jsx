@@ -68,7 +68,9 @@ const TournamentsPage = () => {
     const onTournamentClickHandler = (id) => {
         navigate(`/tournaments/${id}?part=team`)
     }
-
+    const onLiveGameClickHandler = () => {
+        navigate(`/live_scores`)
+    }
 
     useEffect(() => {
         if (!token) return;
@@ -118,7 +120,7 @@ const TournamentsPage = () => {
             >
                 {
                     lives.map(item =>
-                        <div className="live-score-item">
+                        <div className="live-score-item" key={item._id} onClick={() => onLiveGameClickHandler()}>
                             <Icon className="live-icon" icon="fluent:live-24-regular" color={theme.on_primary} />
                             <p>{item.title}</p>
                         </div>

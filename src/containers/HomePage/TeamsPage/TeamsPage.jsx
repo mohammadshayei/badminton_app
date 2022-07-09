@@ -21,20 +21,16 @@ const TeamsPage = () => {
     const [myTeams, setMyTeams] = useState([])
     const [teams, setTeams] = useState([])
 
-    const tournamentDays = 7,
-        tournamentPaidDays = 4,
-        pastDays = 1;
-
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
     const { token } = useSelector(state => state.auth)
 
-    const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const onTeamClickHandler = (id) => {
-        navigate(`/teams/${id}?part=informations`)
+    const onTeamClickHandler = (id, type) => {
+        let url = type === 1 ? 'informations' : 'games'
+        navigate(`/teams/${id}?part=${url}`)
     }
     useEffect(() => {
         if (!token) return;
@@ -91,7 +87,7 @@ const TeamsPage = () => {
                             style={{
                                 backgroundColor: theme.surface,
                             }}
-                            onClick={() => onTeamClickHandler(team._id)}
+                            onClick={() => onTeamClickHandler(team._id, 1)}
                         >
                             <div className="team-logo">
                                 <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
@@ -112,6 +108,7 @@ const TeamsPage = () => {
                                             paid={tournament.paid}
                                             past={tournament.past}
                                             showDetail={false}
+                                            showNumbers={true}
                                         />
                                     </div>)
                                 }
@@ -137,7 +134,7 @@ const TeamsPage = () => {
                                     key={team._id}
                                     className="team-name-and-logo"
                                     style={{ backgroundColor: team === 1 ? theme.hover : "transparent" }}
-                                    onClick={() => onTeamClickHandler(team)}
+                                    onClick={() => onTeamClickHandler(team._id, 2)}
                                 >
                                     <div className="team-logo">
                                         <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />

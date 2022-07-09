@@ -65,7 +65,7 @@ const TournamentPage = ({ id }) => {
     const [filterSelectors, setFilterSelectors] = useState(null);
     const [showInputForm, setShowInputForm] = useState(false)
     const [createAccess, setCreateAccess] = useState(false)
-
+    const [listItemFetched, setListItemFetched] = useState(false)
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
@@ -77,23 +77,18 @@ const TournamentPage = ({ id }) => {
     const part = searchParams.get("part");
     const item = searchParams.get("item");
     const matchId = searchParams.get("matchId");
+    const create = searchParams.get("create");
 
 
     const onItemClick = (itemId) => {
         navigate(`/tournaments/${tournament._id}?part=${part}&item=${itemId}`)
-        setListItem(lst => lst.map(item => {
-            return {
-                ...item,
-                selected: item._id === itemId ? true : false
-            }
-        }))
     }
     const onShowGame = (gId) => {
         navigate(`/tournaments/${tournament._id}?part=teamMatch&matchId=${gId}`)
     }
 
     const onAddItemClickHandler = () => {
-        setShowInputForm(true)
+        navigate(`/tournaments/${tournament._id}?part=${part}&create=1`)
     }
     const onAddItemToTournament = async (item) => {
         try {
@@ -125,7 +120,7 @@ const TournamentPage = ({ id }) => {
                     type={result.success ? 'success' : "error"}
                 >{result.data.message}</ErrorDialog>)
             if (result.success) {
-                onRemoveItem(content?._id)
+                onRemoveItem(itemId)
                 navigate(`/tournaments/${id}?part=${part}`)
 
             }
@@ -141,7 +136,7 @@ const TournamentPage = ({ id }) => {
         setListItem(lst => [item, ...lst,])
     }
     const onRemoveItem = (itemId) => {
-        setListItem(lst => lst.filter(item => item._id !== itemId))
+        setListItem(lst => lst.filter(lstItem => lstItem._id !== itemId))
     }
     const onUpdateItem = (item) => {
         let updatedListItem = [...listItem]
@@ -183,7 +178,7 @@ const TournamentPage = ({ id }) => {
 
     }
     const onBack = () => {
-        if (content)
+        if (item)
             navigate(`/tournaments/${id}?part=${part}`)
         else setShowInputForm(false)
     }
@@ -210,20 +205,33 @@ const TournamentPage = ({ id }) => {
 
 
     useEffect(() => {
-        if (!content) {
-            setShowInputForm(false)
-
-        } else
+        if (!item) {
+            if (!create)
+                setShowInputForm(false)
+        } else if (listItemFetched) {
             setShowInputForm(true)
-        setListItem(lst => lst.map(item => {
-            return {
-                ...item,
-                selected: content?._id === item._id ? true : false
-            }
-        }))
+            if (!create)
+                setListItem(lst => lst.map(lstItem => {
+                    return {
+                        ...lstItem,
+                        selected: item === lstItem._id
+                    }
+                }))
+        }
 
-    }, [content])
-
+    }, [item, listItemFetched, create])
+    useEffect(() => {
+        if (create === '1') {
+            console.log('here')
+            setShowInputForm(true)
+            setListItem(lst => lst.map(lstItem => {
+                return {
+                    ...lstItem,
+                    selected: false
+                }
+            }))
+        }
+    }, [create])
 
     useEffect(() => {
         if (part === 'referee') {
@@ -280,13 +288,9 @@ const TournamentPage = ({ id }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
-    useEffect(() => {
-        if (item) setShowInputForm(true)
-        else setShowInputForm(false)
-    }, [item])
 
     useEffect(() => {
-        setShowInputForm(false)
+        // setShowInputForm(false)
         if (!part || !filterSelectors) return;
         let updatedFilterSelectors = { ...filterSelectors };
         for (const key in updatedFilterSelectors) {
@@ -343,13 +347,14 @@ const TournamentPage = ({ id }) => {
                     return;
                 }
                 setListItem(fetchedItems.data[path]
-                    .map((item) => {
+                    .map((lstItem) => {
                         return {
-                            ...item[path.substring(0, path.length - 1)],
+                            ...lstItem[path.substring(0, path.length - 1)],
                             selected: false
                         }
                     }
                     ))
+                setListItemFetched(true)
             } catch (error) {
                 setContentLoading(false)
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
@@ -476,7 +481,6 @@ const TournamentPage = ({ id }) => {
         }
     }, [id, part, showInputForm, content, tournament, itemLoading, createAccess])
 
-
     return (
         <div className='tournament-page-wrapper'>
             {dialog}
@@ -550,6 +554,7 @@ const TournamentPage = ({ id }) => {
                                                         index={index + 1}
                                                         indexNeeded={part === 'team' ? true : false}
                                                         item={item}
+                                                        isReferee={tournament?.chief._id === user?._id}
                                                         selector={() => {
                                                             if (part === 'team') return 'name'
                                                             else if (part === 'player' || part === 'referee') return 'username'
@@ -569,7 +574,7 @@ const TournamentPage = ({ id }) => {
                                                 </div>
                                     }
                                 </div>
-                                <div className={`touranament-item-input ${createAccess ? "item-input-form" : ""}`}
+                                <div className={`tournament-item-input ${createAccess ? "item-input-form" : ""}`}
                                     style={{
                                         backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
                                         display: showInputForm ? 'flex' : 'none',

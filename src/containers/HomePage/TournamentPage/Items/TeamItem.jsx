@@ -1,6 +1,7 @@
+import CreditBar from "../../../../components/UI/CreditBar/CreditBar";
 import { useTheme } from "../../../../styles/ThemeProvider";
 
-const TeamItem = ({ item, index, indexNeeded, selector, onClick }) => {
+const TeamItem = ({ item, index, indexNeeded, selector, onClick, isReferee }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
@@ -21,7 +22,17 @@ const TeamItem = ({ item, index, indexNeeded, selector, onClick }) => {
                     {item[selector()]}
                 </p>
             }
-
+            <div className="tournament-item-bar">
+                {
+                    indexNeeded && isReferee && <CreditBar
+                        days={item.days}
+                        paid={item.paid}
+                        past={item.past}
+                        showDetail={false}
+                        showNumbers={false}
+                    />
+                }
+            </div>
         </div>
     )
 }

@@ -48,7 +48,7 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                                         "rgba(172, 209, 175,0.25)" :
                                         "rgba(244, 113, 116,0.3)"
                                     :
-                                    k === "teamB" ? "#00000077" : "transparent"
+                                    data[k].server ? "#00000077" : "transparent"
                             }}
                         >
                             <div className="players-name">
