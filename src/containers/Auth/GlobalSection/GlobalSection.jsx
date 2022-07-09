@@ -11,7 +11,10 @@ import { stringFa } from "../../../assets/strings/stringFaCollection";
 const HeaderAuth = () => {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [gamesFetched, setGamesFetched] = useState(false)
     const [dialog, setDialog] = useState(null)
+    const [gamesScores, setGamesScores] = useState([])
+    const [endGamesScores, setEndGamesScores] = useState([])
     const [gamesStats, setGamesStats] = useState(null);
     const [gamesViewers, setGamesViewers] = useState(null);
     const [duration, setDuration] = useState([]);
@@ -41,6 +44,8 @@ const HeaderAuth = () => {
                 const result = await getLiveGames()
                 if (result.success) {
                     setGames(result.data)
+                    setGamesFetched(true)
+
                 } else {
                     setDialog(null)
                     setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
@@ -57,19 +62,25 @@ const HeaderAuth = () => {
     useEffect(() => {
         if (socket && games) {
             if (timer === 0) {
-                socket.on('get_change_score_set', (payload => {
-                    const { scoreA, scoreB, gameId } = payload;
+                socket.on('get_change_event_set', (payload => {
+                    const { scoreA, scoreB, serverA, serverB, gameId } = payload;
+                    setTimer(100)
                     let updatedGamesStats = { ...gamesStats }
                     if (updatedGamesStats[gameId]) {
-                        updatedGamesStats[gameId].teamA = scoreA;
-                        updatedGamesStats[gameId].teamB = scoreB;
+                        updatedGamesStats[gameId].teamA = { score: scoreA, server: serverA };
+                        updatedGamesStats[gameId].teamB = { score: scoreB, server: serverB };
                     } else {
-                        updatedGamesStats = { ...updatedGamesStats, [gameId]: { teamA: scoreA, teamB: scoreB } }
+                        updatedGamesStats = {
+                            ...updatedGamesStats, [gameId]: {
+                                teamA: { score: scoreA, server: serverA }
+                                , teamB: { score: scoreB, server: serverB },
+                            }
+                        }
                     }
                     setGamesStats(updatedGamesStats)
                     setTimeout(() => {
                         setTimer(0)
-                    }, 50)
+                    }, 100)
                 }))
             }
 
@@ -79,26 +90,11 @@ const HeaderAuth = () => {
 
     useEffect(() => {
         if (socket && games) {
-            socket.on('get_winner_team', (payload => {
-                let { teamName, gameId } = payload;
-                let updatedGames = [...games]
-                let gameIndex = updatedGames.findIndex(item => item._id === gameId)
-                if (gameIndex >= 0) {
-                    if (teamName === 'team1')
-                        updatedGames[gameIndex].teamA.setWon =
-                            updatedGames[gameIndex].teamA.setWon + 1
-                    else
-                        updatedGames[gameIndex].teamB.setWon =
-                            updatedGames[gameIndex].teamB.setWon + 1
-                    setGames(updatedGames)
-                }
-
-            }))
             socket.on('get_live_game', (payload => {
                 let { game } = payload;
                 let updatedGames = [...games]
-                console.log('live games')
-                updatedGames.push(game)
+                if (updatedGames.findIndex(item => item._id === game._id) < 0)
+                    updatedGames.push(game)
                 setGames(updatedGames)
             }
 
@@ -108,6 +104,10 @@ const HeaderAuth = () => {
                 let updatedGames = [...games]
                 updatedGames = updatedGames.filter(game => game._id !== gameId)
                 setGames(updatedGames)
+                let updatedGamesScores = gamesScores.filter(item => item.gameId !== gameId)
+                setGamesScores(updatedGamesScores)
+                let updatedEndGamesScores = endGamesScores.filter(item => item.gameId !== gameId)
+                setEndGamesScores(updatedEndGamesScores)
             }
 
             ))
@@ -174,13 +174,68 @@ const HeaderAuth = () => {
         if (!games) return;
         const interval = setInterval(() => {
             getDuration();
-        }, 1000);
+        }, 50000);
 
         return () => {
             clearInterval(interval);
         };
     }, [games]);
 
+    useEffect(() => {
+        if (!socket || !gamesFetched) return;
+        socket.on('get_winner_team', (payload => {
+            let { scores, gameId } = payload;
+            let updatedGamesScores = [...gamesScores]
+            let index = updatedGamesScores.findIndex(item => item.gameId === gameId)
+            if (index > -1) {
+                updatedGamesScores[index] = {
+                    scores,
+                    gameId,
+                }
+            }
+            else {
+                updatedGamesScores.push({
+                    gameId,
+                    scores
+                })
+            }
+            setGamesScores(updatedGamesScores)
+
+
+        }))
+
+    }, [gamesFetched, socket, gamesScores])
+    useEffect(() => {
+        if (!socket || !gamesFetched) return;
+        socket.on('get_end_game_stats', (payload => {
+            let { gameId, teamA, teamB } = payload;
+            let updatedData = [...endGamesScores]
+            let index = updatedData.findIndex(item => item.gameId === gameId)
+            if (index > -1) {
+                updatedData[index] = {
+                    scores: { a: teamA, b: teamB },
+                    gameId,
+                }
+            }
+            else {
+                updatedData.push({
+                    gameId,
+                    scores: { a: teamA, b: teamB },
+                })
+            }
+            setEndGamesScores(updatedData)
+            setTimeout(() => {
+                let updatedGames = [...games]
+                updatedGames = updatedGames.filter(game => game._id !== gameId)
+                setGames(updatedGames)
+                let updatedGamesScores = gamesScores.filter(item => item.gameId !== gameId)
+                setGamesScores(updatedGamesScores)
+                let updatedEndGamesScores = endGamesScores.filter(item => item.gameId !== gameId)
+                setEndGamesScores(updatedEndGamesScores)
+            }, 5000);
+
+        }))
+    }, [endGamesScores, socket, gamesFetched])
     return (
         <div className='global-section-container'
             style={{
@@ -205,6 +260,8 @@ const HeaderAuth = () => {
                             game={game}
                             gamesViewers={gamesViewers}
                             gamesStats={gamesStats}
+                            gamesScores={gamesScores}
+                            endGamesScores={endGamesScores}
                         />
                     ))
                 )
