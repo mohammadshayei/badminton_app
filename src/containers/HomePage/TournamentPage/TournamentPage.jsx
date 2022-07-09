@@ -528,49 +528,64 @@ const TournamentPage = ({ id }) => {
                                         createAccess={part === 'referee' ? user?._id === tournament?.chief?._id : createAccess}
                                     />
                                     {
-                                        contentLoading ?
-                                            [...Array(5).keys()].map((v) =>
-                                                <Skeleton
-                                                    key={v}
-                                                    className="tournament-item"
-                                                    direction='rtl'
-                                                    baseColor={theme.border_color}
-                                                    highlightColor={theme.darken_border_color}
-                                                    style={{ border: "none" }}
-                                                />) :
-                                            filteredListItems.length > 0 ?
-                                                filteredListItems.map((item, index) =>
-                                                    <TeamItem
-                                                        key={item._id}
-                                                        index={index + 1}
-                                                        indexNeeded={part === 'team' ? true : false}
-                                                        item={item}
-                                                        isReferee={tournament?.chief._id === user?._id}
-                                                        selector={() => {
-                                                            if (part === 'team') return 'name'
-                                                            else if (part === 'player' || part === 'referee') return 'username'
-                                                            else if (part === 'gym') return 'title'
-                                                        }}
-                                                        onClick={() => onItemClick(item._id)}
-                                                    />
-                                                )
-                                                : <div className='not_found'>
-                                                    <Icon
-                                                        icon="uit:exclamation-circle"
-                                                        fontSize="3rem"
-                                                        opacity={0.3}
-                                                        color={theme.on_background}
-                                                    />
-                                                    {stringFa.item_not_found}
-                                                </div>
+                                        createAccess &&
+                                        <Button
+                                            onClick={onAddItemClickHandler}
+                                        >
+                                            <div className='button-add'>
+                                                <AiOutlinePlus style={{ fontSize: 15 }} />
+                                                {`${partTitle} جدید`}
+                                            </div>
+                                        </Button>
                                     }
                                 </div>
-                                <div className={`tournament-item-input ${createAccess ? "item-input-form" : ""}`}
-                                    style={{
-                                        backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
-                                        display: showInputForm ? 'flex' : 'none',
-                                    }}>
-                                    {form}
+                                <div className='tournament-content'>
+                                    <div className={`tournament-list-items ${showInputForm ? 'hide' : ''}`}>
+                                        {
+                                            contentLoading ?
+                                                [...Array(5).keys()].map((v) =>
+                                                    <Skeleton
+                                                        key={v}
+                                                        className="tournament-item"
+                                                        direction='rtl'
+                                                        baseColor={theme.border_color}
+                                                        highlightColor={theme.darken_border_color}
+                                                        style={{ border: "none" }}
+                                                    />) :
+                                                filteredListItems.length > 0 ?
+                                                    filteredListItems.map((item, index) =>
+                                                        <TeamItem
+                                                            key={item._id}
+                                                            index={index + 1}
+                                                            indexNeeded={part === 'team' ? true : false}
+                                                            item={item}
+                                                            isReferee={tournament?.chief._id === user?._id}
+                                                            selector={() => {
+                                                                if (part === 'team') return 'name'
+                                                                else if (part === 'player' || part === 'referee') return 'username'
+                                                                else if (part === 'gym') return 'title'
+                                                            }}
+                                                            onClick={() => onItemClick(item._id)}
+                                                        />
+                                                    )
+                                                    : <div className='not_found'>
+                                                        <Icon
+                                                            icon="uit:exclamation-circle"
+                                                            fontSize="3rem"
+                                                            opacity={0.3}
+                                                            color={theme.on_background}
+                                                        />
+                                                        {stringFa.item_not_found}
+                                                    </div>
+                                        }
+                                    </div>
+                                    <div className={`tournament-item-input ${createAccess ? "item-input-form" : ""}`}
+                                        style={{
+                                            backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
+                                            display: showInputForm ? 'flex' : 'none',
+                                        }}>
+                                        {form}
+                                    </div>
                                 </div>
                             </div>
             }
