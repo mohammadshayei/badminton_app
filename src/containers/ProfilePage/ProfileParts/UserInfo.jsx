@@ -218,9 +218,6 @@ const UserInfo = ({ setDialog }) => {
                 <Skeleton
                     width={200}
                     height={200}
-                    baseColor={theme.border_color}
-                    highlightColor={theme.darken_border_color}
-                    direction='rtl'
                     circle={true} />
             }
         </div>

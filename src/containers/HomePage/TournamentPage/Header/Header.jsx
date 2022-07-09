@@ -22,9 +22,6 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                     {loading ?
                         <Skeleton
                             className="image-skeleton"
-                            baseColor={theme.border_color}
-                            highlightColor={theme.darken_border_color}
-                            direction='rtl'
                             circle={true} /> :
                         tournament?.image ? <img src={`${baseUrl}uploads/tournaments/${tournament?.image}`} alt='' /> :
                             <GiTrophyCup />
@@ -33,11 +30,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                 <div className="tournament-header-content">
                     <div className="tournament-title">
                         {loading ?
-                            <Skeleton
-                                baseColor={theme.border_color}
-                                highlightColor={theme.darken_border_color}
-                                width={270}
-                                direction='rtl' /> :
+                            <Skeleton width={270} /> :
                             <>
                                 {tournament?.title}
                                 <TransparentButton
@@ -52,29 +45,17 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                     <div className="tournament-detail tournament-detail-gap">
                         <Icon icon="ion:create" />
                         {loading ?
-                            <Skeleton
-                                baseColor={theme.border_color}
-                                highlightColor={theme.darken_border_color}
-                                width={200}
-                                direction='rtl' /> :
+                            <Skeleton width={200} /> :
                             tournament?.chief.username}
                     </div>
                     <div className="tournament-detail-gap">
                         <Icon icon="akar-icons:person-check" />
                         {loading ?
-                            <Skeleton
-                                baseColor={theme.border_color}
-                                highlightColor={theme.darken_border_color}
-                                width={100}
-                                direction='rtl' /> :
+                            <Skeleton width={100} /> :
                             tournament?.age_category}
                     </div>
                     {loading ?
-                        <Skeleton
-                            baseColor={theme.border_color}
-                            highlightColor={theme.darken_border_color}
-                            width={50}
-                            direction='rtl' /> :
+                        <Skeleton width={50} /> :
                         tournament?.period &&
                         <div className="tournament-detail-gap">
                             <Icon icon="akar-icons:arrow-cycle" />
@@ -85,11 +66,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         <Icon icon="heroicons-outline:calendar" />
                         <div className="date">
                             {loading ?
-                                <Skeleton
-                                    baseColor={theme.border_color}
-                                    highlightColor={theme.darken_border_color}
-                                    width={150}
-                                    direction='rtl' /> :
+                                <Skeleton width={150} /> :
                                 <>
                                     <p>از</p>
                                     <p>{tournament?.game_date.start && new Date(tournament?.game_date.start).toLocaleDateString('fa-IR')}</p>

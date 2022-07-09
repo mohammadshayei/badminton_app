@@ -537,9 +537,6 @@ const TournamentPage = ({ id }) => {
                                                 <Skeleton
                                                     key={v}
                                                     className="tournament-item"
-                                                    direction='rtl'
-                                                    baseColor={theme.border_color}
-                                                    highlightColor={theme.darken_border_color}
                                                     style={{ border: "none" }}
                                                 />) :
                                             filteredListItems.length > 0 ?

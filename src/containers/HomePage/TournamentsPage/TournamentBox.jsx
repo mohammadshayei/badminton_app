@@ -32,7 +32,7 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
     >
         <div className="box-indicator"
             style={{ color: theme.on_surface }}
-        >   {loading ? <Skeleton className="image-skeleton" direction='rtl' circle={true} /> :
+        >   {loading ? <Skeleton className="image-skeleton" circle={true} /> :
             image ? <img src={`${baseUrl}uploads/tournaments/${image}`} alt='' /> :
                 <GiTrophyCup />
             }
@@ -40,17 +40,17 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
         </div>
         <div className="box-content">
             <div className="tournament-title">
-                {loading ? <Skeleton className="title-skeleton" direction='rtl' /> : title}
+                {loading ? <Skeleton className="title-skeleton" /> : title}
             </div>
             <div className="tournament-detail">
-                {loading ? <Skeleton className="detail-skeleton" direction='rtl' /> :
+                {loading ? <Skeleton className="detail-skeleton" /> :
                     `${chiefName}  |  ${ageCategory}`}
             </div>
             <div className="tournament-date">
                 <Icon icon="flat-color-icons:calendar" />
                 <div className="date">
                     {loading ?
-                        <Skeleton className="date-skeleton" direction='rtl' /> :
+                        <Skeleton className="date-skeleton" /> :
                         <>
                             <p>از</p>
                             <p>{gameDate.start && new Date(gameDate.start).toLocaleDateString('fa-IR')}</p>

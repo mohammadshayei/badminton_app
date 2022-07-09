@@ -239,10 +239,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                         <Skeleton
                             key={v}
                             className="day"
-                            direction="rtl"
                             style={{ border: "none" }}
-                            baseColor={theme.border_color}
-                            highlightColor={theme.border_color}
                         />
                     )
                 }

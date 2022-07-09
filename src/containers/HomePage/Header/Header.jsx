@@ -20,9 +20,6 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                     {loading ?
                         <Skeleton
                             className="image-skeleton"
-                            baseColor={theme.border_color}
-                            highlightColor={theme.darken_border_color}
-                            direction='rtl'
                             circle={true} /> :
                         image
                     }
@@ -30,11 +27,7 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                 <div className="header-content">
                     <div className="header-title">
                         {loading ?
-                            <Skeleton
-                                baseColor={theme.border_color}
-                                highlightColor={theme.darken_border_color}
-                                width={270}
-                                direction='rtl' /> :
+                            <Skeleton width={270} /> :
                             <>
                                 {title}
                                 <TransparentButton
@@ -50,29 +43,17 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                             <div className="header-detail header-detail-gap">
                                 <Icon icon="ion:create" />
                                 {loading ?
-                                    <Skeleton
-                                        baseColor={theme.border_color}
-                                        highlightColor={theme.darken_border_color}
-                                        width={200}
-                                        direction='rtl' /> :
+                                    <Skeleton width={200} /> :
                                     detail?.chief.username}
                             </div>
                             <div className="header-detail-gap">
                                 <Icon icon="akar-icons:person-check" />
                                 {loading ?
-                                    <Skeleton
-                                        baseColor={theme.border_color}
-                                        highlightColor={theme.darken_border_color}
-                                        width={100}
-                                        direction='rtl' /> :
+                                    <Skeleton width={100} /> :
                                     detail?.age_category}
                             </div>
                             {loading ?
-                                <Skeleton
-                                    baseColor={theme.border_color}
-                                    highlightColor={theme.darken_border_color}
-                                    width={50}
-                                    direction='rtl' /> :
+                                <Skeleton width={50} /> :
                                 detail?.period &&
                                 <div className="header-detail-gap">
                                     <Icon icon="akar-icons:arrow-cycle" />
@@ -83,11 +64,7 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                                 <Icon icon="heroicons-outline:calendar" />
                                 <div className="date">
                                     {loading ?
-                                        <Skeleton
-                                            baseColor={theme.border_color}
-                                            highlightColor={theme.darken_border_color}
-                                            width={150}
-                                            direction='rtl' /> :
+                                        <Skeleton width={150} /> :
                                         <>
                                             <p>از</p>
                                             <p>{detail?.game_date.start && new Date(detail?.game_date.start).toLocaleDateString('fa-IR')}</p>
