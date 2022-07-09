@@ -6,13 +6,13 @@ import { useTheme } from "../../../styles/ThemeProvider";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { Icon } from '@iconify/react';
-import RoundSelector from "../../../components/UI/RoundSelector/RoundSelector";
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
 import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import DEFAULT_LOGO from '../../../assets/images/team_avatar.png';
 import CreditBar from "../../../components/UI/CreditBar/CreditBar";
-import { dynamicApi, dynamicGetApi } from "../../../api/home";
+import { dynamicGetApi } from "../../../api/home";
 import { baseUrl } from "../../../constants/Config";
+import Skeleton from 'react-loading-skeleton';
 
 const TeamsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -86,38 +86,55 @@ const TeamsPage = () => {
         <div className="teams-and-ads">
             <div className="teams-wrapper">
                 {
-                    myTeams.map(team =>
-                        <div className="my-team-box"
-                            style={{
-                                backgroundColor: theme.surface,
-                            }}
-                            onClick={() => onTeamClickHandler(team._id)}
-                        >
-                            <div className="team-logo">
-                                <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
-                            </div>
-                            <div className="team-name">{team.name}</div>
-                            <div className="tournaments">
-                                {
-                                    team.tournaments.map(tournament => <div className="tournament">
-                                        <div
-                                            key={tournament._id}
-                                            className="tournament-name"
-                                            style={{ color: theme.primary }}
-                                        >
-                                            {tournament.title}
-                                        </div>
-                                        <CreditBar
-                                            days={tournament.days}
-                                            paid={tournament.paid}
-                                            past={tournament.past}
-                                            showDetail={false}
-                                        />
-                                    </div>)
-                                }
+                    myTeams.length > 0 ?
+                        myTeams.map(team =>
+                            <div className="my-team-box"
+                                style={{
+                                    backgroundColor: theme.surface,
+                                }}
+                                onClick={() => onTeamClickHandler(team._id)}
+                            >
+                                <div className="team-logo">
+                                    <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
+                                </div>
+                                <div className="team-name">{team.name}</div>
+                                <div className="tournaments">
+                                    {
+                                        team.tournaments.map(tournament => <div className="tournament">
+                                            <div
+                                                key={tournament._id}
+                                                className="tournament-name"
+                                                style={{ color: theme.primary }}
+                                            >
+                                                {tournament.title}
+                                            </div>
+                                            <CreditBar
+                                                days={tournament.days}
+                                                paid={tournament.paid}
+                                                past={tournament.past}
+                                                showDetail={false}
+                                            />
+                                        </div>)
+                                    }
 
+                                </div>
+                            </div>) :
+                        <div className="my-team-box" style={{ backgroundColor: theme.surface, cursor: "default" }}>
+                            <Skeleton
+                                containerClassName="team-logo"
+                                circle={true}
+                                height="15vw"
+                                style={{ maxHeight: "80px", minHeight: "65px" }}
+                            />
+                            <Skeleton
+                                containerClassName="team-name"
+                                style={{ maxWidth: "500px" }}
+                            />
+                            <div className="tournaments">
+                                <Skeleton width={100} style={{ fontSize: "0.7rem" }} />
+                                <Skeleton />
                             </div>
-                        </div>)
+                        </div>
                 }
 
                 <div className="teams-container"
@@ -130,7 +147,18 @@ const TeamsPage = () => {
                     </div>
                     {
                         loading ?
-                            "Loading..."
+                            [...Array(3).keys()].map((v) =>
+                                <div key={v} className="team-name-and-logo"
+                                    style={{ cursor: "default" }}
+                                >
+                                    <Skeleton
+                                        width={50}
+                                        height={50}
+                                        circle={true}
+                                    />
+                                    <Skeleton width={200} />
+                                </div>
+                            )
                             :
                             teams.map(team =>
                                 <div
