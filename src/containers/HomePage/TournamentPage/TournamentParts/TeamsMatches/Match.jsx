@@ -12,7 +12,7 @@ import { IoTrashBin } from "react-icons/io5";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 import { useNavigate } from "react-router-dom";
 
-const Match = ({ matchId, deleteMatch, addMatch, dateValue, onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
+const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
     const [loading, setLoading] = useState('')
     const [dialog, setDialog] = useState(null)
     const [removeAble, setRemoveAble] = useState(false)
@@ -110,7 +110,10 @@ const Match = ({ matchId, deleteMatch, addMatch, dateValue, onShowGame, createAc
                     },
                     _id: result.data.id
                 }
-                addMatch(matchData)
+                if (data)
+                    editedMatch(matchData)
+                else
+                    addMatch(matchData)
             }
             else {
                 let updatedOrder = { ...order }

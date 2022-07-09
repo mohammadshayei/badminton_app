@@ -21,7 +21,6 @@ const TodayMatch = ({ tournamentId }) => {
             players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
             officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false,
-            loading: false,
             officialsOpen: false,
         },
         {
@@ -33,7 +32,6 @@ const TodayMatch = ({ tournamentId }) => {
             players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
             officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false,
-            loading: false,
             officialsOpen: false,
         },
         {
@@ -45,7 +43,6 @@ const TodayMatch = ({ tournamentId }) => {
             players: { a: [{ _id: "", value: "" }, { _id: "", value: "" }], b: [{ _id: "", value: "" }, { _id: "", value: "" }] },
             officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false,
-            loading: false,
             officialsOpen: false,
         }, {
             _id: '4',
@@ -56,7 +53,6 @@ const TodayMatch = ({ tournamentId }) => {
             players: { a: [{ _id: "", value: "" }, { _id: "", value: "" }], b: [{ _id: "", value: "" }, { _id: "", value: "" }] },
             officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false,
-            loading: false,
             officialsOpen: false,
         }, {
             _id: '5',
@@ -67,7 +63,6 @@ const TodayMatch = ({ tournamentId }) => {
             players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
             officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
             saved: false,
-            loading: false,
             officialsOpen: false,
         }
     ])
@@ -79,7 +74,7 @@ const TodayMatch = ({ tournamentId }) => {
     const [gym, setGym] = useState({ id: "", value: "" })
     const [matchId, setMatchId] = useState('')
     const [teamsName, setTeamsName] = useState({ a: "", b: "" })
-
+    const [itemLoading, setItemLoading] = useState({ type: '', content: "" })
     const { token } = useSelector(state => state.auth)
 
     const onChangeGym = async e => {
@@ -132,6 +127,7 @@ const TodayMatch = ({ tournamentId }) => {
 
     const onSave = async (gameKey) => {
         setDialog(null)
+        setItemLoading({ type: "save", content: gameKey })
         let updatedGames = [...games]
         let gameIndex = updatedGames.findIndex(item => item._id === gameKey)
         if (gameIndex < 0) return;
@@ -165,7 +161,6 @@ const TodayMatch = ({ tournamentId }) => {
                 index: gameIndex
             }
         }
-        updatedGames[gameIndex].loading = true
         try {
             let fetchedTournament = await dynamicApi(payload, token, path)
             updatedGames[gameIndex].loading = false;
@@ -185,15 +180,17 @@ const TodayMatch = ({ tournamentId }) => {
             updatedGames[gameIndex].saved = true;
 
         } catch (error) {
-            updatedGames[gameIndex].loading = false;
+            setItemLoading({ type: "", content: '' })
+
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         setGames(updatedGames)
-
+        setItemLoading({ type: "", content: '' })
     }
 
     const onRemove = async (gameKey) => {
         setDialog(null)
+        setItemLoading({ type: "delete", content: gameKey })
         let updatedGames = [...games]
         let gameIndex = updatedGames.findIndex(item => item._id === gameKey)
         if (updatedGames[gameIndex]._id.length === 1) return;
@@ -215,18 +212,18 @@ const TodayMatch = ({ tournamentId }) => {
                     players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
                     officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
                     saved: false,
-                    loading: false
                 }
             } else {
                 setDialog(<ErrorDialog type="error">{fetchedTournament.data.message}</ErrorDialog>)
             }
         } catch (error) {
             console.log(error)
-            setGames(updatedGames)
+            setItemLoading({ type: "", content: '' })
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
         updatedGames[gameIndex].saved = true;
         setGames(updatedGames)
+        setItemLoading({ type: "", content: '' })
 
     }
 
@@ -252,13 +249,15 @@ const TodayMatch = ({ tournamentId }) => {
                     setGyms(result.data.gyms)
                     setOfficials(result.data.referees)
                     setMatchId(result.data.match._id)
-                    setGym({ id: result.data.selectedGym._id, value: result.data.selectedGym.title })
-                    setLandNumbers(result.data.selectedGym.land_numbers.map((item, index) => {
-                        return {
-                            text: item.number,
-                            id: index
-                        }
-                    }))
+                    if (result.data.selectedGym) {
+                        setGym({ id: result.data.selectedGym._id, value: result.data.selectedGym.title })
+                        setLandNumbers(result.data.selectedGym.land_numbers.map((item, index) => {
+                            return {
+                                text: item.number,
+                                id: index
+                            }
+                        }))
+                    }
                     let updatedGames = [...games]
                     result.data.match.games.forEach((item) => {
                         updatedGames[item.game.index]._id = item.game._id;
@@ -336,6 +335,7 @@ const TodayMatch = ({ tournamentId }) => {
                             onSave={onSave}
                             onRemove={onRemove}
                             toggle={toggle}
+                            itemLoading={itemLoading}
                         />
                     )
                 }

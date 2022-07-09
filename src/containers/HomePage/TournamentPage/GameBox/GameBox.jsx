@@ -18,7 +18,8 @@ const GameBox = ({
     onChange,
     onRemove,
     onSave,
-    toggle
+    toggle,
+    itemLoading
 }) => {
 
     const themeState = useTheme();
@@ -154,6 +155,7 @@ const GameBox = ({
                         game?._id.length === 1
                 }}
                 onClick={() => onRemove(game._id)}
+                loading={itemLoading.type === 'delete' && itemLoading.content === game._id}
             >
                 <IoTrashBin />
             </TransparentButton>
@@ -168,7 +170,7 @@ const GameBox = ({
                         && game.players.b.findIndex(item => !item.value) < 0)
 
                 }}
-                loading={game.loading}
+                loading={itemLoading.type === 'save' && itemLoading.content === game._id}
                 ButtonStyle={{
                     padding: "0",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)",

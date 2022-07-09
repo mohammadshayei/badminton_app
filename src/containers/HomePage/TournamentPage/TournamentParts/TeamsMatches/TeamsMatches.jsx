@@ -129,6 +129,12 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         if (dayMatchs?.length === (maxMatchCount - 1))
             changeStatusDay(1)
     }
+    const editedMatch = match => {
+        let updatedDayMatchs = [...dayMatchs]
+        let findedIndex = updatedDayMatchs.findIndex(item => item.match._id === match._id)
+        updatedDayMatchs[findedIndex].match = match;
+        setDayMatchs(updatedDayMatchs)
+    }
     const onGoToLiveScore = (id) => {
         navigate(`/scoreboard_view?gameId=${id}`)
     }
@@ -353,6 +359,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                         deleteMatch={deleteMatch}
                                         addMatch={addMatch}
                                         matchId={matchId}
+                                        editedMatch={editedMatch}
                                     />
                                 </div>
                             )
