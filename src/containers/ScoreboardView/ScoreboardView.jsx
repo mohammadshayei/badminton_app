@@ -18,6 +18,7 @@ const ScoreboardView = () => {
     const [allCount, setAllCount] = useState(1);
     const [dialog, setDialog] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [dataSet, setDataSet] = useState(false)
     const [selectedSkin, setSelectedSkin] = useState(null);
 
     // const game = useSelector(state => state.gameInfo.gameView)
@@ -62,7 +63,8 @@ const ScoreboardView = () => {
             updatedData = {
                 teamA: {
                     players: game.teamA.players,
-                    score: game.sets.find(item => item.set.status !== 3).set.mid_game.teamA.score,
+                    score: game.sets.find(item => item.set.status !== 3)?.set.mid_game.teamA.score,
+                    server: game.sets.find(item => item.set.status !== 3)?.set.mid_game.teamA.server > 0,
                     setWon: game.sets.filter(item => item.set.teamA.setWon).length
                 }
             }
@@ -70,11 +72,13 @@ const ScoreboardView = () => {
                 ...updatedData,
                 teamB: {
                     players: game.teamB.players,
-                    score: game.sets.find(item => item.set.status !== 3).set.mid_game.teamB.score,
+                    score: game.sets.find(item => item.set.status !== 3)?.set.mid_game.teamB.score,
+                    server: game.sets.find(item => item.set.status !== 3)?.set.mid_game.teamB.server > 0,
                     setWon: game.sets.filter(item => item.set.teamB.setWon).length
                 }
             }
             setData(updatedData);
+            setDataSet(true)
         }
     }, [game])
 
@@ -82,12 +86,15 @@ const ScoreboardView = () => {
         if (socket && game && data) {
             if (timer === 0) {
                 socket.on('get_change_event_set', (payload => {
-                    const { scoreA, scoreB, gameId } = payload;
+                    const { scoreA, scoreB, gameId, serverA, serverB } = payload;
                     if (gameId === game._id) {
                         setTimer(200)
                         let updatedGame = { ...data }
                         updatedGame.teamA.score = scoreA
+                        updatedGame.teamA.server = serverA > 0
                         updatedGame.teamB.score = scoreB
+                        updatedGame.teamB.server = serverB > 0
+
                         setData(updatedGame)
                         setTimeout(() => {
                             setTimer(0)
@@ -97,8 +104,10 @@ const ScoreboardView = () => {
             }
 
         }
+        return () => {
+            socket.off("get_change_event_set");
+        }
     }, [socket, game, data, timer])
-
     useEffect(() => {
         if (socket && game) {
             socket.on('get_end_game_stats', (payload => {
@@ -109,6 +118,9 @@ const ScoreboardView = () => {
             }))
 
         }
+        return () => {
+            socket.off("get_end_game_stats");
+        }
     }, [socket, game])
 
     useEffect(() => {
@@ -117,6 +129,18 @@ const ScoreboardView = () => {
                 let { teamName, gameId } = payload;
                 if (gameId === game._id) {
                     setSetWonner(teamName)
+                    if (data) {
+                        let updatedGame = { ...data }
+                        if (teamName === 'team1') {
+                            updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
+                            updatedGame.teamA.server = true;
+                        }
+                        else {
+                            updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
+                            updatedGame.teamB.server = true;
+                        }
+                        setData(updatedGame)
+                    }
                 }
             }))
             socket.on('get_exit_game', (payload => {
@@ -131,7 +155,11 @@ const ScoreboardView = () => {
             }))
 
         }
-    }, [socket, game])
+        return () => {
+            socket.off("get_exit_game");
+            socket.off("get_winner_team");
+        }
+    }, [socket, game, dataSet])
 
     useEffect(() => {
         if (socket && ip && gameId) {
@@ -157,24 +185,24 @@ const ScoreboardView = () => {
         }
     }, [socket, gameId]);
 
-    useEffect(() => {
-        if (!setWonner) return;
-        let updatedGame = { ...data }
-        if (setWonner === 'team1')
-            updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
-        else
-            updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
-        updatedGame.teamA.score = 0
-        updatedGame.teamB.score = 0
-        setData(updatedGame)
-        setSetWonner('')
-        if (gymId && landNumber) {
-            setTimeout(() => {
-                navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
-            }, 30000);
-        }
+    // useEffect(() => {
+    //     if (!setWonner) return;
+    //     let updatedGame = { ...data }
+    //     if (setWonner === 'team1')
+    //         updatedGame.teamA.setWon = updatedGame.teamA.setWon + 1
+    //     else
+    //         updatedGame.teamB.setWon = updatedGame.teamB.setWon + 1
+    //     updatedGame.teamA.score = 0
+    //     updatedGame.teamB.score = 0
+    //     setData(updatedGame)
+    //     // setSetWonner('')
+    //     if (gymId && landNumber) {
+    //         setTimeout(() => {
+    //             navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
+    //         }, 30000);
+    //     }
 
-    }, [setWonner])
+    // }, [setWonner])
 
     useEffect(() => {
         setSelectedSkin(
