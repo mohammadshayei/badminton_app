@@ -449,10 +449,10 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                     />
                 )
             }
+            <TransparentButton onClick={onCreateNewGame} >
+                {`+ ${stringFa.new_game}`}
+            </TransparentButton>
         </div>
-        <TransparentButton onClick={onCreateNewGame} >
-            {`+ ${stringFa.new_game}`}
-        </TransparentButton>
     </div>;
 };
 
