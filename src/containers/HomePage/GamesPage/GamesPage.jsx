@@ -11,6 +11,7 @@ import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
 import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import { GiTennisCourt } from "react-icons/gi";
 import Skeleton from 'react-loading-skeleton'
+import Footer from "../Footer/Footer";
 
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
@@ -213,6 +214,7 @@ const GamesPage = () => {
           <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

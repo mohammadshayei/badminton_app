@@ -1,4 +1,6 @@
 .tournament-page-wrapper {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   flex: 1;
   direction: rtl;
@@ -43,7 +45,7 @@
           border-bottom: 1px solid;
           padding-bottom: 0.5rem;
           cursor: pointer;
-          .tournament-item-bar{
+          .tournament-item-bar {
             opacity: 0.6;
           }
         }

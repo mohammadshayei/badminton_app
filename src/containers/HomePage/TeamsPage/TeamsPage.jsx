@@ -13,6 +13,7 @@ import CreditBar from "../../../components/UI/CreditBar/CreditBar";
 import { dynamicGetApi } from "../../../api/home";
 import { baseUrl } from "../../../constants/Config";
 import Skeleton from 'react-loading-skeleton';
+import Footer from "../Footer/Footer";
 
 const TeamsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -181,6 +182,7 @@ const TeamsPage = () => {
                 <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
             </div>
         </div>
+        <Footer />
     </div>;
 };
 

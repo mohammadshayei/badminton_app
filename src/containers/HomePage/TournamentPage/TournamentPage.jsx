@@ -21,6 +21,8 @@ import Skeleton from 'react-loading-skeleton'
 import { useTheme } from '../../../styles/ThemeProvider'
 import { Icon } from '@iconify/react';
 import Games from './TournamentParts/Games/Games'
+import Overview from './TournamentParts/Overview/Overview';
+import Footer from '../Footer/Footer'
 
 const TournamentPage = ({ id }) => {
 
@@ -633,7 +635,7 @@ const TournamentPage = ({ id }) => {
                                 </div>
                             </div>
             }
-
+            <Footer />
         </div>
     )
 }

@@ -174,14 +174,18 @@ export const stringFa = {
   callback_status_OK_title: "پرداخت موفق",
   callback_status_OK_message: "پرداخت شما با موفقیت انجام شد.",
   remove_player_from_team: "حذف از تیم",
-  close:'بستن',
+  close: 'بستن',
   there_is_no_game: "بازی موجود نیست",
   game_scoresheet: "گزارش بازی",
   description: "شرح",
   price: "قیمت",
   special_offer: "پیشنهاد ویژه",
   day: "روز",
-  loading: "در حال بارگزاری"
+  loading: "در حال بارگزاری",
+  sports_setoos_software: "نرم افزار مدیریت ورزشی ستوس",
+  version: "نسخه",
+  copyright: "تمامی حقوق متعلق به فکرافزار است.",
+  support: "پشتیبانی"
 };
 
 export const daysName = [

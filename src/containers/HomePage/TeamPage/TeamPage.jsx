@@ -11,6 +11,7 @@ import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useSelector } from "react-redux";
 import TeamTournaments from "../TeamTournaments/TeamTournaments";
 import TeamPlayers from "../TeamPlayer/TeamPlayers";
+import Footer from "../Footer/Footer";
 
 const TeamPage = ({ id }) => {
 
@@ -159,6 +160,7 @@ const TeamPage = ({ id }) => {
                         createAccess={createAccess}
                     />
         }
+        <Footer />
     </div>;
 
 };
