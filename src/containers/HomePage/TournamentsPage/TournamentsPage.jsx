@@ -13,6 +13,7 @@ import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useNavigate } from "react-router-dom";
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
 import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
+import Footer from "../Footer/Footer";
 
 const TournamentsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -172,6 +173,7 @@ const TournamentsPage = () => {
                 <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
             </div>
         </div>
+        <Footer />
     </div>;
 };
 

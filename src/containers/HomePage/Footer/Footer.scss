@@ -1,0 +1,14 @@
+.home-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid;
+  display: flex;
+  width: 100%;
+  margin-top: auto;
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  .footer-text-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

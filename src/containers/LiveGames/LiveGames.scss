@@ -1,5 +1,7 @@
 .live-games-page-wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   direction: rtl;
   .live-games {
@@ -27,6 +29,6 @@
     padding-left: 1rem;
     margin-bottom: 1rem;
     width: 100%;
-    bottom: 0;
+    bottom: 2.5rem;
   }
 }

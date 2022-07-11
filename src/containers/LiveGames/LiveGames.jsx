@@ -10,6 +10,7 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import AssignLand from './AssignLand/AssignLand';
 import LiveGameBox from '../LiveGameBox/LiveGameBox';
+import Footer from '../HomePage/Footer/Footer';
 
 const LiveGames = () => {
     const [loading, setLoading] = useState(false)
@@ -292,6 +293,7 @@ const LiveGames = () => {
                     {stringFa.assign_scorebaord_to_court}
                 </Button>
             </div>
+            <Footer />
         </div>
     )
 }

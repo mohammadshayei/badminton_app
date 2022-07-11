@@ -181,7 +181,11 @@ export const stringFa = {
   price: "قیمت",
   special_offer: "پیشنهاد ویژه",
   day: "روز",
-  loading: "در حال بارگزاری"
+  loading: "در حال بارگزاری",
+  sports_setoos_software: "نرم افزار مدیریت ورزشی ستوس",
+  version: "نسخه",
+  copyright: "© 2022 تمامی حقوق متعلق به فکرافزار است.",
+  support: "پشتیبانی"
 };
 
 export const daysName = [
