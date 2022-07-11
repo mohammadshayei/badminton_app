@@ -11,19 +11,18 @@ const Footer = () => {
     return <div className="home-footer"
         style={{
             borderTopColor: theme.darken_border_color,
-            opacity: 0.6
         }}
     >
-        <div className="footer-text-wrapper">
-            <p>{stringFa.sports_setoos_software}</p>
-            <p>{`${stringFa.version} ${major}.${minor}.${patch}`}</p>
-            |
+        <div className="footer-text-wrapper two-lines">
+            <p>{`${stringFa.sports_setoos_software} `}
+                {`${stringFa.version} ${major}.${minor}.${patch}`}
+                {` | © 2022`}
+            </p>
+            <p className="devider"></p>
             <p>{stringFa.copyright}</p>
         </div>
         <div className="footer-text-wrapper">
-            <p>{stringFa.support}</p>
-            :
-            <p>09123511070</p>
+            <p>{`${stringFa.support} : 09123511070`}</p>
         </div>
     </div>;
 };

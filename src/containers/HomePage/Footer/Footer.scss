@@ -1,14 +1,30 @@
 .home-footer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.5rem;
   border-top: 1px solid;
   display: flex;
   width: 100%;
   margin-top: auto;
   padding: 0.5em 1em;
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
   .footer-text-wrapper {
     display: flex;
-    gap: 0.5rem;
+    white-space: nowrap;
+    gap: 0.2rem;
+  }
+  .two-lines {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0.6;
+  }
+}
+
+@media only screen and (min-width: 598px) {
+  .home-footer {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
