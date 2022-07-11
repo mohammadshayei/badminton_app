@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./SearchBox.scss"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
 import CustomInput from "../../../components/UI/CustomInput/CustomInput";
@@ -7,6 +8,8 @@ import { BsSearch, BsX } from "react-icons/bs";
 import { searchTournaments } from "../../../api/home";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md"; //, MdSettings
+import Skeleton from 'react-loading-skeleton';
 
 const SearchBox = () => {
     const themeState = useTheme();
@@ -20,7 +23,7 @@ const SearchBox = () => {
         transition: "border-radius 200ms ease"
     });
 
-    const { token } = useSelector(state => state.auth)
+    const { user, token } = useSelector(state => state.auth)
     const navigate = useNavigate()
 
     const onSearch = async (event) => {
@@ -35,6 +38,13 @@ const SearchBox = () => {
         navigate(`/tournaments/${id}?part=team`)
         setSearchValue('')
         setFoundTournaments([])
+    }
+    const showProfile = () => {
+        navigate(`/profile?part=userInfo`)
+    }
+    const logOut = () => {
+        localStorage.removeItem("a1");
+        window.location.reload(false);
     }
 
     useEffect(() => {
@@ -64,26 +74,39 @@ const SearchBox = () => {
             inputContainer={{ padding: "0" }}
             inputStyle={inputStyle}
             onChange={(e) => onSearch(e)}
-        />
-        {searchValue.length === 0 ? <BsSearch className="search-icon" /> :
-            <BsX className="search-icon" onClick={() => setSearchValue("")} />
-        }
-        <div className="founds">
-            <div className={`found-items ${searchValue.length === 0 ? "" : "open"}`}
-                style={{
-                    backgroundColor: theme.surface,
-                    borderColor: theme.border_color
-                }}
-            >
-                {
-                    foundTournaments.length > 0 ?
-                        foundTournaments.map(item =>
-                            <div key={item._id} className="found-item" onClick={() => onItemClickHandler(item._id)}>
-                                {item.title}
-                            </div>)
-                        : <div>موردی پیدا نشد.</div>
-                }
+        >
+            {searchValue.length === 0 ? <BsSearch className="search-icon" /> :
+                <BsX className="search-icon" onClick={() => setSearchValue("")} />
+            }
+            <div className="founds">
+                <div className={`found-items ${searchValue.length === 0 ? "" : "open"}`}
+                    style={{
+                        backgroundColor: theme.surface,
+                        borderColor: theme.border_color
+                    }}
+                >
+                    {
+                        foundTournaments.length > 0 ?
+                            foundTournaments.map(item =>
+                                <div key={item._id} className="found-item" onClick={() => onItemClickHandler(item._id)}>
+                                    {item.title}
+                                </div>)
+                            : <div>موردی پیدا نشد.</div>
+                    }
+                </div>
             </div>
+        </CustomInput>
+        <div className="user"
+            style={{ color: theme.on_primary }}
+        >
+            <div className="user-details" onClick={() => showProfile()}>
+                <div className="user-item name">
+                    {user?.username || <Skeleton width={100} />}
+                </div>
+            </div>
+            <div className="user-item log-out"
+                onClick={logOut}
+            ><MdLogout /></div>
         </div>
     </div>;
 };

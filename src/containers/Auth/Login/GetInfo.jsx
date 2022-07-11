@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { saveTempCode, sendSms } from "../../../api/auth"
 import { stringFa } from "../../../assets/strings/stringFaCollection"
@@ -18,7 +18,7 @@ const GetInfo = (props) => {
         input: {
             value: '',
             elementConfig: {
-                inputmode: "numeric",
+                inputMode: "numeric",
                 placeholder: stringFa.phone_or_nationalnumber,
                 type: 'text',
                 autoFocus: true,
@@ -86,10 +86,7 @@ const GetInfo = (props) => {
         }
         setIsLoading(false)
     }
-    useEffect(() => {
-        return () => {
-        }
-    }, [])
+
     const goToSingup = () => {
         navigate('/signup')
     }
@@ -98,11 +95,15 @@ const GetInfo = (props) => {
     }
 
     return (
-        <div className='section-container'
+        <form className='section-container'
             style={{
                 backgroundColor: theme.surface,
                 color: theme.on_surface,
                 paddingTop: "4rem",
+            }}
+            onSubmit={(e) => {
+                onClick()
+                e.preventDefault()
             }}
         >
             {dialog}
@@ -145,7 +146,7 @@ const GetInfo = (props) => {
                     {stringFa.register}
                 </span>
             </p>
-        </div >
+        </form >
     )
 }
 
