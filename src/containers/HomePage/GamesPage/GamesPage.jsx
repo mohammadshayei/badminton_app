@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import "./GamesPage.scss";
 import { stringFa } from "../../../assets/strings/stringFaCollection.js";
@@ -15,6 +16,7 @@ import Footer from "../Footer/Footer";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import CustomInput, { elementTypes } from "../../../components/UI/CustomInput/CustomInput";
+import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
 
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
@@ -135,6 +137,10 @@ const GamesPage = () => {
           <div className="ads-container">
             <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
           </div>
+          <div className="court-and-gym-selector">
+            <CustomInput elementType={elementTypes.dropDown} items={[]} title="سالن" />
+            <CustomInput elementType={elementTypes.dropDown} items={[]} title="زمین" />
+          </div>
           {
             loading ?
               <div
@@ -204,8 +210,20 @@ const GamesPage = () => {
                       {item._id === needUnlock ?
                         <div className="get-password">
                           <CustomInput elementType={elementTypes.titleInput} title="رمز خود را وارد کنید :" />
-                          <IoMdCheckmark className="icon" color={theme.success} />
-                          <IoMdClose className="icon" color={theme.error} onClick={() => setNeedUnlock("")} />
+                          <TransparentButton
+                            ButtonStyle={{
+                              margin: 0, padding: 0
+                            }}
+                          >
+                            <IoMdCheckmark className="icon" color={theme.success} />
+                          </TransparentButton>
+                          <TransparentButton
+                            ButtonStyle={{
+                              margin: 0, padding: 0
+                            }}
+                          >
+                            <IoMdClose className="icon" color={theme.error} onClick={() => setNeedUnlock("")} />
+                          </TransparentButton>
                         </div>
                         :
                         <div className="game-box-players">
