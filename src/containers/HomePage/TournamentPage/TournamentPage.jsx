@@ -24,33 +24,6 @@ import Games from './TournamentParts/Games/Games'
 
 const TournamentPage = ({ id }) => {
 
-    let baseFilterSelector = {
-        team: {
-            text: "تیم ها",
-            selected: true,
-        },
-        player: {
-            text: "بازیکن ها",
-            selected: false,
-        },
-        referee: {
-            text: "داور ها",
-            selected: false,
-        },
-        gym: {
-            text: "سالن ها",
-            selected: false,
-        },
-        teamMatch: {
-            text: "مسابقات تیمی",
-            selected: false,
-        },
-        games: {
-            text: "بازی ها",
-            selected: false,
-        },
-    }
-
     const [tournament, setTournament] = useState(null)
     const [loading, setLoading] = useState(false)
     const [contentLoading, setContentLoading] = useState(false)
@@ -137,6 +110,7 @@ const TournamentPage = ({ id }) => {
     }
 
     const onAddItem = (item) => {
+        navigate(`/tournaments/${tournament._id}?part=${part}&item=${item._id}`)
         setListItem(lst => [item, ...lst,])
     }
     const onRemoveItem = (itemId) => {
@@ -188,7 +162,65 @@ const TournamentPage = ({ id }) => {
     }
 
     useEffect(() => {
-        let updatedFilterSelectors = { ...baseFilterSelector }
+        let updatedFilterSelectors
+        if (tournament?.free_ranking) {
+            updatedFilterSelectors = {
+                player: {
+                    text: "بازیکن ها",
+                    selected: true,
+                },
+                referee: {
+                    text: "داور ها",
+                    selected: false,
+                },
+                gym: {
+                    text: "سالن ها",
+                    selected: false,
+                },
+                games: {
+                    text: "بازی ها",
+                    selected: false,
+                },
+            }
+        } else {
+            updatedFilterSelectors = {
+                team: {
+                    text: "تیم ها",
+                    selected: true,
+                },
+                player: {
+                    text: "بازیکن ها",
+                    selected: false,
+                },
+                referee: {
+                    text: "داور ها",
+                    selected: false,
+                },
+                gym: {
+                    text: "سالن ها",
+                    selected: false,
+                },
+                teamMatch: {
+                    text: "مسابقات تیمی",
+                    selected: false,
+                },
+            }
+        }
+
+        for (const filter in updatedFilterSelectors) {
+            if (filter === part)
+                updatedFilterSelectors[filter].selected = true;
+            else
+                updatedFilterSelectors[filter].selected = false;
+        }
+
+        setFilterSelectors(updatedFilterSelectors)
+    }, [tournament?.free_ranking])
+
+    useEffect(() => {
+        let updatedFilterSelectors = {
+            ...filterSelectors
+        }
         if (isReferee) {
             updatedFilterSelectors = {
                 ...updatedFilterSelectors,
@@ -200,15 +232,22 @@ const TournamentPage = ({ id }) => {
             }
         }
         for (const filter in updatedFilterSelectors) {
-            updatedFilterSelectors[filter].selected = false;
+            if (filter === part)
+                updatedFilterSelectors[filter].selected = true;
+            else
+                updatedFilterSelectors[filter].selected = false;
         }
-        if (updatedFilterSelectors[part])
-            updatedFilterSelectors[part].selected = true;
         setFilterSelectors(updatedFilterSelectors)
     }, [isReferee])
 
     useEffect(() => {
         if (!item) {
+            setListItem(lst => lst.map(lstItem => {
+                return {
+                    ...lstItem,
+                    selected: false
+                }
+            }))
             if (!create)
                 setShowInputForm(false)
         } else if (listItemFetched) {
@@ -225,7 +264,6 @@ const TournamentPage = ({ id }) => {
     }, [item, listItemFetched, create])
     useEffect(() => {
         if (create === '1') {
-            console.log('here')
             setShowInputForm(true)
             setListItem(lst => lst.map(lstItem => {
                 return {
@@ -439,6 +477,7 @@ const TournamentPage = ({ id }) => {
                     <PlayerForm
                         content={content}
                         tournamentId={tournament?._id}
+                        teamMode={!(tournament?.free_ranking)}
                         setShowInputForm={setShowInputForm}
                         onAddItem={onAddItem}
                         removeLoading={removeLoading}
@@ -508,7 +547,12 @@ const TournamentPage = ({ id }) => {
                     part === "todayMatch" ?
                         <TodayMatch tournamentId={id} /> :
                         part === "games" ?
-                            <Games tournamentId={id} /> :
+                            <Games
+                                tournamentId={id}
+                                createAccess={user?._id === tournament?.chief._id}
+                                gameDate={tournament?.game_date}
+                            /> :
+
                             <div className='tournament-body'>
                                 <div className='tournament-search'>
                                     <TournamentItemSearch

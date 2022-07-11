@@ -19,7 +19,8 @@ const GameBox = ({
     onRemove,
     onSave,
     toggle,
-    itemLoading
+    itemLoading,
+    toggleType
 }) => {
 
     const themeState = useTheme();
@@ -52,8 +53,10 @@ const GameBox = ({
             <div className="match-game-index"
                 style={{
                     backgroundColor: game.status > -1 ? theme.primary : theme.darken_border_color, //if done -> theme.primary
-                    color: theme.on_primary
+                    color: theme.on_primary,
+                    cursor: toggleType ? 'pointer' : 'auto'
                 }}
+                onClick={() => toggleType && toggleType(game._id)}
             >{game.title}</div>
             <div className="match-game-number  game-court">
                 <CustomInput
@@ -151,7 +154,7 @@ const GameBox = ({
                     color: theme.error
                 }}
                 config={{
-                    disabled:
+                    disabled: toggleType ? !(game?.fetched) :
                         game?._id.length === 1
                 }}
                 onClick={() => onRemove(game._id)}
@@ -190,7 +193,7 @@ const GameBox = ({
                 {game.officialsOpen ? '- ' : '+ '}{stringFa.officials}
             </TransparentButton>
         </div>
-    </div>;
+    </div >;
 };
 
 export default GameBox;

@@ -15,7 +15,7 @@ import { dynamicApi, formDataDynamic } from "../../../../api/home";
 import { baseUrl } from "../../../../constants/Config";
 
 
-const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
+const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddItem, content, tournamentId, onBack, setShowInputForm, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         username: {
@@ -98,6 +98,7 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
             touched: false,
         },
     })
+    const [filteredOrder, setFilteredOrder] = useState({});
     const [imageSrc, setImageSrc] = useState('')
     const [imagePath, setImagePath] = useState('')
     const [dialog, setDialog] = useState(null)
@@ -204,9 +205,14 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
         updatedOrder.birthDate.value = '';
         updatedOrder.birthDate.invalid = true;
 
-        updatedOrder.team.value = '';
-        updatedOrder.team.id = '';
         updatedOrder.team.invalid = true;
+        if (teamMode) {
+            updatedOrder.team.value = '';
+            updatedOrder.team.id = '';
+            updatedOrder.team.hidden = false;
+        } else {
+            updatedOrder.team.hidden = true;
+        }
 
         setOrder(updatedOrder)
     }
@@ -227,15 +233,19 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
             updatedOrder.birthDate.value = content.birth_date;
             updatedOrder.birthDate.invalid = false;
 
-            updatedOrder.team.id = content.team._id;
-            updatedOrder.team.value = content.team.name;
             updatedOrder.team.invalid = false;
-
+            if (teamMode && content.team) {
+                updatedOrder.team.value = content.team.name;
+                updatedOrder.team.id = content.team._id;
+                updatedOrder.team.hidden = false;
+            } else {
+                updatedOrder.team.hidden = true;
+            }
             setOrder(updatedOrder)
         } else {
             clear()
         }
-    }, [content])
+    }, [content, teamMode])
 
     useEffect(() => {
         if (!tournamentId) return;
@@ -295,6 +305,13 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
         })()
     }, [order.id.checkNeeded])
 
+    useEffect(() => {
+        let updatedFilteredOrder = {}
+        for (const key in order) {
+            if (!order[key].hidden) updatedFilteredOrder = { ...updatedFilteredOrder, [key]: order[key] }
+        }
+        setFilteredOrder(updatedFilteredOrder)
+    }, [order]);
 
     return (
         <div className="input-wrapper">
@@ -318,8 +335,8 @@ const PlayerForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, conten
                 </div>
             </div>
             <InputForm
-                order={order}
-                setOrder={setOrder}
+                order={filteredOrder}
+                setOrder={setFilteredOrder}
                 setFormIsValid={setFormIsValid}
                 itemLoading={itemLoading}
                 createAccess={createAccess}

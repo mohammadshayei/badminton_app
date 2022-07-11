@@ -45,7 +45,7 @@ const GamesPage = () => {
   }, [token])
 
   const gameClickHandler = (i) => {
-    let game = games.find(item => item.game._id === i).game
+    let game = games.find(item => item._id === i)
     // if (!game.referee || !game.service_referee) {
     //   setDialog(<ErrorDialog type="error">{stringFa.please_set_umpires}</ErrorDialog>)
     //   return;
@@ -120,8 +120,8 @@ const GamesPage = () => {
                 games.map((item, key) => (
                   <div
                     className="game-box"
-                    key={item.game._id}
-                    onClick={() => gameClickHandler(item.game._id)}
+                    key={item._id}
+                    onClick={() => gameClickHandler(item._id)}
                     style={{
                       backgroundColor: theme.surface
                     }}
@@ -131,29 +131,29 @@ const GamesPage = () => {
                         backgroundColor: theme.border_color
                       }}
                     >
-                      <p className="game-box-title-text" title={item.game.tournament.title}>{item.game.tournament.title}</p>
+                      <p className="game-box-title-text" title={item.title}>{item.title}</p>
                       <div className="game-number-and-court">
                         <p
                           style={{ color: theme.secondary }}
                         >
-                          {item.game.land_number}
+                          {item.land_number}
                         </p>
                         <GiTennisCourt color={theme.secondary} />
                         <p className="game-box-game-number">
-                          {item.game.game_number}
+                          {item.game_number}
                         </p>
                       </div>
                     </div>
                     <div className="game-box-details">
                       {<div className="game-box-players">
                         <div className="game-box-players-name">
-                          <span>{item.game.teamA.players[0].player.username}</span>
-                          <span>{item.game.game_type === "double" && item.game.teamA.players[1].player.username}</span>
+                          <span>{item.teamAPlayers[0].username}</span>
+                          <span>{item.game_type === "double" && item.teamAPlayers[1].username}</span>
                         </div>
                         <span> - </span>
                         <div className="game-box-players-name">
-                          <span>{item.game.teamB.players[0].player.username}</span>
-                          <span>{item.game.game_type === "double" && item.game.teamB.players[1].player.username}</span>
+                          <span>{item.teamBPlayers[0].username}</span>
+                          <span>{item.game_type === "double" && item.teamBPlayers[1].username}</span>
                         </div>
                       </div>}
                     </div>
