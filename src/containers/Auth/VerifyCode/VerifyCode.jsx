@@ -143,7 +143,6 @@ const VerifyCode = (props) => {
                 inputContainer={{
                     direction: "ltr"
                 }}
-                config={{ autoFocus: true }}
                 messageError={stringFa.invalid_code}
                 isOk={!error}
             />

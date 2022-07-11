@@ -92,7 +92,6 @@ export default Overview
 export const matches = [
     {
         id: 19876,
-        name: 'Round 4 - Match 1',
         name: 'Final - Match',
         nextLooserMatchId: null,
         nextMatchId: null,

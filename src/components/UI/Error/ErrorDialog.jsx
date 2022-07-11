@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import "./ErrorDialog.scss";
 import ReactDom from "react-dom";
@@ -53,9 +54,13 @@ const ErrorDialog = (props) => {
       default:
         break;
     }
-    setTimeout(() => {
+    let exitTime = setTimeout(() => {
       popup.togglePresence();
     }, 9000);
+
+    return () => {
+      clearTimeout(exitTime)
+    };
   }, []);
 
 

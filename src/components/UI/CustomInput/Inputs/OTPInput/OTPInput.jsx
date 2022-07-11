@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import "./OTPInput.scss"
@@ -38,6 +39,18 @@ const OTPInput = (props) => {
         }
     }
 
+    const handleKey = (e, index) => {
+        if (isNaN(e.target.value)) return false;
+
+        if (e.key === "Backspace" && e.target.value.length === 0 && e.target.previousSibling) {
+            e.target.previousSibling.focus();
+            let updatedFocus = [...focus]
+            updatedFocus[index] = false
+            updatedFocus[index - 1] = true
+            setFocus(updatedFocus);
+        }
+    }
+
     useEffect(() => {
         props.onChange(otp.join(""))
     }, [otp]);
@@ -58,10 +71,11 @@ const OTPInput = (props) => {
                         }`}
                     inputMode="numeric"
                     key={index}
-                    ref={(props.config.autoFocus && index === 0) ? focusDiv : focusDiv2}
+                    ref={index === 0 ? focusDiv : focusDiv2}
                     maxLength={1}
                     value={data}
                     onChange={e => handleChange(e, index)}
+                    onKeyDown={e => handleKey(e, index)}
                     style={{
                         backgroundColor: theme.border_color,
                         color: theme.on_background,
