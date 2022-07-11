@@ -22,13 +22,23 @@ const GamesPage = () => {
   const [dialog, setDialog] = useState(null)
   const [lives, setLives] = useState([])
   const [needUnlock, setNeedUnlock] = useState("");
-
+  const [dataFetched, setDataFetched] = useState(false)
 
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
-  const { token, user } = useSelector(state => state.auth)
+  const { token, user, socket } = useSelector(state => state.auth)
   const navigate = useNavigate()
+
+  const gameClickHandler = (i) => {
+    let game = games.find(item => item._id === i)
+    if (game.lock) {
+      setNeedUnlock(i)
+    }
+    if (user && game._id && !game.lock) {
+      navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
+    }
+  }
 
   useEffect(() => {
     if (!token) return;
@@ -37,8 +47,10 @@ const GamesPage = () => {
     (async () => {
       try {
         const result = await dynamicGetApi(token, 'get_umpire_games')
-        if (result.success)
+        if (result.success) {
           setGames(result.data.games)
+          if (result.data.games.length === 0) setDataFetched(true)
+        }
         else
           setDialog(<ErrorDialog type={"error"}> {result.data.message}</ErrorDialog >)
       } catch (error) {
@@ -50,19 +62,49 @@ const GamesPage = () => {
     })()
   }, [token])
 
-  const gameClickHandler = (i) => {
-    let game = games.find(item => item._id === i)
-    // if (!game.referee || !game.service_referee) {
-    //   setDialog(<ErrorDialog type="error">{stringFa.please_set_umpires}</ErrorDialog>)
-    //   return;
-    // }
-    if (game.lock) {
-      setNeedUnlock(i)
-    }
-    if (user && game._id && !game.lock) {
-      navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
-    }
-  }
+  useEffect(() => {
+    if (dataFetched || games.length === 0) return;
+    setDataFetched(true)
+  }, [games])
+
+  useEffect(() => {
+    if (!socket || !user || !dataFetched) return;
+    socket.on('get_created_game', (payload => {
+      let { game, title, referees } = payload;
+      if (referees?.findIndex(item => item === user._id) < 0) return;
+      let updatedGames = [...games]
+      let finded = updatedGames.findIndex(item => item._id === game._id)
+      if (finded > -1)
+        updatedGames[finded] = {
+          ...updatedGames[finded],
+          game_type: game.game_type,
+          game_number: game.game_number,
+          land_number: game.land_number,
+          teamAPlayers: game.teamAPlayers,
+          teamBPlayers: game.teamBPlayers,
+          lock: game.umpireId !== user._id
+        }
+      else
+        updatedGames.push({
+          _id: game._id,
+          title,
+          game_type: game.game_type,
+          game_number: game.game_number,
+          land_number: game.land_number,
+          teamAPlayers: game.teamAPlayers,
+          teamBPlayers: game.teamBPlayers,
+          lock: game.umpireId !== user._id
+
+        })
+      setGames(updatedGames)
+    }))
+    socket.on('get_deleted_game', (payload => {
+      let { gameId, referees } = payload;
+      if (referees?.findIndex(item => item === user._id) < 0) return;
+      let updatedGames = games.filter(item => item._id !== gameId)
+      setGames(updatedGames)
+    }))
+  }, [socket, dataFetched, user]);
 
   return (
     <div className="games-page">

@@ -117,14 +117,14 @@ const MainPage = () => {
   }
   useEffect(() => {
     (async () => {
-      if (refereeId && gameId) {
+      if (gameId) {
         setLoading(true)
-        const result = await dynamicApi({ userId: refereeId, gameId }, token, 'check_user_get_game')
+        const result = await dynamicApi({ gameId }, token, 'check_user_get_game')
         if (result.success) {
-          setScoreboard(result.data.game.game);
-          setSelectedGameReferee(result.data.game.game)
-          setGameId(result.data.game.game._id)
-          initiateScorboard(result.data.game.game)
+          setScoreboard(result.data.game);
+          setSelectedGameReferee(result.data.game)
+          setGameId(result.data.game._id)
+          initiateScorboard(result.data.game)
           // setShowModal(true);
         } else {
           setDialog(null)
@@ -144,7 +144,7 @@ const MainPage = () => {
     })()
 
 
-  }, [refereeId, gameId]);
+  }, [gameId]);
 
   useEffect(() => {
     cleanupSet()

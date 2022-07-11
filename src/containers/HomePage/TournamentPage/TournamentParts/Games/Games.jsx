@@ -226,6 +226,29 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                     updatedGames[gameIndex]._id = fetchedTournament.data.id;
                     updatedGames[gameIndex].fetched = true;
                 }
+                if (updatedGames[gameIndex].officials.umpire[0]._id) {
+                    socket.emit('create_game', {
+                        game: {
+                            _id: fetchedTournament.data.id,
+                            game_number: updatedGames[gameIndex].gameNumber,
+                            land_number: updatedGames[gameIndex].court.value,
+                            teamAPlayers: updatedGames[gameIndex].players.a.map(item => {
+                                return {
+                                    _id: item._id,
+                                    username: item.value
+                                }
+                            }),
+                            teamBPlayers: updatedGames[gameIndex].players.b.map(item => {
+                                return {
+                                    _id: item._id,
+                                    username: item.value
+                                }
+                            }),
+                            umpireId: updatedGames[gameIndex].officials.umpire[0]._id,
+                        },
+                        tournamentId
+                    })
+                }
                 if (updatedGames[gameIndex].officials.umpire[0]._id)
                     updatedGames[gameIndex].status = 1
                 else
@@ -306,7 +329,12 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             let fetchedTournament = await dynamicApi(payload, token, 'remove_game_from_tournament')
             if (fetchedTournament.success) {
                 setDialog(<ErrorDialog type="success">{fetchedTournament.data.message}</ErrorDialog>)
+                socket.emit('delete_game', {
+                    gameId: updatedGames[gameIndex]._id,
+                    tournamentId
+                })
                 updatedGames.splice(gameIndex, 1)
+
             } else {
                 setDialog(<ErrorDialog type="error">{fetchedTournament.data.message}</ErrorDialog>)
             }
