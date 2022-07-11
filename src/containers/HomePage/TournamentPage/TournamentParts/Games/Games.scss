@@ -56,6 +56,12 @@
       margin-right: auto;
     }
   }
+  .date-of-day {
+    display: flex;
+    width: 100%;
+    max-width: 10rem;
+    overflow: hidden;
+  }
   .games-wrapper {
     display: flex;
     flex-wrap: wrap;

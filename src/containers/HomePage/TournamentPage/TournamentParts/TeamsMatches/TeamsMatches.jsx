@@ -22,8 +22,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
     const [dayMatchs, setDayMatchs] = useState([])
     const [teams, setTeams] = useState([])
     const [referees, setReferees] = useState([])
-
-    let navigate = useNavigate()
     const [dateValue, setDateValue] = useState('')
     const [showGames, setShowGames] = useState(false);   //show a match games
     const [loading, setLoading] = useState(false)
@@ -37,6 +35,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const showGamesRef = useRef();
+    let navigate = useNavigate()
 
     const onChangeDatePicker = async (e) => {
         setDialog(null)
@@ -128,6 +127,12 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         setDayMatchs(updatedDayMatchs)
         if (dayMatchs?.length === (maxMatchCount - 1))
             changeStatusDay(1)
+    }
+    const editedMatch = match => {
+        let updatedDayMatchs = [...dayMatchs]
+        let findedIndex = updatedDayMatchs.findIndex(item => item.match._id === match._id)
+        updatedDayMatchs[findedIndex].match = match;
+        setDayMatchs(updatedDayMatchs)
     }
     const onGoToLiveScore = (id) => {
         navigate(`/scoreboard_view?gameId=${id}`)
@@ -312,7 +317,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                     elementConfig={{
                                         minDate: gameDate ? new Date(gameDate.start) : null,
                                         maxDate: gameDate ? new Date(gameDate.end) : null,
-                                        disabled: !createAccess
 
                                     }}
                                 /> :
@@ -331,7 +335,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                         index={i}
                                         setShowGames={setShowGames}
                                         onShowGame={onShowGame}
-                                        teams={teams.filter(item => dayMatchs?.findIndex(i =>
+                                        teams={teams?.filter(item => dayMatchs?.findIndex(i =>
                                             i.match.teamA._id === item.team._id || i.match.teamB._id === item.team._id) < 0)
                                             .map(item => {
                                                 return {
@@ -353,6 +357,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                         deleteMatch={deleteMatch}
                                         addMatch={addMatch}
                                         matchId={matchId}
+                                        editedMatch={editedMatch}
                                     />
                                 </div>
                             )

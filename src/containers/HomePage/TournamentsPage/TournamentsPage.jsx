@@ -66,8 +66,8 @@ const TournamentsPage = () => {
         setFilterSelectors(updatedFilterSelectors);
     }
 
-    const onTournamentClickHandler = (id) => {
-        navigate(`/tournaments/${id}?part=team`)
+    const onTournamentClickHandler = (id,freeRanking) => {
+        navigate(`/tournaments/${id}?part=${freeRanking?'player':"team"}`)
     }
     const onLiveGameClickHandler = () => {
         navigate(`/live_scores`)
@@ -107,7 +107,6 @@ const TournamentsPage = () => {
         setfilteredTournaments(updatedFilteredTournaments)
 
     }, [tournaments, filterSelectors])
-
     return <div className="tournaments-page">
         {dialog}
         {
@@ -154,7 +153,7 @@ const TournamentsPage = () => {
                         filteredTournaments.length > 0 ?
                             filteredTournaments.map(tournament =>
                                 <TournamentBox
-                                    onClick={() => onTournamentClickHandler(tournament._id)}
+                                    onClick={() => onTournamentClickHandler(tournament._id, tournament.free_ranking)}
                                     title={tournament.title}
                                     chiefName={tournament.chief.username}
                                     ageCategory={tournament.age_category}

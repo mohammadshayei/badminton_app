@@ -18,7 +18,9 @@ const GameBox = ({
     onChange,
     onRemove,
     onSave,
-    toggle
+    toggle,
+    itemLoading,
+    toggleType
 }) => {
 
     const themeState = useTheme();
@@ -51,8 +53,10 @@ const GameBox = ({
             <div className="match-game-index"
                 style={{
                     backgroundColor: game.status > -1 ? theme.primary : theme.darken_border_color, //if done -> theme.primary
-                    color: theme.on_primary
+                    color: theme.on_primary,
+                    cursor: toggleType ? 'pointer' : 'auto'
                 }}
+                onClick={() => toggleType && toggleType(game._id)}
             >{game.title}</div>
             <div className="match-game-number  game-court">
                 <CustomInput
@@ -150,10 +154,11 @@ const GameBox = ({
                     color: theme.error
                 }}
                 config={{
-                    disabled:
+                    disabled: toggleType ? !(game?.fetched) :
                         game?._id.length === 1
                 }}
                 onClick={() => onRemove(game._id)}
+                loading={itemLoading.type === 'delete' && itemLoading.content === game._id}
             >
                 <IoTrashBin />
             </TransparentButton>
@@ -168,7 +173,7 @@ const GameBox = ({
                         && game.players.b.findIndex(item => !item.value) < 0)
 
                 }}
-                loading={game.loading}
+                loading={itemLoading.type === 'save' && itemLoading.content === game._id}
                 ButtonStyle={{
                     padding: "0",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)",
@@ -188,7 +193,7 @@ const GameBox = ({
                 {game.officialsOpen ? '- ' : '+ '}{stringFa.officials}
             </TransparentButton>
         </div>
-    </div>;
+    </div >;
 };
 
 export default GameBox;
