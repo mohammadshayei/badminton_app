@@ -12,12 +12,17 @@ import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import { GiTennisCourt } from "react-icons/gi";
 import Skeleton from 'react-loading-skeleton'
 import Footer from "../Footer/Footer";
+import { FaLock, FaLockOpen } from "react-icons/fa";
+import { IoMdCheckmark, IoMdClose } from "react-icons/io";
+import CustomInput, { elementTypes } from "../../../components/UI/CustomInput/CustomInput";
 
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
   const [games, setGames] = useState([]);
   const [dialog, setDialog] = useState(null)
   const [lives, setLives] = useState([])
+  const [needUnlock, setNeedUnlock] = useState("");
+
 
   const themeState = useTheme();
   const theme = themeState.computedTheme;
@@ -51,7 +56,10 @@ const GamesPage = () => {
     //   setDialog(<ErrorDialog type="error">{stringFa.please_set_umpires}</ErrorDialog>)
     //   return;
     // }
-    if (user && game._id) {
+    if (game.lock) {
+      setNeedUnlock(i)
+    }
+    if (user && game._id && !game.lock) {
       navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
     }
   }
@@ -122,9 +130,13 @@ const GamesPage = () => {
                   <div
                     className="game-box"
                     key={item._id}
-                    onClick={() => gameClickHandler(item._id)}
                     style={{
-                      backgroundColor: theme.surface
+                      backgroundColor: theme.surface,
+                      cursor: item._id !== needUnlock ? "pointer" : "default"
+                    }}
+                    onClick={() => {
+                      if (item._id !== needUnlock)
+                        gameClickHandler(item._id)
                     }}
                   >
                     <div className="game-box-title"
@@ -133,6 +145,7 @@ const GamesPage = () => {
                       }}
                     >
                       <p className="game-box-title-text" title={item.title}>{item.title}</p>
+                      {item.lock ? <FaLock color={theme.error} /> : <FaLockOpen color={theme.success} />}
                       <div className="game-number-and-court">
                         <p
                           style={{ color: theme.secondary }}
@@ -146,17 +159,25 @@ const GamesPage = () => {
                       </div>
                     </div>
                     <div className="game-box-details">
-                      {<div className="game-box-players">
-                        <div className="game-box-players-name">
-                          <span>{item.teamAPlayers[0].username}</span>
-                          <span>{item.game_type === "double" && item.teamAPlayers[1].username}</span>
+                      {item._id === needUnlock ?
+                        <div className="get-password">
+                          <CustomInput elementType={elementTypes.titleInput} title="رمز خود را وارد کنید :" />
+                          <IoMdCheckmark className="icon" color={theme.success} />
+                          <IoMdClose className="icon" color={theme.error} onClick={() => setNeedUnlock("")} />
                         </div>
-                        <span> - </span>
-                        <div className="game-box-players-name">
-                          <span>{item.teamBPlayers[0].username}</span>
-                          <span>{item.game_type === "double" && item.teamBPlayers[1].username}</span>
+                        :
+                        <div className="game-box-players">
+                          <div className="game-box-players-name">
+                            <span>{item.teamAPlayers[0].username}</span>
+                            <span>{item.game_type === "double" && item.teamAPlayers[1].username}</span>
+                          </div>
+                          <span> - </span>
+                          <div className="game-box-players-name">
+                            <span>{item.teamBPlayers[0].username}</span>
+                            <span>{item.game_type === "double" && item.teamBPlayers[1].username}</span>
+                          </div>
                         </div>
-                      </div>}
+                      }
                     </div>
                   </div>
                 ))

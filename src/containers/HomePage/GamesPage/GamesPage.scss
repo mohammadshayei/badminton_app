@@ -62,24 +62,29 @@
         border-radius: 15px;
         font-size: clamp(0.6rem, 3vw, 0.8rem);
         box-shadow: 0 4px 5px rgba(0, 0, 0, 0.03);
-        cursor: pointer;
         overflow: hidden;
         .game-box-title {
           display: flex;
-          justify-content: space-between;
           align-items: center;
+          gap: 1rem;
           padding: 0.4em 0.8em;
           .game-box-title-text {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+            margin-left: auto;
           }
           .game-number-and-court {
             display: flex;
             justify-content: center;
-            gap: 0.2rem;
+            align-items: center;
+            gap: 0.3rem;
             font-size: clamp(0.8rem, 3vw, 1rem);
+            line-height: clamp(0.8rem, 3vw, 1rem);
             font-weight: bold;
+            p {
+              transform: translateY(3px);
+            }
             .game-box-game-number {
               margin-right: 0.5rem;
             }
@@ -93,6 +98,16 @@
           width: 100%;
           min-height: 60px;
           padding: 0.5em 1em;
+          .get-password {
+            display: flex;
+            gap: 1rem;
+            .icon {
+              margin-top: auto;
+              margin-bottom: 1.8rem;
+              font-size: 2rem;
+              cursor: pointer;
+            }
+          }
           .game-box-players {
             display: flex;
             align-items: center;
