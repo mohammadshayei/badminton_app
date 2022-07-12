@@ -15,7 +15,7 @@ const TeamTournaments = ({ data }) => {
     return (
         <div className='team-tournaments-wrapper'>
             <div className='team-tournaments-title'>
-                <p>تاریخ</p>
+                <p className='team-tournament-date'>تاریخ</p>
                 <p>عنوان مسابقه</p>
             </div>
             <div className="tournamnets-item">
@@ -24,7 +24,7 @@ const TeamTournaments = ({ data }) => {
                         <div className='item-wrapper' key={item.tournament._id}>
                             <div className="date">
                                 <p>{new Date(item.tournament.game_date.start).toLocaleDateString('fa-IR')}</p>
-                                <p>تا</p>
+                                <p className='date-middle'>تا</p>
                                 <p>{new Date(item.tournament.game_date.end).toLocaleDateString('fa-IR')}</p>
 
                             </div>

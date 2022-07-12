@@ -66,8 +66,8 @@ const TournamentsPage = () => {
         setFilterSelectors(updatedFilterSelectors);
     }
 
-    const onTournamentClickHandler = (id,freeRanking) => {
-        navigate(`/tournaments/${id}?part=${freeRanking?'player':"team"}`)
+    const onTournamentClickHandler = (id, freeRanking) => {
+        navigate(`/tournaments/${id}?part=${freeRanking ? 'player' : "team"}`)
     }
     const onLiveGameClickHandler = () => {
         navigate(`/live_scores`)
@@ -138,6 +138,7 @@ const TournamentsPage = () => {
                     text={v.text}
                     selected={v.selected}
                     onClick={() => onSelectorClick(k)}
+                    style={{ margin: "0 0.25rem" }}
                 />
             )}
         </div>

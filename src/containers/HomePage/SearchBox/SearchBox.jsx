@@ -18,7 +18,6 @@ const SearchBox = () => {
     const [loading, setLoading] = useState(false)
     const [foundTournaments, setFoundTournaments] = useState([])
     const [inputStyle, setInputStyle] = useState({
-        backgroundColor: theme.surface,
         paddingLeft: "2rem",
         transition: "border-radius 200ms ease"
     });
@@ -82,7 +81,7 @@ const SearchBox = () => {
                 <div className={`found-items ${searchValue.length === 0 ? "" : "open"}`}
                     style={{
                         backgroundColor: theme.surface,
-                        borderColor: theme.border_color
+                        borderColor: theme.on_surface
                     }}
                 >
                     {

@@ -26,7 +26,7 @@ const lightTheme = {
 
 const darkTheme = {
   background_color: "#151515",
-  surface: "rgba(255,255,255,0.16)",
+  surface: "#303030",
   primary: "#48d2d2",
   primary_variant: "",
   secondary: "#2ac7de",

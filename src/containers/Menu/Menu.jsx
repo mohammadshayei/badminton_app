@@ -61,7 +61,7 @@ const Menu = (props) => {
     return (
         <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}
             style={{
-                backgroundColor: themeState.isDark ? theme.surface : "rgba(0, 0, 0, 0.4)",
+                backgroundColor: themeState.isDark ? theme.darken_border_color : "rgba(0, 0, 0, 0.4)",
                 color: theme.on_primary
             }}
         >

@@ -1,7 +1,6 @@
 .today-match-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   padding: 0.5rem;
   width: 100%;
   max-width: 680px;
@@ -15,16 +14,10 @@
     .gym-selector {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       div {
         white-space: nowrap;
+        margin: 0 0.25rem;
       }
     }
-  }
-}
-
-@media only screen and (min-width: 580px) {
-  .today-match-container {
-    gap: 1rem;
   }
 }

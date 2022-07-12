@@ -223,7 +223,7 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
           >
             <div className='button-add'>
               <AiOutlinePlus style={{ fontSize: 15 }} />
-              {`بازیکن جدید`}
+              <p>{`بازیکن جدید`}</p>
             </div>
           </Button>
         }
@@ -260,6 +260,7 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
                     fontSize="3rem"
                     opacity={0.3}
                     color={theme.on_background}
+                    style={{ marginBottom: "1rem" }}
                   />
                   {stringFa.item_not_found}
                 </div>

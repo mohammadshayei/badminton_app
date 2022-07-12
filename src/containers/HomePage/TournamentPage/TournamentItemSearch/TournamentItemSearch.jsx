@@ -10,7 +10,6 @@ const TournamentItemSearch = ({ createAccess, selector, searchPlaceHolder, onAdd
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     const [inputStyle, setInputStyle] = useState({
-        backgroundColor: theme.surface,
         paddingLeft: "2rem",
         transition: "border-radius 200ms ease"
     });
@@ -47,7 +46,7 @@ const TournamentItemSearch = ({ createAccess, selector, searchPlaceHolder, onAdd
             <div className={`found-items ${(searchListItems.length > 0 && createAccess) ? "open" : ""}`}
                 style={{
                     backgroundColor: theme.surface,
-                    borderColor: theme.border_color
+                    borderColor: theme.on_surface
                 }}
             >
                 {
@@ -56,9 +55,17 @@ const TournamentItemSearch = ({ createAccess, selector, searchPlaceHolder, onAdd
                             <p> {item[selector()]}</p>
                             <TransparentButton
                                 onClick={() => { onAddItemToTournament(item) }}
+                                ButtonStyle={{
+                                    padding: "0"
+                                }}
                             >
-                                <p style={{ color: theme.primary }}>{stringFa.add}</p>
-
+                                <p style={{
+                                    color: theme.primary,
+                                    fontSize: "clamp(0.8rem, 1vw, 1rem)"
+                                }}
+                                >
+                                    {stringFa.add}
+                                </p>
                             </TransparentButton>
                         </div>
                     )

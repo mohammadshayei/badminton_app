@@ -396,7 +396,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             setLoading(false)
         })()
     }, [tournamentId])
-    return <div className="tournament-games-container">
+    return <div className="tournament-games-wrapper">
         {dialog}
         <div className="days-and-gym-selector">
             <div className="day-selector-container">

@@ -1,10 +1,9 @@
-.loadinig-container {
+.loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  gap: 0.5rem;
   width: 100%;
   height: 100%;
   direction: rtl;
@@ -14,6 +13,7 @@
   }
   .loading-spinner {
     font-size: clamp(0.9rem, 5vw, 3rem);
+    margin-bottom: 0.5rem;
   }
   @keyframes fadein_out {
     0% {

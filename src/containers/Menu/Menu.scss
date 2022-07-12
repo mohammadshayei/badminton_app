@@ -9,7 +9,7 @@
   padding: 60px 0.5rem 0 0.5rem;
   transform: translateX(200px);
   z-index: 999;
-  transition: transform 200ms ease-out;
+  // transition: transform 200ms ease-out;
   .sidebar-menu-icon {
     display: flex;
     align-items: center;
@@ -158,7 +158,7 @@
         }
       }
     }
-    transition: width 300ms ease-out;
+    // transition: width 300ms ease-out;
   }
   .active {
     width: 200px;

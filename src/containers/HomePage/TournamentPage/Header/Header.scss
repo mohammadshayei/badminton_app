@@ -4,7 +4,6 @@
   padding: 0 1rem;
   .header-image-and-content {
     display: flex;
-    gap: 1.5rem;
     .tournament-header-image {
       display: none;
     }
@@ -32,7 +31,9 @@
       .tournament-detail-gap {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        p {
+          margin: 0 0.5rem;
+        }
       }
       .tournament-date {
         display: flex;
@@ -41,14 +42,12 @@
         .date {
           display: flex;
           align-items: center;
-          gap: 0.25rem;
         }
       }
     }
   }
   .selectors-wrapper {
     display: flex;
-    gap: 0.5rem;
     width: 100%;
     margin-top: 0.5rem;
     min-height: 2.5rem;
@@ -68,6 +67,7 @@
         align-items: center;
         justify-content: center;
         font-size: clamp(5rem, 5vw, 6rem);
+        margin: 0 1rem;
         .image-skeleton {
           width: 6rem;
           height: 6rem;

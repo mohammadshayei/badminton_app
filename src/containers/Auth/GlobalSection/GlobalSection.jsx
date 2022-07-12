@@ -262,6 +262,7 @@ const HeaderAuth = () => {
                             gamesStats={gamesStats}
                             gamesScores={gamesScores}
                             endGamesScores={endGamesScores}
+                            style={{ margin: "0.25rem 0" }}
                         />
                     ))
                 )

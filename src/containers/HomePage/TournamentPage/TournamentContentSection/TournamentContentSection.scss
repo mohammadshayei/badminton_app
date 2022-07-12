@@ -1,71 +1,71 @@
 .tournament-content-section-wrapper {
-	width: 100%;
-	height: calc(100vh - 8rem - 70px);
-	border-radius: 25px;
-	padding: 1rem;
-	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
-		rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-	.swipeable-list {
-		height: unset;
-	}
-	.tournament-content-section-content {
-		display: grid;
-		align-items: flex-start;
-		justify-content: center;
-		grid-template-columns: repeat(auto-fit, 14rem);
-		gap: 1rem;
-		padding: 1rem;
-		max-height: 70%;
-		max-width: 100%;
-		.swipeable-list-item {
-			height: 5rem;
-			// overflow: visible;
-		}
-	}
-	.no-item-content {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 85%;
-		img {
-			margin: 2rem;
-			width: 150px;
-			// aspect-ratio: 1;
-			// @supports not (aspect-ratio: auto) { 
-			// 	padding-top: 100%;
-			// 	height: 0;
-			// 	position: relative;
-			// 	overflow: hidden;				
-			// }
-		}
-	}
+  width: 100%;
+  height: calc(100vh - 8rem - 70px);
+  border-radius: 25px;
+  padding: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  .swipeable-list {
+    height: unset;
+  }
+  .tournament-content-section-content {
+    display: grid;
+    align-items: flex-start;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 14rem);
+    gap: 1rem;
+    padding: 1rem;
+    max-height: 70%;
+    max-width: 100%;
+    .swipeable-list-item {
+      height: 5rem;
+      // overflow: visible;
+    }
+  }
+  .no-item-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 85%;
+    img {
+      margin: 2rem;
+      width: 150px;
+      // aspect-ratio: 1;
+      // @supports not (aspect-ratio: auto) {
+      // 	padding-top: 100%;
+      // 	height: 0;
+      // 	position: relative;
+      // 	overflow: hidden;
+      // }
+    }
+  }
 }
 
 .swipe-action-btn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0 0.5rem;
-	font-size: 0.7rem;
-	cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  font-size: 0.7rem;
+  cursor: pointer;
 }
 
 @media only screen and (min-height: 500px) {
-	.tournament-content-section-wrapper {
-		.tournament-content-section-content {
-			max-height: 75%;
-		}
-	}
+  .tournament-content-section-wrapper {
+    .tournament-content-section-content {
+      max-height: 75%;
+    }
+  }
 }
 
 @media only screen and (min-width: 780px) and (min-height: 500px) {
-	.tournament-content-section-wrapper {
-		height: calc(100vh - 4rem);
-		.tournament-content-section-content {
-			grid-template-columns: repeat(auto-fit, 19rem);
-			max-height: 85%;
-		}
-	}
+  .tournament-content-section-wrapper {
+    height: calc(100vh - 4rem);
+    .tournament-content-section-content {
+      grid-template-columns: repeat(auto-fit, 19rem);
+      max-height: 85%;
+    }
+  }
 }

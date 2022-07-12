@@ -18,7 +18,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.3rem;
+        p {
+          margin: 0 0.15rem;
+        }
       }
     }
     .tournament-content {
@@ -31,12 +33,10 @@
         flex-direction: column;
         max-width: 20rem;
         padding: 1rem;
-        gap: 1rem;
         .not_found {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 1rem;
           width: 100%;
           padding: 0.5rem;
           opacity: 0.8;
@@ -45,6 +45,7 @@
           border-bottom: 1px solid;
           padding-bottom: 0.5rem;
           cursor: pointer;
+          margin: 0.5rem 0;
           .tournament-item-bar {
             opacity: 0.6;
           }
@@ -65,7 +66,6 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0rem;
           .profile-avatar {
             top: 0;
             display: flex;
@@ -157,7 +157,6 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 1rem;
-            gap: 1rem;
           }
         }
       }

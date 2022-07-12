@@ -12,13 +12,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.5rem;
     margin: auto;
     width: 100%;
     .option-box {
       min-width: 45%;
       border: 2px solid;
       padding: 1em 1em;
+      margin: 0.25rem;
       border-radius: 1em;
       text-align: center;
       cursor: pointer;

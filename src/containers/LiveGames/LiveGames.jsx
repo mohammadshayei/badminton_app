@@ -11,6 +11,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import AssignLand from './AssignLand/AssignLand';
 import LiveGameBox from '../LiveGameBox/LiveGameBox';
 import Footer from '../HomePage/Footer/Footer';
+import { AiOutlineEye } from 'react-icons/ai'
 
 const LiveGames = () => {
     const [loading, setLoading] = useState(false)
@@ -37,7 +38,7 @@ const LiveGames = () => {
         games.forEach(game => {
             var diffInMs = Math.abs(today - new Date(game.game_time.start))
             var diffInMin = Math.trunc(diffInMs / (1000 * 60));
-            newDurations = [...newDurations, `${diffInMin} '`];
+            newDurations = [...newDurations, `${diffInMin}min`];
         });
         setDuration(newDurations);
     }
@@ -270,6 +271,7 @@ const LiveGames = () => {
                                     gamesStats={gamesStats}
                                     gamesScores={gamesScores}
                                     endGamesScores={endGamesScores}
+                                    style={{ margin: "0.5rem" }}
                                 />
                             ))
                         ) : (
@@ -281,9 +283,7 @@ const LiveGames = () => {
             </div>
             <div className='button-container'>
                 <div className="online-user">
-                    <p>
-                        کاربر در حال تماشا : {usersOnlineCount}
-                    </p>
+                    {usersOnlineCount} <AiOutlineEye style={{ transform: "translateY(3px)" }} />
                 </div>
                 <Button
                     onClick={() => { setShowModal(true) }}

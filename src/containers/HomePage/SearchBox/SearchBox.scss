@@ -1,7 +1,6 @@
 .search-box-container {
   display: flex;
   flex-direction: column-reverse;
-  gap: 0.5rem;
   width: 100%;
   padding: 0.5rem;
   z-index: 9;
@@ -24,7 +23,6 @@
       position: absolute;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
       top: 0;
       left: 0;
       right: 0;
@@ -44,7 +42,6 @@
     .open {
       height: 20vh;
       padding: 1rem 1.5rem;
-      border-top: 1px solid;
       .found-item {
         display: block;
         padding: 0.5rem;
@@ -53,7 +50,7 @@
         cursor: pointer;
         transition: background-color 200ms ease;
         &:hover {
-          background-color: rgba(0, 0, 0, 0.041);
+          background-color: rgba(0, 0, 0, 0.2);
         }
       }
     }
@@ -63,6 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-right: 0.5rem;
     .user-details {
       display: flex;
       align-items: center;

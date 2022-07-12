@@ -87,7 +87,7 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                         selected={v.selected}
                         onClick={() => onSelectorClick(k)}
                         type={2}
-                        style={{ borderWidth: '1px' }}
+                        style={{ borderWidth: '1px', margin: "0 0.25rem" }}
                     />
                 )}
             </div>
