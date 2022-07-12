@@ -17,6 +17,7 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import CustomInput, { elementTypes } from "../../../components/UI/CustomInput/CustomInput";
 import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
+import { IoTrashBin } from "react-icons/io5";
 
 const GamesPage = () => {
   const [loading, setLoading] = useState(false)
@@ -256,6 +257,9 @@ const GamesPage = () => {
           <div className="court-and-gym-selector">
             <CustomInput
               elementType={elementTypes.dropDown}
+              inputContainer={{
+                maxWidth:"200px"
+              }}
               items={gyms}
               value={selectedGym}
               title="سالن"
@@ -263,17 +267,22 @@ const GamesPage = () => {
             />
             <TransparentButton
               ButtonStyle={{
-                margin: 0, padding: 0
+                fontSize: "1.5rem",
+                padding:"0 0.2rem",
+                margin:"0 1rem"
               }}
               onClick={() => deselect('gym')}
               config={{
                 disabled: !gym
               }}
             >
-              رفع انتخاب سالن
+              <IoTrashBin color={theme.error} />
             </TransparentButton>
             <CustomInput
               elementType={elementTypes.dropDown}
+              inputContainer={{
+                maxWidth:"200px"
+              }}
               items={landNumbers}
               title="زمین"
               value={selectedCourt}
@@ -281,14 +290,16 @@ const GamesPage = () => {
             />
             <TransparentButton
               ButtonStyle={{
-                margin: 0, padding: 0
+                fontSize: "1.5rem",
+                padding:"0 0.2rem",
+                margin:"0 1rem"
               }}
               onClick={() => deselect('court')}
               config={{
                 disabled: !court
               }}
             >
-              رفع انتخاب زمین
+              <IoTrashBin color={theme.error} />
             </TransparentButton>
           </div>
           {
