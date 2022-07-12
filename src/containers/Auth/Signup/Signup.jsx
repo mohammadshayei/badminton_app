@@ -115,9 +115,13 @@ const Singup = ({ locaiton, navigate }) => {
         navigate('/login')
     }
     return (
-        <div className='section-container sign-up'
+        <form className='section-container sign-up'
             style={{
                 backgroundColor: theme.surface
+            }}
+            onSubmit={(e) => {
+                onClick()
+                e.preventDefault()
             }}
         >
             {dialog}
@@ -135,7 +139,6 @@ const Singup = ({ locaiton, navigate }) => {
             }
             <Button
                 loading={isLoading}
-                onClick={onClick}
                 config={{ disabled: !formIsValid }}
                 ButtonStyle={{ marginTop: "1rem" }}
             >
@@ -149,7 +152,7 @@ const Singup = ({ locaiton, navigate }) => {
                     {stringFa.login}
                 </span>
             </p>
-        </div>
+        </form>
     )
 }
 

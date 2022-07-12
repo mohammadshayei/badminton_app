@@ -84,6 +84,10 @@ const Login = ({ navigate }) => {
             style={{
                 backgroundColor: theme.surface
             }}
+            onSubmit={(e) => {
+                loginHandler()
+                e.preventDefault()
+            }}
         >
             <div className="title-text-login"
                 style={{ color: theme.primary }}
@@ -103,7 +107,6 @@ const Login = ({ navigate }) => {
             <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
             <Button
                 loading={loading}
-                onClick={loginHandler}
                 ButtonStyle={{
                     padding: '.5em 2.5em',
                 }}
