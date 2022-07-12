@@ -227,7 +227,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                         )
                                     }
                                     <p id={game?._id + "A"} className="live-score">
-                                        {teamAScore || <Skeleton width="2vw" />}
+                                        {teamAScore === 0 ? 0 : teamAScore || <Skeleton width="2vw" />}
                                     </p>
                                 </>
                         }
@@ -283,7 +283,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                     </p>
                                 )}
                                 <p id={game?._id + "B"} className="live-score">
-                                    {teamBScore || <Skeleton width="2vw" />}
+                                    {teamBScore === 0 ? 0 : teamBScore || <Skeleton width="2vw" />}
                                 </p>
                             </>
                         }
