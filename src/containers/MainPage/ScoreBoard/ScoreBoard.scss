@@ -115,7 +115,7 @@
         left: 50%;
         font-size: clamp(0.9rem, 8vw, 12vh);
         transform: translateX(-50%);
-        transition: transform 0.2s ease-in-out;
+        transition: transform 0.05s ease-in-out;
       }
       .up-right {
         transform: translateX(-50%) rotate(10deg);
@@ -205,14 +205,18 @@
       display: flex;
       justify-content: space-between;
       top: calc(2rem + 8vh);
-      left: 1.5rem;
-      right: 1.5rem;
       cursor: pointer;
       transition: opacity, filter 0.4s ease-in-out;
       z-index: 99;
       .action-btn {
         font-size: clamp(2rem, 5vw, 10vh);
       }
+    }
+    .action-btn-left {
+      left: 1.5rem;
+    }
+    .action-btn-right {
+      right: 1.5rem;
     }
   }
 }

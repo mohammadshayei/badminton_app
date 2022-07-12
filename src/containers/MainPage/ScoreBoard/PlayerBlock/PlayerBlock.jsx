@@ -219,7 +219,7 @@ const PlayerBlock = (props) => {
         <p className="score-text" style={{ ...scoreStyle }}>
           {props.score}
         </p>
-        <div disabled={props.disable || info.foulHappend ? 1 : 0}
+        <div disabled={props.disabledButton || props.disable || info.foulHappend ? 1 : 0}
           className="player-block-icon"
           style={{ opacity: info.foulHappend ? 0 : 1 }}
         >
