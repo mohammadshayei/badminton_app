@@ -146,6 +146,13 @@
             font-size: clamp(2rem, 2.5vw, 2.5rem);
             opacity: 0.6;
             margin: 0 3%;
+            img {
+              width: 8vw;
+              max-width: 80px;
+              height: 8vw;
+              max-height: 80px;
+              object-fit: contain;
+            }
             .image-skeleton {
               width: 60px;
               height: 60px;
