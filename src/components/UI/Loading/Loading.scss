@@ -9,11 +9,11 @@
   height: 100%;
   direction: rtl;
   .loading {
-    font-size: clamp(0.9rem, 1vw, 1rem);
-    // animation: fadein_out 1s infinite ease-out forwards;
+    font-size: clamp(0.9rem, 2vw, 1.5rem);
+    animation: fadein_out 1s infinite ease-out forwards;
   }
   .loading-spinner {
-    font-size: clamp(0.9rem, 2vw, 2rem);
+    font-size: clamp(0.9rem, 5vw, 3rem);
   }
   @keyframes fadein_out {
     0% {

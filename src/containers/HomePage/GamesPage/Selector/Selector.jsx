@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import "./Selector.scss";
 import Button from "../../../../components/UI/Button/Button"
-import { stringFa } from "../../../../assets/strings/stringFaCollection"
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
@@ -134,42 +134,46 @@ const Selector = (props) => {
                 break;
         }
     }, [index]);
-    useEffect(async () => {
-        if (index > max && (info.team1.receiver === 0 || info.team2.receiver === 0)) {
-            setloading(true)
-            if (!props.exitable)
-                props.setShow(false);
-            else {
-                const payload = {
-                    gameId: props.selectedGameId,
-                    teamA: {
-                        isRightTeam: info.team1.isRightTeam,
-                        server: info.team1.server,
-                        receiver: info.team1.receiver,
-                        isTop: info.team1.isTop,
-                        players: info.team1.players.map(item => { return { player: item.id } })
-                    },
-                    teamB: {
-                        isRightTeam: info.team2.isRightTeam,
-                        server: info.team2.server,
-                        receiver: info.team2.receiver,
-                        isTop: info.team2.isTop,
-                        players: info.team2.players.map(item => { return { player: item.id } })
+
+    useEffect(() => {
+        (async () => {
+            if (index > max && (info.team1.receiver === 0 || info.team2.receiver === 0)) {
+                setloading(true)
+                if (!props.exitable)
+                    props.setShow(false);
+                else {
+                    const payload = {
+                        gameId: props.selectedGameId,
+                        teamA: {
+                            isRightTeam: info.team1.isRightTeam,
+                            server: info.team1.server,
+                            receiver: info.team1.receiver,
+                            isTop: info.team1.isTop,
+                            players: info.team1.players.map(item => { return { player: item.id } })
+                        },
+                        teamB: {
+                            isRightTeam: info.team2.isRightTeam,
+                            server: info.team2.server,
+                            receiver: info.team2.receiver,
+                            isTop: info.team2.isTop,
+                            players: info.team2.players.map(item => { return { player: item.id } })
+                        }
+                    }
+                    const result = await createSet(payload, token)
+                    if (result.success) {
+                        setSetId(result.data)
+                        props.setShow(false);
+
+                    } else {
+                        setDialog(null)
+                        setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
                     }
                 }
-                const result = await createSet(payload, token)
-                if (result.success) {
-                    setSetId(result.data)
-                    props.setShow(false);
-
-                } else {
-                    setDialog(null)
-                    setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>)
-                }
+                setloading(false)
             }
-            setloading(false)
-        }
+        })()
     }, [index, info.team1, info.team2])
+
     const optionClick = (i) => {
         let updatedOptions = [...options];
         updatedOptions.forEach(option => {
@@ -208,8 +212,7 @@ const Selector = (props) => {
             setIndex(index - 1);
         if (index === 1)
             // props.setShow(false);
-            navigate(`/home?page=2`);
-
+            navigate(`/my_games`);
     }
 
     return (

@@ -585,8 +585,8 @@ const ScoreBoard = ({ disable, setDisable }) => {
                 setServiceOver={setServiceOver}
                 disabledButton={disabledButton}
               />)
-            ) : <Loading style={{ direction: "ltr" }} />
-            : <Loading style={{ direction: "ltr" }} />)}
+            ) : <Loading style={{ color: theme.on_primary }} />
+            : <Loading style={{ color: theme.on_primary }} />)}
         {!disable && <div className="service-over"
           style={{ opacity: serviceOver ? 1 : 0 }}
         >service over</div>}
@@ -597,7 +597,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
           style={{ opacity: winPoint ? 1 : 0 }}
         >{winPoint}</div>
         {disable && breakTime === 0 && (
-          loading ? <Loading style={{ direction: "ltr" }} /> :
+          loading ? <Loading style={{ color: theme.on_primary }} /> :
             <>
               {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}>!Warm Up</div>}
               {warmUp && <div className="timer" >{warmUpTimer}
