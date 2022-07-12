@@ -67,6 +67,10 @@ const HomePage = () => {
           setPage(<TournamentForm />)
           setSelectedPageIndex(5)
           break;
+        case '/edit_tournament':
+          setPage(<TournamentForm />)
+          setSelectedPageIndex(0)
+          break;
         case '/profile':
           setPage(<ProfilePage />)
           setSelectedPageIndex(6)

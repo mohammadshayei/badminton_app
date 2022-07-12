@@ -290,7 +290,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         if (event.target.files[0]) {
             setImageSrc(URL.createObjectURL(event.target.files[0]));
             setImagePath(event.target.files[0])
-            setChanged(false)
+            setChanged(true)
         }
     }
 

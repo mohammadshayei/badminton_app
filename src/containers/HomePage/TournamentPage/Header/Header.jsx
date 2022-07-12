@@ -7,11 +7,18 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { GiTrophyCup } from "react-icons/gi";
 import { baseUrl } from '../../../../constants/Config';
 import TransparentButton from '../../../../components/UI/Button/TransparentButton/TransparentButton';
+import { useNavigate } from 'react-router-dom'
 
 const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
+    const navigate = useNavigate()
+
+    const onEdit = () => {
+        if (!tournament) return;
+        navigate(`/edit_tournament?id=${tournament._id}`)
+    }
     return (
         <div
             style={{ backgroundColor: theme.secondary, color: theme.on_secondary }}
@@ -35,6 +42,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                                 {tournament?.title}
                                 <TransparentButton
                                     ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
+                                    onClick={onEdit}
                                 >
                                     <Icon icon="akar-icons:edit" />
                                 </TransparentButton>

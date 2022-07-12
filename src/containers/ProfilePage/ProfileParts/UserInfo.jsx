@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { elementTypes } from "../../../components/UI/CustomInput/CustomInput";
 import * as authActions from "../../../store/actions/auth";
-import { changeRefereePassword, editReferee, uploadRefereeImage } from "../../../api/home";
+import { changeRefereePassword, dynamicApi, editReferee, uploadRefereeImage } from "../../../api/home";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import { baseUrl } from "../../../constants/Config";
 import Skeleton from 'react-loading-skeleton'
@@ -72,7 +72,7 @@ const UserInfo = ({ setDialog }) => {
             },
             elementType: elementTypes.titleInput,
             validationMessage: stringFa.national_number_error,
-            invalid: true,
+            invalid: false,
             shouldValidate: false,
             validation: null,
             isFocused: false,
@@ -139,17 +139,17 @@ const UserInfo = ({ setDialog }) => {
             if (changePassword) {
                 let payload = {
                     password: order.password.value,
-                    refereeId: auth.refereeId,
+                    userId: auth.user._id,
                 }
-                let result = await changeRefereePassword(payload, auth.token);
-                setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.message}</ErrorDialog>)
+                let result = await dynamicApi(payload, auth.token, 'change_user_password');
+                setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
                 setChangePassword(false)
             } else {
                 let payload = {
                     username: order.userName.value,
-                    refereeId: auth.refereeId,
+                    userId: auth.user._id,
                 }
-                let result = await editReferee(payload, auth.token);
+                let result = await dynamicApi(payload, auth.token, 'edit_user');
                 setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
 
                 if (result.success)
@@ -165,17 +165,17 @@ const UserInfo = ({ setDialog }) => {
     }
 
     useEffect(() => {
-        if (auth.referee) {
+        if (auth.user) {
             let updatedOrder = { ...order }
-            updatedOrder.userName.value = auth.referee.username;
+            updatedOrder.userName.value = auth.user.username;
             updatedOrder.userName.elementConfig.disabled = false;
-            updatedOrder.phone.value = auth.referee.phone;
-            updatedOrder.nationalId.value = auth.referee.national_number;
-            if (auth.referee.image !== '')
-                setImageSrc(`${baseUrl}uploads/referees/${auth.referee.image}`)
+            updatedOrder.phone.value = auth.user.phone;
+            updatedOrder.nationalId.value = auth.user.national_number;
+            if (auth.user.image !== '')
+                setImageSrc(`${baseUrl}uploads/users/${auth.user.image}`)
             setOrder(updatedOrder)
         }
-    }, [auth.referee])
+    }, [auth.user])
 
     useEffect(() => {
         let updatedOrder = { ...order }
@@ -224,7 +224,7 @@ const UserInfo = ({ setDialog }) => {
         <div className='input-wrapper'>
             <InputForm
                 order={filteredOrder}
-                setOrder={setOrder}
+                setOrder={setFilteredOrder}
                 setFormIsValid={setFormIsValid}
                 createAccess={true}
                 itemLoading={false}
@@ -240,7 +240,7 @@ const UserInfo = ({ setDialog }) => {
             </Button>
             <TransparentButton
                 onClick={() => setChangePassword(!changePassword)}
-                config={{ disabled: !auth.referee && true }}
+                config={{ disabled: !auth.user && true }}
             >
                 {changePassword ? stringFa.cancel : stringFa.change_password}
             </TransparentButton>

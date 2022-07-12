@@ -30,7 +30,6 @@ const MainPage = () => {
   const { token, socket } = useSelector(state => state.auth)
   const searchParams = new URLSearchParams(locaiton.search);
   const gameId = searchParams.get("gameId");
-  const refereeId = searchParams.get("refereeId");
   const court = searchParams.get("court");
   const gym = searchParams.get("gym");
 

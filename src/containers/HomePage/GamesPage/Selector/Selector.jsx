@@ -5,7 +5,7 @@ import Button from "../../../../components/UI/Button/Button"
 import { useTheme } from "../../../../styles/ThemeProvider";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { createSet } from "../../../../api/home";
 import Loading from "../../../../components/UI/Loading/Loading";
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
@@ -24,6 +24,12 @@ const Selector = (props) => {
     const token = useSelector(state => state.auth.token)
 
     let navigate = useNavigate();
+    const location = useLocation()
+
+    const searchParams = new URLSearchParams(location.search);
+    const court = searchParams.get("court");
+    const gym = searchParams.get("gym");
+
     const dispatch = useDispatch();
     const setChosen = (items) => {
         dispatch(infoActions.setChosen(items));
@@ -210,9 +216,15 @@ const Selector = (props) => {
     const backClick = () => {
         if (index > 1)
             setIndex(index - 1);
-        if (index === 1)
-            // props.setShow(false);
-            navigate(`/my_games`);
+        if (index === 1) {
+            if (gym && court)
+                navigate(`/my_games?gym=${gym}&court=${court}`)
+            else if (gym)
+                navigate(`/my_games?gym=${gym}`)
+            else
+                navigate(`/my_games`)
+        }
+        // props.setShow(false);
     }
 
     return (

@@ -7,12 +7,14 @@ import InputForm from "../../../../components/UI/InputForm/InputForm";
 import Button from "../../../../components/UI/Button/Button";
 import { useNavigate } from "react-router-dom";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
-import { createTournament } from "../../../../api/home";
+import { createTournament, dynamicApi, formDataDynamic } from "../../../../api/home";
 import { useSelector } from "react-redux";
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
+import { useLocation } from 'react-router-dom'
 import { GiTrophyCup } from "react-icons/gi";
 import { AiFillCamera } from 'react-icons/ai'
 import { useTheme } from "../../../../styles/ThemeProvider";
+import { baseUrl } from "../../../../constants/Config";
 
 const TournamentForm = () => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -356,11 +358,17 @@ const TournamentForm = () => {
     const [loading, setLoading] = useState(false)
     const [dialog, setDialog] = useState(null)
     const [imageSrc, setImageSrc] = useState('')
+    const [imagePath, setImagePath] = useState('')
+    const [changed, setChanged] = useState(false)
+    const [createAccess, setCreateAccess] = useState(false)
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const { token } = useSelector(state => state.auth)
+    const { token, user } = useSelector(state => state.auth)
 
     let navigate = useNavigate()
     const onCancel = () => {
@@ -376,6 +384,8 @@ const TournamentForm = () => {
     const onChangeImage = (event) => {
         if (event.target.files[0]) {
             setImageSrc(URL.createObjectURL(event.target.files[0]));
+            setImagePath(event.target.files[0])
+            setChanged(true)
         }
     }
 
@@ -383,46 +393,53 @@ const TournamentForm = () => {
         setDialog(null)
         setLoading(true)
         try {
-            const payload = {
+            let payload = {
                 title: order.title.value,
-                period: order.periodNumber.value && parseInt(order.periodNumber.value),
+                period: order.periodNumber.value,
                 ageCategory: order.ageRange.value,
                 freeRanking: order.freeRanking.value,
                 dayCount: order.dayCount.value,
                 gameType: order.gamesType.value,
-                gameDate: {
-                    start: order.startDate.value,
-                    end: order.endDate.value,
-                },
+                gameDateStart: new Date(order.startDate.value),
+                gameDateEnd: new Date(order.endDate.value),
                 supervisor: order.supervisor.value,
                 grade: order.grade.value,
                 rewardType: order.rewardType.value,
                 certificate: order.certificate.value,
-                placeInfo: {
-                    country: order.country.value,
-                    province: order.province.value,
-                    city: order.city.value,
-                    town: order.town.value,
-                },
+                country: order.country.value,
+                province: order.province.value,
+                city: order.city.value,
+                town: order.town.value,
                 options: order.serviceOptions.value,
                 transportation: order.tranportation.value,
                 catering: order.catering.value,
                 hotel: order.hotel.value,
             }
-            const result = await createTournament(payload, token)
+            let path = 'create_tournament';
+            if (id) {
+                path = 'edit_tournament'
+                payload = { ...payload, tournamentId: id }
+            }
+            console.log(payload)
+            const result = await formDataDynamic(imagePath, payload, token, path)
             if (!result.success) {
                 setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
                 return;
             }
             setDialog(<ErrorDialog type="success">با موفقیت ساخته شد</ErrorDialog>)
             setLoading(false)
-            navigate(`/tournaments/${result.data.tournament}?part=team`)
+            if (order.freeRanking.value)
+                navigate(`/tournaments/${result.data.tournament}?part=player`)
+            else
+                navigate(`/tournaments/${result.data.tournament}?part=team`)
+
 
         } catch (error) {
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
             setLoading(false)
 
         }
+        setChanged(false)
     }
 
     useEffect(() => {
@@ -444,6 +461,93 @@ const TournamentForm = () => {
         }
         setOrder(updatedOrder)
     }, [order.endDate.value])
+
+    useEffect(() => {
+        if (!user) return;
+        if (!id) {
+            setFormIsValid(false)
+            let updatedOrder = { ...order }
+            updatedOrder.title.value = ''
+            updatedOrder.title.invalid = true;
+            updatedOrder.periodNumber.value = ''
+            updatedOrder.ageRange.value = ''
+            updatedOrder.ageRange.invalid = true;
+            updatedOrder.freeRanking.value = ''
+            updatedOrder.dayCount.value = ''
+            updatedOrder.dayCount.invalid = true;
+            updatedOrder.gamesType.value = ''
+            updatedOrder.startDate.value = ''
+            updatedOrder.startDate.invalid = true;
+            updatedOrder.endDate.value = ''
+            updatedOrder.endDate.invalid = true;
+            updatedOrder.supervisor.value = ''
+            updatedOrder.grade.value = ''
+            updatedOrder.rewardType.value = ''
+            updatedOrder.certificate.value = ''
+            updatedOrder.country.value = ''
+            updatedOrder.province.value = ''
+            updatedOrder.city.value = ''
+            updatedOrder.town.value = ''
+            updatedOrder.serviceOptions.value = ''
+            updatedOrder.tranportation.value = ''
+            updatedOrder.catering.value = ''
+            updatedOrder.hotel.value = ''
+            setOrder(updatedOrder)
+            setCreateAccess(true)
+            return;
+        }
+        (async () => {
+            setLoading(true)
+            try {
+                let result = await dynamicApi({ id }, token, 'get_full_info_tournament')
+                if (!result.success) {
+                    setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
+                    setLoading(false)
+                    return;
+                }
+
+                if (user._id !== result.data.tournament.chief)
+                    setCreateAccess(false)
+                else
+                    setCreateAccess(true)
+                if (result.data.tournament.image)
+                    setImageSrc(`${baseUrl}uploads/tournaments/${result.data.tournament.image}`)
+                setFormIsValid(true)
+                let updatedOrder = { ...order }
+                updatedOrder.title.value = result.data.tournament.title;
+                updatedOrder.title.invalid = false;
+                updatedOrder.periodNumber.value = result.data.tournament.period;
+                updatedOrder.ageRange.value = result.data.tournament.age_category;
+                updatedOrder.ageRange.invalid = false;
+                updatedOrder.freeRanking.value = result.data.tournament.free_ranking;
+                updatedOrder.dayCount.value = result.data.tournament.day_count;
+                updatedOrder.dayCount.invalid = false;
+                updatedOrder.gamesType.value = result.data.tournament.game_type
+                updatedOrder.startDate.value = result.data.tournament.game_date.start
+                updatedOrder.startDate.invalid = false;
+                updatedOrder.endDate.value = result.data.tournament.game_date.end
+                updatedOrder.endDate.invalid = false;
+                updatedOrder.supervisor.value = result.data.tournament.supervisor
+                updatedOrder.grade.value = result.data.tournament.grade
+                updatedOrder.rewardType.value = result.data.tournament.reward_type
+                updatedOrder.certificate.value = result.data.tournament.certificate
+                updatedOrder.country.value = result.data.tournament.place_info.country;
+                updatedOrder.province.value = result.data.tournament.place_info.province
+                updatedOrder.city.value = result.data.tournament.place_info.city
+                updatedOrder.town.value = result.data.tournament.place_info.town
+                updatedOrder.serviceOptions.value = result.data.tournament.options
+                updatedOrder.tranportation.value = result.data.tournament.transportation
+                updatedOrder.catering.value = result.data.tournament.catering
+                updatedOrder.hotel.value = result.data.tournament.hotel
+                setOrder(updatedOrder)
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+                setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+            }
+            setLoading(false)
+        })()
+    }, [user, id])
 
     return <div className="tournaments-form-wrapper">
         {dialog}
@@ -472,7 +576,8 @@ const TournamentForm = () => {
             order={order}
             setOrder={setOrder}
             setFormIsValid={setFormIsValid}
-            createAccess={true}
+            createAccess={createAccess}
+            setChanged={setChanged}
         />
         <div className="buttons-wrapper">
             <TransparentButton
@@ -483,7 +588,7 @@ const TournamentForm = () => {
             <Button
                 loading={loading}
                 onClick={onSaveClick}
-                config={{ disabled: !formIsValid }}
+                config={{ disabled: !formIsValid || !changed }}
             >
                 {stringFa.save}
             </Button>

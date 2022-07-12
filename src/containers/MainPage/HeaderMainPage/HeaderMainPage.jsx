@@ -6,7 +6,7 @@ import Button from "../../../components/UI/Button/Button"
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useTheme } from "../../../styles/ThemeProvider";
 import { exitGame, } from "../../../api/scoreboard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as infoActions from "../../../store/actions/setInfo"
 import { HiMinus, HiOutlinePlusSm } from "react-icons/hi";
 import shuttle_image from "../../../assets/images/badminton_ball.png";
@@ -24,7 +24,11 @@ const HeaderMainPage = () => {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   let navigate = useNavigate();
+  const location = useLocation()
 
+  const searchParams = new URLSearchParams(location.search);
+  const court = searchParams.get("court");
+  const gym = searchParams.get("gym");
   const dispatch = useDispatch();
   const increaseBall = () => {
     dispatch(infoActions.increaseBall());
@@ -41,7 +45,12 @@ const HeaderMainPage = () => {
       socket.emit('send_exit_game', { gameId })
 
     }
-    navigate('/my_games')
+    if (gym && court)
+      navigate(`/my_games?gym=${gym}&court=${court}`)
+    else if (gym)
+      navigate(`/my_games?gym=${gym}`)
+    else
+      navigate(`/my_games`)
   }
 
   return (

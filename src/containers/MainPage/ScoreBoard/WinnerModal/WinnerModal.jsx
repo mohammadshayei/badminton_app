@@ -3,7 +3,7 @@ import { useTheme } from "../../../../styles/ThemeProvider"
 import * as infoActions from "../../../../store/actions/setInfo"
 import Button from "../../../../components/UI/Button/Button"
 import "./WinnerModal.scss"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { stringFa } from "../../../../assets/strings/stringFaCollection"
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton"
 
@@ -14,12 +14,22 @@ const WinnerModal = (props) => {
     const theme = themeState.computedTheme
     const info = useSelector(state => state.info)
     const dispatch = useDispatch();
+    const location = useLocation()
+
+    const searchParams = new URLSearchParams(location.search);
+    const court = searchParams.get("court");
+    const gym = searchParams.get("gym");
     const removeScores = () => {
         dispatch(infoActions.removeScores());
     };
 
     const onButtonClick = () => {
-        navigate('/my_games')
+        if (gym && court)
+            navigate(`/my_games?gym=${gym}&court=${court}`)
+        else if (gym)
+            navigate(`/my_games?gym=${gym}`)
+        else
+            navigate(`/my_games`)
         removeScores();
     }
 
