@@ -328,6 +328,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 <TransparentButton
                     ButtonStyle={{
                         padding: "0",
+                        margin: "0 1rem",
                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
                         color: theme.error
                     }}
@@ -345,6 +346,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 <TransparentButton
                     ButtonStyle={{
                         padding: "0",
+                        margin: "0 1rem",
                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
                         color: theme.secondary
                     }}
@@ -363,6 +365,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 <TransparentButton
                     ButtonStyle={{
                         padding: "0",
+                        margin: "0 1rem",
                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
                         opacity: data?.games?.length > 0 ? 1 : 0,
                     }}

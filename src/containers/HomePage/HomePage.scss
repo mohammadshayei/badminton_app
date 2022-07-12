@@ -35,8 +35,11 @@
 @media only screen and (min-width: 780px) and (min-height: 500px) {
   .home-page-wrapper {
     padding-right: 70px;
-    transition: padding-right 300ms ease-out, color 0.2s ease-out,
-      background 0.2s ease-out;
+    // transition: padding-right 300ms ease-out, color 0.2s ease-out, background 0.2s ease-out;
+    transition: color 0.2s ease-out, background 0.2s ease-out;
+    .menu-icon {
+      display: none;
+    }
   }
   .menu-open {
     padding-right: 200px;

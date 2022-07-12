@@ -397,8 +397,12 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                     <>
                                         <div key={key} className={`match-game-team ${key === "b" ? "left" : ''}`}>
                                             <div className="players">
-                                                {players.map((player) =>
-                                                    <div key={player._id} className="player">
+                                                {players.map((player, i) =>
+                                                    <div key={player._id} className="player"
+                                                        style={{
+                                                            marginTop: i > 0 ? "0.25rem" : 0
+                                                        }}
+                                                    >
                                                         <img className="player-image" src={!player.image ? IMAGE : `${baseUrl}uploads/players/${player.image}`} alt="avatar" />
                                                         <div className="player-name">{player.username}</div>
                                                     </div>

@@ -1,7 +1,6 @@
 .otp-input-container {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
   width: fit-content;
   .otp-input-element,
   select {
@@ -17,6 +16,7 @@
     outline: none;
     border: 1px solid;
     border-radius: 50%;
+    margin: 0 0.25rem;
     font-size: clamp(1.5rem, 2vw, 1.7rem);
     line-height: clamp(1.5rem, 2vw, 1.7rem);
     padding: 0.2em 0.2em;

@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  gap: 0.5rem;
   border-top: 1px solid;
   display: flex;
   width: 100%;
@@ -12,7 +11,10 @@
   .footer-text-wrapper {
     display: flex;
     white-space: nowrap;
-    gap: 0.2rem;
+    margin-bottom: 0.5rem;
+    p {
+      margin: 0 0.1rem;
+    }
   }
   .two-lines {
     display: flex;
@@ -26,5 +28,8 @@
   .home-footer {
     flex-direction: row;
     justify-content: space-between;
+    .footer-text-wrapper {
+      margin-bottom: 0;
+    }
   }
 }

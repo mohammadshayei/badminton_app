@@ -8,7 +8,7 @@ const Loading = (props) => {
     const theme = themeState.computedTheme;
 
     return (
-        <div className='loadinig-container' style={{ color: theme.on_background, ...props.style }}>
+        <div className='loading-container' style={{ color: theme.on_background, ...props.style }}>
             <Icon className='loading-spinner' icon="line-md:loading-twotone-loop" color={theme.primary} />
             <p className='loading'>
                 {stringFa.loading}

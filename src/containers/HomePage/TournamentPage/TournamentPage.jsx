@@ -580,7 +580,7 @@ const TournamentPage = ({ id }) => {
                                         >
                                             <div className='button-add'>
                                                 <AiOutlinePlus style={{ fontSize: 15 }} />
-                                                {`${partTitle} جدید`}
+                                                <p>{`${partTitle} جدید`}</p>
                                             </div>
                                         </Button>
                                     }
@@ -620,6 +620,7 @@ const TournamentPage = ({ id }) => {
                                                             fontSize="3rem"
                                                             opacity={0.3}
                                                             color={theme.on_background}
+                                                            style={{ marginBottom: "1rem" }}
                                                         />
                                                         {stringFa.item_not_found}
                                                     </div>

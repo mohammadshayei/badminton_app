@@ -8,7 +8,6 @@
     display: flex;
     align-content: flex-start;
     flex-wrap: wrap;
-    gap: 1rem;
     padding: 1rem;
     overflow: auto;
     width: 100%;
@@ -25,10 +24,29 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 1rem;
-    padding-left: 1rem;
-    margin-bottom: 1rem;
+    padding: 0 1rem;
     width: 100%;
-    bottom: 2.5rem;
+    bottom: 6.5rem;
+    .online-user {
+      margin: 0 1rem;
+      font-size: clamp(0.7rem, 2.5vw, 1.2rem);
+      opacity: 0.5;
+    }
+  }
+}
+
+@media only screen and (min-width: 457px) {
+  .live-games-page-wrapper {
+    .button-container {
+      bottom: 5rem;
+    }
+  }
+}
+
+@media only screen and (min-width: 598px) {
+  .live-games-page-wrapper {
+    .button-container {
+      bottom: 3rem;
+    }
   }
 }

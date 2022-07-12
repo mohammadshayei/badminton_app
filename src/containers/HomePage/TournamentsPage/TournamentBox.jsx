@@ -53,9 +53,9 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
                         <Skeleton className="date-skeleton" /> :
                         <>
                             <p>از</p>
-                            <p>{gameDate.start && new Date(gameDate.start).toLocaleDateString('fa-IR')}</p>
+                            {gameDate.start && new Date(gameDate.start).toLocaleDateString('fa-IR')}
                             <p>تا</p>
-                            <p>{gameDate.end && new Date(gameDate.end).toLocaleDateString('fa-IR')}</p>
+                            {gameDate.end && new Date(gameDate.end).toLocaleDateString('fa-IR')}
                         </>
                     }
                 </div>

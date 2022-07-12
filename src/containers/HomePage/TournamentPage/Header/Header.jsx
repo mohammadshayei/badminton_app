@@ -54,20 +54,20 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         <Icon icon="ion:create" />
                         {loading ?
                             <Skeleton width={200} /> :
-                            tournament?.chief.username}
+                            <p>{tournament?.chief.username}</p>}
                     </div>
                     <div className="tournament-detail-gap">
                         <Icon icon="akar-icons:person-check" />
                         {loading ?
                             <Skeleton width={100} /> :
-                            tournament?.age_category}
+                            <p>{tournament?.age_category}</p>}
                     </div>
                     {loading ?
                         <Skeleton width={50} /> :
                         tournament?.period &&
                         <div className="tournament-detail-gap">
                             <Icon icon="akar-icons:arrow-cycle" />
-                            {tournament.period}
+                            <p> {tournament.period}</p>
                         </div>
                     }
                     <div className="tournament-date tournament-detail-gap">
@@ -77,9 +77,9 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                                 <Skeleton width={150} /> :
                                 <>
                                     <p>از</p>
-                                    <p>{tournament?.game_date.start && new Date(tournament?.game_date.start).toLocaleDateString('fa-IR')}</p>
+                                    {tournament?.game_date.start && new Date(tournament?.game_date.start).toLocaleDateString('fa-IR')}
                                     <p>تا</p>
-                                    <p>{tournament?.game_date.end && new Date(tournament?.game_date.end).toLocaleDateString('fa-IR')}</p>
+                                    {tournament?.game_date.end && new Date(tournament?.game_date.end).toLocaleDateString('fa-IR')}
                                 </>
                             }
                         </div>
@@ -95,7 +95,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         selected={v.selected}
                         onClick={() => onSelectorClick(k)}
                         type={2}
-                        style={{ borderWidth: '1px' }}
+                        style={{ borderWidth: '1px', margin: "0 0.25rem" }}
                     />
                 )}
             </div>

@@ -26,7 +26,7 @@ const GameBox = ({
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    return <div className="match-game"
+    return <div className="tournament-game-box"
         style={{
             backgroundColor: theme.surface
         }}
@@ -150,6 +150,7 @@ const GameBox = ({
             <TransparentButton
                 ButtonStyle={{
                     padding: "0",
+                    margin: "0 0.5rem",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)",
                     color: theme.error
                 }}
@@ -176,6 +177,7 @@ const GameBox = ({
                 loading={itemLoading.type === 'save' && itemLoading.content === game._id}
                 ButtonStyle={{
                     padding: "0",
+                    margin: "0 0.5rem",
                     fontSize: "clamp(0.8rem,1vw,0.9rem)",
                     color: theme.secondary
                 }}
@@ -186,6 +188,7 @@ const GameBox = ({
             <TransparentButton
                 ButtonStyle={{
                     padding: "0",
+                    margin: "0 0.5rem",
                     fontSize: "clamp(0.6rem,0.9vw,0.8rem)",
                 }}
                 onClick={() => toggle(game._id)}

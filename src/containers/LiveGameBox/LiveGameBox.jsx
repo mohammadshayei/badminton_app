@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
-const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration }) => {
+const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration, style }) => {
     const [teamAScore, setTeamAScore] = useState(0);
     const [teamBScore, setTeamBScore] = useState(0);
     const [serverA, setServerA] = useState(0)
@@ -132,12 +132,15 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
         }
     }, [endGamesScores])
 
+    console.log(scores);
+
     return <div
         className="live-game-box"
         onClick={() => gameClickHandler(game?._id)}
         style={{
             backgroundColor: theme.surface,
-            borderColor: theme.darken_border_color
+            borderColor: theme.darken_border_color,
+            ...style,
         }}
     >
         <div className='live-game-box-title'
@@ -196,11 +199,16 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                         </div>
 
                     </div>
-                    <div id={game?._id + "A"} className="span-score">
+                    <div className="span-score">
                         {
                             endScores.length > 0 ?
                                 endScores.map((item, index) =>
-                                    <p key={index} style={{ fontWeight: item.a > item.b && "bold" }}>
+                                    <p key={index}
+                                        style={{
+                                            fontWeight: item.a > item.b ? "800" : "200",
+                                            opacity: item.a > item.b ? "1" : "0.5",
+                                            margin: "0 0.5rem",
+                                        }}>
                                         {item.a}
                                     </p>
                                 )
@@ -208,12 +216,17 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                 <>
                                     {
                                         scores.map((item, index) =>
-                                            <p key={index} style={{ fontWeight: item.a > item.b && "bold" }}>
+                                            <p key={index}
+                                                style={{
+                                                    fontWeight: item.a > item.b ? "800" : "200",
+                                                    opacity: item.a > item.b ? "1" : "0.5",
+                                                    margin: "0 0.5rem",
+                                                }}>
                                                 {item.a}
                                             </p>
                                         )
                                     }
-                                    <p>
+                                    <p id={game?._id + "A"} className="live-score">
                                         {teamAScore || <Skeleton width="2vw" />}
                                     </p>
                                 </>
@@ -247,19 +260,29 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                             }
                         </div>
                     </div>
-                    <div id={game?._id + "B"} className="span-score">
+                    <div className="span-score">
                         {endScores.length > 0 ? endScores.map((item, index) =>
-                            <p key={index} style={{ fontWeight: item.b > item.a && "bold" }}>
+                            <p key={index}
+                                style={{
+                                    fontWeight: item.b > item.a ? "800" : "200",
+                                    opacity: item.b > item.a ? "1" : "0.5",
+                                    margin: "0 0.5rem",
+                                }}>
                                 {item.b}
                             </p>
                         ) :
                             <>
                                 {scores.map((item, index) =>
-                                    <p key={index} style={{ fontWeight: item.b > item.a && "bold" }}>
+                                    <p key={index}
+                                        style={{
+                                            fontWeight: item.b > item.a ? "800" : "200",
+                                            opacity: item.b > item.a ? "1" : "0.5",
+                                            margin: "0 0.5rem",
+                                        }}>
                                         {item.b}
                                     </p>
                                 )}
-                                <p>
+                                <p id={game?._id + "B"} className="live-score">
                                     {teamBScore || <Skeleton width="2vw" />}
                                 </p>
                             </>

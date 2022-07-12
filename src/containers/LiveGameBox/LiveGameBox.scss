@@ -46,11 +46,11 @@
       .online-viewers {
         display: flex;
         align-items: center;
-        gap: 0.2rem;
         padding-top: 0.1rem;
         margin-left: 0.5rem;
         p {
           padding-top: 0.2rem;
+          margin: 0 0.2rem;
         }
       }
       .all-viewers {
@@ -81,7 +81,6 @@
         .players-and-shuttle {
           display: flex;
           align-items: center;
-          gap: 2rem;
           .team-players {
             display: flex;
             flex-direction: column;
@@ -92,7 +91,6 @@
             overflow: hidden;
             .team-players-score {
               display: flex;
-              gap: 0.5rem;
             }
           }
           .shuttle-icon {
@@ -105,17 +103,19 @@
           position: relative;
           display: flex;
           justify-content: center;
-          gap: 1rem;
           align-items: center;
-          border-radius: 5px;
-          padding: 0 0.5em;
           font-size: clamp(0.65rem, 3.5vw, 1rem);
           padding-left: 0.5rem;
           overflow: hidden;
-          animation-duration: 1s;
-          animation-fill-mode: forwards;
           p {
+            text-align: center;
             z-index: 99;
+          }
+          .live-score {
+            padding: 0 0.5em;
+            border-radius: 5px;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
           }
         }
       }

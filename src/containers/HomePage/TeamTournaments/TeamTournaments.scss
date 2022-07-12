@@ -1,27 +1,40 @@
 .team-tournaments-wrapper {
-  padding: 4rem;
+  padding: 1rem 1.5rem;
   .team-tournaments-title {
     display: flex;
-    gap: 10rem;
+    .team-tournament-date {
+      width: 13rem;
+    }
+    p {
+      white-space: nowrap;
+    }
   }
   .tournamnets-item {
     margin-top: 2rem;
     .item-wrapper {
       display: flex;
       align-items: center;
-      gap: 1rem;
       .date {
         display: flex;
-        gap: 1rem;
         align-items: center;
+        .date-middle {
+          margin: 0 1rem;
+        }
       }
-      .arrow{
+      .arrow {
         display: flex;
         align-items: center;
+        margin: 0 1rem;
       }
       .title {
         cursor: pointer;
       }
     }
+  }
+}
+
+@media only screen and (min-width: 780px) {
+  .team-tournaments-wrapper {
+    padding: 4rem;
   }
 }
