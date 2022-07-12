@@ -253,9 +253,9 @@ const GamesPage = () => {
       <p className="title">{stringFa.my_games}</p>
       <div className="games-and-ads">
         <div className="games-wrapper">
-          <div className="ads-container">
+          {/* <div className="ads-container">
             <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
-          </div>
+          </div> */}
           <div className="court-and-gym-selector">
             <CustomInput
               elementType={elementTypes.dropDown}
@@ -425,9 +425,9 @@ const GamesPage = () => {
               )
           }
         </div>
-        <div className="ads-container">
+        {/* <div className="ads-container">
           <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
-        </div>
+        </div> */}
       </div>
       <Footer />
     </div>
