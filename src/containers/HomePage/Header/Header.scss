@@ -65,6 +65,13 @@
         justify-content: center;
         font-size: clamp(5rem, 5vw, 6rem);
         margin: 0 1rem;
+        img {
+          width: 8vw;
+          max-width: 120px;
+          height: 8vw;
+          max-height: 120px;
+          object-fit: contain;
+        }
         .image-skeleton {
           width: 6rem;
           height: 6rem;
