@@ -35,26 +35,49 @@ const WinnerModal = (props) => {
 
     return (
         <div className="winner-modal-wrapper">
-            <div className="details" style={{ flexDirection: info.team1.isRightTeam ? "row" : "row-reverse" }}>
+            <div
+                className="details"
+                style={{
+                    fontSize: `${Math.min(window.innerWidth * 0.03, 32)}px`,
+                    flexDirection: info.team1.isRightTeam ? "row" : "row-reverse"
+                }}>
                 <div className={`team-block ${info.team1.isRightTeam ? "team-rev" : ""} ${props.teamWon === "team1" && "winner"}`}
                     style={{ color: props.teamWon === "team1" ? theme.primary : theme.on_background }}
                 >
-                    <p className="scores-details">
+                    <p className="scores-details"
+                        style={{
+                            fontSize: `${Math.min(window.innerWidth * 0.05, 48)}px`,
+                            lineHeight: `${Math.min(window.innerWidth * 0.05, 48)}px`,
+                        }}
+                    >
                         {props.teamWon ? info.team1.scores.map((s) => <p>{s}</p>) : <p>{info.team1.score}</p>}
                     </p>
                     <div className="players-section">
-                        <p className="set-score">{props.teamWon && info.team1.setWon}</p>
+                        <p className="set-score"
+                            style={{
+                                fontSize: `${Math.min(window.innerWidth * 0.1, 96)}px`,
+                            }}
+                        >{props.teamWon && info.team1.setWon}</p>
                         {info.team1.players.map((p, i) => <p className="names" key={i}>{p.name}</p>)}
                     </div>
                 </div>
                 <div className={`team-block ${info.team2.isRightTeam ? "team-rev" : ""} ${props.teamWon === "team2" && "winner"}`}
                     style={{ color: props.teamWon === "team2" ? theme.primary : theme.on_background }}
                 >
-                    <p className="scores-details">
+                    <p className="scores-details"
+                        style={{
+                            fontSize: `${Math.min(window.innerWidth * 0.05, 48)}px`,
+                            lineHeight: `${Math.min(window.innerWidth * 0.05, 48)}px`,
+                        }}
+                    >
                         {props.teamWon ? info.team2.scores.map((s) => <p>{s}</p>) : <p>{info.team2.score}</p>}
                     </p>
                     <div className="players-section">
-                        <p className="set-score">{props.teamWon && info.team2.setWon}</p>
+                        <p className="set-score"
+                            style={{
+                                fontSize: `${Math.min(window.innerWidth * 0.1, 96)}px`,
+                            }}
+                        >{props.teamWon && info.team2.setWon}</p>
                         {info.team2.players.map((p, i) => <p className="names" key={i}>{p.name}</p>)}
                     </div>
                 </div>

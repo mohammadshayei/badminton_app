@@ -33,6 +33,7 @@ const Button = (props) => {
       disabled={props.loading ? true : props.disabled}
       style={{
         ...newStyle,
+        fontSize: `${Math.min(window.innerWidth * 0.15, 18)}px`,
         color: props.loading ? newStyle.backgroundColor : newStyle.color,
         ...props.ButtonStyle
       }}

@@ -563,7 +563,11 @@ const ScoreBoard = ({ disable, setDisable }) => {
         }}
       >
         {!disable &&
-          <div className={`arrow ${serverDirection}`}>
+          <div className={`arrow ${serverDirection}`}
+            style={{
+              fontSize: `${Math.min(window.innerWidth * 0.08, window.innerHeight * 0.12)}px`,
+            }}
+          >
             <ImArrowUpRight2 />
           </div>}
         {!loading &&
@@ -588,10 +592,17 @@ const ScoreBoard = ({ disable, setDisable }) => {
             ) : <Loading style={{ color: theme.on_primary }} />
             : <Loading style={{ color: theme.on_primary }} />)}
         {!disable && <div className="service-over"
-          style={{ opacity: serviceOver ? 1 : 0 }}
+          style={{
+            fontSize: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.035)}px`,
+            opacity: serviceOver ? 1 : 0
+          }}
         >service over</div>}
         <div className="service-over"
-          style={{ opacity: twentySeconds ? 1 : 0, direction: "ltr" }}
+          style={{
+            fontSize: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.035)}px`,
+            opacity: twentySeconds ? 1 : 0,
+            direction: "ltr"
+          }}
         >20 seconds</div>
         <div className="win-point"
           style={{ opacity: winPoint ? 1 : 0 }}
@@ -599,17 +610,40 @@ const ScoreBoard = ({ disable, setDisable }) => {
         {disable && breakTime === 0 && (
           loading ? <Loading style={{ color: theme.on_primary }} /> :
             <>
-              {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}>!Warm Up</div>}
-              {warmUp && <div className="timer" >{warmUpTimer}
+              {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}
+                style={{
+                  fontSize: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.023)}px`,
+                }}
+              >!Warm Up</div>}
+              {warmUp && <div className="timer"
+                style={{
+                  fontSize: `${Math.min(window.innerWidth * 0.06, window.innerHeight * 0.12)}px`,
+                }}
+              >{warmUpTimer}
                 {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
                   onClick={() => setWarmUp(false)} />}
               </div>}
-              <FaPlayCircle className="play" onClick={startTheGame} />
+              <FaPlayCircle
+                className="play"
+                onClick={startTheGame}
+                style={{
+                  fontSize: `${Math.min(window.innerWidth * 0.25, window.innerHeight * 0.25)}px`,
+                }}
+              />
             </>
         )}
-        {breakTime === 1 && <div className="break-btn" onClick={() => setBreakTime(2)}>Break</div>}
+        {breakTime === 1 && <div className="break-btn"
+          onClick={() => setBreakTime(2)}
+          style={{
+            fontSize: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.03)}px`,
+          }}
+        >Break</div>}
         {(breakTime === 2 || breakTime === 3) &&
-          <div className={`break-timer ${twentySeconds && "alert"}`} >{timer}
+          <div className={`break-timer ${twentySeconds && "alert"}`}
+            style={{
+              fontSize: `${Math.min(window.innerWidth * 0.06, window.innerHeight * 0.09)}px`,
+            }}
+          >{timer}
             {disable && <ImCancelCircle className="cancel-timer" color={theme.error}
               onClick={() => setBreakTime(0)} />}
           </div>}
@@ -622,6 +656,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
             <ImUndo2
               className="action-btn"
               style={{
+                fontSize: `${Math.min(window.innerWidth * 0.05, window.innerHeight * 0.1)}px`,
                 color: theme.primary,
                 filter: info.events.length === 0 && "grayscale(10)"
               }}
@@ -629,7 +664,11 @@ const ScoreBoard = ({ disable, setDisable }) => {
           </div>
           <div className="action-buttons action-btn-left"
             style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
-            <FaExclamation className="action-btn" style={{ color: theme.primary }}
+            <FaExclamation className="action-btn"
+              style={{
+                fontSize: `${Math.min(window.innerWidth * 0.05, window.innerHeight * 0.1)}px`,
+                color: theme.primary
+              }}
               onClick={() => setEventPicker(true)} />
           </div>
         </>

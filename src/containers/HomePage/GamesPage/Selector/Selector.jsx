@@ -231,7 +231,11 @@ const Selector = (props) => {
         <div className="selector-component">
             {dialog}
             {redirect}
-            <p className="title">{title}</p>
+            <p className="title"
+                style={{
+                    fontSize: `${Math.min(window.innerWidth * 0.03, 18)}px`,
+                }}
+            >{title}</p>
             {
                 loading ?
                     <Loading style={{ color: theme.on_background }} /> :
@@ -242,7 +246,8 @@ const Selector = (props) => {
                                     style={{
                                         borderColor: theme.primary,
                                         backgroundColor: item.selected ? theme.primary : "transparent",
-                                        color: item.selected ? theme.on_primary : theme.on_background
+                                        color: item.selected ? theme.on_primary : theme.on_background,
+                                        fontSize: `${Math.min(window.innerWidth * 0.032, 19)}px`,
                                     }}
                                 >
                                     {item.text}

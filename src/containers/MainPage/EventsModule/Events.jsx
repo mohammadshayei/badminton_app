@@ -102,6 +102,7 @@ const Events = (props) => {
                         <div
                             className='event'
                             style={{
+                                fontSize: `${Math.min(window.innerWidth * 0.015, 16)}px`,
                                 width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                             }}
                             key={index}
@@ -109,13 +110,17 @@ const Events = (props) => {
                             {index === 6 && props.hide ? (
                                 <div
                                     className='letter-icon'
-                                    style={{ color: theme.primary }}
+                                    style={{
+                                        fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.05)}px`,
+                                        color: theme.primary
+                                    }}
                                 >
                                     DIS
                                 </div>
                             ) : (
                                 <div className={`${item.className}`}
                                     style={{
+                                        fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.05)}px`,
                                         ...item.style,
                                     }}>
                                     {item.content} {/* show when event happens */}
@@ -125,6 +130,7 @@ const Events = (props) => {
                         </div>
                     ) : (
                         <div className='event' style={{
+                            fontSize: `${Math.min(window.innerWidth * 0.015, 16)}px`,
                             width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }} key={index}>
                             <div style={item.style}></div>  {/* hide when event happens */}
@@ -135,6 +141,7 @@ const Events = (props) => {
                         disabled={(index === 2 || index === 4 || index === 8) && disableEvent}
                         className='event'
                         style={{
+                            fontSize: `${Math.min(window.innerWidth * 0.015, 16)}px`,
                             width: props.hide ? ((index === 6 || index === 7) ? "9%" : "5%") : "12%",  //17%
                         }}
                         key={index}
@@ -143,13 +150,17 @@ const Events = (props) => {
                         {index === 6 && props.hide ? (
                             <div
                                 className='letter-icon'
-                                style={{ color: theme.primary }}
+                                style={{
+                                    fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.05)}px`,
+                                    color: theme.primary
+                                }}
                             >
                                 DIS
                             </div>
                         ) : (
                             <div className={`${item.className}`}
                                 style={{
+                                    fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.05)}px`,
                                     ...item.style
                                 }}>
                                 {item.content}  {/* all events */}

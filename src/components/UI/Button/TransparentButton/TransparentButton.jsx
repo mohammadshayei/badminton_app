@@ -10,6 +10,7 @@ const TransparentButton = ({ buttonClass, ButtonStyle, onClick, config, loading,
         <button
             className={`transparent-button-component ${!loading ? 'transparent-button-click' : ''} ${buttonClass}`}
             style={{
+                fontSize: `${Math.min(window.innerWidth * 0.15, 18)}px`,
                 color: theme.on_background,
                 ...ButtonStyle
             }}

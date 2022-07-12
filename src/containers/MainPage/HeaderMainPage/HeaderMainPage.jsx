@@ -86,6 +86,7 @@ const HeaderMainPage = () => {
         hover={theme.error_variant}
         ButtonStyle={{
           fontSize: 'clamp(1.3rem, 3vw, 3vh)',
+          fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.03)}px`,
           padding: "0 1em",
           marginRight: "3vw",
         }}
@@ -104,12 +105,16 @@ const HeaderMainPage = () => {
             padding: "0 0.5em",
             margin: "0 0.2rem",
             fontSize: 'clamp(1.3rem, 3vw, 5vh)',
+            fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.05)}px`,
           }}
           onClick={() => {
             increaseBall();
           }}
         >
-          <HiOutlinePlusSm className="btn-content" color={theme.on_primary} />
+          <HiOutlinePlusSm
+            className="btn-content"
+            color={theme.on_primary}
+          />
         </Button>
         <Button
           disabled={info.balls < 2 && true}
@@ -119,6 +124,7 @@ const HeaderMainPage = () => {
             padding: "0 0.5em",
             margin: "0 0.2rem",
             fontSize: 'clamp(1.3rem, 3vw, 5vh)',
+            fontSize: `${Math.min(window.innerWidth * 0.03, window.innerHeight * 0.05)}px`,
           }}
           onClick={() => {
             if (info.balls > 1) {
@@ -126,7 +132,10 @@ const HeaderMainPage = () => {
             }
           }}
         >
-          <HiMinus className="btn-content" color={theme.on_primary} />
+          <HiMinus
+            className="btn-content"
+            color={theme.on_primary}
+          />
         </Button>
       </div>
     </div>

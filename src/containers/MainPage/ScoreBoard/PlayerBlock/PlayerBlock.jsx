@@ -152,11 +152,21 @@ const PlayerBlock = (props) => {
     >
       <div disabled={info.foulHappend ? 1 : 0} className="set-container"
         style={{ opacity: info.foulHappend ? 0 : 1 }}>
-        <p className={`set`}>
+        <p className={`set`}
+          style={{
+            fontSize: `${Math.min(window.innerWidth * 0.1, window.innerHeight * 0.15)}px`,
+            lineHeight: `${Math.min(window.innerWidth * 0.1, window.innerHeight * 0.15)}px`,
+          }}
+        >
           {props.setWon}
         </p>
         {props.scores.length > 0 &&
-          <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}>
+          <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}
+            style={{
+              fontSize: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.035)}px`,
+              lineHeight: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.035)}px`,
+            }}
+          >
             {props.scores.map((s, i) =>
               <p key={i}>
                 {s}
@@ -167,6 +177,7 @@ const PlayerBlock = (props) => {
       <div className={`player-block-action-container`}>
         <p className="player-name"
           style={{
+            fontSize: `${Math.min(window.innerWidth * 0.045, window.innerHeight * 0.07)}px`,
             gridRowStart: dynamicStyle.name1 ? dynamicStyle.name1 : props.playerD ? 1 : 4,
             padding: props.position === "left" ?
               dynamicStyle.name1 === 1 ? "0 1.5rem 0 0" : "0" :
@@ -208,6 +219,7 @@ const PlayerBlock = (props) => {
         {props.playerD &&
           <p className="player-name"
             style={{
+              fontSize: `${Math.min(window.innerWidth * 0.045, window.innerHeight * 0.07)}px`,
               gridRowStart: dynamicStyle.name2 ? dynamicStyle.name2 : 4,
               padding: props.position === "left" ?
                 dynamicStyle.name2 === 1 ? "0 1.5rem 0 0" : "0" :
@@ -216,7 +228,12 @@ const PlayerBlock = (props) => {
           >
             {props.playerD.name}
           </p>}
-        <p className="score-text" style={{ ...scoreStyle }}>
+        <p className="score-text"
+          style={{
+            fontSize: `${Math.min(window.innerWidth * 0.2, window.innerHeight * 0.3)}px`,
+            lineHeight: `${Math.min(window.innerWidth * 0.2, window.innerHeight * 0.3)}px`,
+            ...scoreStyle
+          }}>
           {props.score}
         </p>
         <div disabled={props.disabledButton || props.disable || info.foulHappend ? 1 : 0}
@@ -227,14 +244,21 @@ const PlayerBlock = (props) => {
             back={theme.primary}
             hover={theme.primary}
             ButtonStyle={{
-              borderRadius: "clamp(5px,1vw,10px)",
+              borderRadius: "10px",
+              // borderRadius: "clamp(5px,1vw,10px)",
               width: "9vw",
               height: "100%",
               padding: "0"
             }}
             onClick={() => increaseScore({ teamKey: props.teamKey })}
           >
-            <HiOutlinePlusSm color={theme.on_primary} className="btn-icon-img" />
+            <HiOutlinePlusSm
+              className="btn-icon-img"
+              color={theme.on_primary}
+              style={{
+                fontSize: `${Math.min(window.innerWidth * 0.07, window.innerHeight * 0.15)}px`,
+              }}
+            />
           </Button>
         </div>
       </div>
