@@ -132,6 +132,7 @@ const GamesPage = () => {
 
   }
   useEffect(() => {
+    if (!gym) setSelectedGym('')
     if (!gym || gymsInfo.length === 0) return;
     let selected = gymsInfo.find(item => item._id === gym)
     if (!selected) return;
@@ -150,6 +151,7 @@ const GamesPage = () => {
       setFilteredGames(games.filter(item => item.land_number === court))
     } else {
       setFilteredGames(games)
+      setSelectedCourt('')
     }
   }, [court, dataFetched])
 
@@ -258,7 +260,7 @@ const GamesPage = () => {
             <CustomInput
               elementType={elementTypes.dropDown}
               inputContainer={{
-                maxWidth:"200px"
+                maxWidth: "200px"
               }}
               items={gyms}
               value={selectedGym}
@@ -268,8 +270,8 @@ const GamesPage = () => {
             <TransparentButton
               ButtonStyle={{
                 fontSize: "1.5rem",
-                padding:"0 0.2rem",
-                margin:"0 1rem"
+                padding: "0 0.2rem",
+                margin: "0 1rem"
               }}
               onClick={() => deselect('gym')}
               config={{
@@ -281,7 +283,7 @@ const GamesPage = () => {
             <CustomInput
               elementType={elementTypes.dropDown}
               inputContainer={{
-                maxWidth:"200px"
+                maxWidth: "200px"
               }}
               items={landNumbers}
               title="زمین"
@@ -291,8 +293,8 @@ const GamesPage = () => {
             <TransparentButton
               ButtonStyle={{
                 fontSize: "1.5rem",
-                padding:"0 0.2rem",
-                margin:"0 1rem"
+                padding: "0 0.2rem",
+                margin: "0 1rem"
               }}
               onClick={() => deselect('court')}
               config={{

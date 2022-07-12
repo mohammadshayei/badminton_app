@@ -126,7 +126,6 @@ const GetInfo = (props) => {
             <div className="buttons-wrapper">
                 <Button
                     loading={isLoading}
-                    onClick={onClick}
                     config={{ disabled: !formIsValid }}
                 >
                     {stringFa.send_code}
