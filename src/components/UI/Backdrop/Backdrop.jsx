@@ -18,7 +18,7 @@ const Backdrop = (props) => {
       onClick={props.clicked}
       // style={spring}
       style={{
-        backgroundColor: themeState.isDark ? "rgba(250, 250, 250, 0.4)" : "rgba(0, 0, 0, 0.3)",
+        backgroundColor: themeState.isDark ? "rgba(250, 250, 250, 0.4)" : "rgba(0, 0, 0, 0.8)",
         opacity: props.show ? 1 : 0,
         pointerEvents: props.show ? "auto" : "none",
         ...props.style,
