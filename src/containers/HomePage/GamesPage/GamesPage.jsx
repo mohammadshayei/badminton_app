@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import "./GamesPage.scss";
 import { stringFa } from "../../../assets/strings/stringFaCollection.js";
 import { useSelector } from "react-redux";
-import { dynamicGetApi } from "../../../api/home";
+import { dynamicApi, dynamicGetApi } from "../../../api/home";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from "../../../styles/ThemeProvider";
 import { Icon } from '@iconify/react';
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
@@ -25,22 +25,132 @@ const GamesPage = () => {
   const [lives, setLives] = useState([])
   const [needUnlock, setNeedUnlock] = useState("");
   const [dataFetched, setDataFetched] = useState(false)
+  const [verifyLoading, setVerifyLoading] = useState(false)
+  const [detailPassword, setDetailPassword] = useState({
+    invalid: false,
+    touched: true,
+    shouldValidate: true,
+    validationMessage: "",
+  })
+  const [gyms, setGyms] = useState([{ id: "", text: "" }])
+  const [landNumbers, setLandNumbers] = useState([{ id: "", text: "" }])
+  const [selectedCourt, setSelectedCourt] = useState('')
+  const [selectedGym, setSelectedGym] = useState()
+  const [gymsInfo, setGymsInfo] = useState([])
+  const [password, setPassword] = useState('')
+  const [filteredGames, setFilteredGames] = useState([])
+
 
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
   const { token, user, socket } = useSelector(state => state.auth)
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation()
+
+  const searchParams = new URLSearchParams(location.search);
+  const court = searchParams.get("court");
+  const gym = searchParams.get("gym");
 
   const gameClickHandler = (i) => {
     let game = games.find(item => item._id === i)
     if (game.lock) {
+      setPassword('')
       setNeedUnlock(i)
     }
     if (user && game._id && !game.lock) {
-      navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
+      if (gym && court)
+        navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}&gym=${gym}&court=${court}`)
+      else if (gym)
+        navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}&gym=${gym}`)
+      else
+        navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
     }
   }
+  const verifyPassword = async (gameId) => {
+    setDialog(null)
+    setVerifyLoading(true)
+    try {
+      const result = await dynamicApi({ gameId, password }, token, 'verify_password_game')
+      if (result.success) {
+        if (!result.data.correct) {
+          setDetailPassword({
+            ...detailPassword,
+            invalid: true,
+            validationMessage: 'رمز عبور اشتباه می باشد'
+          })
+        }
+        else {
+          if (gym && court)
+            navigate(`/scoreboard?gameId=${gameId}&refereeId=${user._id}&gym=${gym}&court=${court}`)
+          else if (gym)
+            navigate(`/scoreboard?gameId=${gameId}&refereeId=${user._id}&gym=${gym}`)
+          else
+            navigate(`/scoreboard?gameId=${gameId}&refereeId=${user._id}`)
+        }
+      }
+      else
+        setDialog(<ErrorDialog type={"error"}> {result.data.message}</ErrorDialog >)
+    } catch (error) {
+      setVerifyLoading(false)
+      setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+    }
+    setVerifyLoading(false)
+  }
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
+  const onChangeGymCourt = (type, id) => {
+    if (gym) {
+      if (type === 'court')
+        navigate(`/my_games?gym=${gym}&court=${id}`)
+      else
+        if (court)
+          navigate(`/my_games?gym=${id}&court=${court}`)
+        else
+          navigate(`/my_games?gym=${id}`)
+    } else {
+      if (type === 'court')
+        navigate(`/my_games?court=${id}`)
+      else
+        if (court)
+          navigate(`/my_games?court=${court}`)
+        else
+          navigate(`/my_games?gym=${id}`)
+
+    }
+  }
+  const deselect = (type) => {
+    if (type === 'court')
+      if (gym)
+        navigate(`/my_games?gym=${gym}`)
+      else
+        navigate(`/my_games`)
+    else
+      navigate(`/my_games`)
+
+  }
+  useEffect(() => {
+    if (!gym || gymsInfo.length === 0) return;
+    let selected = gymsInfo.find(item => item._id === gym)
+    if (!selected) return;
+    setSelectedGym(selected.title)
+    setLandNumbers(selected.land_numbers.map(item => {
+      return {
+        id: item._id,
+        text: item.number
+      }
+    }))
+  }, [gym, gymsInfo])
+  useEffect(() => {
+    if (!dataFetched) return;
+    if (court) {
+      setSelectedCourt(court)
+      setFilteredGames(games.filter(item => item.land_number === court))
+    } else {
+      setFilteredGames(games)
+    }
+  }, [court, dataFetched])
 
   useEffect(() => {
     if (!token) return;
@@ -52,6 +162,13 @@ const GamesPage = () => {
         if (result.success) {
           setGames(result.data.games)
           if (result.data.games.length === 0) setDataFetched(true)
+          setGymsInfo(result.data.gyms)
+          setGyms(result.data.gyms.map(item => {
+            return {
+              id: item._id,
+              text: item.title
+            }
+          }))
         }
         else
           setDialog(<ErrorDialog type={"error"}> {result.data.message}</ErrorDialog >)
@@ -107,7 +224,6 @@ const GamesPage = () => {
       setGames(updatedGames)
     }))
   }, [socket, dataFetched, user]);
-
   return (
     <div className="games-page">
       {dialog}
@@ -138,8 +254,42 @@ const GamesPage = () => {
             <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
           </div>
           <div className="court-and-gym-selector">
-            <CustomInput elementType={elementTypes.dropDown} items={[]} title="سالن" />
-            <CustomInput elementType={elementTypes.dropDown} items={[]} title="زمین" />
+            <CustomInput
+              elementType={elementTypes.dropDown}
+              items={gyms}
+              value={selectedGym}
+              title="سالن"
+              onChange={(e) => onChangeGymCourt('gym', e.id)}
+            />
+            <TransparentButton
+              ButtonStyle={{
+                margin: 0, padding: 0
+              }}
+              onClick={() => deselect('gym')}
+              config={{
+                disabled: !gym
+              }}
+            >
+              رفع انتخاب سالن
+            </TransparentButton>
+            <CustomInput
+              elementType={elementTypes.dropDown}
+              items={landNumbers}
+              title="زمین"
+              value={selectedCourt}
+              onChange={(e) => onChangeGymCourt('court', e.text)}
+            />
+            <TransparentButton
+              ButtonStyle={{
+                margin: 0, padding: 0
+              }}
+              onClick={() => deselect('court')}
+              config={{
+                disabled: !court
+              }}
+            >
+              رفع انتخاب زمین
+            </TransparentButton>
           </div>
           {
             loading ?
@@ -173,8 +323,8 @@ const GamesPage = () => {
                 </div>
               </div>
               :
-              games.length > 0 ? (
-                games.map((item, key) => (
+              filteredGames.length > 0 ? (
+                filteredGames.map((item, key) => (
                   <div
                     className="game-box"
                     key={item._id}
@@ -209,11 +359,25 @@ const GamesPage = () => {
                     <div className="game-box-details">
                       {item._id === needUnlock ?
                         <div className="get-password">
-                          <CustomInput elementType={elementTypes.titleInput} title="رمز خود را وارد کنید :" />
+                          <CustomInput
+                            value={password}
+                            onChange={onPasswordChange}
+                            elementType={elementTypes.titleInput}
+                            title="رمز خود را وارد کنید :"
+                            invalid={detailPassword.invalid}
+                            touched={detailPassword.touched}
+                            shouldValidate={detailPassword.shouldValidate}
+                            validationMessage={detailPassword.validationMessage}
+                          />
                           <TransparentButton
                             ButtonStyle={{
                               margin: 0, padding: 0
                             }}
+                            loading={verifyLoading}
+                            config={{
+                              disabled: password.length < 5
+                            }}
+                            onClick={() => verifyPassword(item._id)}
                           >
                             <IoMdCheckmark className="icon" color={theme.success} />
                           </TransparentButton>

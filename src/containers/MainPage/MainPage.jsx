@@ -30,6 +30,9 @@ const MainPage = () => {
   const { token, socket } = useSelector(state => state.auth)
   const searchParams = new URLSearchParams(locaiton.search);
   const gameId = searchParams.get("gameId");
+  const refereeId = searchParams.get("refereeId");
+  const court = searchParams.get("court");
+  const gym = searchParams.get("gym");
 
   const dispatch = useDispatch();
   const setScoreboard = (data) => {
@@ -125,7 +128,12 @@ const MainPage = () => {
           setDialog(null)
           setDialog(<ErrorDialog type="error">{result.message}</ErrorDialog>)
           setTimeout(() => {
-            navigate('/my_games')
+            if (gym && court)
+              navigate(`/my_games?gym=${gym}&court=${court}`)
+            else if (gym)
+              navigate(`/my_games?gym=${gym}`)
+            else
+              navigate(`/my_games`)
           }, 3000);
         }
         setLoading(false)
@@ -133,7 +141,12 @@ const MainPage = () => {
       else {
         setDialog(<ErrorDialog type="error">{stringFa.url_wrong}</ErrorDialog>)
         setTimeout(() => {
-          navigate('/my_games')
+          if (gym && court)
+            navigate(`/my_games?gym=${gym}&court=${court}`)
+          else if (gym)
+            navigate(`/my_games?gym=${gym}`)
+          else
+            navigate(`/my_games`)
         }, 3000);
       }
     })()
