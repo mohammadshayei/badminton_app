@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import "./MainPage.scss";
 import { useTheme } from "../../styles/ThemeProvider";
@@ -10,7 +11,7 @@ import * as infoActions from "../../store/actions/setInfo"
 import * as gameActions from "../../store/actions/gameInfo"
 import Selector from "../HomePage/GamesPage/Selector/Selector";
 import Modal from "../../components/UI/Modal/Modal";
-import { checkRefereeGetGame, dynamicApi, interruptSet } from "../../api/home";
+import { dynamicApi } from "../../api/home";
 import ErrorDialog from "../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../assets/strings/stringFaCollection";
 import Loading from './../../components/UI/Loading/Loading';
@@ -21,17 +22,12 @@ const MainPage = () => {
   const [loading, setLoading] = useState(false)
   const [disable, setDisable] = useState(true);
 
-
-
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   const locaiton = useLocation();
   const navigate = useNavigate()
   const info = useSelector((state) => state.info);
   const { token, socket } = useSelector(state => state.auth)
-
-
-
   const searchParams = new URLSearchParams(locaiton.search);
   const gameId = searchParams.get("gameId");
   const refereeId = searchParams.get("refereeId");
@@ -216,7 +212,7 @@ const MainPage = () => {
         <Selector exitable={true} setShow={setShowModal} selectedGameId={gameId} />
       </Modal>}
       {loading ?
-        <Loading style={{ direction: "ltr" }} />
+        <Loading style={{ color: theme.on_primary }} />
         :
         <>
           <HeaderMainPage />

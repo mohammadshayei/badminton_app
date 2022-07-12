@@ -15,8 +15,8 @@
     transition: opacity, filter 0.4s ease-in-out;
     .player-block-action-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2vh;
+      grid-template-columns: repeat(3, auto);
+      row-gap: 2vh;
       flex: 1;
       .player-block-icon {
         grid-row: 2 / 4;

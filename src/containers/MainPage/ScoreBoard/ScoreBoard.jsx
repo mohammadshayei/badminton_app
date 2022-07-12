@@ -222,7 +222,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     setDisabledButton(true)
     setTimeout(() => {
       setDisabledButton(false)
-    }, 1000);
+    }, 2000);
     switch (info.team1.score) {
       case maxPoint - 1:
         if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
@@ -262,7 +262,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     setDisabledButton(true)
     setTimeout(() => {
       setDisabledButton(false)
-    }, 1000);
+    }, 2000);
     switch (info.team2.score) {
       case maxPoint - 1:
         if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)
@@ -585,8 +585,8 @@ const ScoreBoard = ({ disable, setDisable }) => {
                 setServiceOver={setServiceOver}
                 disabledButton={disabledButton}
               />)
-            ) : <Loading style={{ direction: "ltr" }} />
-            : <Loading style={{ direction: "ltr" }} />)}
+            ) : <Loading style={{ color: theme.on_primary }} />
+            : <Loading style={{ color: theme.on_primary }} />)}
         {!disable && <div className="service-over"
           style={{ opacity: serviceOver ? 1 : 0 }}
         >service over</div>}
@@ -597,7 +597,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
           style={{ opacity: winPoint ? 1 : 0 }}
         >{winPoint}</div>
         {disable && breakTime === 0 && (
-          loading ? <Loading style={{ direction: "ltr" }} /> :
+          loading ? <Loading style={{ color: theme.on_primary }} /> :
             <>
               {!warmUp && <div className="warm-up" onClick={() => setWarmUp(true)}>!Warm Up</div>}
               {warmUp && <div className="timer" >{warmUpTimer}
@@ -616,18 +616,23 @@ const ScoreBoard = ({ disable, setDisable }) => {
       </div>
       {/* <FooterScoreBoard /> */}
       {(!disable || breakTime !== 0) && (
-        <div className="action-buttons"
-          style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
-          <ImUndo2
-            className="action-btn"
-            style={{
-              color: theme.primary,
-              filter: info.events.length === 0 && "grayscale(10)"
-            }}
-            onClick={onUndoClickHandler} />
-          <FaExclamation className="action-btn" style={{ color: theme.primary }}
-            onClick={() => setEventPicker(true)} />
-        </div>
+        <>
+          <div className="action-buttons action-btn-right"
+            style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
+            <ImUndo2
+              className="action-btn"
+              style={{
+                color: theme.primary,
+                filter: info.events.length === 0 && "grayscale(10)"
+              }}
+              onClick={onUndoClickHandler} />
+          </div>
+          <div className="action-buttons action-btn-left"
+            style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
+            <FaExclamation className="action-btn" style={{ color: theme.primary }}
+              onClick={() => setEventPicker(true)} />
+          </div>
+        </>
       )}
     </div >
   );
