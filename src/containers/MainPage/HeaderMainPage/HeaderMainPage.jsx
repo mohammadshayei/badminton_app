@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./HeaderMainPage.scss";
 import Events from "../EventsModule/Events"
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +10,12 @@ import { useNavigate } from "react-router-dom";
 import * as infoActions from "../../../store/actions/setInfo"
 import { HiMinus, HiOutlinePlusSm } from "react-icons/hi";
 import shuttle_image from "../../../assets/images/badminton_ball.png";
+import Modal from "../../../components/UI/Modal/Modal";
+import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
 
 const HeaderMainPage = () => {
+  const [exitConfirmation, setExitConfirmation] = useState(false);
+
   const token = useSelector(state => state.auth.token)
   const gameId = useSelector(state => state.gameInfo.gameId)
   const socket = useSelector(state => state.auth.socket)
@@ -41,6 +46,25 @@ const HeaderMainPage = () => {
 
   return (
     <div className="header-main-container">
+      <Modal show={exitConfirmation} modalClosed={() => setExitConfirmation(false)}>
+        <div className="exit-content">
+          <p>با خروج، بازی ریست می شود، آیا مطمئن هستید؟</p>
+          <div className="exit-buttons">
+            <Button
+              onClick={onExit}
+              back={theme.error}
+              hover={theme.error_variant}
+            >
+              بله خارج شود
+            </Button>
+            <TransparentButton
+              onClick={() => setExitConfirmation(false)}
+            >
+              {stringFa.cancel}
+            </TransparentButton>
+          </div>
+        </div>
+      </Modal>
       <div className="events-container">
         <Events
           style={eventsStyle}
@@ -48,7 +72,7 @@ const HeaderMainPage = () => {
         />
       </div>
       <Button
-        onClick={onExit}
+        onClick={() => setExitConfirmation(true)}
         back={theme.error}
         hover={theme.error_variant}
         ButtonStyle={{
