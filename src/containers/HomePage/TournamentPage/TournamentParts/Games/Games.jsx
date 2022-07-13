@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 import { v4 as uuidv4 } from "uuid";
+import Loading from "../../../../../components/UI/Loading/Loading.jsx";
 
 const Games = ({ tournamentId, createAccess, gameDate }) => {
     const [games, setGames] = useState([]);
@@ -494,28 +495,30 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             {`+ ${stringFa.new_game}`}
         </TransparentButton>
         <div className="games-wrapper">
-            {
-                games.map((game) =>
-                    <GameBox
-                        key={game._id}
-                        game={game}
-                        games={games}
-                        setGames={setGames}
-                        landNumbers={landNumbers}
-                        listAPlayers={listAPlayers}
-                        listBPlayers={listBPlayers}
-                        officials={officials}
-                        itemLoading={itemLoading}
-                        toggleType={toggleType}
-                        onChangeCourt_GameNumber={onChangeCourt_GameNumber}
-                        onChange={onChange}
-                        onSave={onSave}
-                        onRemove={onRemove}
-                        toggle={toggle}
-                        createAccess={createAccess}
-                    />
-                )
-            }
+            {loading ?
+                <Loading /> :
+                games.length > 0 ?
+                    games.map((game) =>
+                        <GameBox
+                            key={game._id}
+                            game={game}
+                            games={games}
+                            setGames={setGames}
+                            landNumbers={landNumbers}
+                            listAPlayers={listAPlayers}
+                            listBPlayers={listBPlayers}
+                            officials={officials}
+                            itemLoading={itemLoading}
+                            toggleType={toggleType}
+                            onChangeCourt_GameNumber={onChangeCourt_GameNumber}
+                            onChange={onChange}
+                            onSave={onSave}
+                            onRemove={onRemove}
+                            toggle={toggle}
+                            createAccess={createAccess}
+                        />
+                    )
+                    : "لیست بازی ها خالی است."}
         </div>
     </div>;
 };
