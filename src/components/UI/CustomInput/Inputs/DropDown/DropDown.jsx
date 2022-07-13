@@ -30,7 +30,8 @@ function useOnClickOutside(ref, reff, handler) {
 
 const DropDown = (props) => {
     const [drop, setDrop] = useState(false)
-
+    const [searchValue, setSearchValue] = useState('')
+    const [filterItems, setFilterItems] = useState([])
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
@@ -40,19 +41,32 @@ const DropDown = (props) => {
         setDrop(false);
     });
 
+    useEffect(() => {
+        if (searchValue) {
+            setFilterItems(props.items.filter(item => item.text.includes(searchValue)))
+        }
+        else {
+            setFilterItems(props.items)
+        }
+    }, [searchValue, props.items])
+
 
     const itemClickHandler = (item) => {
+        console.log(item)
         props.onChange(item)
         setDrop(false)
     }
-
     // useEffect(() => {
     //     if (drop)
     //         divRef.current.scrollIntoViewIfNeeded({ behavior: 'smooth', inline: 'center' })
     // }, [drop])
-
     return (
-        <div {...props.elementConfig} className='dropdown-container' style={props.containerStyle}>
+        <div
+            {...props.elementConfig}
+            className='dropdown-container'
+            style={props.containerStyle}
+
+        >
             <p className='title-class-name'
                 style={{ display: props.title ? "flex" : "none" }}
             >{props.title}
@@ -72,6 +86,14 @@ const DropDown = (props) => {
                     ...props.inputStyle,
                 }}
                 onClick={() => setDrop(!drop)}
+                tabIndex="0"
+                // onKeyDown={(e) => { console.log(e) }}
+                onKeyDown={e => {
+                    if (e.key === "Backspace")
+                        setSearchValue(searchValue.substring(0, searchValue.length - 1))
+                }}
+                onKeyPress={(e) => { setSearchValue(searchValue + e.key) }}
+                onBlur={() => setSearchValue('')}
             >
                 <p
                     style={{
@@ -95,8 +117,8 @@ const DropDown = (props) => {
                     }}
                 >
                     <ul>
-                        {props.items.length > 0 ?
-                            (props.items.map((i, k) =>
+                        {filterItems.length > 0 ?
+                            (filterItems.map((i, k) =>
                                 <li key={k} onClick={() => itemClickHandler(i)}>{i.text}</li>))
                             :
                             <p className="no-item">موردی تعریف نشده</p>
