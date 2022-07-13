@@ -4,56 +4,34 @@
   flex-direction: column;
   flex: 1;
   direction: rtl;
+  overflow: auto;
   .live-games {
     display: flex;
     align-content: flex-start;
     flex-wrap: wrap;
-    padding: 1rem;
-    margin-bottom: 11rem;
-    overflow: auto;
     width: 100%;
+    flex: 1;
+    padding: 1rem;
+    overflow: auto;
     .hint {
       position: absolute;
       left: 50%;
-      top: 50%;
+      top: 45%;
       transform: translate(-50%, -50%);
       white-space: nowrap;
     }
   }
   .button-container {
-    position: absolute;
+    position: relative;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 1rem;
+    padding: 1rem 1rem;
     width: 100%;
-    bottom: 6.5rem;
     .online-user {
       margin: 0 1rem;
       font-size: clamp(0.7rem, 2.5vw, 1.2rem);
       opacity: 0.5;
-    }
-  }
-}
-
-@media only screen and (min-width: 457px) {
-  .live-games-page-wrapper {
-    .live-games {
-      margin-bottom: 9rem;
-    }
-    .button-container {
-      bottom: 5rem;
-    }
-  }
-}
-
-@media only screen and (min-width: 598px) {
-  .live-games-page-wrapper {
-    .live-games {
-      margin-bottom: 6rem;
-    }
-    .button-container {
-      bottom: 3rem;
     }
   }
 }

@@ -287,8 +287,6 @@ const LiveGames = () => {
                 </div>
                 <Button
                     onClick={() => { setShowModal(true) }}
-                    ButtonStyle={{
-                    }}
                 >
                     {stringFa.assign_scorebaord_to_court}
                 </Button>
