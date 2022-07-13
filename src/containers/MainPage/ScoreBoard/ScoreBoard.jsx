@@ -239,7 +239,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
         break;
       case maxPoint:
         setWinPoint(null)
-        setSetOverConfirmation(true)
+        if (info.team1.setWon < 1)
+          setSetOverConfirmation(true)
+        else
+          setOverConfirmed("team1")
         if (info.team1.setWon < 1) {
           switchSide();
           setBreakTime(3);
@@ -285,7 +288,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
         break;
       case maxPoint:
         setWinPoint(null)
-        setSetOverConfirmation(true)
+        if (info.team2.setWon < 1)
+          setSetOverConfirmation(true)
+        else
+          setOverConfirmed("team2")
         if (info.team2.setWon < 1) {
           switchSide();
           setBreakTime(3);
