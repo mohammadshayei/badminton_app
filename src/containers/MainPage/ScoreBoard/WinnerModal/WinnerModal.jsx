@@ -33,6 +33,11 @@ const WinnerModal = (props) => {
         removeScores();
     }
 
+    const onBackClick = () => {
+        props.undo(info.team1.score > info.team2.score ? "team1" : "team2")
+        props.setSetOverConfirmation(false)
+    }
+
     return (
         <div className="winner-modal-wrapper">
             <div
@@ -99,10 +104,7 @@ const WinnerModal = (props) => {
                         {stringFa.confirm}
                     </Button>
                     <TransparentButton
-                        onClick={() => {
-                            props.undo()
-                            props.setSetOverConfirmation(false)
-                        }}
+                        onClick={onBackClick}
                     >
                         {stringFa.back}
                     </TransparentButton>

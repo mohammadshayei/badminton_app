@@ -182,14 +182,18 @@ const ScoreBoard = ({ disable, setDisable }) => {
 
   const setOverConfirmed = (team) => {
     setOver({ teamKey: team });
-    if (info[team].setWon < 1) {
-      switchSide();
-      setBreakTime(3);
-    }
-    setDisable(true);
-    setHalfTime(false);
     endSet(team);
     setMaxPoint(21);
+  }
+
+  const reverseMaxPoint = (team) => {
+    if (info[team].setWon < 1) {
+      switchSide();
+      setBreakTime(0);
+    }
+    setDisable(false);
+    setHalfTime(true);
+    onUndoClickHandler();
   }
 
   useEffect(() => {
@@ -236,6 +240,12 @@ const ScoreBoard = ({ disable, setDisable }) => {
       case maxPoint:
         setWinPoint(null)
         setSetOverConfirmation(true)
+        if (info.team1.setWon < 1) {
+          switchSide();
+          setBreakTime(3);
+        }
+        setDisable(true);
+        setHalfTime(false);
         break;
       case 10:
         if (info.team2.score < 11) setBreakTime(1);
@@ -276,6 +286,12 @@ const ScoreBoard = ({ disable, setDisable }) => {
       case maxPoint:
         setWinPoint(null)
         setSetOverConfirmation(true)
+        if (info.team2.setWon < 1) {
+          switchSide();
+          setBreakTime(3);
+        }
+        setDisable(true);
+        setHalfTime(false);
         break;
       case 10:
         if (info.team1.score < 11) setBreakTime(1);
@@ -549,7 +565,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
         <Modal show={setOverConfirmation} modalClosed={() => console.log("")}>
           <WinnerModal
             setSetOverConfirmation={setSetOverConfirmation}
-            undo={onUndoClickHandler}
+            undo={reverseMaxPoint}
             setOverConfirmed={setOverConfirmed} />
         </Modal>
       }
