@@ -4,6 +4,7 @@ import CustomInput, { elementTypes } from "../../../../components/UI/CustomInput
 import { useTheme } from "../../../../styles/ThemeProvider";
 import "./GameBox.scss";
 import { IoTrashBin } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const GameBox = ({
     game,
@@ -20,11 +21,17 @@ const GameBox = ({
     onSave,
     toggle,
     itemLoading,
-    toggleType
+    toggleType,
+    createAccess
 }) => {
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+    let navigate = useNavigate()
+
+    const getReport = (id) => {
+        navigate(`/report?id=${id}`);
+    }
 
     return <div className="tournament-game-box"
         style={{
@@ -57,7 +64,24 @@ const GameBox = ({
                     cursor: toggleType ? 'pointer' : 'auto'
                 }}
                 onClick={() => toggleType && toggleType(game._id)}
-            >{game.title}</div>
+            >{game.title}
+            </div>
+            {game.status > 1 &&
+                <div className="match-game-report"
+                    style={{ color: theme.secondary }}
+                    onClick={() => {
+                        if (game.status === 3) getReport(game._id)
+                    }}
+                >
+                    {game.status === 3 &&
+                        <p style={{ cursor: 'pointer' }}>{stringFa.game_scoresheet}</p>
+                    }
+                    {game.status === 2 &&
+                        <div className="live-indicator" />
+                    }
+                </div>
+            }
+
             <div className="match-game-number  game-court">
                 <CustomInput
                     placeHolder={'court'}
@@ -146,45 +170,51 @@ const GameBox = ({
                     </div>)
             }
         </div>
-        <div className="match-game-buttons">
-            <TransparentButton
-                ButtonStyle={{
-                    padding: "0",
-                    margin: "0 0.5rem",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                    color: theme.error
-                }}
-                config={{
-                    disabled: toggleType ? !(game?.fetched) :
-                        game?._id.length === 1
-                }}
-                onClick={() => onRemove(game._id)}
-                loading={itemLoading.type === 'delete' && itemLoading.content === game._id}
-            >
-                <IoTrashBin />
-            </TransparentButton>
-            <TransparentButton
-                config={{
-                    disabled: !(
-                        !game.saved &&
-                        game.court && game.gameNumber
-                        // && game.officials.serviceJudge[0].value
-                        // && game.officials.umpire[0].value
-                        && game.players.a.findIndex(item => !item.value) < 0
-                        && game.players.b.findIndex(item => !item.value) < 0)
 
-                }}
-                loading={itemLoading.type === 'save' && itemLoading.content === game._id}
-                ButtonStyle={{
-                    padding: "0",
-                    margin: "0 0.5rem",
-                    fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                    color: theme.secondary
-                }}
-                onClick={() => onSave(game._id)}
-            >
-                {stringFa.save}
-            </TransparentButton>
+        <div className="match-game-buttons">
+            {
+                createAccess &&
+                <>
+                    <TransparentButton
+                        ButtonStyle={{
+                            padding: "0",
+                            margin: "0 0.5rem",
+                            fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                            color: theme.error
+                        }}
+                        config={{
+                            disabled: toggleType ? !(game?.fetched) :
+                                game?._id.length === 1
+                        }}
+                        onClick={() => onRemove(game._id)}
+                        loading={itemLoading.type === 'delete' && itemLoading.content === game._id}
+                    >
+                        <IoTrashBin />
+                    </TransparentButton>
+                    <TransparentButton
+                        config={{
+                            disabled: !(
+                                !game.saved &&
+                                game.court && game.gameNumber
+                                // && game.officials.serviceJudge[0].value
+                                // && game.officials.umpire[0].value
+                                && game.players.a.findIndex(item => !item.value) < 0
+                                && game.players.b.findIndex(item => !item.value) < 0)
+
+                        }}
+                        loading={itemLoading.type === 'save' && itemLoading.content === game._id}
+                        ButtonStyle={{
+                            padding: "0",
+                            margin: "0 0.5rem",
+                            fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                            color: theme.secondary
+                        }}
+                        onClick={() => onSave(game._id)}
+                    >
+                        {stringFa.save}
+                    </TransparentButton>
+                </>
+            }
             <TransparentButton
                 ButtonStyle={{
                     padding: "0",

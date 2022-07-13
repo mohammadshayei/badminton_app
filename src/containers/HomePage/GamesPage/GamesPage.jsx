@@ -145,7 +145,7 @@ const GamesPage = () => {
     }))
   }, [gym, gymsInfo])
   useEffect(() => {
-    if (!dataFetched) return;
+    if (!games) return;
     if (court) {
       setSelectedCourt(court)
       setFilteredGames(games.filter(item => item.land_number === court))
@@ -153,7 +153,7 @@ const GamesPage = () => {
       setFilteredGames(games)
       setSelectedCourt('')
     }
-  }, [court, dataFetched])
+  }, [court, games])
 
   useEffect(() => {
     if (!token) return;

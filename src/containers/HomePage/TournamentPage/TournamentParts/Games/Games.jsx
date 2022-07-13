@@ -395,7 +395,39 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             }
             setLoading(false)
         })()
-    }, [tournamentId])
+    }, [tournamentId])  
+    useEffect(() => {
+        if (!socket || !games) return;
+
+        socket.on('get_live_game', (payload => {
+            let { game } = payload;
+            let updatedGames = [...games]
+            let gameIndex = updatedGames.findIndex(item => item._id === game._id)
+            if (gameIndex < 0) return;
+            updatedGames[gameIndex].status = 2;
+            setGames(updatedGames)
+        }
+
+        ))
+        socket.on('get_exit_game', (payload => {
+            let { gameId } = payload;
+            let updatedGames = [...games]
+            let gameIndex = updatedGames.findIndex(item => item._id === gameId)
+            if (gameIndex < 0) return;
+            updatedGames[gameIndex].status = 1;
+            setGames(updatedGames)
+        }
+        ))
+        socket.on('get_end_game_stats', (payload => {
+            const { gameId } = payload;
+            let updatedGames = [...games]
+            let gameIndex = updatedGames.findIndex(item => item._id === gameId)
+            if (gameIndex < 0) return;
+            updatedGames[gameIndex].status = 3;
+            setGames(updatedGames)
+        }))
+    }, [games, socket])
+
     return <div className="tournament-games-wrapper">
         {dialog}
         <div className="days-and-gym-selector">
@@ -474,6 +506,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                         onSave={onSave}
                         onRemove={onRemove}
                         toggle={toggle}
+                        createAccess={createAccess}
                     />
                 )
             }
