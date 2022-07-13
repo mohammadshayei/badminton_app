@@ -74,17 +74,17 @@
   }
 }
 
-@media only screen and (max-height: 450px) {
-  .auth-container {
-    flex-direction: row-reverse;
-    .auth-section {
-      max-width: 45%;
-      .section-container {
-        max-width: 100%;
-      }
-    }
-  }
-}
+// @media only screen and (max-height: 450px) {
+//   .auth-container {
+//     flex-direction: row-reverse;
+//     .auth-section {
+//       max-width: 45%;
+//       .section-container {
+//         max-width: 100%;
+//       }
+//     }
+//   }
+// }
 
 @media only screen and (max-width: 1024px) and (min-height: 780px) {
   .auth-container {
