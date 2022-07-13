@@ -9,6 +9,7 @@
     align-content: flex-start;
     flex-wrap: wrap;
     padding: 1rem;
+    margin-bottom: 11rem;
     overflow: auto;
     width: 100%;
     .hint {
@@ -37,6 +38,9 @@
 
 @media only screen and (min-width: 457px) {
   .live-games-page-wrapper {
+    .live-games {
+      margin-bottom: 9rem;
+    }
     .button-container {
       bottom: 5rem;
     }
@@ -45,6 +49,9 @@
 
 @media only screen and (min-width: 598px) {
   .live-games-page-wrapper {
+    .live-games {
+      margin-bottom: 6rem;
+    }
     .button-container {
       bottom: 3rem;
     }
