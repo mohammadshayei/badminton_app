@@ -132,8 +132,6 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
         }
     }, [endGamesScores])
 
-    console.log(scores);
-
     return <div
         className="live-game-box"
         onClick={() => gameClickHandler(game?._id)}

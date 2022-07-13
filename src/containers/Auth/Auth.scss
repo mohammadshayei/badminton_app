@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    width: 100%;
+    flex: 1;
     .section-container {
       position: relative;
       display: flex;
@@ -107,7 +107,6 @@
   .auth-container {
     flex-direction: row-reverse;
     .auth-section {
-      width: 100%;
       .section-container {
         padding: 1.5rem 4rem;
         max-width: 520px;

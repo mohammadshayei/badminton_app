@@ -245,7 +245,10 @@ const HeaderAuth = () => {
             }}
         >
             <div className="live-scores-title"
-                style={{ color: theme.primary }}
+                style={{
+                    backgroundColor: theme.surface,
+                    color: theme.primary
+                }}
             >
                 {stringFa.live_scores}
             </div>
@@ -262,7 +265,7 @@ const HeaderAuth = () => {
                             gamesStats={gamesStats}
                             gamesScores={gamesScores}
                             endGamesScores={endGamesScores}
-                            style={{ margin: "0.25rem 0" }}
+                            style={{ margin: "0.25rem" }}
                         />
                     ))
                 )
