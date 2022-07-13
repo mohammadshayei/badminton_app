@@ -395,7 +395,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             }
             setLoading(false)
         })()
-    }, [tournamentId])  
+    }, [tournamentId])
     useEffect(() => {
         if (!socket || !games) return;
 
@@ -487,6 +487,12 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                     />
             }
         </div>
+        <TransparentButton
+            onClick={onCreateNewGame}
+            ButtonStyle={{ color: theme.primary, alignSelf: "center" }}
+        >
+            {`+ ${stringFa.new_game}`}
+        </TransparentButton>
         <div className="games-wrapper">
             {
                 games.map((game) =>
@@ -510,9 +516,6 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                     />
                 )
             }
-            <TransparentButton onClick={onCreateNewGame} >
-                {`+ ${stringFa.new_game}`}
-            </TransparentButton>
         </div>
     </div>;
 };

@@ -135,7 +135,7 @@
 
 @media only screen and (min-width: 580px) {
   .tournament-game-box {
-    max-width: 600px;
+    max-width: calc(50vw - 70px);
     .match-game-details {
       .game-detail-section {
         flex-direction: row;

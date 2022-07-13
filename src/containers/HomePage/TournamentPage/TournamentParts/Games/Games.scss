@@ -65,8 +65,8 @@
   }
   .games-wrapper {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
     margin: 0.5rem 0;
   }
 }
