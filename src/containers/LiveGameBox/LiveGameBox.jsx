@@ -7,6 +7,7 @@ import { useTheme } from "../../styles/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { GiTennisCourt } from "react-icons/gi";
 
 const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration, style }) => {
     const [teamAScore, setTeamAScore] = useState(0);
@@ -155,6 +156,10 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 >
                     <p>{gamesViewers && gamesViewers[game?._id] ? gamesViewers[game?._id].count : 0}</p>
                     <AiOutlineEye />
+                </div>
+                <div className="court" style={{ color: theme.secondary }}>
+                    <p>{game?.land_number || <Skeleton width="1vw" />}</p>
+                    <GiTennisCourt />
                 </div>
                 <div className="duration">
                     {duration ? duration : <div className="loading-time">...</div>}
