@@ -31,6 +31,15 @@
       border-bottom-right-radius: 15px;
       font-size: clamp(0.8rem, 1vw, 1rem);
       padding: 0.3em 1em;
+      a: {
+        text-decoration: none;
+      }
+      a:link {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: none;
+      }
       .live-indicator {
         background: rgb(94, 197, 62);
         border-radius: 50%;

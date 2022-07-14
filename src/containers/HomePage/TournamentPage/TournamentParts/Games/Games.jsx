@@ -197,6 +197,10 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             setDialog(<ErrorDialog type="error">سالن را انتخاب کنید</ErrorDialog>)
             return;
         }
+        if (!updatedGames[gameIndex].court.value && updatedGames[gameIndex].officials.umpire[0]._id) {
+            setDialog(<ErrorDialog type="error">شماره زمین را باید تعیین کنید</ErrorDialog>)
+            return;
+        }
         let path, payload = {
             gameType: updatedGames[gameIndex].players.b.length === 2 ? 'double' : "single",
             gameNumber: updatedGames[gameIndex].gameNumber,
@@ -298,13 +302,17 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
     }
     const onCreateNewGame = () => {
         let updatedGames = [...games]
+        let max = 0;
+        updatedGames.forEach(item => {
+            if (parseInt(item.gameNumber) > max) max = parseInt(item.gameNumber)
+        })
         updatedGames.push(
             {
                 _id: uuidv4().replace(/\-/g, ""),
                 title: "انفرادی",
                 court: { _id: "", value: "" },
                 status: -1,
-                gameNumber: "",
+                gameNumber: (max + 1).toString(),
                 players: { a: [{ _id: "", value: "" },], b: [{ _id: "", value: "" },] },
                 officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
                 saved: false,

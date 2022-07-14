@@ -24,14 +24,10 @@ const GameBox = ({
     toggleType,
     createAccess
 }) => {
-
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     let navigate = useNavigate()
 
-    const getReport = (id) => {
-        navigate(`/report?id=${id}`);
-    }
 
     return <div className="tournament-game-box"
         style={{
@@ -69,12 +65,9 @@ const GameBox = ({
             {game.status > 1 &&
                 <div className="match-game-report"
                     style={{ color: theme.secondary }}
-                    onClick={() => {
-                        if (game.status === 3) getReport(game._id)
-                    }}
                 >
                     {game.status === 3 &&
-                        <p style={{ cursor: 'pointer' }}>{stringFa.game_scoresheet}</p>
+                        <a href={`/report?id=${game._id}`} style={{ cursor: 'pointer', color: theme.secondary }}>{stringFa.game_scoresheet}</a>
                     }
                     {game.status === 2 &&
                         <div className="live-indicator" />

@@ -76,7 +76,13 @@ const WaitPage = () => {
     }, [socket, games])
     useEffect(() => {
         if (games && gymId && landNumber) {
-            const game = games.find(item => (item.gym_id._id === gymId && item.land_number === landNumber))
+            const game = games.find(item => {
+                if (item.gym_id && typeof (item.gym_id) === 'string')
+                    return (item.gym_id === gymId && item.land_number === landNumber)
+                else if (item.gym_id && typeof (item.gym_id) === 'object')
+                    return (item.gym_id._id === gymId && item.land_number === landNumber)
+                else return false;
+            })
             if (game) {
                 navigate(`/scoreboard_view?gameId=${game._id}&gymId=${gymId}&landNumber=${landNumber}`)
             }

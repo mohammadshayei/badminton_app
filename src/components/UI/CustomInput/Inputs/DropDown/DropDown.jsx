@@ -52,9 +52,9 @@ const DropDown = (props) => {
 
 
     const itemClickHandler = (item) => {
-        console.log(item)
         props.onChange(item)
         setDrop(false)
+        setSearchValue('')
     }
     // useEffect(() => {
     //     if (drop)
@@ -93,7 +93,7 @@ const DropDown = (props) => {
                         setSearchValue(searchValue.substring(0, searchValue.length - 1))
                 }}
                 onKeyPress={(e) => { setSearchValue(searchValue + e.key) }}
-                onBlur={() => setSearchValue('')}
+                // onBlur={() => setSearchValue('')}
             >
                 <p
                     style={{
@@ -118,8 +118,8 @@ const DropDown = (props) => {
                 >
                     <ul>
                         {filterItems.length > 0 ?
-                            (filterItems.map((i, k) =>
-                                <li key={k} onClick={() => itemClickHandler(i)}>{i.text}</li>))
+                            (filterItems.map((i) =>
+                                <li key={i.id} onClick={() => itemClickHandler(i)}>{i.text}</li>))
                             :
                             <p className="no-item">موردی تعریف نشده</p>
                         }

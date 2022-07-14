@@ -609,7 +609,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
                 position={v.isRightTeam ? "right" : "left"}
                 teamKey={k}
                 setServiceOver={setServiceOver}
-                disabledButton={disabledButton}
+                // disabledButton={disabledButton}
               />)
             ) : <Loading style={{ color: theme.on_primary }} />
             : <Loading style={{ color: theme.on_primary }} />)}

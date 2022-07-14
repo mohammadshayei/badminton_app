@@ -105,7 +105,8 @@ const ScoreboardView = () => {
 
         }
         return () => {
-            socket.off("get_change_event_set");
+            if (socket)
+                socket.off("get_change_event_set");
         }
     }, [socket, game, data, timer])
     useEffect(() => {
@@ -119,7 +120,8 @@ const ScoreboardView = () => {
 
         }
         return () => {
-            socket.off("get_end_game_stats");
+            if (socket)
+                socket.off("get_end_game_stats");
         }
     }, [socket, game])
 
@@ -156,8 +158,10 @@ const ScoreboardView = () => {
 
         }
         return () => {
-            socket.off("get_exit_game");
-            socket.off("get_winner_team");
+            if (socket) {
+                socket.off("get_winner_team");
+                socket.off("get_exit_game");
+            }
         }
     }, [socket, game, dataSet])
 

@@ -73,7 +73,7 @@ const LiveGames = () => {
             if (timer === 0) {
                 socket.on('get_change_event_set', (payload => {
                     const { scoreA, scoreB, serverA, serverB, gameId } = payload;
-                    setTimer(100)
+                    setTimer(300)
                     let updatedGamesStats = { ...gamesStats }
                     if (updatedGamesStats[gameId]) {
                         updatedGamesStats[gameId].teamA = { score: scoreA, server: serverA };
@@ -89,17 +89,20 @@ const LiveGames = () => {
                     setGamesStats(updatedGamesStats)
                     setTimeout(() => {
                         setTimer(0)
-                    }, 100)
+                    }, 300)
                 }))
             }
 
+        }
+        return () => {
+            if (socket)
+                socket.off("get_change_event_set");
         }
     }, [socket, games, timer])
 
 
     useEffect(() => {
         if (!socket || !games) return;
-
         socket.on('get_live_game', (payload => {
             let { game } = payload;
             let updatedGames = [...games]
@@ -142,6 +145,13 @@ const LiveGames = () => {
             }
         }
         ))
+        return () => {
+            if (socket)
+                socket.off("get_live_game");
+            socket.off("get_exit_game");
+            socket.off("setup_viewer_page");
+            socket.off("get_viewer_page_info");
+        }
     }, [games, socket])
 
     useEffect(() => {
@@ -167,6 +177,10 @@ const LiveGames = () => {
                 setGamesViewers(updatedGamesViewers)
             }))
         }
+        return () => {
+            if (socket)
+                socket.off("send_viewer_game");
+        }
     }, [socket, gamesViewers]);
     useEffect(() => {
         if (socket) {
@@ -174,6 +188,10 @@ const LiveGames = () => {
                 let { count } = payload;
                 setUsersOnlineCount(count)
             }))
+        }
+        return () => {
+            if (socket)
+                socket.off("send_sub_count");
         }
     }, [socket]);
 
@@ -199,6 +217,10 @@ const LiveGames = () => {
 
 
         }))
+        return () => {
+            if (socket)
+                socket.off("get_winner_team");
+        }
 
     }, [gamesFetched, socket, gamesScores])
 
@@ -232,6 +254,10 @@ const LiveGames = () => {
             }, 5000);
 
         }))
+        return () => {
+            if (socket)
+                socket.off("get_end_game_stats");
+        }
     }, [endGamesScores, socket, gamesFetched])
 
 

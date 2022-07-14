@@ -55,11 +55,12 @@ const GamesPage = () => {
 
   const gameClickHandler = (i) => {
     let game = games.find(item => item._id === i)
-    if (game.lock) {
-      setPassword('')
-      setNeedUnlock(i)
-    }
-    if (user && game._id && !game.lock) {
+    // if (game.lock) {
+    //   setPassword('')
+    //   setNeedUnlock(i)
+    // }
+    // if (user && game._id && !game.lock) {
+    if (user && game._id) {
       if (gym && court)
         navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}&gym=${gym}&court=${court}`)
       else if (gym)
