@@ -99,18 +99,22 @@ const WaitPage = () => {
             style={{
                 background: `linear-gradient(210deg,${theme.primary},${theme.primary_variant})`,
                 color: theme.on_primary,
+
             }}
         >
-            <div className='title'>
+            {/* <div className='title'>
                 <p>نرم افزاری فکر افزار</p>
+            </div> */}
+            <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
+                <img src={`${baseUrl}images/slide_1.jpg`} alt="" />
+                <p
+                    style={{ color: theme.primary }}
+                    className='url'>http://sports.setoos.ir</p>
             </div>
-            <Slide arrows={false} >
-                {slideImages.map((slideImage, index) => (
-                    <div className="each-slide" key={index} onDragStart={(e) => { e.preventDefault(); }}>
-                        <img src={`${baseUrl}${slideImage.url}`} alt="" />
-                    </div>
-                ))}
-            </Slide>
+            {/* <Slide arrows={false} > */}
+            {/* {slideImages.map((slideImage, index) => (
+                ))} */}
+            {/* </Slide> */}
             <div className='wait'>
                 <p>
                     {stringFa.wait_to_start_the_game}
