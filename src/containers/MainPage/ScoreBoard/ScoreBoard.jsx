@@ -674,7 +674,9 @@ const ScoreBoard = ({ disable, setDisable }) => {
       {(!disable || breakTime !== 0) && (
         <>
           <div className="action-buttons action-btn-right"
-            style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}>
+            style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}
+            disabled={disabledButton}
+            >
             <ImUndo2
               className="action-btn"
               style={{
