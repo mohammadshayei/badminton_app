@@ -39,15 +39,15 @@ const WaitPage = () => {
         {
             url: 'images/slide_1.jpg',
         },
-        {
-            url: 'images/slide_2.jpg',
-        },
-        {
-            url: 'images/slide_3.jpg',
-        },
-        {
-            url: 'images/slide_4.jpg',
-        },
+        // {
+        //     url: 'images/slide_2.jpg',
+        // },
+        // {
+        //     url: 'images/slide_3.jpg',
+        // },
+        // {
+        //     url: 'images/slide_4.jpg',
+        // },
     ];
     useEffect(() => {
         (async () => {
@@ -73,6 +73,10 @@ const WaitPage = () => {
 
             ))
         }
+        return () => {
+            if (socket)
+                socket.off("get_live_game");
+        }
     }, [socket, games])
     useEffect(() => {
         if (games && gymId && landNumber) {
@@ -87,6 +91,7 @@ const WaitPage = () => {
                 navigate(`/scoreboard_view?gameId=${game._id}&gymId=${gymId}&landNumber=${landNumber}`)
             }
         }
+
     }, [games, gymId, landNumber])
 
     return (

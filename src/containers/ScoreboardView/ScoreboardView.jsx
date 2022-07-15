@@ -115,6 +115,12 @@ const ScoreboardView = () => {
                 const { teamA, teamB, gameId } = payload;
                 if (gameId === game._id) {
                     setGameScores({ teamA, teamB })
+                    if (gymId && landNumber) {
+                        setTimeout(() => {
+                            navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
+                        }, 30000);
+                    }
+
                 }
             }))
 
