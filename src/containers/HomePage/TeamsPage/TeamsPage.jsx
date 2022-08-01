@@ -86,6 +86,7 @@ const TeamsPage = () => {
                     myTeams.length > 0 ?
                         myTeams.map(team =>
                             <div className="my-team-box"
+                                key={team._id}
                                 style={{
                                     backgroundColor: theme.surface,
                                 }}
@@ -97,7 +98,7 @@ const TeamsPage = () => {
                                 <div className="team-name">{team.name}</div>
                                 <div className="tournaments">
                                     {
-                                        team.tournaments.map(tournament => <div className="tournament">
+                                        team.tournaments.map(tournament => <div className="tournament" key={tournament._id}>
                                             <div
                                                 key={tournament._id}
                                                 className="tournament-name"
