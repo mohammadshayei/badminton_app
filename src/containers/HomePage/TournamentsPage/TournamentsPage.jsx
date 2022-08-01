@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Ads from "../../../assets/images/IranBadmintonFederation.jpg";
 import Ads2 from "../../../assets/images/IranBadmintonFederation2.jpg";
 import Footer from "../Footer/Footer";
+import { GiTrophyCup } from "react-icons/gi";
 
 const TournamentsPage = () => {
     const [dialog, setDialog] = useState(null)
@@ -163,9 +164,13 @@ const TournamentsPage = () => {
                                     key={tournament._id}
                                     loading={loading}
                                 />
-                            ) : <div>
-                                تورنمنتی موجود نمی باشد
-                                {filterSelectors.my_tournaments.selected && 'ساخت تورنمت جدید'}
+                            ) :
+                            <div className="empty-tournaments">
+                                <GiTrophyCup className="empty-icon" color={theme.darken_border_color} />
+                                <p>
+                                    مسابقه وجود ندارد
+                                </p>
+                                {/* {filterSelectors.my_tournaments.selected && 'ساخت تورنمت جدید'} */}
                             </div>
                 }
             </div>
