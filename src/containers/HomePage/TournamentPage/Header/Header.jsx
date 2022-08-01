@@ -42,7 +42,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                             <Skeleton width={270} /> :
                             <>
                                 {tournament?.title}
-                                {tournament.chief._id === user._id &&
+                                {tournament?.chief?._id === user?._id &&
                                     <TransparentButton
                                         ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
                                         onClick={onEdit}

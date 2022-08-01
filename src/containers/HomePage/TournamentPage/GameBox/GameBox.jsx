@@ -135,7 +135,7 @@ const GameBox = ({
                 maxHeight: game.officialsOpen ? "250px" : "1px",
             }}
         >
-            {
+            {game.officialsOpen &&
                 Object.entries(game.officials).map(([k2, v]) =>
                     <div key={k2} className={`game-detail-section ${k2 === 'serviceJudge' ? "left" : ''}`}
                         style={{ opacity: game.officialsOpen ? 1 : 0 }}
