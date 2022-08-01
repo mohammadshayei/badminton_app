@@ -14,12 +14,12 @@ import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 import { IoCloseOutline } from "react-icons/io5";
-import "./TeamForm.scss"
+import "../TeamForm/TeamForm.scss"
+import { useLocation, useNavigate } from "react-router-dom";
 
-const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, removeLoading, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
+const EditTeamForm = () => {
     const [formIsValid, setFormIsValid] = useState(true)
     const [order, setOrder] = useState({
-       
         ownerPhoneId: {
             value: '',
             title: stringFa.owner_phone_id,
@@ -97,7 +97,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
             minLen: 10,
             status: 0,
         },
-         ownerName: {
+        ownerName: {
             value: '',
             title: stringFa.technical_connector_name,
             elementConfig: {
@@ -277,11 +277,18 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
     const [imageSrc, setImageSrc] = useState('')
     const [imagePath, setImagePath] = useState('')
     const [changed, setChanged] = useState(false)
-
+    const [content, setContent] = useState(null)
+    const [createAccess, setCreateAccess] = useState(true)
+    const [saveLoading, setSaveLoading] = useState(false)
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const { token } = useSelector(state => state.auth)
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get("id");
+
+    const { token, user } = useSelector(state => state.auth)
+    const navigate = useNavigate();
 
     const imageRef = useRef(null)
 
@@ -297,7 +304,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
     }
 
     const onSaveChange = async () => {
-        setLoading(true)
+        setSaveLoading(true)
         setDialog(null);
         try {
 
@@ -318,55 +325,17 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                     type={result.success ? 'success' : "error"}
                 >{result.data.message}</ErrorDialog>)
             if (result.success) {
-                onUpdateItem({ _id: content._id, name: order.teamName.value, selected: true })
-                if (window.innerWidth < 780)
-                    onBack()
+                navigate(-1)
             }
         } catch (error) {
-            setLoading(false)
+            setSaveLoading(false)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
-        setLoading(false)
+        setSaveLoading(false)
         setChanged(false)
 
     }
-    const onSave = async () => {
-        setLoading(true)
-        setDialog(null);
 
-        try {
-            let payload = {
-                ownerInfo: order.ownerPhoneId.value,
-                name: order.teamName.value,
-                tournamentId,
-                legalOwnerInfo: order.legalOwnerPhoneId.value,
-                address: order.address.value,
-                caption: order.caption.value,
-            }
-            let created = await
-                formDataDynamic(imagePath, payload, token, 'create_team')
-            setDialog(
-                <ErrorDialog
-                    type={created.success ? 'success' : "error"}
-                >{created.data.message}</ErrorDialog>)
-            if (created.success) {
-                onAddItem({
-                    _id: created.data.team,
-                    name: order.teamName.value,
-                    selected: true
-                })
-                if (window.innerWidth < 780)
-                    setShowInputForm(false)
-                clear()
-            }
-        } catch (error) {
-            setLoading(false)
-            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
-        }
-        setLoading(false)
-        setChanged(false)
-
-    }
 
     const clear = () => {
         setFormIsValid(false)
@@ -397,11 +366,11 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
 
         setOrder(updatedOrder)
     }
-    // for (let inputIdentifier in order) {
-    //     if (!order[inputIdentifier].hidden)
-    //         if (order[inputIdentifier].invalid) console.log(inputIdentifier)
-    // }
 
+
+    const onBack = () => {
+        navigate(-1)
+    }
 
     useLayoutEffect(() => {
         setImageSrc('')
@@ -718,16 +687,33 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         })()
     }, [order.legalOwnerPhoneId.checkNeeded])
 
+
+    useEffect(() => {
+        if (!id || !token || !user) return;
+        setLoading(true);
+        (async () => {
+            try {
+                const fetchedData = await dynamicApi({ id }, token, 'get_team')
+                if (!fetchedData.success) {
+                    setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
+                    setLoading(false)
+                    return;
+                }
+                setContent(fetchedData.data.team)
+                if (fetchedData.data.team.owner._id === user._id) setCreateAccess(true)
+                else setCreateAccess(false)
+                setLoading(false);
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+                setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+            }
+        })()
+    }, [id, token, user])
+
     return (
         <div className="input-wrapper">
             {dialog}
-            <div
-                className="back-section"
-                onClick={onBack}
-                style={{ color: theme.on_background }}
-            >
-                {window.innerWidth > 780 ? <IoCloseOutline /> : <RiArrowLeftSLine />}
-            </div>
             <div
                 className="profile-avatar"
                 disabled={!createAccess}
@@ -749,7 +735,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                 order={filteredOrder}
                 setOrder={setFilteredOrder}
                 setFormIsValid={setFormIsValid}
-                itemLoading={itemLoading}
+                itemLoading={loading}
                 createAccess={createAccess}
                 setChanged={setChanged}
             />
@@ -759,32 +745,19 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                     <Button
                         loading={loading}
                         // onClick={onSaveClick}
-                        onClick={() => {
-                            if (content) onSaveChange()
-                            else onSave()
-                        }}
+                        onClick={onSaveChange}
                         config={{ disabled: !formIsValid || !changed }}
                     >
                         {
-                            content ? stringFa.save_change : stringFa.save
+                            stringFa.save
                         }
                     </Button>
-                    {
-                        content ?
-                            <Button
-                                back={theme.error}
-                                hover={theme.error_variant}
-                                onClick={() => onRemoveItemFromTournament(content._id)}
-                                loading={removeLoading}
-                            >
-                                {stringFa.remove_from_tournament}
-                            </Button> :
-                            <TransparentButton
-                                onClick={() => { setShowInputForm(false) }}
-                            >
-                                {stringFa.cancel}
-                            </TransparentButton>
-                    }
+
+                    <TransparentButton
+                        onClick={onBack}
+                    >
+                        {stringFa.cancel}
+                    </TransparentButton>
 
                 </div>
             }
@@ -793,4 +766,4 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
     )
 };
 
-export default TeamForm;
+export default EditTeamForm;

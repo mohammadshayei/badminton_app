@@ -32,6 +32,7 @@ const Header = ({ image, title, detail, owner, id, loading, filterSelectors, onS
                             className="image-skeleton"
                             circle={true} /> :
                         image
+
                     }
                 </div>
                 <div className="header-content">

@@ -18,6 +18,7 @@ import TeamPage from "./TeamPage/TeamPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import PurchaseCallBack from "../PurchaseCallBack/PurchaseCallBack";
 import TeamForm from "./InputForms/TeamForm/TeamForm";
+import EditTeamForm from "./InputForms/EditTeamForm/EditTeamForm";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -73,7 +74,7 @@ const HomePage = () => {
           setSelectedPageIndex(0)
           break;
         case '/edit_team':
-          setPage(<TeamForm />)
+          setPage(<EditTeamForm  />)
           setSelectedPageIndex(0)
           break;
         case '/profile':

@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import TeamTournaments from "../TeamTournaments/TeamTournaments";
 import TeamPlayers from "../TeamPlayer/TeamPlayers";
 import Footer from "../Footer/Footer";
+import { baseUrl } from "../../../constants/Config";
 
 const TeamPage = ({ id }) => {
 
@@ -131,7 +132,7 @@ const TeamPage = ({ id }) => {
         {dialog}
         <Header
             title={team?.title}
-            image={team?.image ? team.image : <img src={DEFAULT_LOGO} alt="logo" />}
+            image={team?.image ? <img src={`${baseUrl}uploads/teams/${team.image}`} alt='' /> : <img src={DEFAULT_LOGO} alt="logo" />}
             owner={team?.ownerId}
             id={id}
             loading={loading}
