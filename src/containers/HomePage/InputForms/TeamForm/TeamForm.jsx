@@ -14,6 +14,7 @@ import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 import { IoCloseOutline } from "react-icons/io5";
+import "./TeamForm.scss"
 
 const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, removeLoading, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(true)

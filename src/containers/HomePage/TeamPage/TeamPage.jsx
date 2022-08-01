@@ -117,7 +117,7 @@ const TeamPage = ({ id }) => {
                     setLoading(false)
                     return;
                 }
-                setTeam({ image: fetchedData.data.data.image, title: fetchedData.data.data.name })
+                setTeam({ image: fetchedData.data.data.image, title: fetchedData.data.data.name, ownerId: fetchedData.data.data.ownerId })
                 setData(fetchedData.data.data)
             } catch (error) {
                 setLoading(false)
@@ -133,6 +133,8 @@ const TeamPage = ({ id }) => {
         <Header
             title={team?.title}
             image={team?.image ? team.image : <img src={DEFAULT_LOGO} alt="logo" />}
+            owner={team?.ownerId}
+            id={id}
             loading={loading}
             filterSelectors={filterSelectors}
             onSelectorClick={onSelectorClick}
@@ -142,7 +144,7 @@ const TeamPage = ({ id }) => {
                 <MemberShipInfo
                     data={data}
                     setData={setData}
-                    teamId={id}
+                    id={id}
                     setDialog={setDialog}
                 />
                 :

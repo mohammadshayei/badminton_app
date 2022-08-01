@@ -5,10 +5,20 @@ import RoundSelector from '../../../components/UI/RoundSelector/RoundSelector';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import TransparentButton from '../../../components/UI/Button/TransparentButton/TransparentButton';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClick }) => {
+const Header = ({ image, title, detail, owner, id, loading, filterSelectors, onSelectorClick }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+
+    const { user } = useSelector(state => state.auth)
+    const navigate = useNavigate()
+
+    const onEdit = () => {
+        if (!id) return;
+        navigate(`/edit_team?id=${id}`)
+    }
 
     return (
         <div
@@ -30,11 +40,12 @@ const Header = ({ image, title, detail, loading, filterSelectors, onSelectorClic
                             <Skeleton width={270} /> :
                             <>
                                 {title}
-                                <TransparentButton
+                                {user?._id === owner && <TransparentButton
                                     ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
+                                    onClick={onEdit}
                                 >
                                     <Icon icon="akar-icons:edit" />
-                                </TransparentButton>
+                                </TransparentButton>}
                             </>
                         }
                     </div>
