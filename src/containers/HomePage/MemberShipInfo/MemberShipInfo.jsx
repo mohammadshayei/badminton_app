@@ -25,6 +25,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
     const { token } = useSelector(state => state.auth)
 
     const onChangeTournament = async (e) => {
+        if (e.id === selectedTournament.id) return;
         setDialog(null)
         setSelectedTournament({ id: e.id, value: e.text })
         try {
@@ -42,7 +43,6 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
 
         }
     }
-
     const onItemClick = async (info) => {
         setDialog(null)
         try {
@@ -85,50 +85,81 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
     useEffect(() => {
         if (!data) return;
         setLoading(true)
-        let updatedPricing = [
-            {
-                days: data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2,
-                price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * 1200000),
-                hover: false,
-                disabled: false
-            },
-            {
-                days: data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2,
-                price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * 1200000),
-                hover: false,
-                disabled: false
-            },
-            {
-                days: data.days,
-                price: separatorComma(data.days * 1200000),
-                newPrice: separatorComma(data.days * 1000000),
-                hover: false,
-                disabled: false
-            }
-        ]
-        if (data.paid === data.days) {
-            updatedPricing[0].disabled = true;
-            updatedPricing[1].disabled = true;
-            updatedPricing[2].disabled = true;
-        } else if (data.paid === 0) {
-            updatedPricing[0].disabled = false;
-            updatedPricing[1].disabled = false;
-            updatedPricing[2].disabled = false;
-        } else if (data.days % 2 === 0) {
-            updatedPricing[0].disabled = true;
-            updatedPricing[1].disabled = false;
-            updatedPricing[2].disabled = true;
-        } else {
-            if ((data.days + 1) / 2 === data.paid) {
+        let updatedPricing
+        if (data.days < 2) {
+            updatedPricing = [
+                {
+                    days: 1,
+                    price: separatorComma(1200000),
+                    hover: false,
+                    disabled: false
+                },
+                {
+                    days: data.days,
+                    price: separatorComma(data.days * 1200000),
+                    newPrice: separatorComma(data.days * 1000000),
+                    hover: false,
+                    disabled: false
+                }
+            ]
+            if (data.paid === data.days) {
+                updatedPricing[0].disabled = true;
+                updatedPricing[1].disabled = true;
+            } else if (data.paid === 0) {
                 updatedPricing[0].disabled = false;
+                updatedPricing[1].disabled = false;
+            } else {
+                updatedPricing[0].disabled = true;
+                updatedPricing[1].disabled = true;
+            }
+        }
+        else {
+            updatedPricing = [
+                {
+                    days: data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2,
+                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * 1200000),
+                    hover: false,
+                    disabled: false
+                },
+                {
+                    days: data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2,
+                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * 1200000),
+                    hover: false,
+                    disabled: false
+                },
+                {
+                    days: data.days,
+                    price: separatorComma(data.days * 1200000),
+                    newPrice: separatorComma(data.days * 1000000),
+                    hover: false,
+                    disabled: false
+                }
+            ]
+            if (data.paid === data.days) {
+                updatedPricing[0].disabled = true;
                 updatedPricing[1].disabled = true;
                 updatedPricing[2].disabled = true;
-            } else {
+            } else if (data.paid === 0) {
+                updatedPricing[0].disabled = false;
+                updatedPricing[1].disabled = false;
+                updatedPricing[2].disabled = false;
+            } else if (data.days % 2 === 0) {
                 updatedPricing[0].disabled = true;
                 updatedPricing[1].disabled = false;
                 updatedPricing[2].disabled = true;
+            } else {
+                if ((data.days + 1) / 2 === data.paid) {
+                    updatedPricing[0].disabled = false;
+                    updatedPricing[1].disabled = true;
+                    updatedPricing[2].disabled = true;
+                } else {
+                    updatedPricing[0].disabled = true;
+                    updatedPricing[1].disabled = false;
+                    updatedPricing[2].disabled = true;
+                }
             }
         }
+
         setLoading(false)
         setPricing(updatedPricing)
     }, [data?.paid, data?.days])

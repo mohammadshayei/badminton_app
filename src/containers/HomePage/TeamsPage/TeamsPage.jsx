@@ -56,7 +56,6 @@ const TeamsPage = () => {
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
-    console.table(myTeams);
 
     return <div className="teams-page">
         {dialog}

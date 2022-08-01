@@ -117,7 +117,7 @@ const TeamPage = ({ id }) => {
                     setLoading(false)
                     return;
                 }
-                setTeam({ image: fetchedData.data.data.image, title: fetchedData.data.data.name })
+                setTeam({ image: fetchedData.data.data.image, title: fetchedData.data.data.name, ownerId: fetchedData.data.data.ownerId })
                 setData(fetchedData.data.data)
             } catch (error) {
                 setLoading(false)
@@ -127,7 +127,6 @@ const TeamPage = ({ id }) => {
         })()
         setLoading(false);
     }, [id, part])
-
     return <div className='team-page-wrapper'>
         {dialog}
         <Header
