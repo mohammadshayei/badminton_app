@@ -56,6 +56,7 @@ const TeamsPage = () => {
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
+    console.table(myTeams);
 
     return <div className="teams-page">
         {dialog}
@@ -116,7 +117,7 @@ const TeamsPage = () => {
 
                                 </div>
                             </div>) :
-                        <div className="my-team-box" style={{ backgroundColor: theme.surface, cursor: "default" }}>
+                        loading && <div className="my-team-box" style={{ backgroundColor: theme.surface, cursor: "default" }}>
                             <Skeleton
                                 containerClassName="team-logo"
                                 circle={true}
