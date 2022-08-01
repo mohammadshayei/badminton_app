@@ -54,6 +54,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                 creditor: info.price.replace(/,/gi, "", true),
                 dayCount: info.days
             }
+            console.log(payload)
             const result = await dynamicApi(payload, token, 'create_document')
             if (!result.success) {
                 setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)
@@ -61,6 +62,7 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
             }
             window.location.replace(result.data.url)
         } catch (error) {
+            console.log(error)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
 
         }
@@ -90,72 +92,49 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
             updatedPricing = [
                 {
                     days: 1,
-                    price: separatorComma(1200000),
+                    price: separatorComma(1000000),
                     hover: false,
                     disabled: false
                 },
-                {
-                    days: data.days,
-                    price: separatorComma(data.days * 1200000),
-                    newPrice: separatorComma(data.days * 1000000),
-                    hover: false,
-                    disabled: false
-                }
             ]
             if (data.paid === data.days) {
                 updatedPricing[0].disabled = true;
-                updatedPricing[1].disabled = true;
-            } else if (data.paid === 0) {
-                updatedPricing[0].disabled = false;
-                updatedPricing[1].disabled = false;
             } else {
-                updatedPricing[0].disabled = true;
-                updatedPricing[1].disabled = true;
+                updatedPricing[0].disabled = false;
             }
         }
         else {
             updatedPricing = [
                 {
                     days: data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2,
-                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * 1200000),
+                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * 1000000),
                     hover: false,
                     disabled: false
                 },
                 {
                     days: data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2,
-                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * 1200000),
+                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * 1000000),
                     hover: false,
                     disabled: false
                 },
-                {
-                    days: data.days,
-                    price: separatorComma(data.days * 1200000),
-                    newPrice: separatorComma(data.days * 1000000),
-                    hover: false,
-                    disabled: false
-                }
+
             ]
             if (data.paid === data.days) {
                 updatedPricing[0].disabled = true;
                 updatedPricing[1].disabled = true;
-                updatedPricing[2].disabled = true;
             } else if (data.paid === 0) {
                 updatedPricing[0].disabled = false;
                 updatedPricing[1].disabled = false;
-                updatedPricing[2].disabled = false;
             } else if (data.days % 2 === 0) {
                 updatedPricing[0].disabled = true;
                 updatedPricing[1].disabled = false;
-                updatedPricing[2].disabled = true;
             } else {
                 if ((data.days + 1) / 2 === data.paid) {
                     updatedPricing[0].disabled = false;
                     updatedPricing[1].disabled = true;
-                    updatedPricing[2].disabled = true;
                 } else {
                     updatedPricing[0].disabled = true;
                     updatedPricing[1].disabled = false;
-                    updatedPricing[2].disabled = true;
                 }
             }
         }
@@ -203,7 +182,8 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
         {loading ?
             <Loading /> :
             <div className="payment-section">
-                {pricing.length > 0 &&
+                {
+                    pricing.length > 0 &&
                     <div className="pricing-container">
                         {pricing.map((price, idx) =>
                             <div
@@ -212,36 +192,44 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                                 className="pricing-box"
                                 onClick={() => onItemClick(price)}
                                 style={{
-                                    backgroundColor: idx === pricing.length - 1 ? theme.secondary : theme.surface,
-                                    color: idx === pricing.length - 1 ? theme.on_secondary : theme.on_surface
+                                    backgroundColor: theme.surface,
+                                    // backgroundColor: idx === pricing.length - 1 ? theme.secondary : theme.surface,
+                                    color: theme.on_surface,
+                                    // color: idx === pricing.length - 1 ? theme.on_secondary : theme.on_surface
+
                                 }}
                             >
-                                {idx === pricing.length - 1 &&
+                                {/* {idx === pricing.length - 1 &&
                                     <div className="ribbon" >
                                         <span style={{ backgroundColor: theme.error }}>
                                             {stringFa.special_offer}
                                         </span>
-                                    </div>}
+                                    </div>} */}
                                 <p className="days">{`${price.days} ${stringFa.day}`}</p>
                                 {price.newPrice &&
                                     <p className='price old'
                                         style={{
-                                            color: idx === pricing.length - 1 ?
-                                                theme.on_secondary :
-                                                theme.on_surface
+                                            // color: idx === pricing.length - 1 ?
+                                            //     theme.on_secondary :
+                                            //     theme.on_surface
+                                            color: theme.on_surface
+
                                         }}
                                     >{`${price.price} تومان`}</p>
                                 }
                                 <p className="price"
                                     style={{
-                                        color: idx === pricing.length - 1 ? theme.on_secondary : theme.secondary
+                                        // color: idx === pricing.length - 1 ? theme.on_secondary : theme.secondary
+                                        color: theme.secondary
                                     }}
                                 >{`${price.newPrice ? price.newPrice : price.price} تومان`}</p>
                                 <Icon
                                     className="pricing-icon"
                                     icon="ic:round-navigate-next"
                                     hFlip={true}
-                                    color={idx === pricing.length - 1 ? theme.on_secondary : theme.primary}
+                                    // color={idx === pricing.length - 1 ? theme.on_secondary : theme.primary}
+                                    color={theme.primary}
+
                                 />
                             </div>
                         )}

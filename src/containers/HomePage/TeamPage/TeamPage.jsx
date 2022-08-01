@@ -144,8 +144,9 @@ const TeamPage = ({ id }) => {
                 <MemberShipInfo
                     data={data}
                     setData={setData}
-                    id={id}
+                    teamId={id}
                     setDialog={setDialog}
+
                 />
                 :
                 part === "games" ?
