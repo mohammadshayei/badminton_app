@@ -185,7 +185,10 @@ export const stringFa = {
   sports_setoos_software: "نرم افزار مدیریت ورزشی ستوس",
   version: "نسخه",
   copyright: "تمامی حقوق متعلق به فکرافزار است.",
-  support: "پشتیبانی"
+  support: "پشتیبانی",
+  technical_connector_name: "نام رابط فنی",
+  technical_connector_phone: "شماره همراه رابط فنی",
+  technical_connector_id: "کد ملی رابط فنی",
 };
 
 export const daysName = [

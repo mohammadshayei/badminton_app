@@ -20,7 +20,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
     const [order, setOrder] = useState({
         ownerName: {
             value: '',
-            title: stringFa.owner_name,
+            title: stringFa.technical_connector_name,
             elementConfig: {
                 type: 'text',
                 disabled: true
@@ -62,7 +62,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         },
         ownerPhone: {
             value: '',
-            title: stringFa.owner_phone,
+            title: stringFa.technical_connector_phone,
             elementConfig: {
                 type: 'text',
             },
@@ -89,7 +89,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         },
         ownerId: {
             value: '',
-            title: stringFa.owner_nm,
+            title: stringFa.technical_connector_id,
             elementConfig: {
                 type: 'text',
             },
