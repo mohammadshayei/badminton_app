@@ -8,11 +8,13 @@ import { GiTrophyCup } from "react-icons/gi";
 import { baseUrl } from '../../../../constants/Config';
 import TransparentButton from '../../../../components/UI/Button/TransparentButton/TransparentButton';
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
+    const { user } = useSelector(state => state.auth)
     const navigate = useNavigate()
 
     const onEdit = () => {
@@ -40,13 +42,14 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                             <Skeleton width={270} /> :
                             <>
                                 {tournament?.title}
-                                <TransparentButton
-                                    ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
-                                    onClick={onEdit}
-                                >
-                                    <Icon icon="akar-icons:edit" />
-                                </TransparentButton>
-
+                                {tournament.chief._id === user._id &&
+                                    <TransparentButton
+                                        ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
+                                        onClick={onEdit}
+                                    >
+                                        <Icon icon="akar-icons:edit" />
+                                    </TransparentButton>
+                                }
                             </>
                         }
                     </div>
