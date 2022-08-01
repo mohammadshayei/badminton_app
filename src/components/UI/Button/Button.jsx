@@ -29,7 +29,7 @@ const Button = (props) => {
 
   return (
     <button
-      className={`button-component ${props.buttonClass}`}
+      className={`button-component small-gap ${props.buttonClass}`}
       disabled={props.loading ? true : props.disabled}
       style={{
         ...newStyle,

@@ -132,6 +132,8 @@ const TeamPage = ({ id }) => {
         <Header
             title={team?.title}
             image={team?.image ? team.image : <img src={DEFAULT_LOGO} alt="logo" />}
+            owner={team?.ownerId}
+            id={id}
             loading={loading}
             filterSelectors={filterSelectors}
             onSelectorClick={onSelectorClick}
@@ -141,7 +143,7 @@ const TeamPage = ({ id }) => {
                 <MemberShipInfo
                     data={data}
                     setData={setData}
-                    teamId={id}
+                    id={id}
                     setDialog={setDialog}
                 />
                 :

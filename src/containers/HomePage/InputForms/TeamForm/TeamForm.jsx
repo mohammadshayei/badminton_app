@@ -14,13 +14,14 @@ import { useTheme } from "../../../../styles/ThemeProvider";
 import { RiArrowLeftSLine } from 'react-icons/ri'
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
 import { IoCloseOutline } from "react-icons/io5";
+import "./TeamForm.scss"
 
 const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, removeLoading, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(true)
     const [order, setOrder] = useState({
         ownerName: {
             value: '',
-            title: stringFa.owner_name,
+            title: stringFa.technical_connector_name,
             elementConfig: {
                 type: 'text',
                 disabled: true
@@ -62,7 +63,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         },
         ownerPhone: {
             value: '',
-            title: stringFa.owner_phone,
+            title: stringFa.technical_connector_phone,
             elementConfig: {
                 type: 'text',
             },
@@ -89,7 +90,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
         },
         ownerId: {
             value: '',
-            title: stringFa.owner_nm,
+            title: stringFa.technical_connector_id,
             elementConfig: {
                 type: 'text',
             },
