@@ -6,7 +6,7 @@ const Footer = () => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const major = 2, minor = 0, patch = 9;
+    const major = 2, minor = 0, patch = 12;
 
     return <div className="home-footer"
         style={{
@@ -22,7 +22,7 @@ const Footer = () => {
             <p>{stringFa.copyright}</p>
         </div>
         <div className="footer-text-wrapper">
-            <p>{`${stringFa.support} : 09123511070`}</p>
+            <p>{`${stringFa.support} : 09354598847 - 09109674939`}</p>
         </div>
     </div>;
 };

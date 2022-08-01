@@ -11,7 +11,7 @@ import { baseUrl } from "../../../../constants/Config";
 import { useSelector } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
 
-const RefereeForm = ({ itemLoading, creator, createAccess, content, onBack, removeLoading, onRemoveItemFromTournament }) => {
+const RefereeForm = ({ itemLoading, creator, content, onBack, removeLoading, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
         username: {

@@ -25,7 +25,6 @@ import Overview from './TournamentParts/Overview/Overview';
 import Footer from '../Footer/Footer'
 
 const TournamentPage = ({ id }) => {
-
     const [tournament, setTournament] = useState(null)
     const [loading, setLoading] = useState(false)
     const [contentLoading, setContentLoading] = useState(false)
@@ -293,6 +292,12 @@ const TournamentPage = ({ id }) => {
                 else
                     setCreateAccess(false)
             }
+            else if (part === 'todayMatch') {
+                if (isReferee)
+                    setCreateAccess(true)
+                else
+                    setCreateAccess(false)
+            }
         }
     }, [part, user, tournament?.chief, isReferee])
 
@@ -547,7 +552,7 @@ const TournamentPage = ({ id }) => {
                         matchId={matchId}
                     /> :
                     part === "todayMatch" ?
-                        <TodayMatch tournamentId={id} /> :
+                        <TodayMatch tournamentId={id} createAccess={createAccess} /> :
                         part === "games" ?
                             <Games
                                 tournamentId={id}
@@ -571,7 +576,7 @@ const TournamentPage = ({ id }) => {
                                             else if (part === 'player' || part === 'referee') return 'username'
                                             if (part === 'gym') return 'title'
                                         }}
-                                        createAccess={part === 'referee' ? user?._id === tournament?.chief?._id : createAccess}
+                                        createAccess={part === 'referee' ? (user?._id === tournament?.chief?._id) || isReferee : createAccess}
                                     />
                                     {
                                         createAccess &&

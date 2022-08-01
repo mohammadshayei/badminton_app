@@ -8,7 +8,7 @@ import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { useSelector } from "react-redux";
 import GameBox from "../../GameBox/GameBox";
 
-const TodayMatch = ({ tournamentId }) => {
+const TodayMatch = ({ tournamentId, createAccess }) => {
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
     const [games, setGames] = useState([
@@ -336,6 +336,7 @@ const TodayMatch = ({ tournamentId }) => {
                             onRemove={onRemove}
                             toggle={toggle}
                             itemLoading={itemLoading}
+                            createAccess={createAccess}
                         />
                     )
                 }
