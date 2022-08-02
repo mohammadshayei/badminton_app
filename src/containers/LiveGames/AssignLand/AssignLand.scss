@@ -1,14 +1,18 @@
 .assign-scoreboard-wrapper {
-	.input-wrapper {
-		display: flex;
-		padding: 1rem 1rem;
-		flex-direction: column;
-		direction: rtl;
-	}
-	.action-wrapper {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+  .input-wrapper {
+    display: flex;
+    padding: 1rem 1rem;
+    width: 100%;
+    flex-direction: column;
+    direction: rtl;
+    .pair-item-container {
+      width: 100%;
+    }
+  }
+  .action-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
