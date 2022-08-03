@@ -74,17 +74,22 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
             text: "",
             id: "",
             items: [],
+            inputContainer: {
+                padding: "0 0.5rem"
+            },
             invalid: false,
             touched: true,
             shouldValidate: true,
             validationMessage: "",
-
         },
         court: {
             title: "شماره زمین",
             text: "",
             id: "",
             items: [],
+            inputContainer: {
+                padding: "0 0.5rem"
+            },
             invalid: false,
             validationMessage: "",
             touched: true,
@@ -338,21 +343,25 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
                 <div className="gym-and-date">
                     <div className="gym-selector">
                         {
-                            Object.entries(order).map(([k, v], index) => <Fragment key={k}>
-                                <div style={{ marginRight: index !== 0 ? '1rem' : "" }}>{v.title}</div>
+                            Object.entries(order).map(([k, v], index) => <div key={k}
+                                style={{
+                                    width: index === 0 ? "60%" : "unset"
+                                }}
+                            >
+                                <div style={{ marginRight: '1rem' }}>{v.title}</div>
                                 <CustomInput
                                     placeHolder={stringFa.undefined}
                                     elementType={elementTypes.dropDown}
                                     onChange={(e) => onChangeGym_Court(e, k)}
                                     items={v.items}
                                     value={v.text}
-                                    inputContainer={{ padding: "0" }}
+                                    inputContainer={v.inputContainer}
                                     invalid={v.invalid}
                                     touched={true}
                                     shouldValidate={v.shouldValidate}
                                 // validationMessage={v.validationMessage}
                                 />
-                            </Fragment>)
+                            </div>)
                         }
                     </div>
                     <div className="date">{new Date().toLocaleDateString('fa-IR')}</div>
