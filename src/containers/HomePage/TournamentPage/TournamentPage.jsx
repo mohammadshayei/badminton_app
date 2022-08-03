@@ -39,7 +39,8 @@ const TournamentPage = ({ id }) => {
     const [partTitle, setPartTitle] = useState('')
     const [content, setContent] = useState(null)
     const [form, setForm] = useState(null)
-    const [isReferee, setIsReferee] = useState(false)
+    const [todayMatchAccess, setTodayMatchAccess] = useState(false)
+    const [teamOwner, setTeamOwner] = useState(false)
     const [filterSelectors, setFilterSelectors] = useState(null);
     const [showInputForm, setShowInputForm] = useState(false)
     const [createAccess, setCreateAccess] = useState(false)
@@ -222,7 +223,7 @@ const TournamentPage = ({ id }) => {
         let updatedFilterSelectors = {
             ...filterSelectors
         }
-        if (isReferee) {
+        if (todayMatchAccess) {
             updatedFilterSelectors = {
                 ...updatedFilterSelectors,
                 todayMatch: {
@@ -239,7 +240,7 @@ const TournamentPage = ({ id }) => {
                 updatedFilterSelectors[filter].selected = false;
         }
         setFilterSelectors(updatedFilterSelectors)
-    }, [isReferee])
+    }, [todayMatchAccess])
 
     useEffect(() => {
         if (!item) {
@@ -280,8 +281,14 @@ const TournamentPage = ({ id }) => {
             setCreateAccess(false)
         } else {
             if (!user || !tournament) return;
-            if (part === 'team' || part === 'player' || part === 'gym') {
-                if (user._id === tournament.chief._id || isReferee)
+            if (part === 'team' || part === 'player') {
+                if (user._id === tournament.chief._id )
+                    setCreateAccess(true)
+                else
+                    setCreateAccess(false)
+            }
+            else if (part === 'gym') {
+                if (user._id === tournament.chief._id || teamOwner)
                     setCreateAccess(true)
                 else
                     setCreateAccess(false)
@@ -293,13 +300,13 @@ const TournamentPage = ({ id }) => {
                     setCreateAccess(false)
             }
             else if (part === 'todayMatch') {
-                if (isReferee)
+                if (todayMatchAccess)
                     setCreateAccess(true)
                 else
                     setCreateAccess(false)
             }
         }
-    }, [part, user, tournament?.chief, isReferee])
+    }, [part, user, tournament?.chief, teamOwner, todayMatchAccess])
 
     useEffect(() => {
         if (searchValue.length > 0) {
@@ -324,7 +331,9 @@ const TournamentPage = ({ id }) => {
                     return;
                 }
                 setTournament(fetchedTournament.data.tournament)
-                setIsReferee(fetchedTournament.data.isReferee)
+                setTeamOwner(fetchedTournament.data.teamOwner)
+                setTodayMatchAccess(fetchedTournament.data.todayMatch)
+
                 setLoading(false)
             } catch (error) {
                 setLoading(false)
@@ -576,7 +585,7 @@ const TournamentPage = ({ id }) => {
                                             else if (part === 'player' || part === 'referee') return 'username'
                                             if (part === 'gym') return 'title'
                                         }}
-                                        createAccess={part === 'referee' ? (user?._id === tournament?.chief?._id) || isReferee : createAccess}
+                                        createAccess={part === 'referee' ? (user?._id === tournament?.chief?._id) || todayMatchAccess : createAccess}
                                     />
                                     {
                                         createAccess &&

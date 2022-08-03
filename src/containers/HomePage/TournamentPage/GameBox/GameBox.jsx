@@ -8,14 +8,11 @@ import { useNavigate } from "react-router-dom";
 
 const GameBox = ({
     game,
-    games,
-    setGames,
-    landNumbers,
     teamsName,
     listAPlayers,
     listBPlayers,
     officials,
-    onChangeCourt_GameNumber,
+    onChangeGameNumber,
     onChange,
     onRemove,
     onSave,
@@ -49,7 +46,7 @@ const GameBox = ({
                         minWidth: "100px",
                         direction: "ltr"
                     }}
-                    onChange={(e) => onChangeCourt_GameNumber(e, game._id, 'gameNumber')}
+                    onChange={(e) => onChangeGameNumber(e, game._id)}
                     value={game.gameNumber}
                 />
             </div>
@@ -75,7 +72,7 @@ const GameBox = ({
                 </div>
             }
 
-            <div className="match-game-number  game-court">
+            {/* <div className="match-game-number  game-court">
                 <CustomInput
                     placeHolder={'court'}
                     elementType={elementTypes.dropDown}
@@ -92,7 +89,7 @@ const GameBox = ({
                         width: "100px",
                     }}
                 />
-            </div>
+            </div> */}
         </div>
         <div className="match-game-details">
             {
@@ -188,7 +185,7 @@ const GameBox = ({
                         config={{
                             disabled: !(
                                 !game.saved &&
-                                game.court && game.gameNumber
+                                game.gameNumber
                                 // && game.officials.serviceJudge[0].value
                                 // && game.officials.umpire[0].value
                                 && game.players.a.findIndex(item => !item.value) < 0

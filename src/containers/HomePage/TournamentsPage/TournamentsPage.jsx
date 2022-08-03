@@ -146,7 +146,9 @@ const TournamentsPage = () => {
         <div className="ads-and-tournaments">
             <div className="tournaments-wrapper">
                 <div className="ads-container">
-                    <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+                    <img src={Ads2} alt="ads"
+                    //  onClick={() => window.location.replace('https://iranbadminton.org/')} 
+                    />
                 </div>
                 {
                     loading ?
@@ -175,7 +177,9 @@ const TournamentsPage = () => {
                 }
             </div>
             <div className="ads-container">
-                <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+                <img src={Ads} alt="ads"
+                // onClick={() => window.location.replace('https://iranbadminton.org/')} 
+                />
             </div>
         </div>
         <Footer />

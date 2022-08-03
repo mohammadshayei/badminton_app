@@ -141,7 +141,9 @@ const TeamsPage = () => {
                     }}
                 >
                     <div className="ads-container">
-                        <img src={Ads2} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+                        <img src={Ads2} alt="ads"
+                        // onClick={() => window.location.replace('https://iranbadminton.org/')}
+                        />
                     </div>
                     {
                         loading ?
@@ -180,7 +182,9 @@ const TeamsPage = () => {
                 </div>
             </div>
             <div className="ads-container">
-                <img src={Ads} alt="ads" onClick={() => window.location.replace('https://iranbadminton.org/')} />
+                <img src={Ads} alt="ads"
+                //  onClick={() => window.location.replace('https://iranbadminton.org/')} 
+                />
             </div>
         </div>
         <Footer />

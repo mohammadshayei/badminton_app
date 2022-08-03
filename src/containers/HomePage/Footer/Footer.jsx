@@ -6,7 +6,7 @@ const Footer = () => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const major = 2, minor = 0, patch = 13;
+    const major = 2, minor = 0, patch = 16;
 
     return <div className="home-footer"
         style={{

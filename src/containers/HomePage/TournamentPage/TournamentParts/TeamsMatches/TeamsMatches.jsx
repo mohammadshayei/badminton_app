@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import "./TeamsMatches.scss"
 import { stringFa } from "../../../../../assets/strings/stringFaCollection";
 import CustomInput, { elementTypes } from "../../../../../components/UI/CustomInput/CustomInput";
@@ -70,6 +70,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         }
     }
     const selectDay = async (key) => {
+        if (tournamentDays.find(item => item.selected)._id === key) return;
         setShowGames(false)
         let selected;
         let updatedTournamentsDay = tournamentDays.map(item => {
@@ -82,7 +83,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         })
         setTournamentDays(updatedTournamentsDay)
         setDateValue(selected.date)
-
         setDialog(null)
         try {
             setLoading(true)
@@ -329,7 +329,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                     <div className="teams-table">
                         {
                             [...new Array(teams?.length > 1 ? Math.trunc((teams.length) / 2) : 1)].map((_, i) =>
-                                <div className="table-row">
+                                <div key={i} className="table-row">
                                     <Match
                                         key={i}
                                         index={i}
@@ -394,8 +394,8 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                             }
                             <div className="match-game-details">
                                 {Object.entries(game.players).map(([key, players]) =>
-                                    <>
-                                        <div key={key} className={`match-game-team ${key === "b" ? "left" : ''}`}>
+                                    <Fragment key={key}>
+                                        <div className={`match-game-team ${key === "b" ? "left" : ''}`}>
                                             <div className="players">
                                                 {players.map((player, i) =>
                                                     <div key={player._id} className="player"
@@ -427,7 +427,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                                 <p className="dash">-</p> :
                                             ''
                                         }
-                                    </>
+                                    </Fragment>
                                 )}
 
                             </div>
