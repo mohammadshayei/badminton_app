@@ -189,6 +189,7 @@ export const stringFa = {
   technical_connector_name: "نام رابط فنی",
   technical_connector_phone: "شماره همراه رابط فنی",
   technical_connector_id: "کد ملی رابط فنی",
+  record_result: "ثبت نتیجه",
 };
 
 export const daysName = [
