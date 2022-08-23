@@ -4,7 +4,10 @@ import CustomInput, { elementTypes } from "../../../../components/UI/CustomInput
 import { useTheme } from "../../../../styles/ThemeProvider";
 import "./GameBox.scss";
 import { IoTrashBin } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import Button from "../../../../components/UI/Button/Button";
+import Modal from "../../../../components/UI/Modal/Modal";
+import { useState } from "react";
+import GameResult from "./GameResult/GameResult";
 
 const GameBox = ({
     game,
@@ -21,16 +24,19 @@ const GameBox = ({
     toggleType,
     createAccess
 }) => {
+    const [result, setResult] = useState(false);
+
     const themeState = useTheme();
     const theme = themeState.computedTheme;
-    let navigate = useNavigate()
-
 
     return <div className="tournament-game-box"
         style={{
             backgroundColor: theme.surface
         }}
     >
+        <Modal show={result} modalClosed={() => setResult(false)}>
+            <GameResult teamsName={teamsName} />
+        </Modal>
         <div className="match-game-header">
             <div className="match-game-number">
                 <CustomInput
@@ -215,6 +221,20 @@ const GameBox = ({
             >
                 {game.officialsOpen ? '- ' : '+ '}{stringFa.officials}
             </TransparentButton>
+            {createAccess && game.saved &&
+                <Button
+                    buttonClass={["half-padding"]}
+                    ButtonStyle={{
+                        fontSize: "clamp(0.6rem,1vw,0.8rem)",
+                        position: "absolute",
+                        left: 0,
+
+                    }}
+                    onClick={() => setResult(true)}
+                >
+                    {stringFa.record_result}
+                </Button>
+            }
         </div>
     </div >;
 };
