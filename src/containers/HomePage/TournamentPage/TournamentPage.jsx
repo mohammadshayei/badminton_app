@@ -282,7 +282,7 @@ const TournamentPage = ({ id }) => {
         } else {
             if (!user || !tournament) return;
             if (part === 'team' || part === 'player') {
-                if (user._id === tournament.chief._id )
+                if (user._id === tournament.chief._id)
                     setCreateAccess(true)
                 else
                     setCreateAccess(false)

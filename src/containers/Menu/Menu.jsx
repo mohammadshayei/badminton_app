@@ -38,6 +38,8 @@ const Menu = (props) => {
     const theme = themeState.computedTheme;
 
     const showMenu = useSelector(state => state.detail.showMenu);
+    const { user, token } = useSelector(state => state.auth);
+
 
     const dispatch = useDispatch();
     const setMenuStatus = (status) => {
@@ -50,7 +52,6 @@ const Menu = (props) => {
         setMenuStatus(false)
     });
     const navigate = useNavigate()
-
     const onMenuClickHandler = index => {
         let path = index === 1 ? '/tournaments' : index === 2 ? '/teams' : index === 3 ? '/my_games' : "/live_scores"
         navigate(`${path}`)
@@ -78,25 +79,28 @@ const Menu = (props) => {
                         <MdShield className="list-icon" />
                         <span className="menu-item">{stringFa.teams}</span>
                     </li>
-                    <li className={`app-bar-item  ${props.selectedPageIndex === 3 && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
+                    {token && <li className={`app-bar-item  ${props.selectedPageIndex === 3 && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
                         <img src={umpire} className="list-icon img-icon" alt="my-games-icon" />
                         <span className="menu-item">{stringFa.my_games}</span>
-                    </li>
+                    </li>}
                     <li className={`app-bar-item seprator ${props.selectedPageIndex === 4 && "selected-page"}`} onClick={() => onMenuClickHandler(4)}>
                         <CgMediaLive className="list-icon img-icon" />
                         <span className="menu-item">{stringFa.live_games}</span>
                     </li>
                 </ul>
-                <ul className='app-bar-item center-btn'
-                    onClick={() => {
-                        if (window.innerWidth < 780)
-                            setMenuStatus(false)
-                        navigate(`/new_tournament`)
-                    }}
-                    style={{ backgroundColor: theme.primary }}
-                >
-                    <span className="menu-item">{stringFa.new_tournament}</span>
-                </ul>
+                {
+                    user && user.is_fekrafzar &&
+                    <ul className='app-bar-item center-btn'
+                        onClick={() => {
+                            if (window.innerWidth < 780)
+                                setMenuStatus(false)
+                            navigate(`/new_tournament`)
+                        }}
+                        style={{ backgroundColor: theme.primary }}
+                    >
+                        <span className="menu-item">{stringFa.new_tournament}</span>
+                    </ul>
+                }
                 <ul className="settings">
                     {/* <li>
                         <MdLanguage className="list-icon" />

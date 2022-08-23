@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 import GetInfo from './Login/GetInfo';
 import VerifyCode from './VerifyCode/VerifyCode';
 
-
 const Auth = () => {
     const [code, setCode] = useState('')
     const [forgotCode, setForgotCode] = useState('')
@@ -114,9 +113,9 @@ const Auth = () => {
                 color: theme.on_background,
             }}
         >
-            {
+            {/* {
                 globalView && <GlobalSection navigate={navigate} />
-            }
+            } */}
             <div className="auth-section">
                 {body}
             </div>

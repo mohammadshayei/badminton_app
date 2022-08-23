@@ -20,29 +20,7 @@ const TournamentsPage = () => {
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
     const [lives, setLives] = useState([])
-    const [filterSelectors, setFilterSelectors] = useState({
-        my_tournaments: {
-            text: "مسابقات من",
-            content: 'owner',
-            selected: false,
-        },
-        finished: {
-            text: "تمام شده",
-            selected: false,
-            content: 'prev',
-        },
-        now_playing: {
-            text: "در حال انجام",
-            selected: true,
-            content: 'now',
-        },
-        upcoming: {
-            text: "در آینده",
-            selected: false,
-            content: 'future',
-
-        }
-    });
+    const [filterSelectors, setFilterSelectors] = useState();
     const [filteredTournaments, setfilteredTournaments] = useState([])
 
     const { token } = useSelector(state => state.auth)
@@ -75,7 +53,7 @@ const TournamentsPage = () => {
     }
 
     useEffect(() => {
-        if (!token) return;
+        // if (!token) return;
         setDialog(null);
         (async () => {
             try {
@@ -98,7 +76,7 @@ const TournamentsPage = () => {
     }, [token])
 
     useEffect(() => {
-        if (!tournaments) return;
+        if (!tournaments || !filterSelectors) return;
         let key = Object.entries(filterSelectors).find(([_, v]) => v.selected)[1].content
         let updatedFilteredTournaments;
         if (key === 'owner')
@@ -108,6 +86,35 @@ const TournamentsPage = () => {
         setfilteredTournaments(updatedFilteredTournaments)
 
     }, [tournaments, filterSelectors])
+    useEffect(() => {
+        let baseFilterSelector = {
+            finished: {
+                text: "تمام شده",
+                selected: false,
+                content: 'prev',
+            },
+            now_playing: {
+                text: "در حال انجام",
+                selected: true,
+                content: 'now',
+            },
+            upcoming: {
+                text: "در آینده",
+                selected: false,
+                content: 'future',
+
+            }
+        }
+        if (token) baseFilterSelector = {
+            my_tournaments: {
+                text: "مسابقات من",
+                content: 'owner',
+                selected: false,
+            }, ...baseFilterSelector
+        }
+        setFilterSelectors(baseFilterSelector)
+    }, [token])
+
     return <div className="tournaments-page">
         {dialog}
         {
@@ -132,7 +139,7 @@ const TournamentsPage = () => {
         }
         <p className="title">{stringFa.tournaments}</p>
         <div className="selectors-wrapper">
-            {Object.entries(filterSelectors).map(([k, v]) =>
+            {filterSelectors && Object.entries(filterSelectors).map(([k, v]) =>
                 <RoundSelector
                     key={k}
                     selector={k}

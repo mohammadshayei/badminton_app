@@ -151,7 +151,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             updatedGames.push({
                 _id: item.game._id,
                 title: item.game.game_type === 'single' ? "انفرادی" : "دو نفره",
-                court: { _id: uuidv4().replace(/\-/g, ""), value: item.game.land_number },
+                court: { _id: uuidv4().replace(/-/g, ""), value: item.game.land_number },
                 status: item.game.status,
                 gameNumber: item.game.game_number,
                 players: {
@@ -197,10 +197,10 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             setDialog(<ErrorDialog type="error">سالن را انتخاب کنید</ErrorDialog>)
             return;
         }
-        if (!updatedGames[gameIndex].court.value && updatedGames[gameIndex].officials.umpire[0]._id) {
-            setDialog(<ErrorDialog type="error">شماره زمین را باید تعیین کنید</ErrorDialog>)
-            return;
-        }
+        // if (!updatedGames[gameIndex].court.value && updatedGames[gameIndex].officials.umpire[0]._id) {
+        //     setDialog(<ErrorDialog type="error">شماره زمین را باید تعیین کنید</ErrorDialog>)
+        //     return;
+        // }
         let path, payload = {
             gameType: updatedGames[gameIndex].players.b.length === 2 ? 'double' : "single",
             gameNumber: updatedGames[gameIndex].gameNumber,

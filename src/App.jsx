@@ -22,11 +22,8 @@ function App() {
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
-  const socket = useSelector(state => state.auth.socket)
-  const token = useSelector((state) => state.auth.token);
+  const { token, socket, checked, user } = useSelector((state) => state.auth);
   const ip = useSelector((state) => state.detail.ip);
-  const checked = useSelector((state) => state.auth.checked);
-
   const checkAuth = () => dispatch(authActions.authCheckState());
 
   const dispatch = useDispatch();
@@ -65,11 +62,11 @@ function App() {
     })()
   }, []);
 
-  useEffect(() => {
-    if (!token && checked) {
-      navigate(`/login`);
-    }
-  }, [token, checked]);
+  // useEffect(() => {
+  //   if (!token && checked) {
+  //     navigate(`/login`);
+  //   }
+  // }, [token, checked]);
 
   useEffect(() => {
     if (token) {
@@ -85,13 +82,15 @@ function App() {
       }
     }
     else if (location.pathname === '/') {
-      if (token && checked) {
-        // navigate(`/home?page=1`);
-        navigate(`/tournaments`);
+      navigate(`/tournaments`);
 
-      } else {
-        navigate(`/login`);
-      }
+      // if (token && checked) {
+      //   // navigate(`/home?page=1`);
+      //   navigate(`/tournaments`);
+
+      // } else {
+      //   navigate(`/login`);
+      // }
     }
   }, [location.pathname, token, checked])
 

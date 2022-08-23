@@ -12,6 +12,7 @@
     align-items: center;
     padding: 1rem;
     flex: 1;
+    position: relative;
     .section-container {
       position: relative;
       display: flex;
@@ -25,6 +26,13 @@
       padding: 1.5em 1.5em 0.5em 1.5em;
       box-shadow: 0 8px 10px rgba(0, 0, 0, 0.05);
       direction: rtl;
+      .go-to-tournament {
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
       .error-text {
         position: absolute;
         top: 10%;

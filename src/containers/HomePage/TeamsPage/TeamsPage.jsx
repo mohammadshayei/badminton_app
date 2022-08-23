@@ -34,7 +34,6 @@ const TeamsPage = () => {
         navigate(`/teams/${id}?part=${url}`)
     }
     useEffect(() => {
-        if (!token) return;
         setDialog(null);
         (async () => {
             try {

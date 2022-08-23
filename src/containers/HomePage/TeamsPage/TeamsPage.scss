@@ -60,6 +60,8 @@
           min-width: 65px;
           img {
             width: 100%;
+            object-fit: contain;
+            border-radius: 50%;
           }
         }
         .tournaments {
@@ -109,6 +111,8 @@
             margin: 0 0.5rem;
             img {
               width: 100%;
+              object-fit: contain;
+              border-radius: 50%;
             }
           }
         }

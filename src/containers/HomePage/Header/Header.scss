@@ -67,17 +67,15 @@
         margin: 0 1rem;
         img {
           width: 8vw;
-          max-width: 120px;
+          max-width: 100px;
           height: 8vw;
-          max-height: 120px;
+          max-height: 100px;
           object-fit: contain;
+          border-radius: 50%;
         }
         .image-skeleton {
           width: 6rem;
           height: 6rem;
-        }
-        img {
-          max-width: 100px;
         }
       }
     }

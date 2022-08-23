@@ -102,6 +102,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
             setLoading(false)
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
+        navigate(`/tournaments/${tournamentId}?part=teamMatch`)
     }
 
     const getReport = (id) => {
@@ -384,7 +385,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                     color: theme.on_surface
                                 }}
                             >{game.title}</div>
-                            {game.status === 3 &&
+                            {token && game.status === 3 &&
                                 <div className="match-game-report"
                                     style={{ color: theme.secondary }}
                                     onClick={() => getReport(game._id)}

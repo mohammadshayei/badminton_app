@@ -8,6 +8,8 @@ import { baseUrl } from "../../../constants/Config"
 import { useDispatch, useSelector } from "react-redux"
 import { onChange } from "../../../utils/authFunction"
 import { useTheme } from "../../../styles/ThemeProvider";
+import { IoClose } from "react-icons/io5";
+import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
 
 const Login = ({ navigate }) => {
     const [formIsValid, setFormIsValid] = useState(false)
@@ -62,8 +64,7 @@ const Login = ({ navigate }) => {
     const auth = (input, password, url) => {
         dispatch(authActions.auth(input, password, url));
     };
-    const loading = useSelector(state => state.auth.loading)
-    let error = useSelector(state => state.auth.error)
+    const { error, loading } = useSelector(state => state.auth)
 
 
     const loginHandler = useCallback(() => {
@@ -87,7 +88,13 @@ const Login = ({ navigate }) => {
             onSubmit={(e) => {
                 loginHandler()
                 e.preventDefault()
-            }}        >
+            }}
+        >
+            <div className="go-to-tournament"
+                onClick={() => navigate('/tournaments')}
+            >
+                <IoClose style={{ color: 'black' }} />
+            </div>
             <div className="title-text-login"
                 style={{ color: theme.primary }}
             >
@@ -96,12 +103,13 @@ const Login = ({ navigate }) => {
             <div className="error-text under-title-login"
                 style={{ color: theme.error }}
             >{error}</div>
-            {Object.entries(order).map(([k, v]) =>
-                <CustomInput
-                    key={k}
-                    {...v}
-                    onChange={(e) => onChange(e.target.value, k, order, setOrder, setFormIsValid)}
-                />)
+            {
+                Object.entries(order).map(([k, v]) =>
+                    <CustomInput
+                        key={k}
+                        {...v}
+                        onChange={(e) => onChange(e.target.value, k, order, setOrder, setFormIsValid)}
+                    />)
             }
             <p className='forgot-password' onClick={forgotPassword}>{stringFa.forgot_password}</p>
             <Button
@@ -118,7 +126,7 @@ const Login = ({ navigate }) => {
                     style={{ color: theme.primary }}
                 >{stringFa.register}</span>
             </p>
-        </form>
+        </form >
     )
 }
 

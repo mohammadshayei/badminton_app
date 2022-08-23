@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
     teamBDetail, calTableCount }) => {
-    console.log(events)
     const [updatedEvents, setUpdatedEvents] = useState([])
     const [body, setBody] = useState(null)
     const props = { isSingle: playerTeamA.length === 1, playerTeamB, playerTeamA, teamADetail, teamBDetail }

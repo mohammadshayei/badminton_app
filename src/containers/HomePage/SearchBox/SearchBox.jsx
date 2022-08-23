@@ -6,10 +6,12 @@ import { useTheme } from "../../../styles/ThemeProvider";
 import { useEffect, useState } from "react";
 import { BsSearch, BsX } from "react-icons/bs";
 import { searchTournaments } from "../../../api/home";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md"; //, MdSettings
 import Skeleton from 'react-loading-skeleton';
+import * as authActions from "../../../store/actions/auth";
+import TransparentButton from "../../../components/UI/Button/TransparentButton/TransparentButton";
 
 const SearchBox = () => {
     const themeState = useTheme();
@@ -21,10 +23,13 @@ const SearchBox = () => {
         paddingLeft: "2rem",
         transition: "border-radius 200ms ease"
     });
+    const dispatch = useDispatch();
 
     const { user, token } = useSelector(state => state.auth)
     const navigate = useNavigate()
-
+    const logoutUser = (input, password, url) => {
+        dispatch(authActions.logout(input, password, url));
+    };
     const onSearch = async (event) => {
         setSearchValue(event.target.value);
         if (event.target.value.length === 0) return;
@@ -42,8 +47,11 @@ const SearchBox = () => {
         navigate(`/profile?part=userInfo`)
     }
     const logOut = () => {
-        localStorage.removeItem("a1");
-        window.location.reload(false);
+        logoutUser()
+        navigate('/login')
+    }
+    const goToLogin = () => {
+        navigate('/login')
     }
 
     useEffect(() => {
@@ -98,14 +106,27 @@ const SearchBox = () => {
         <div className="user"
             style={{ color: theme.on_primary }}
         >
-            <div className="user-details" onClick={() => showProfile()}>
-                <div className="user-item name">
-                    {user?.username || <Skeleton width={100} />}
-                </div>
-            </div>
-            <div className="user-item log-out"
-                onClick={logOut}
-            ><MdLogout /></div>
+            {token ?
+                <>
+                    <div className="user-details" onClick={() => showProfile()}>
+                        <div className="user-item name">
+                            {user?.username || <Skeleton width={100} />}
+                        </div>
+                    </div>
+                    <div className="user-item log-out"
+                        onClick={logOut}
+                    ><MdLogout /></div>
+                </>
+                : <>
+                    <TransparentButton
+                        // config={{ disabled: isLoading }}
+                        onClick={goToLogin}
+                        ButtonStyle={{ color: "white" }}
+                    >
+                        {stringFa.login}
+                    </TransparentButton>
+                </>
+            }
         </div>
     </div>;
 };

@@ -36,6 +36,8 @@ const HomePage = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const showMenu = useSelector(state => state.detail.showMenu);
+  const { token } = useSelector(state => state.auth);
+
 
   const setMenuStatus = (status) => {
     dispatch(detailActions.setMenuStatus(status));
@@ -58,6 +60,10 @@ const HomePage = () => {
           setSelectedPageIndex(2)
           break;
         case '/my_games':
+          if (!token) {
+            navigate('/tournaments')
+            break;
+          }
           setPage(<GamesPage />)
           setSelectedPageIndex(3)
           break;
@@ -66,22 +72,42 @@ const HomePage = () => {
           setSelectedPageIndex(4)
           break;
         case '/new_tournament':
+          if (!token) {
+            navigate('/tournaments')
+            break;
+          }
           setPage(<TournamentForm />)
           setSelectedPageIndex(5)
           break;
         case '/edit_tournament':
+          if (!token) {
+            navigate('/tournaments')
+            break;
+          }
           setPage(<TournamentForm />)
           setSelectedPageIndex(0)
           break;
         case '/edit_team':
-          setPage(<EditTeamForm  />)
+          if (!token) {
+            navigate('/teams')
+            break;
+          }
+          setPage(<EditTeamForm />)
           setSelectedPageIndex(0)
           break;
         case '/profile':
+          if (!token) {
+            navigate('/tournaments')
+            break;
+          }
           setPage(<ProfilePage />)
           setSelectedPageIndex(6)
           break;
         case '/pay':
+          if (!token) {
+            navigate('/tournaments')
+            break;
+          }
           setPage(<PurchaseCallBack />)
           setSelectedPageIndex(7)
           break;
@@ -92,7 +118,7 @@ const HomePage = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, id]);
+  }, [location.pathname, id, token]);
   return (
     <div
       className={`home-page-wrapper ${showMenu ? "menu-open" : ""}`}

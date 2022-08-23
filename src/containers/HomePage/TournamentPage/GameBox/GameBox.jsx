@@ -34,9 +34,12 @@ const GameBox = ({
             backgroundColor: theme.surface
         }}
     >
-        <Modal show={result} modalClosed={() => setResult(false)}>
-            <GameResult teamsName={teamsName} />
-        </Modal>
+        {
+            teamsName &&
+            <Modal show={result} modalClosed={() => setResult(false)}>
+                <GameResult teamsName={teamsName} />
+            </Modal>
+        }
         <div className="match-game-header">
             <div className="match-game-number">
                 <CustomInput
