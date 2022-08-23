@@ -217,10 +217,10 @@ const Selector = (props) => {
         if (index > 1)
             setIndex(index - 1);
         if (index === 1) {
-            if (gym && court)
-                navigate(`/my_games?gym=${gym}&court=${court}`)
-            else if (gym)
-                navigate(`/my_games?gym=${gym}`)
+            if (gym)
+                navigate(`/my_games?gym=${gym}${court ? `$court=${court}` : ""}`)
+            else if (court)
+                navigate(`/my_games?court=${court}${gym ? `$gym=${gym}` : ""}`)
             else
                 navigate(`/my_games`)
         }

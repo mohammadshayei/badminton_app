@@ -226,7 +226,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     setDisabledButton(true)
     setTimeout(() => {
       setDisabledButton(false)
-    }, 1000);
+    }, 400);
     switch (info.team1.score) {
       case maxPoint - 1:
         if ((info.team1.score === 20 || info.team1.score === 29) && info.team2.score !== 29)
@@ -275,7 +275,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     setDisabledButton(true)
     setTimeout(() => {
       setDisabledButton(false)
-    }, 1000);
+    }, 400);
     switch (info.team2.score) {
       case maxPoint - 1:
         if ((info.team2.score === 20 || info.team2.score === 29) && info.team1.score !== 29)

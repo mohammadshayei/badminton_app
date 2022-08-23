@@ -127,10 +127,10 @@ const MainPage = () => {
           setDialog(null)
           setDialog(<ErrorDialog type="error">{result.message}</ErrorDialog>)
           setTimeout(() => {
-            if (gym && court)
-              navigate(`/my_games?gym=${gym}&court=${court}`)
-            else if (gym)
-              navigate(`/my_games?gym=${gym}`)
+            if (gym)
+              navigate(`/my_games?gym=${gym}${court ? `$court=${court}` : ""}`)
+            else if (court)
+              navigate(`/my_games?court=${court}${gym ? `$gym=${gym}` : ""}`)
             else
               navigate(`/my_games`)
           }, 3000);
@@ -140,10 +140,10 @@ const MainPage = () => {
       else {
         setDialog(<ErrorDialog type="error">{stringFa.url_wrong}</ErrorDialog>)
         setTimeout(() => {
-          if (gym && court)
-            navigate(`/my_games?gym=${gym}&court=${court}`)
-          else if (gym)
-            navigate(`/my_games?gym=${gym}`)
+          if (gym)
+            navigate(`/my_games?gym=${gym}${court ? `$court=${court}` : ""}`)
+          else if (court)
+            navigate(`/my_games?court=${court}${gym ? `$gym=${gym}` : ""}`)
           else
             navigate(`/my_games`)
         }, 3000);

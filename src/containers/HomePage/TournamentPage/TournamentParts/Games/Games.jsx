@@ -204,7 +204,8 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
         let path, payload = {
             gameType: updatedGames[gameIndex].players.b.length === 2 ? 'double' : "single",
             gameNumber: updatedGames[gameIndex].gameNumber,
-            landNumber: updatedGames[gameIndex].court.value,
+            // landNumber: updatedGames[gameIndex].court.value,
+            landNumber: '1',
             playersTeamA: updatedGames[gameIndex].players.a.map(item => item._id),
             playersTeamB: updatedGames[gameIndex].players.b.map(item => item._id),
             gymId: gym.id,

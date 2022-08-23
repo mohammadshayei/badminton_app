@@ -21,11 +21,11 @@ const TeamTournaments = ({ data }) => {
             <div className="tournamnets-item">
                 {
                     data?.tournaments?.map(item =>
-                        <div className='item-wrapper' key={item.tournament._id}>
+                        <div className='item-wrapper' key={item.tournament?._id}>
                             <div className="date">
-                                <p>{new Date(item.tournament.game_date.start).toLocaleDateString('fa-IR')}</p>
+                                <p>{new Date(item.tournament.game_date?.start).toLocaleDateString('fa-IR')}</p>
                                 <p className='date-middle'>تا</p>
-                                <p>{new Date(item.tournament.game_date.end).toLocaleDateString('fa-IR')}</p>
+                                <p>{new Date(item.tournament.game_date?.end).toLocaleDateString('fa-IR')}</p>
 
                             </div>
                             <div className="arrow">

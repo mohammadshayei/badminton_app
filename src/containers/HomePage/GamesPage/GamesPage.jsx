@@ -60,14 +60,8 @@ const GamesPage = () => {
     //   setNeedUnlock(i)
     // }
     // if (user && game._id && !game.lock) {
-    if (user && game._id) {
-      if (gym && court)
-        navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}&gym=${gym}&court=${court}`)
-      else if (gym)
-        navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}&gym=${gym}`)
-      else
-        navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}`)
-    }
+    if (user && game._id)
+      navigate(`/scoreboard?gameId=${game._id}&refereeId=${user._id}${gym ? `&gym=${gym}` : ''}${court ? `$court=${court}` : ""}`)
   }
   const verifyPassword = async (gameId) => {
     setDialog(null)
@@ -147,15 +141,20 @@ const GamesPage = () => {
   }, [gym, gymsInfo])
   useEffect(() => {
     if (!games) return;
+    let filteredGames = [...games]
+    if (gym) {
+      setSelectedCourt(gyms.find(item => item._id === gym)?.text)
+      filteredGames = filteredGames.filter(item => item.gymId === gym)
+    }
+    else
+      setSelectedGym('')
     if (court) {
       setSelectedCourt(court)
-      setFilteredGames(games.filter(item => item.land_number === court))
-    } else {
-      setFilteredGames(games)
+      filteredGames = filteredGames.filter(item => item.land_number === court)
+    } else
       setSelectedCourt('')
-    }
-  }, [court, games])
-
+    setFilteredGames(filteredGames)
+  }, [court, games, gym])
   useEffect(() => {
     if (!token) return;
     setLoading(true)
@@ -201,6 +200,7 @@ const GamesPage = () => {
         updatedGames[finded] = {
           ...updatedGames[finded],
           game_type: game.game_type,
+          gymId: game.gymId,
           game_number: game.game_number,
           land_number: game.land_number,
           teamAPlayers: game.teamAPlayers,
@@ -212,6 +212,7 @@ const GamesPage = () => {
           _id: game._id,
           title,
           game_type: game.game_type,
+          gymId: game.gymId,
           game_number: game.game_number,
           land_number: game.land_number,
           teamAPlayers: game.teamAPlayers,

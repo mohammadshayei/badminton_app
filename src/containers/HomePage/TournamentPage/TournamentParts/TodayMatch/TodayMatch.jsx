@@ -67,7 +67,7 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
     const [matchId, setMatchId] = useState('')
     const [teamsName, setTeamsName] = useState({ a: "", b: "" })
     const [itemLoading, setItemLoading] = useState({ type: '', content: "" })
-    const { token } = useSelector(state => state.auth)
+    const { token, socket } = useSelector(state => state.auth)
     const [order, setOrder] = useState({
         gym: {
             title: "نام سالن",
@@ -199,10 +199,34 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
                 setDialog(<ErrorDialog type="success">{fetchedTournament.data.message}</ErrorDialog>)
                 if (updatedGames[gameIndex]._id.length === 1)
                     updatedGames[gameIndex]._id = fetchedTournament.data.id;
-                if (updatedGames[gameIndex].officials.umpire[0]._id)
+                if (updatedGames[gameIndex].officials.umpire[0]._id) {
                     updatedGames[gameIndex].status = 1
+                    socket.emit('create_game', {
+                        game: {
+                            _id: fetchedTournament.data.id,
+                            game_number: updatedGames[gameIndex].gameNumber,
+                            land_number: order.court.text,
+                            gymId: order.gym.id,
+                            teamAPlayers: updatedGames[gameIndex].players.a.map(item => {
+                                return {
+                                    _id: item._id,
+                                    username: item.value
+                                }
+                            }),
+                            teamBPlayers: updatedGames[gameIndex].players.b.map(item => {
+                                return {
+                                    _id: item._id,
+                                    username: item.value
+                                }
+                            }),
+                            umpireId: updatedGames[gameIndex].officials.umpire[0]._id,
+                        },
+                        tournamentId
+                    })
+                }
                 else
                     updatedGames[gameIndex].status = 0
+
 
             } else {
                 setDialog(<ErrorDialog type="error">{fetchedTournament.data.message}</ErrorDialog>)
@@ -243,6 +267,10 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
                     officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
                     saved: false,
                 }
+                socket.emit('delete_game', {
+                    gameId: updatedGames[gameIndex]._id,
+                    tournamentId
+                })
             } else {
                 setDialog(<ErrorDialog type="error">{fetchedTournament.data.message}</ErrorDialog>)
             }
