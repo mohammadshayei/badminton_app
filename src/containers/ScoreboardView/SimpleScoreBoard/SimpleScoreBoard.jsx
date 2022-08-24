@@ -33,7 +33,11 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
         }
     }, [data?.teamB.score]);
 
-    return <div className="simple-scoreboard-container">
+    return <div className="simple-scoreboard-container"
+        style={{
+            fontSize: `${Math.min(window.innerWidth * 0.08, window.innerHeight * 0.12)}px`,
+        }}
+    >
         {
             data ?
                 Object.entries(data).map(([k, v]) =>
@@ -62,13 +66,17 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                             <div id={k} className={`player-score-and-set ${k === "teamA" ? 'score-and-set-rev' : ''}`}>
                                 {!gameScores && <div className="set-score"
                                     style={{
-                                        // fontSize: (data.teamA.setWon === 2) || (data.teamB.setWon === 2) ? "13vw" : "8vw",
+                                        fontSize: `${Math.min(window.innerWidth * 0.08, window.innerHeight * 0.12)}px`,
                                     }}
                                 >
                                     <p>{v.setWon}</p>
                                 </div>}
                                 {gameScores ?
-                                    <div className="score-digit">
+                                    <div className="score-digit"
+                                        style={{
+                                            fontSize: `${Math.min(window.innerWidth * 0.2, window.innerHeight * 0.3)}px`,
+                                        }}
+                                    >
                                         <div className="scores">
                                             {gameScores[k].map((item) =>
                                                 <p
