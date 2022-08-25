@@ -224,7 +224,7 @@ const GameBox = ({
             >
                 {game.officialsOpen ? '- ' : '+ '}{stringFa.officials}
             </TransparentButton>
-            {createAccess && game.saved &&
+            {/* {createAccess && game.saved &&
                 <Button
                     buttonClass={["half-padding"]}
                     ButtonStyle={{
@@ -237,7 +237,7 @@ const GameBox = ({
                 >
                     {stringFa.record_result}
                 </Button>
-            }
+            } */}
         </div>
     </div >;
 };

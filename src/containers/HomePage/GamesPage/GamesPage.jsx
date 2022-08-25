@@ -156,7 +156,7 @@ const GamesPage = () => {
     setFilteredGames(filteredGames)
   }, [court, games, gym])
   useEffect(() => {
-    if (!token) return;
+    if (!token || !user) return;
     setLoading(true)
     setDialog(null);
     (async () => {
@@ -172,6 +172,16 @@ const GamesPage = () => {
               text: item.title
             }
           }))
+          if (!gym) {
+            let selectedGymIndex = result.data.gyms.findIndex(item => item.creator === user._id)
+            if (selectedGymIndex > -1) {
+              if (court)
+                navigate(`/my_games?gym=${result.data.gyms[selectedGymIndex]._id}&court=${court}`)
+              else
+                navigate(`/my_games?gym=${result.data.gyms[selectedGymIndex]._id}`)
+
+            }
+          }
         }
         else
           setDialog(<ErrorDialog type={"error"}> {result.data.message}</ErrorDialog >)
@@ -182,7 +192,7 @@ const GamesPage = () => {
       }
       setLoading(false)
     })()
-  }, [token])
+  }, [user])
 
   useEffect(() => {
     if (dataFetched || games.length === 0) return;

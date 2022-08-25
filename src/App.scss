@@ -19,15 +19,10 @@
   src: url("./assets/fonts/iran-sans/ttf/IRANSansWeb\(NoEn\)_Bold.ttf");
   src: url("./assets/fonts/iran-sans/woff/IRANSansWeb\(NoEn\)_Bold.woff");
 }
-@font-face {
-  font-family: LCDPhone;
-  src: url("assets/fonts/LcdPhone.woff") format("woff");
-  font-weight: normal;
-}
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: IRANSansLight, IRANSans, Arial, Helvetica, sans-serif, LCDPhone;
+  font-family: IRANSansLight, IRANSans, Arial, Helvetica, sans-serif;
   user-select: none;
   padding: 0;
 }

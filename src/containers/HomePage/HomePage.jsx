@@ -60,10 +60,10 @@ const HomePage = () => {
           setSelectedPageIndex(2)
           break;
         case '/my_games':
-          if (!token) {
-            navigate('/tournaments')
-            break;
-          }
+          // if (!token) {
+          //   navigate('/tournaments')
+          //   break;
+          // }
           setPage(<GamesPage />)
           setSelectedPageIndex(3)
           break;
