@@ -190,6 +190,17 @@ export const stringFa = {
   technical_connector_phone: "شماره همراه رابط فنی",
   technical_connector_id: "کد ملی رابط فنی",
   record_result: "ثبت نتیجه",
+  rank: "رتبه",
+  club_name: "نام باشگاه",
+  played_matches: "مسابقه تیمی",
+  won_matches: "برد تیمی",
+  lost_matches: "باخت تیمی",
+  won_games: "بازی برنده",
+  lost_games: "بازی بازنده",
+  won_sets: "گیم برنده",
+  lost_sets: "گیم بازنده",
+  earned_points: "پوئن کسب شده",
+  lost_points: "پوئن واگذار شده"
 };
 
 export const daysName = [

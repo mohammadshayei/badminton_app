@@ -1,0 +1,44 @@
+.league-overview {
+  width: 100%;
+  height: fit-content;
+  padding: 2rem 1rem;
+  overflow-x: scroll;
+  .league-table {
+    border-collapse: collapse;
+    th,
+    td {
+      text-align: center;
+      align-items: center;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
+      border: 1px solid gray;
+      img {
+        height: 30px;
+        border-radius: 50%;
+        margin: auto 0;
+      }
+    }
+    td {
+      white-space: nowrap;
+    }
+    .team-name {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
+
+@media only screen and (min-width: 780px) {
+  .league-overview {
+    .league-table {
+      th,
+      td {
+        font-size: 1rem;
+        img {
+          height: 40px;
+        }
+      }
+    }
+  }
+}
