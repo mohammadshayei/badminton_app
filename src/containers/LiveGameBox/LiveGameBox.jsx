@@ -132,7 +132,6 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
             setEndScores(updatedEndScores)
         }
     }, [endGamesScores])
-
     return <div
         className="live-game-box"
         onClick={() => gameClickHandler(game?._id)}
@@ -148,6 +147,8 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
             }}
         >
             <p title={game?.tournament.title} className="tournament-title">{game?.tournament.title || <Skeleton width="10vw" />}</p>
+            {game?.teamA.team && <p title={game?.teamA.team?.name} className="tournament-title">{`${game?.teamA.team?.name} - ${game?.teamB.team?.name}`}</p>}
+
             <div className="show-status">
                 <div className="online-viewers"
                     style={{
