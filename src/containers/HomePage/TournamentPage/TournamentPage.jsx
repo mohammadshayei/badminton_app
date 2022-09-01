@@ -185,6 +185,14 @@ const TournamentPage = ({ id }) => {
             }
         } else {
             updatedFilterSelectors = {
+                teamMatch: {
+                    text: "مسابقات تیمی",
+                    selected: false,
+                },
+                overView: {
+                    text: "جدول لیگ",
+                    selected: false,
+                },
                 team: {
                     text: "تیم ها",
                     selected: false,
@@ -201,10 +209,7 @@ const TournamentPage = ({ id }) => {
                     text: "سالن ها",
                     selected: false,
                 },
-                teamMatch: {
-                    text: "مسابقات تیمی",
-                    selected: true,
-                },
+
             }
         }
 
