@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { GiTennisCourt } from "react-icons/gi";
+import { FaReply } from "react-icons/fa";
 
 const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration, style }) => {
     const [teamAScore, setTeamAScore] = useState(0);
@@ -146,8 +147,16 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 backgroundColor: theme.background_color,
             }}
         >
-            <p title={game?.tournament.title} className="tournament-title">{game?.tournament.title || <Skeleton width="10vw" />}</p>
-            {game?.teamA.team && <p title={game?.teamA.team?.name} className="tournament-title">{`${game?.teamA.team?.name} - ${game?.teamB.team?.name}`}</p>}
+            <div className="box-titles">
+                <p title={game?.tournament.title} className="tournament-title">{game?.tournament.title || <Skeleton width="10vw" />}</p>
+                {game?.teamA.team &&
+                    <p title={`${game?.teamA.team?.name} - ${game?.teamB.team?.name}`}
+                        className="tournament-title teams"
+                        style={{ color: theme.primary }}>
+                        {`(${game?.teamA.team?.name} - ${game?.teamB.team?.name})`}
+                        <FaReply color={theme.primary} />
+                    </p>}
+            </div>
 
             <div className="show-status">
                 <div className="online-viewers"
