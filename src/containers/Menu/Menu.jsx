@@ -49,7 +49,8 @@ const Menu = (props) => {
     const inRef = useRef();
 
     useOnClickOutside(inRef, () => {
-        setMenuStatus(false)
+        if (window.innerWidth < 780)
+            setMenuStatus(false)
     });
     const navigate = useNavigate()
     const onMenuClickHandler = index => {
@@ -58,6 +59,12 @@ const Menu = (props) => {
         if (window.innerWidth < 780)
             setMenuStatus(false)
     }
+
+    useEffect(() => {
+        if (window.innerWidth > 780)
+            setMenuStatus(true)
+    }, []);
+
 
     return (
         <div ref={inRef} className={`sidebar-menu ${showMenu && "active"}`}

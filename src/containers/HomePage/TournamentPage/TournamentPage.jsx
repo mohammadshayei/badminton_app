@@ -21,7 +21,6 @@ import Skeleton from 'react-loading-skeleton'
 import { useTheme } from '../../../styles/ThemeProvider'
 import { Icon } from '@iconify/react';
 import Games from './TournamentParts/Games/Games'
-import Overview from './TournamentParts/Overview/Overview';
 import Footer from '../Footer/Footer'
 
 const TournamentPage = ({ id }) => {
@@ -169,7 +168,7 @@ const TournamentPage = ({ id }) => {
             updatedFilterSelectors = {
                 player: {
                     text: "بازیکن ها",
-                    selected: true,
+                    selected: false,
                 },
                 referee: {
                     text: "داور ها",
@@ -181,14 +180,14 @@ const TournamentPage = ({ id }) => {
                 },
                 games: {
                     text: "بازی ها",
-                    selected: false,
+                    selected: true,
                 },
             }
         } else {
             updatedFilterSelectors = {
                 team: {
                     text: "تیم ها",
-                    selected: true,
+                    selected: false,
                 },
                 player: {
                     text: "بازیکن ها",
@@ -204,7 +203,7 @@ const TournamentPage = ({ id }) => {
                 },
                 teamMatch: {
                     text: "مسابقات تیمی",
-                    selected: false,
+                    selected: true,
                 },
             }
         }

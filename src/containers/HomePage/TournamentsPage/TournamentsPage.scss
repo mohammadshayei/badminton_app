@@ -8,8 +8,8 @@
   .live-scores-bar {
     position: relative;
     align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0.75rem;
+    gap: 3rem;
+    padding: 1.8rem;
     width: 100%;
     min-height: 2rem;
     overflow-x: scroll;
@@ -18,13 +18,14 @@
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      font-size: clamp(0.65rem, 5vw, 1.5rem);
+      font-size: clamp(0.65rem, 7vw, 1.8rem);
       cursor: pointer;
       .live-icon {
-        animation: flashing 1s infinite alternate;
+        animation: flashing 700ms infinite alternate;
       }
       p {
-        font-size: clamp(0.65rem, 1.3vw, 0.9rem);
+        font-size: clamp(0.65rem, 4vw, 1.2rem);
+        font-weight: bold;
         white-space: nowrap;
       }
     }
