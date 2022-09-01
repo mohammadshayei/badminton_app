@@ -189,7 +189,6 @@ const GymModal = () => {
         if (editMode) {
             let findedGym = contents.find(item => item.gym._id === selectedContent).gym
             let updatedOrder = { ...order }
-            console.log(findedGym.land_numbers.map(item => item.number))
             updatedOrder.gymTitle.value = findedGym.title;
             updatedOrder.landCount.value = findedGym.land_count;
             updatedOrder.landNumbers.count = findedGym.land_count;

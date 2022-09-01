@@ -25,6 +25,12 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
     const gameClickHandler = (id) => {
         navigate(`/scoreboard_view?gameId=${id}`)
     }
+    const onNavigateTournamentGames = (e, game) => {
+        e.stopPropagation()
+        //http://sports.setoos.ir/tournaments/984c8c140e904a37a1cc92af829500a5?part=teamMatch&matchId=a1e4a0b807ab43ccbc093a97fe11ed23
+        // touranemnt id , mathc
+        navigate(`/tournaments/${game.tournament._id}?part=teamMatch&matchId=${game.match}`)
+    }
     useEffect(() => {
         let updatedTeamAScore, updatedServerA;
         var scoreA = document.getElementById(game?._id + "A");
@@ -150,7 +156,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
             <div className="box-titles">
                 <p title={game?.tournament.title} className="tournament-title">{game?.tournament.title || <Skeleton width="10vw" />}</p>
                 {game?.teamA.team &&
-                    <p title={`${game?.teamA.team?.name} - ${game?.teamB.team?.name}`}
+                    <p onClick={(e) => onNavigateTournamentGames(e, game)} title={`${game?.teamA.team?.name} - ${game?.teamB.team?.name}`}
                         className="tournament-title teams"
                         style={{ color: theme.primary }}>
                         {`(${game?.teamA.team?.name} - ${game?.teamB.team?.name})`}

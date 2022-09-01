@@ -160,7 +160,6 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
         if (!updatedOrder.court.text) {
             updatedOrder.court.invalid = true;
             updatedOrder.court.validationMessage = 'شماره زمین را انتخاب کنید'
-            console.log("here")
             setOrder(updatedOrder)
             return;
         }

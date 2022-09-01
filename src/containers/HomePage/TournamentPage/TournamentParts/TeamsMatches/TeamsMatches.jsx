@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import Skeleton from 'react-loading-skeleton'
 import { baseUrl } from "../../../../../constants/Config";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDate }) => {
@@ -36,7 +36,6 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
     const theme = themeState.computedTheme;
     const showGamesRef = useRef();
     let navigate = useNavigate()
-
     const onChangeDatePicker = async (e) => {
         setDialog(null)
         setDateValue(new Date(e))

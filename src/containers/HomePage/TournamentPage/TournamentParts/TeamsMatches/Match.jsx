@@ -41,6 +41,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
             validationMessage: "",
             touched: true,
             shouldValidate: true,
+            hidden: true,
         }
     })
     const [saved, setSaved] = useState(false)
@@ -248,7 +249,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
             >
                 <p>{stringFa.home}</p>
                 <p>{stringFa.away}</p>
-                <p>{stringFa.referee}</p>
+                {/* <p>{stringFa.referee}</p> */}
             </div>
             <div className="table-row-body"
                 style={{
@@ -299,7 +300,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                     }
 
                 </div>
-                <div className="table-row-item">
+                {/* <div className="table-row-item">
                     {
                         createAccess ?
                             <CustomInput
@@ -319,7 +320,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                                 style={{ justifyContent: "center" }}
                             />
                     }
-                </div>
+                </div> */}
             </div>
         </div>
         <div className={`table-row-btns ${index === 0 ? 'btn-alignment' : ''}`}>
@@ -361,30 +362,41 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 </TransparentButton>
             }
             {
-
-                <TransparentButton
-                    ButtonStyle={{
-                        padding: "0",
-                        margin: "0 1rem",
-                        fontSize: "clamp(0.8rem,1vw,0.9rem)",
-                        opacity: data?.games?.length > 0 ? 1 : 0,
-                    }}
-                    config={{
-                        disabled: !data?.games?.length > 0
-                    }}
-                    onClick={() => {
-                        if (matchId) {
+                matchId === data?._id ?
+                    <TransparentButton
+                        ButtonStyle={{
+                            padding: "0",
+                            margin: "0 1rem",
+                            fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                            opacity: data?.games?.length > 0 ? 1 : 0,
+                        }}
+                        config={{
+                            disabled: !data?.games?.length > 0
+                        }}
+                        onClick={() => {
                             navigate(`/tournaments/${tournamentId}?part=teamMatch`)
                             setShowGames(false)
-                        }
-                        else {
+                        }}
+                    >
+                        {stringFa.close}
+                    </TransparentButton>
+                    : <TransparentButton
+                        ButtonStyle={{
+                            padding: "0",
+                            margin: "0 1rem",
+                            fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                            opacity: data?.games?.length > 0 ? 1 : 0,
+                        }}
+                        config={{
+                            disabled: !data?.games?.length > 0
+                        }}
+                        onClick={() => {
                             setShowGames(true)
                             onShowGame(data?._id)
-                        }
-                    }}
-                >
-                    {matchId ? stringFa.close : stringFa.show_games}
-                </TransparentButton>
+                        }}
+                    >
+                        {stringFa.show_games}
+                    </TransparentButton>
             }
 
         </div>
