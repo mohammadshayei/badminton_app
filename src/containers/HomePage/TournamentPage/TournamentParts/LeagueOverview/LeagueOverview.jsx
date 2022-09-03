@@ -11,7 +11,7 @@ import DEFAULT_LOGO from '../../../../../assets/images/team_avatar.png';
 const LeagueOverview = ({ tournamentId }) => {
     const [contentLoading, setContentLoading] = useState(false);
     const [dialog, setDialog] = useState(null);
-    const [teams, setTeams] = useState(null);
+    const [data, setData] = useState(null);
 
 
     const { token } = useSelector(state => state.auth)
@@ -25,12 +25,12 @@ const LeagueOverview = ({ tournamentId }) => {
         (async () => {
             try {
                 setContentLoading(true)
-                let fetchedItems = await dynamicApi({ id: tournamentId }, token, `get_teams`)
+                let fetchedItems = await dynamicApi({ id: tournamentId }, token, `get_league_table`)
                 if (!fetchedItems.success) {
                     setDialog(<ErrorDialog type="error">{fetchedItems.data.message}</ErrorDialog>)
                     return;
                 }
-                setTeams(fetchedItems.data.teams)
+                setData(fetchedItems.data.data)
             } catch (error) {
                 setContentLoading(false)
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
@@ -40,7 +40,6 @@ const LeagueOverview = ({ tournamentId }) => {
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tournamentId, part])
-
     return <div className="league-overview">
         <table className="league-table">
             <thead>
@@ -49,25 +48,25 @@ const LeagueOverview = ({ tournamentId }) => {
                 </tr>
             </thead>
             <tbody>
-                {teams &&
-                    teams.map((item, i) =>
-                        <tr>
+                {data &&
+                    data.map((item, i) =>
+                        <tr key={item._id._id}>
                             <td>{i + 1}</td>
                             <td>
                                 <div className="team-name">
-                                    <img src={item.team.image ? `${baseUrl}uploads/teams/${item.team.image}` : DEFAULT_LOGO} alt="logo" />
-                                    <p>{item.team.name}</p>
+                                    <img src={item._id.image ? `${baseUrl}uploads/teams/${item._id.image}` : DEFAULT_LOGO} alt="logo" />
+                                    <p>{item._id.name}</p>
                                 </div>
                             </td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td>{item.matchsCount}</td>
+                            <td>{item.matchWon}</td>
+                            <td>{item.matchLost}</td>
+                            <td>{item.gameWon}</td>
+                            <td>{item.gameLost}</td>
+                            <td>{item.setWon}</td>
+                            <td>{item.setLost}</td>
+                            <td>{item.scored}</td>
+                            <td>{item.scoreLost}</td>
                         </tr>
                     )
                 }

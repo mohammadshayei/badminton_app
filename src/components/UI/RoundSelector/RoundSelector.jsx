@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { stringFa } from "../../../assets/strings/stringFaCollection";
 import { useTheme } from "../../../styles/ThemeProvider";
 import "./RoundSelector.scss";
 
-const RoundSelector = ({ text, selector, style, selected, onClick, type = 1 }) => {
+const RoundSelector = ({ text, selector, style, selected, onClick, type = 1, isNew }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
     //type =1 white back ground and type =2 on primary color
@@ -28,6 +29,16 @@ const RoundSelector = ({ text, selector, style, selected, onClick, type = 1 }) =
         }}
         onClick={onClick}
     >
+        {isNew &&
+            <div
+                className="is-new"
+                style={{
+                    backgroundColor: theme.error,
+                    color: theme.on_error
+                }}>
+                {stringFa.new}
+            </div>
+        }
         {text}
     </div>;
 };

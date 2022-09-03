@@ -46,7 +46,7 @@ const TournamentsPage = () => {
     }
 
     const onTournamentClickHandler = (id, freeRanking) => {
-        navigate(`/tournaments/${id}?part=${freeRanking ? 'player' : "teamMatch"}`)
+        navigate(`/tournaments/${id}?part=${freeRanking ? 'player' : "overview"}`)
     }
     const onLiveGameClickHandler = () => {
         navigate(`/live_scores`)

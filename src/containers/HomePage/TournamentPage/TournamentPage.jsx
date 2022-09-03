@@ -186,12 +186,12 @@ const TournamentPage = ({ id }) => {
             }
         } else {
             updatedFilterSelectors = {
-                teamMatch: {
-                    text: "مسابقات تیمی",
+                overview: {
+                    text: "جدول لیگ",
                     selected: false,
                 },
-                overView: {
-                    text: "جدول لیگ",
+                teamMatch: {
+                    text: "مسابقات تیمی",
                     selected: false,
                 },
                 team: {
@@ -565,7 +565,7 @@ const TournamentPage = ({ id }) => {
                         onShowGame={onShowGame}
                         matchId={matchId}
                     /> :
-                    part === "overView" ?
+                    part === "overview" ?
                         <LeagueOverview tournamentId={id} /> :
                         part === "todayMatch" ?
                             <TodayMatch tournamentId={id} createAccess={createAccess} /> :

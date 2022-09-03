@@ -99,6 +99,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         onClick={() => onSelectorClick(k)}
                         type={2}
                         style={{ borderWidth: '1px', margin: "0 0.25rem" }}
+                        isNew={k === "overview"}
                     />
                 )}
             </div>

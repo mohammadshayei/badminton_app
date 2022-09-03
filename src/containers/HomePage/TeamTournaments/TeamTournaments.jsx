@@ -10,7 +10,7 @@ const TeamTournaments = ({ data }) => {
 
     const naviagteTournament = (id) => {
         if (!id) return;
-        navigate(`/tournaments/${id}?part=team`)
+        navigate(`/tournaments/${id}?part=overview`)
     }
     return (
         <div className='team-tournaments-wrapper'>
