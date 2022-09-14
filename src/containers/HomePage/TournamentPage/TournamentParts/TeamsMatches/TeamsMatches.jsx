@@ -5,7 +5,7 @@ import { stringFa } from "../../../../../assets/strings/stringFaCollection";
 import CustomInput, { elementTypes } from "../../../../../components/UI/CustomInput/CustomInput";
 import { useTheme } from "../../../../../styles/ThemeProvider";
 import IMAGE from '../../../../../assets/images/user_avatar.svg';
-import { IoIosArrowBack } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 import Day from "../Day";
 import Match from "./Match";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import Skeleton from 'react-loading-skeleton'
 import { baseUrl } from "../../../../../constants/Config";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDate }) => {
@@ -235,15 +235,15 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         setGames(updatedGames)
     }, [matchId, dayMatchs.length])
 
-    useEffect(() => {
-        let showTimeOut = setTimeout(() => {
-            showGamesRef.current.scrollIntoView({ inline: "center" })
-        }, 500);
+    // useEffect(() => {
+    //     let showTimeOut = setTimeout(() => {
+    //         showGamesRef.current.scrollIntoView({ inline: "center" })
+    //     }, 500);
 
-        return () => {
-            clearTimeout(showTimeOut)
-        };
-    }, [showGames]);
+    //     return () => {
+    //         clearTimeout(showTimeOut)
+    //     };
+    // }, [showGames]);
 
     useEffect(() => {
         if (!socket || !games) return;
@@ -284,7 +284,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
             }}
         >
             {dialog}
-            <div className="day-selector-container">
+            <div className={`day-selector-container ${showGames ? "hide-selector" : ""}`}>
                 {tournamentDays.length > 0 ?
                     tournamentDays.map(day =>
                         <Day
@@ -371,7 +371,14 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                         backgroundColor: theme.background_color
                     }}
                 >
-                    <IoIosArrowBack className="icon-back" onClick={() => setShowGames(false)} />
+                    <IoClose
+                        className="icon-close"
+                        onClick={() => {
+                            navigate(`/tournaments/${tournamentId}?part=teamMatch`)
+                            setShowGames(false)
+                        }}
+                        color={theme.error}
+                    />
                     {games?.length > 0 ? games.map((game) =>
                         <div key={game._id} className="a-match-game"
                             style={{

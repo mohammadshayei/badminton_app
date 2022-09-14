@@ -1,6 +1,7 @@
 .teams-matches {
   position: relative;
   padding: 0.5rem;
+  flex: 1;
   .day-selector-container {
     display: flex;
     justify-content: flex-start;
@@ -48,6 +49,9 @@
       }
     }
   }
+  .hide-selector {
+    display: none;
+  }
   .day-content {
     display: flex;
     flex-wrap: wrap;
@@ -68,7 +72,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin-bottom: 10rem;
+        margin-bottom: 1rem;
         .table-row {
           display: flex;
           flex-direction: column;
@@ -114,18 +118,15 @@
       display: none;
     }
     .day-match-games {
-      position: absolute;
       flex-direction: column;
       align-items: flex-end;
-      top: 0;
-      left: 0;
-      right: 0;
       padding: 0.5rem;
       width: 100%;
       max-width: 100%;
-      .icon-back {
+      .icon-close {
         display: block;
         font-size: 2rem;
+        cursor: pointer;
       }
       .a-match-game {
         display: flex;
@@ -244,7 +245,7 @@
               }
             }
             .table-row-btns {
-              width: fit-content;
+              width: 10rem;
             }
           }
         }
@@ -302,10 +303,10 @@
         position: relative;
         margin: 0 auto;
         max-width: 550px;
-        .icon-back {
-          display: none;
-        }
       }
+    }
+    .hide-selector {
+      display: flex;
     }
   }
 }

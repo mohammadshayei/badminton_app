@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { IoTrashBin } from "react-icons/io5";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 import { useNavigate } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
 const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowGame, createAccess, data, day, index, setShowGames, referees, teams, tournamentId }) => {
     const [loading, setLoading] = useState('')
@@ -376,6 +377,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                             margin: "0 1rem",
                             fontSize: "clamp(0.8rem,1vw,0.9rem)",
                             opacity: data?.games?.length > 0 ? 1 : 0,
+                            color: theme.error,
                         }}
                         config={{
                             disabled: !data?.games?.length > 0
@@ -385,6 +387,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                             setShowGames(false)
                         }}
                     >
+                        <IoClose />
                         {stringFa.close}
                     </TransparentButton>
                     : <TransparentButton
@@ -393,6 +396,7 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                             margin: "0 1rem",
                             fontSize: "clamp(0.8rem,1vw,0.9rem)",
                             opacity: data?.games?.length > 0 ? 1 : 0,
+                            color: theme.secondary,
                         }}
                         config={{
                             disabled: !data?.games?.length > 0
