@@ -1,3 +1,176 @@
 .tournament-overview-container {
-  direction: ltr;
+  padding: 1rem;
+  .days-and-gym-selector {
+    display: flex;
+    margin-bottom: 1rem;
+    .day-selector-container {
+      display: flex;
+      justify-content: flex-start;
+      margin: 0 0.25rem;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      .day {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        width: 3.2rem;
+        min-width: 3.2rem;
+        height: 3.6rem;
+        margin: 0 0.25rem;
+        border: 1px solid;
+        overflow: hidden;
+        transition: all 50ms ease-in-out;
+        .day-head {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 35%;
+          padding: 0.25rem 0.5rem;
+          font-size: 0.7rem;
+          transition: all 50ms ease-in-out;
+          white-space: nowrap;
+        }
+        .day-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 65%;
+          transition: all 50ms ease-in-out;
+          .day-digit {
+            font-size: 1.2rem;
+            line-height: 1.2rem;
+          }
+          p {
+            font-size: 0.6rem;
+            line-height: 0.6rem;
+          }
+        }
+      }
+    }
+    .gym-selector {
+      margin-right: auto;
+    }
+  }
+  .games-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+    .a-match-game {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin: 0.5rem 0;
+      // max-width: 25rem;
+      padding: 0.5rem;
+      position: relative;
+      font-size: 0.8rem; //4vw
+      border-bottom: 1px solid;
+      border-radius: 20px;
+      .match-game-index {
+        border-radius: 40px;
+        padding: 0.5em 1em;
+        font-size: 0.7rem; //3vw
+      }
+      .match-game-report {
+        position: absolute;
+        left: 1rem;
+        top: 7px;
+        cursor: pointer;
+      }
+      .match-game-details {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        .match-game-team {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0.25rem 0;
+          .players {
+            display: flex;
+            flex-direction: column;
+            .player {
+              display: flex;
+              align-items: center;
+              .player-image {
+                margin: 0 0.5rem;
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                object-fit: cover;
+              }
+            }
+          }
+          .scores {
+            display: flex;
+            p {
+              margin: 0 0.5rem;
+              width: 1rem;
+              text-align: center;
+            }
+          }
+        }
+      }
+      .live-game {
+        position: relative;
+        width: fit-content;
+        align-self: flex-end;
+        .live-indicator {
+          position: absolute;
+          top: 0;
+          right: 100%;
+          background: rgb(94, 197, 62);
+          border-radius: 50%;
+          box-shadow: 0 0 0 0 rgb(94, 197, 62);
+          height: 5px;
+          width: 5px;
+          animation: pulse-green 2s infinite;
+        }
+      }
+      .dash {
+        display: none;
+      }
+    }
+  }
+}
+@media only screen and (min-width: 530px) {
+  .tournament-overview-container {
+    .games-container {
+      .a-match-game {
+        margin-bottom: 0.5rem;
+        // min-width: 30rem;
+        width: 30rem;
+        margin: 0 1rem;
+        .match-game-details {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          .match-game-team {
+            flex: 1;
+            .scores {
+              flex-direction: column;
+            }
+          }
+          .dash {
+            display: block;
+          }
+        }
+        .live-game {
+          align-self: center;
+        }
+        .left {
+          direction: ltr;
+        }
+      }
+    }
+  }
 }

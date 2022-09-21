@@ -23,6 +23,7 @@ import { Icon } from '@iconify/react';
 import Games from './TournamentParts/Games/Games'
 import Footer from '../Footer/Footer'
 import LeagueOverview from './TournamentParts/LeagueOverview/LeagueOverview'
+import Overview from './TournamentParts/Overview/Overview'
 
 const TournamentPage = ({ id }) => {
     const [tournament, setTournament] = useState(null)
@@ -133,6 +134,8 @@ const TournamentPage = ({ id }) => {
         updatedFilterSelectors[key].selected = true;
         setFilterSelectors(updatedFilterSelectors);
         setContent(null)
+        setSearchValue('')
+        setSearchListItem([])
         navigate(`/tournaments/${id}?part=${key}`)
     }
 
@@ -167,6 +170,10 @@ const TournamentPage = ({ id }) => {
         let updatedFilterSelectors
         if (tournament?.free_ranking) {
             updatedFilterSelectors = {
+                overviewTournament: {
+                    text: "نتایج",
+                    selected: true,
+                },
                 player: {
                     text: "بازیکن ها",
                     selected: false,
@@ -179,10 +186,16 @@ const TournamentPage = ({ id }) => {
                     text: "سالن ها",
                     selected: false,
                 },
-                games: {
-                    text: "بازی ها",
-                    selected: true,
-                },
+            }
+            if (user?._id === tournament?.chief._id) {
+                updatedFilterSelectors = {
+                    ...updatedFilterSelectors,
+                    games: {
+                        text: "بازی ها",
+                        selected: false,
+
+                    }
+                }
             }
         } else {
             updatedFilterSelectors = {
@@ -246,6 +259,7 @@ const TournamentPage = ({ id }) => {
         }
         setFilterSelectors(updatedFilterSelectors)
     }, [todayMatchAccess])
+
 
     useEffect(() => {
         if (!item) {
@@ -569,93 +583,94 @@ const TournamentPage = ({ id }) => {
                         <LeagueOverview tournamentId={id} /> :
                         part === "todayMatch" ?
                             <TodayMatch tournamentId={id} createAccess={createAccess} /> :
-                            part === "games" ?
-                                <Games
-                                    tournamentId={id}
-                                    createAccess={user?._id === tournament?.chief._id}
-                                    gameDate={tournament?.game_date}
-                                /> :
-
-                                <div className='tournament-body'>
-                                    <div className='tournament-search'>
-                                        <TournamentItemSearch
-                                            searchValue={searchValue}
-                                            searchPlaceHolder={`جستجو ${partTitle}`}
-                                            searchListItems={
-                                                searchListItems.filter(item => listItem
-                                                    .findIndex(i => i._id === item._id) < 0)}
-                                            onSearch={onSearch}
-                                            searchLoading={searchLoading}
-                                            onAddItemToTournament={onAddItemToTournament}
-                                            selector={() => {
-                                                if (part === 'team') return 'name'
-                                                else if (part === 'player' || part === 'referee') return 'username'
-                                                if (part === 'gym') return 'title'
-                                            }}
-                                            createAccess={part === 'referee' ? (user?._id === tournament?.chief?._id) || todayMatchAccess : createAccess}
-                                        />
-                                        {
-                                            createAccess &&
-                                            <Button
-                                                onClick={onAddItemClickHandler}
-                                            >
-                                                <div className='button-add'>
-                                                    <AiOutlinePlus style={{ fontSize: 15 }} />
-                                                    <p>{`${partTitle} جدید`}</p>
-                                                </div>
-                                            </Button>
-                                        }
-                                    </div>
-                                    <div className='tournament-content'>
-                                        <div className={`tournament-list-items ${showInputForm ? 'hide' : ''}`}>
+                            part === "overviewTournament" ?
+                                <Overview tournamentId={id} createAccess={createAccess} /> :
+                                part === "games" ?
+                                    <Games
+                                        tournamentId={id}
+                                        createAccess={user?._id === tournament?.chief._id}
+                                        gameDate={tournament?.game_date}
+                                    /> :
+                                    <div className='tournament-body'>
+                                        <div className='tournament-search'>
+                                            <TournamentItemSearch
+                                                searchValue={searchValue}
+                                                searchPlaceHolder={`جستجو ${partTitle}`}
+                                                searchListItems={
+                                                    searchListItems.filter(item => listItem
+                                                        .findIndex(i => i._id === item._id) < 0)}
+                                                onSearch={onSearch}
+                                                searchLoading={searchLoading}
+                                                onAddItemToTournament={onAddItemToTournament}
+                                                selector={() => {
+                                                    if (part === 'team') return 'name'
+                                                    else if (part === 'player' || part === 'referee') return 'username'
+                                                    if (part === 'gym') return 'title'
+                                                }}
+                                                createAccess={part === 'referee' ? (user?._id === tournament?.chief?._id) || todayMatchAccess : createAccess}
+                                            />
                                             {
-                                                contentLoading ?
-                                                    [...Array(5).keys()].map((v) =>
-                                                        <Skeleton
-                                                            key={v}
-                                                            className="tournament-item"
-                                                            direction='rtl'
-                                                            baseColor={theme.border_color}
-                                                            highlightColor={theme.darken_border_color}
-                                                            style={{ border: "none" }}
-                                                        />) :
-                                                    filteredListItems.length > 0 ?
-                                                        filteredListItems.map((item, index) =>
-                                                            <TeamItem
-                                                                key={item._id}
-                                                                index={index + 1}
-                                                                indexNeeded={part === 'team' ? true : false}
-                                                                item={item}
-                                                                isReferee={tournament?.chief._id === user?._id}
-                                                                selector={() => {
-                                                                    if (part === 'team') return 'name'
-                                                                    else if (part === 'player' || part === 'referee') return 'username'
-                                                                    else if (part === 'gym') return 'title'
-                                                                }}
-                                                                onClick={() => onItemClick(item._id)}
-                                                            />
-                                                        )
-                                                        : <div className='not_found'>
-                                                            <Icon
-                                                                icon="uit:exclamation-circle"
-                                                                fontSize="3rem"
-                                                                opacity={0.3}
-                                                                color={theme.on_background}
-                                                                style={{ marginBottom: "1rem" }}
-                                                            />
-                                                            {stringFa.item_not_found}
-                                                        </div>
+                                                createAccess &&
+                                                <Button
+                                                    onClick={onAddItemClickHandler}
+                                                >
+                                                    <div className='button-add'>
+                                                        <AiOutlinePlus style={{ fontSize: 15 }} />
+                                                        <p>{`${partTitle} جدید`}</p>
+                                                    </div>
+                                                </Button>
                                             }
                                         </div>
-                                        <div className={`tournament-item-input ${createAccess ? "item-input-form" : ""}`}
-                                            style={{
-                                                backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
-                                                display: showInputForm ? 'flex' : 'none',
-                                            }}>
-                                            {form}
+                                        <div className='tournament-content'>
+                                            <div className={`tournament-list-items ${showInputForm ? 'hide' : ''}`}>
+                                                {
+                                                    contentLoading ?
+                                                        [...Array(5).keys()].map((v) =>
+                                                            <Skeleton
+                                                                key={v}
+                                                                className="tournament-item"
+                                                                direction='rtl'
+                                                                baseColor={theme.border_color}
+                                                                highlightColor={theme.darken_border_color}
+                                                                style={{ border: "none" }}
+                                                            />) :
+                                                        filteredListItems.length > 0 ?
+                                                            filteredListItems.map((item, index) =>
+                                                                <TeamItem
+                                                                    key={item._id}
+                                                                    index={index + 1}
+                                                                    indexNeeded={part === 'team' ? true : false}
+                                                                    item={item}
+                                                                    isReferee={tournament?.chief._id === user?._id}
+                                                                    selector={() => {
+                                                                        if (part === 'team') return 'name'
+                                                                        else if (part === 'player' || part === 'referee') return 'username'
+                                                                        else if (part === 'gym') return 'title'
+                                                                    }}
+                                                                    onClick={() => onItemClick(item._id)}
+                                                                />
+                                                            )
+                                                            : <div className='not_found'>
+                                                                <Icon
+                                                                    icon="uit:exclamation-circle"
+                                                                    fontSize="3rem"
+                                                                    opacity={0.3}
+                                                                    color={theme.on_background}
+                                                                    style={{ marginBottom: "1rem" }}
+                                                                />
+                                                                {stringFa.item_not_found}
+                                                            </div>
+                                                }
+                                            </div>
+                                            <div className={`tournament-item-input ${createAccess ? "item-input-form" : ""}`}
+                                                style={{
+                                                    backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
+                                                    display: showInputForm ? 'flex' : 'none',
+                                                }}>
+                                                {form}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
             }
             <Footer />
         </div>

@@ -28,7 +28,8 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
     const [gym, setGym] = useState({ id: "", value: "" })
     const [landNumbers, setLandNumbers] = useState([])
     const [gyms, setGyms] = useState([])
-
+    const [maxGameNumber, setMaxGameNumber] = useState(0)
+    const [error, setError] = useState('')
 
 
 
@@ -40,6 +41,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
 
     const onChangeDatePicker = async (e) => {
         setDialog(null)
+        if (error === 'date') setError('')
         setDateValue(new Date(e))
         try {
             setDateLoading(true)
@@ -97,6 +99,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             }
             else {
                 setupGames(result.data.selectedDay.games)
+                setMaxGameNumber(parseInt(result.data.maxGameNumber))
             }
             setLoading(false)
         } catch (error) {
@@ -107,6 +110,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
 
     const onChangeGym = async e => {
         setDialog(null)
+        if (error === 'gym') setError('')
         setGym({ id: e.id, value: e.text })
         try {
             const result = await dynamicApi({ tournamentId, itemId: e.id }, token, 'set_gym')
@@ -194,18 +198,19 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
         let gameIndex = updatedGames.findIndex(item => item._id === gameKey)
         if (gameIndex < 0) return;
         if (!gym.id) {
-            setDialog(<ErrorDialog type="error">سالن را انتخاب کنید</ErrorDialog>)
+            setError('gym')
+            // setDialog(<ErrorDialog type="error">سالن را انتخاب کنید</ErrorDialog>)
             return;
         }
-        // if (!updatedGames[gameIndex].court.value && updatedGames[gameIndex].officials.umpire[0]._id) {
-        //     setDialog(<ErrorDialog type="error">شماره زمین را باید تعیین کنید</ErrorDialog>)
-        //     return;
-        // }
+        if (!updatedGames[gameIndex].court.value && updatedGames[gameIndex].officials.umpire[0]._id) {
+            setDialog(<ErrorDialog type="error">شماره زمین را باید تعیین کنید</ErrorDialog>)
+            return;
+        }
         let path, payload = {
             gameType: updatedGames[gameIndex].players.b.length === 2 ? 'double' : "single",
             gameNumber: updatedGames[gameIndex].gameNumber,
-            // landNumber: updatedGames[gameIndex].court.value,
-            landNumber: '1',
+            landNumber: updatedGames[gameIndex].court.value,
+            // landNumber: '1',
             playersTeamA: updatedGames[gameIndex].players.a.map(item => item._id),
             playersTeamB: updatedGames[gameIndex].players.b.map(item => item._id),
             gymId: gym.id,
@@ -302,11 +307,17 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
         setGames(updatedGames)
     }
     const onCreateNewGame = () => {
+        if (!dateValue) {
+            // setDialog(<ErrorDialog type="error">لطفا تاریخ روز را انتخاب کنید</ErrorDialog>)
+            setError('date')
+            return;
+        }
         let updatedGames = [...games]
         let max = 0;
         updatedGames.forEach(item => {
             if (parseInt(item.gameNumber) > max) max = parseInt(item.gameNumber)
         })
+        if (maxGameNumber > max) max = maxGameNumber
         updatedGames.push(
             {
                 _id: uuidv4().replace(/\-/g, ""),
@@ -393,6 +404,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                         }
                     }))
                 }
+                setMaxGameNumber(parseInt(fetchedData.data.maxGameNumber))
                 setTournamentDays(updatedTournamentsDay)
                 setupGames(fetchedData.data.selectedDay.games)
                 setLoading(false)
@@ -460,20 +472,34 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                 }
             </div>
             <div className="gym-selector">
-                <div>نام سالن</div>
-                <CustomInput
-                    placeHolder={stringFa.undefined}
-                    elementType={elementTypes.dropDown}
-                    onChange={onChangeGym}
-                    items={gyms.map(item => {
-                        return {
-                            id: item.gym._id,
-                            text: item.gym.title,
-                        }
-                    })}
-                    value={gym.value}
-                    inputContainer={{ padding: "0" }}
-                />
+
+                {
+                    createAccess ?
+                        <>
+                            <div>نام سالن</div>
+                            <CustomInput
+                                placeHolder={stringFa.undefined}
+                                elementType={elementTypes.dropDown}
+                                onChange={onChangeGym}
+                                items={gyms.map(item => {
+                                    return {
+                                        id: item.gym._id,
+                                        text: item.gym.title,
+                                    }
+                                })}
+                                shouldValidate={true}
+                                invalid={error === 'gym'}
+                                touched={true}
+                                value={gym.value}
+                                inputContainer={{ padding: "0" }}
+                            />
+                        </> :
+                        <TextComponent
+                            value={gym.value}
+                            title={'نام سالن '}
+                        />
+                }
+
             </div>
         </div>
         <div className="date-of-day">
@@ -481,6 +507,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                 createAccess ?
                     <CustomInput
                         title={stringFa.date}
+                        invalid={error === 'date'}
                         elementType={elementTypes.datePicker}
                         value={dateValue}
                         inputContainer={{ paddingBottom: "0" }}
@@ -497,12 +524,14 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                     />
             }
         </div>
-        <TransparentButton
-            onClick={onCreateNewGame}
-            ButtonStyle={{ color: theme.primary, alignSelf: "center" }}
-        >
-            {`+ ${stringFa.new_game}`}
-        </TransparentButton>
+        {createAccess &&
+            <TransparentButton
+                onClick={onCreateNewGame}
+                ButtonStyle={{ color: theme.primary, alignSelf: "center" }}
+            >
+                {`+ ${stringFa.new_game}`}
+            </TransparentButton>
+        }
         <div className="games-wrapper">
             {loading ?
                 <Loading /> :
@@ -519,7 +548,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                             officials={officials}
                             itemLoading={itemLoading}
                             toggleType={toggleType}
-                            onChangeCourt_GameNumber={onChangeCourt_GameNumber}
+                            onChangeGameInfo={onChangeCourt_GameNumber}
                             onChange={onChange}
                             onSave={onSave}
                             onRemove={onRemove}

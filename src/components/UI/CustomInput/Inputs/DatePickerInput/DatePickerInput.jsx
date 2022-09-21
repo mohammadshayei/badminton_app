@@ -40,7 +40,7 @@ const DatePickerInput = (props) => {
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
-                    borderColor: focus ? theme.primary : theme.darken_border_color,
+                    borderColor: props.invalid ? theme.error : focus ? theme.primary : theme.darken_border_color,
                 }}
             />
         </div>
