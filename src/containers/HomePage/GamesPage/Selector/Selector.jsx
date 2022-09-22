@@ -255,10 +255,16 @@ const Selector = (props) => {
                             )}
                         </div>
                         <div className="action-btns">
-                            {(props.exitable || index > 2) && <p className="prev" onClick={backClick}>
-                                {index === 1 ? "Exit" : "Back"}
-                            </p>}
-                            <Button onClick={nextClick}>{index === max ? "Save" : "Next"}</Button>
+                            {(props.exitable || index > 2) &&
+                                <p className="prev"
+                                    onClick={backClick}
+                                    style={{
+                                        color: theme.secondary
+                                    }}
+                                >
+                                    {index === 1 ? "Exit" : "Back"}
+                                </p>}
+                            {/* <Button onClick={nextClick}>{index === max ? "Save" : "Next"}</Button> */}
                         </div>
                     </>
             }
