@@ -1,10 +1,12 @@
 .simple-scoreboard-container {
+  background-color: #2e454b;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   width: 100%;
   color: whitesmoke;
   font-size: clamp(1rem, 8vw, 12vh);
+  padding: 1rem;
   direction: rtl;
   .player-block-view {
     display: flex;
