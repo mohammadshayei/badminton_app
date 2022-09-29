@@ -80,7 +80,6 @@ const GameReport = () => {
     const calTableCount = (n) => {
         setTableCount(e => e + n)
     }
-    console.log(game?.sets)
     return (
         <div className='game-report-wrapper'>
             <div className="actions-box">

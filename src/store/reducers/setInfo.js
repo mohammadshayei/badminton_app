@@ -359,9 +359,10 @@ const setScoreboardData = (state, action) => {
 
 const setChosen = (state, action) => {
     const { id, index } = action.payload;
-    let team, server, receiver = 0, right;
+    let team, otherTeam, server, receiver = 0, right;
     let isTop = true;
     team = state.team1.players.find(item => item.id === id) ? 'team1' : "team2";
+    otherTeam = team === 'team1' ? 'team2' : 'team1';
     if (index === 1)
         right = true;
     else if (index === 2) {
@@ -386,6 +387,10 @@ const setChosen = (state, action) => {
             server: index === 2 ? server : state[team].server,
             isTop: index !== 1 ? isTop : state[team].isTop,
             receiver: index !== 1 ? receiver : state[team].receiver,
+        },
+        [otherTeam]: {
+            ...state[otherTeam],
+            isRightTeam: index === 1 ? !right : state[otherTeam].isRightTeam,
         },
     };
 };

@@ -404,7 +404,7 @@ const TodayMatch = ({ tournamentId, createAccess }) => {
                             listBPlayers={teamBPlayers}
                             officials={officials}
                             teamsName={teamsName}
-                            onChangeGameNumber={onChangeGameNumber}
+                            onChangeGameInfo={onChangeGameNumber}
                             onChange={onChange}
                             onSave={onSave}
                             onRemove={onRemove}

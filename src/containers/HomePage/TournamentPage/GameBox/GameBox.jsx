@@ -8,6 +8,7 @@ import Button from "../../../../components/UI/Button/Button";
 import Modal from "../../../../components/UI/Modal/Modal";
 import { useState } from "react";
 import GameResult from "./GameResult/GameResult";
+import TextComponent from "../../../../components/UI/TextComponent/TextComponent";
 
 const GameBox = ({
     game,
@@ -15,13 +16,14 @@ const GameBox = ({
     listAPlayers,
     listBPlayers,
     officials,
-    onChangeGameNumber,
+    onChangeGameInfo,
     onChange,
     onRemove,
     onSave,
     toggle,
     itemLoading,
     toggleType,
+    landNumbers,
     createAccess
 }) => {
     const [result, setResult] = useState(false);
@@ -42,22 +44,30 @@ const GameBox = ({
         }
         <div className="match-game-header">
             <div className="match-game-number">
-                <CustomInput
-                    elementConfig={{
-                        placeholder: stringFa.number_of_game,
-                    }}
-                    inputContainer={{
-                        padding: "0",
-                        width: "100px",
-                    }}
-                    inputStyle={{
-                        fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
-                        minWidth: "100px",
-                        direction: "ltr"
-                    }}
-                    onChange={(e) => onChangeGameNumber(e, game._id)}
-                    value={game.gameNumber}
-                />
+                {
+                    createAccess ?
+                        <CustomInput
+                            elementConfig={{
+                                placeholder: stringFa.number_of_game,
+                            }}
+                            inputContainer={{
+                                padding: "0",
+                                width: "100px",
+                            }}
+                            inputStyle={{
+                                fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
+                                minWidth: "100px",
+                                direction: "ltr"
+                            }}
+                            onChange={(e) => onChangeGameInfo(e, game._id)}
+                            value={game.gameNumber}
+                        />
+                        :
+                        <TextComponent
+                            value={game.gameNumber}
+                            title={'شماره بازی '}
+                        />
+                }
             </div>
             <div className="match-game-index"
                 style={{
@@ -80,25 +90,37 @@ const GameBox = ({
                     }
                 </div>
             }
-
-            {/* <div className="match-game-number  game-court">
-                <CustomInput
-                    placeHolder={'court'}
-                    elementType={elementTypes.dropDown}
-                    onChange={(e) => onChangeCourt_GameNumber(e, game._id, 'court')}
-                    items={landNumbers}
-                    value={game.court.value}
-                    inputStyle={{
-                        fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
-                        minWidth: "50px",
-                        direction: "ltr"
-                    }}
-                    inputContainer={{
-                        padding: "0",
-                        width: "100px",
-                    }}
-                />
-            </div> */}
+            {
+                landNumbers &&
+                <div className="match-game-number game-court">
+                    {
+                        createAccess ?
+                            <CustomInput
+                                placeHolder={'court'}
+                                elementType={elementTypes.dropDown}
+                                onChange={(e) => onChangeGameInfo(e, game._id, 'court')}
+                                items={landNumbers}
+                                value={game.court.value}
+                                inputStyle={{
+                                    fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
+                                    minWidth: "50px",
+                                    direction: "ltr"
+                                }}
+                                inputContainer={{
+                                    padding: "0",
+                                    width: "100px",
+                                }}
+                            />
+                            :
+                            <div className="not-access_game_court">
+                                <TextComponent
+                                    value={game.court.value}
+                                    title={'شماره زمین '}
+                                />
+                            </div>
+                    }
+                </div>
+            }
         </div>
         <div className="match-game-details">
             {
@@ -110,24 +132,32 @@ const GameBox = ({
                         <div className="detail-items">
                             {[...new Array(v.length)].map((_, k3) =>
                                 <div key={k3} className="detail-item">
-                                    <CustomInput
-                                        placeHolder={stringFa.undefined}
-                                        elementType={elementTypes.dropDown}
-                                        items={k2 === 'b' ? listBPlayers?.map(item => {
-                                            return {
-                                                id: item._id,
-                                                text: item.username,
-                                            }
-                                        }) : listAPlayers?.map(item => {
-                                            return {
-                                                id: item._id,
-                                                text: item.username,
-                                            }
-                                        })}
-                                        onChange={(e) => onChange(e, game._id, k2, k3, 'player')}
-                                        value={game.players[k2][k3].value}
-                                        inputContainer={{ padding: "0" }}
-                                    />
+                                    {
+                                        createAccess ?
+                                            <CustomInput
+                                                placeHolder={stringFa.undefined}
+                                                elementType={elementTypes.dropDown}
+                                                items={k2 === 'b' ? listBPlayers?.map(item => {
+                                                    return {
+                                                        id: item._id,
+                                                        text: item.username,
+                                                    }
+                                                }) : listAPlayers?.map(item => {
+                                                    return {
+                                                        id: item._id,
+                                                        text: item.username,
+                                                    }
+                                                })}
+                                                onChange={(e) => onChange(e, game._id, k2, k3, 'player')}
+                                                value={game.players[k2][k3].value}
+                                                inputContainer={{ padding: "0" }}
+                                            />
+                                            :
+                                            <TextComponent
+                                                value={game.players[k2][k3].value}
+                                            // title={'نام سالن '}
+                                            />
+                                    }
                                 </div>
                             )}
                         </div>
@@ -146,24 +176,39 @@ const GameBox = ({
                     <div key={k2} className={`game-detail-section ${k2 === 'serviceJudge' ? "left" : ''}`}
                         style={{ opacity: game.officialsOpen ? 1 : 0 }}
                     >
-                        <div className="detail-name">
-                            {k2 === 'serviceJudge' ? 'داور سرویس' : 'داور'}
-                        </div>
+
                         {[...new Array(v.length)].map((_, k3) =>
                             <div key={k3} className="detail-items">
-                                <CustomInput
-                                    placeHolder={stringFa.undefined}
-                                    elementType={elementTypes.dropDown}
-                                    items={officials.map(item => {
-                                        return {
-                                            id: item.referee._id,
-                                            text: item.referee.username,
-                                        }
-                                    })}
-                                    inputContainer={{ padding: "0" }}
-                                    onChange={(e) => onChange(e, game._id, k2, k3, 'official')}
-                                    value={game.officials[k2][k3].value}
-                                />
+                                {
+                                    createAccess ?
+                                        <>
+                                            <div className="detail-name">
+                                                {k2 === 'serviceJudge' ? 'داور سرویس' : 'داور'}
+                                            </div>
+                                            <CustomInput
+                                                placeHolder={stringFa.undefined}
+                                                elementType={elementTypes.dropDown}
+                                                items={officials.map(item => {
+                                                    return {
+                                                        id: item.referee._id,
+                                                        text: item.referee.username,
+                                                    }
+                                                })}
+                                                inputContainer={{ padding: "0" }}
+                                                onChange={(e) => onChange(e, game._id, k2, k3, 'official')}
+                                                value={game.officials[k2][k3].value}
+                                            />
+                                        </>
+
+                                        :
+                                        <TextComponent
+                                            value={game.officials[k2][k3].value}
+                                            title={k2 === 'serviceJudge' ? 'داور سرویس' : 'داور'}
+
+                                        />
+
+                                }
+
                             </div>
                         )}
                     </div>)

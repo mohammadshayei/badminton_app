@@ -7,6 +7,7 @@ import { getGame } from "../../api/scoreboard";
 import ErrorDialog from "../../components/UI/Error/ErrorDialog";
 import SimpleScoreBoard from "./SimpleScoreBoard/SimpleScoreBoard";
 import StadiumScoreBoard from "./StadiumScoreBoard/StadiumScoreBoard";
+import RawData from "./RawData";
 
 const ScoreboardView = () => {
     const [data, setData] = useState(null);
@@ -34,6 +35,7 @@ const ScoreboardView = () => {
     const gameId = searchParams.get("gameId");
     const gymId = searchParams.get("gymId");
     const landNumber = searchParams.get("landNumber");
+    const mode = searchParams.get("mode");
 
 
     useEffect(() => {
@@ -215,20 +217,29 @@ const ScoreboardView = () => {
     // }, [setWonner])
 
     useEffect(() => {
-        setSelectedSkin(
-            <SimpleScoreBoard
-                data={data}
-                gameScores={gameScores}
-            />
-            // <StadiumScoreBoard
-            //     data={data}
-            //     gameScores={gameScores}
-            //     game={game}
-            //     count={count}
-            //     allCount={allCount}
-            // />
-        )
-    }, [data, gameScores, game, count, allCount]);
+        switch (mode) {
+            case "html":
+                setSelectedSkin(
+                    <RawData data={data} />
+                )
+                break;
+            default:
+                setSelectedSkin(
+                    <SimpleScoreBoard
+                        data={data}
+                        gameScores={gameScores}
+                    />
+                    // <StadiumScoreBoard
+                    //     data={data}
+                    //     gameScores={gameScores}
+                    //     game={game}
+                    //     count={count}
+                    //     allCount={allCount}
+                    // />
+                )
+                break;
+        }
+    }, [data, gameScores, game, count, allCount, mode]);
 
 
     return (
