@@ -121,7 +121,7 @@ export const getDateInfo = (date) => {
         var daysun = dtedte + 9;
       } else {
         var sunmonth = "مهر";
-        var daysun = dtedte + 22;
+        var daysun = dtedte - 22;
       }
       break;
     case 9:
