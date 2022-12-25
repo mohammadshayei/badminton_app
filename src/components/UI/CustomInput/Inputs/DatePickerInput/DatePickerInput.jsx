@@ -30,6 +30,7 @@ const DatePickerInput = (props) => {
                 onChange={props.onChange}
                 // fixMainPosition={true}
                 portal
+                zIndex={1501}
                 placeholder='---- / -- / --'
                 calendarPosition='top'
                 editable={false}

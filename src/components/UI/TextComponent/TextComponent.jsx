@@ -11,7 +11,6 @@ const TextComponent = ({ title, value, style }) => {
       <p
         style={{
           color: value ? theme.on_background : theme.darken_border_color,
-          fontStyle: value ? "italic" : "normal",
           opacity: value ? 0.5 : 1
         }}
       >{value ? value : "وجود ندارد"}</p>

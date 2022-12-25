@@ -19,7 +19,7 @@ const GetPhoneNumber = (props) => {
             value: '',
             elementType: 'input',
             elementConfig: {
-                inputmode: "numeric",
+                inputMode: "numeric",
                 placeholder: stringFa.phone,
                 type: 'text',
                 pattern: "[0-9]+",

@@ -7,7 +7,7 @@ import InputForm from "../../../../components/UI/InputForm/InputForm";
 import Button from "../../../../components/UI/Button/Button";
 import { useNavigate } from "react-router-dom";
 import TransparentButton from "../../../../components/UI/Button/TransparentButton/TransparentButton";
-import { createTournament, dynamicApi, formDataDynamic } from "../../../../api/home";
+import { dynamicApi, formDataDynamic } from "../../../../api/home";
 import { useSelector } from "react-redux";
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 import { useLocation } from 'react-router-dom'
@@ -46,7 +46,7 @@ const TournamentForm = () => {
             hint: "تعداد روزها به عدد",
             elementConfig: {
                 type: 'text',
-                inputmode: "numeric",
+                inputMode: "numeric",
             },
             elementType: elementTypes.titleInput,
             validationMessage: stringFa.day_count_error,
@@ -96,9 +96,6 @@ const TournamentForm = () => {
         startDate: {
             value: '',
             title: stringFa.start_date,
-            elementConfig: {
-                type: 'text',
-            },
             elementType: elementTypes.datePicker,
             validationMessage: '',
             invalid: true,
@@ -112,9 +109,6 @@ const TournamentForm = () => {
         endDate: {
             value: '',
             title: stringFa.end_date,
-            elementConfig: {
-                type: 'text',
-            },
             elementType: elementTypes.datePicker,
             validationMessage: '',
             invalid: true,
