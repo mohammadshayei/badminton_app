@@ -4,9 +4,8 @@ import CustomInput, { elementTypes } from "../../../../components/UI/CustomInput
 import { useTheme } from "../../../../styles/ThemeProvider";
 import "./GameBox.scss";
 import { IoTrashBin } from "react-icons/io5";
-import Button from "../../../../components/UI/Button/Button";
 import Modal from "../../../../components/UI/Modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameResult from "./GameResult/GameResult";
 import TextComponent from "../../../../components/UI/TextComponent/TextComponent";
 
@@ -31,7 +30,20 @@ const GameBox = ({
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    return <div className="tournament-game-box"
+    useEffect(() => {
+        if (!game._id) return;
+        let gameBox = document.getElementById(`game_${game._id}`);
+        if (gameBox) {
+            gameBox.style.animationName = "none";
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    gameBox.style.animationName = "new-pulse"
+                }, 0);
+            });
+        }
+    }, [game?._id]);
+
+    return <div id={`game_${game._id}`} className="tournament-game-box"
         style={{
             backgroundColor: theme.surface
         }}
@@ -73,7 +85,8 @@ const GameBox = ({
                 style={{
                     backgroundColor: game.status > -1 ? theme.primary : theme.darken_border_color, //if done -> theme.primary
                     color: theme.on_primary,
-                    cursor: toggleType ? 'pointer' : 'auto'
+                    cursor: toggleType ? 'pointer' : 'auto',
+                    animationName: game.status > -1 ? "unset" : "shadow-pulse"
                 }}
                 onClick={() => toggleType && toggleType(game._id)}
             >{game.title}
@@ -104,7 +117,8 @@ const GameBox = ({
                                 inputStyle={{
                                     fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
                                     minWidth: "50px",
-                                    direction: "ltr"
+                                    direction: "ltr",
+                                    animationName: game.court.value ? "unset" : "border-pulse"
                                 }}
                                 inputContainer={{
                                     padding: "0",
@@ -151,6 +165,9 @@ const GameBox = ({
                                                 onChange={(e) => onChange(e, game._id, k2, k3, 'player')}
                                                 value={game.players[k2][k3].value}
                                                 inputContainer={{ padding: "0" }}
+                                                inputStyle={{
+                                                    animationName: game.players[k2][k3].value ? "unset" : "border-pulse"
+                                                }}
                                             />
                                             :
                                             <TextComponent
@@ -197,6 +214,9 @@ const GameBox = ({
                                                 inputContainer={{ padding: "0" }}
                                                 onChange={(e) => onChange(e, game._id, k2, k3, 'official')}
                                                 value={game.officials[k2][k3].value}
+                                                inputStyle={{
+                                                    animationName: game.officials[k2][k3].value ? "unset" : "border-pulse"
+                                                }}
                                             />
                                         </>
 

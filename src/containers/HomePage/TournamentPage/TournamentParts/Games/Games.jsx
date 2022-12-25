@@ -329,7 +329,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                 officials: { umpire: [{ _id: "", value: "" },], serviceJudge: [{ _id: "", value: "" },] },
                 saved: false,
                 loading: false,
-                officialsOpen: false,
+                officialsOpen: true,
                 fetched: false,
             }
         )
@@ -556,7 +556,9 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
                             createAccess={createAccess}
                         />
                     )
-                    : "لیست بازی ها خالی است."}
+                    :
+                    " بازی وجود ندارد"
+            }
         </div>
     </div>;
 };

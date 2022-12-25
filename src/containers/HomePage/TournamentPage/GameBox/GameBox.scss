@@ -8,6 +8,8 @@
   padding: 0.5rem;
   margin: 0.5rem;
   border-radius: 10px;
+  animation-duration: 500ms;
+  animation-fill-mode: forwards;
   .match-game-header {
     display: flex;
     width: 100%;
@@ -21,6 +23,9 @@
       border-bottom-right-radius: 15px;
       font-size: clamp(0.8rem, 1vw, 1rem);
       padding: 0.3em 1em;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
     }
     .match-game-report {
       position: absolute;
@@ -57,7 +62,7 @@
     }
     .game-court {
       justify-content: flex-end;
-      .not-access_game_court{
+      .not-access_game_court {
         width: 100%;
         display: flex;
         align-items: center;
@@ -105,22 +110,7 @@
     display: none;
   }
 }
-@keyframes pulse-green {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(100, 185, 60, 0.7);
-  }
 
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
-  }
-
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
-  }
-}
 @media only screen and (min-width: 400px) {
   .tournament-game-box {
     .match-game-header {
@@ -151,7 +141,8 @@
 
 @media only screen and (min-width: 580px) {
   .tournament-game-box {
-    max-width: calc(50vw - 70px);
+    max-width: 500px;
+    min-width: 500px;
     .match-game-details {
       .game-detail-section {
         flex-direction: row;
@@ -160,5 +151,49 @@
         }
       }
     }
+  }
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(100, 185, 60, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+  }
+}
+
+@keyframes new-pulse {
+  0% {
+    box-shadow: 0 0 0 5px #14c8cb62;
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+
+@keyframes shadow-pulse {
+  from {
+    box-shadow: none;
+  }
+  to {
+    box-shadow: 0 0 8px 2px #14c8cb62;
+  }
+}
+
+@keyframes border-pulse {
+  from {
+    border-color: rgba(255, 0, 0, 0.534);
+  }
+  to {
+    border-color: rgba(128, 128, 128, 0.5);
   }
 }

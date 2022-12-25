@@ -21,6 +21,9 @@
     border: 1px solid;
     transition: box-shadow 0.15s ease-in-out;
     cursor: pointer;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
     p {
       white-space: nowrap;
       text-overflow: ellipsis;
