@@ -184,7 +184,7 @@ const EventsBox = (props) => {
       { content: `${(info.team2.server === 2 || info.team2.receiver === 2) ? "0" : ''}` }]])
     }
   }, [info.team1.server, info.team2.server,
-  info.team1.receiver, info.team2.receiver, info.team2.setWon, info.team1.setWon, info._id])
+  info.team1.receiver, info.team2.receiver, info.team2.setWon, info.team1.setWon, info._id, info.playersSwaped])
 
   useEffect(() => {
     setMidStageStatus(false)

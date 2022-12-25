@@ -23,6 +23,7 @@ const initialState = {
         scores: [],
         setWon: 0,
     },
+    playersSwaped: false,
     events: [],
     totalEvents: [],
     balls: 1,
@@ -547,6 +548,20 @@ const cleanupsetInfo = (state) => {
 
     };
 };
+
+const swapPlayers = (state, action) => {
+    const { teamKey } = action.payload;
+
+    return {
+        ...state,
+        [teamKey]: {
+            ...state[teamKey],
+            players: state[teamKey].players.reverse()
+        },
+        playersSwaped: !state.playersSwaped,
+    };
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INCREASE_SCORE:
@@ -589,6 +604,8 @@ const reducer = (state = initialState, action) => {
             return setMidStageStatus(state, action);
         case actionTypes.CLEANUP_SET_INFO:
             return cleanupsetInfo(state);
+        case actionTypes.SWAP_PLAYERS:
+            return swapPlayers(state, action);
         default:
             return state;
     }

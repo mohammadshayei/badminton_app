@@ -19,6 +19,8 @@
       row-gap: 2vh;
       flex: 1;
       .player-block-icon {
+        --icon-size: min(max(2.5rem, 4vw), 6vh);
+        position: relative;
         grid-row: 2 / 4;
         grid-column-start: 1;
         display: flex;
@@ -26,6 +28,14 @@
         align-items: center;
         .btn-icon-img {
           font-size: clamp(2rem, 7vw, 15vh);
+        }
+        .swap-players-icon {
+          position: absolute;
+          font-size: var(--icon-size);
+          cursor: pointer;
+          &:active {
+            transform: scale(0.95);
+          }
         }
       }
       .player-name {

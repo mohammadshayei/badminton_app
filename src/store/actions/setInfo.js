@@ -123,3 +123,10 @@ export const cleanupInfo = () => {
         type: actionTypes.CLEANUP_SET_INFO,
     };
 }
+
+export const swapPlayers = (payload) => {
+    return {
+        type: actionTypes.SWAP_PLAYERS,
+        payload,
+    };
+};

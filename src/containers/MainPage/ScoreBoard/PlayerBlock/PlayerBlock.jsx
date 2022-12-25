@@ -8,6 +8,7 @@ import { HiOutlinePlusSm } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo"
 import { baseUrl } from "../../../../constants/Config";
+import { BsArrowDownUp } from "react-icons/bs";
 
 const PlayerBlock = (props) => {
   const [dynamicStyle, setdynamicStyle] = useState({});
@@ -32,6 +33,13 @@ const PlayerBlock = (props) => {
   const setPlayerPlace = (teamKey) => {
     dispatch(infoActions.setPlayerPlace(teamKey));
   };
+  const swapPlayers = (teamKey) => {
+    dispatch(infoActions.swapPlayers(teamKey));
+  };
+
+  const swapPlayersFunc = () => {
+    swapPlayers({ teamKey: props.teamKey })
+  }
 
   const selectPlayer = (id) => {
     if (info.foulHappend) {
@@ -260,6 +268,17 @@ const PlayerBlock = (props) => {
               }}
             />
           </Button>
+          {props.playerD &&
+            <BsArrowDownUp
+              className="swap-players-icon"
+              color={theme.primary}
+              style={{
+                left: props.position === "left" ? "100%" : "auto",
+                right: props.position === "left" ? "auto" : "100%",
+              }}
+              onClick={swapPlayersFunc}
+            />
+          }
         </div>
       </div>
     </div>

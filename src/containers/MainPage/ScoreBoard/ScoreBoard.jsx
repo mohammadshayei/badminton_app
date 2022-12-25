@@ -6,10 +6,9 @@ import PlayerBlock from "./PlayerBlock/PlayerBlock";
 import "./ScoreBoard.scss";
 // import back from "../../../assets/images/back_scoreboard.jpg"
 import { FaPlayCircle, FaExclamation } from "react-icons/fa";
-import { ImUndo2, ImCancelCircle } from "react-icons/im";
+import { ImUndo2, ImCancelCircle, ImArrowUpRight2 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import * as infoActions from "../../../store/actions/setInfo"
-import { ImArrowUpRight2 } from "react-icons/im";
 import Modal from "../../../components/UI/Modal/Modal"
 import Events from "../EventsModule/Events"
 import Button from "../../../components/UI/Button/Button"
@@ -676,7 +675,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
           <div className="action-buttons action-btn-right"
             style={{ opacity: info.foulHappend ? 0 : 1, zIndex: info.foulHappend && -1 }}
             disabled={disabledButton}
-            >
+          >
             <ImUndo2
               className="action-btn"
               style={{
