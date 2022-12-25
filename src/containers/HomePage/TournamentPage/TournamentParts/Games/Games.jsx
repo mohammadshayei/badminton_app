@@ -13,6 +13,7 @@ import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import TextComponent from "../../../../../components/UI/TextComponent/TextComponent";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../../../../components/UI/Loading/Loading.jsx";
+import { IoTrashBin } from "react-icons/io5";
 
 const Games = ({ tournamentId, createAccess, gameDate }) => {
     const [games, setGames] = useState([]);
@@ -50,7 +51,8 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             let payload = {
                 tournamentId,
                 dayId: selectedDay._id,
-                date: new Date(e)
+                date: new Date(e),
+                isClear: false
             }
             let updatedTournamentsDay = tournamentDays.map(item => {
                 return {
@@ -72,7 +74,41 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
         }
     }
+    const onClearDate = async () => {
+        if (!dateValue || games?.length > 0) return;
+        setDialog(null)
+        if (error === 'date') setError('')
+        setDateValue('')
+        try {
+            setDateLoading(true)
+            let selectedDay = tournamentDays.find(item => item.selected)
+            if (!selectedDay) return;
+            let payload = {
+                tournamentId,
+                dayId: selectedDay._id,
+                date: new Date(),
+                isClear: true
+            }
+            let updatedTournamentsDay = tournamentDays.map(item => {
+                return {
+                    ...item,
+                    date: selectedDay._id === item._id ? '' : item.date
+                }
+            })
+            setTournamentDays(updatedTournamentsDay)
+            const result = await dynamicApi(payload, token, 'set_date_on_day')
+            setDialog(<ErrorDialog type={result.success ? 'success' : "error"}>{result.data.message}</ErrorDialog>)
+            if (!result.success) {
+                // setDateValue(dateValue)
+                setTournamentDays(tournamentDays)
+            }
 
+            setDateLoading(false)
+        } catch (error) {
+            setDateLoading(false)
+            setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+        }
+    }
     const selectDay = async (key) => {
         let selected;
         let updatedTournamentsDay = tournamentDays.map(item => {
@@ -449,7 +485,6 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
             setGames(updatedGames)
         }))
     }, [games, socket])
-
     return <div className="tournament-games-wrapper">
         {dialog}
         <div className="days-and-gym-selector">
@@ -505,19 +540,26 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
         <div className="date-of-day">
             {
                 createAccess ?
-                    <CustomInput
-                        title={stringFa.date}
-                        invalid={error === 'date'}
-                        elementType={elementTypes.datePicker}
-                        value={dateValue}
-                        inputContainer={{ paddingBottom: "0" }}
-                        onChange={onChangeDatePicker}
-                        validation={{ bdRequired: true }}
-                        elementConfig={{
-                            minDate: gameDate ? new Date(gameDate.start) : null,
-                            maxDate: gameDate ? new Date(gameDate.end) : null,
-                        }}
-                    /> :
+                    <>
+                        <CustomInput
+                            title={stringFa.date}
+                            invalid={error === 'date'}
+                            elementType={elementTypes.datePicker}
+                            value={dateValue}
+                            inputContainer={{ paddingBottom: "0" }}
+                            onChange={onChangeDatePicker}
+                            validation={{ bdRequired: true }}
+                            elementConfig={{
+                                minDate: gameDate ? new Date(gameDate.start) : null,
+                                maxDate: gameDate ? new Date(gameDate.end) : null,
+                            }}
+                        />
+                        <IoTrashBin
+                            className={`icon-trash ${(games?.length === 0 && dateValue) ? "" : "icon-disabled"}`}
+                            onClick={onClearDate}
+                            color={theme.error}
+                        /></>
+                    :
                     <TextComponent
                         value={dateValue ? new Date(dateValue).toLocaleDateString('fa-IR') : stringFa.undefined}
                         title={stringFa.date}

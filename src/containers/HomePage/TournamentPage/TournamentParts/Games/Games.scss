@@ -59,10 +59,30 @@
     }
   }
   .date-of-day {
+    // display: flex;
+    // width: 100%;
+    // max-width: 10rem;
+    // overflow: hidden;
+    position: relative;
     display: flex;
     width: 100%;
     max-width: 10rem;
-    overflow: hidden;
+    margin-bottom: 0.5rem;
+    .icon-trash {
+      position: absolute;
+      right: calc(100% + 0.5rem);
+      top: 70%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      &:active {
+        transform: translateY(-50%) scale(0.9);
+      }
+    }
+    .icon-disabled {
+      pointer-events: none;
+      opacity: 0.7;
+      filter: grayscale(10);
+    }
   }
   .games-wrapper {
     display: flex;

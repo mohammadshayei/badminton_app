@@ -167,6 +167,7 @@ const TournamentPage = ({ id }) => {
     }
 
     useEffect(() => {
+        if (!user) return;
         let updatedFilterSelectors
         if (tournament?.free_ranking) {
             updatedFilterSelectors = {
@@ -235,7 +236,7 @@ const TournamentPage = ({ id }) => {
         }
 
         setFilterSelectors(updatedFilterSelectors)
-    }, [tournament?.free_ranking])
+    }, [tournament?.free_ranking, user])
 
     useEffect(() => {
         let updatedFilterSelectors = {
@@ -375,7 +376,6 @@ const TournamentPage = ({ id }) => {
         }
         setFilterSelectors(updatedFilterSelectors);
     }, [part])
-
     useEffect(() => {
         if (!id || !part) return;
         (async () => {
