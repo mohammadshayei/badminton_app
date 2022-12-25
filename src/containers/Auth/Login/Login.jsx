@@ -93,7 +93,7 @@ const Login = ({ navigate }) => {
             <div className="go-to-tournament"
                 onClick={() => navigate('/tournaments')}
             >
-                <IoClose style={{ color: 'black' }} />
+                <IoClose style={{ color: theme.on_background }} />
             </div>
             <div className="title-text-login"
                 style={{ color: theme.primary }}
