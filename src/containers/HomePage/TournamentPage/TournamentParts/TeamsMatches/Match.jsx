@@ -337,8 +337,9 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 <TransparentButton
                     ButtonStyle={{
                         padding: "0",
-                        margin: "0 1rem",
+                        margin: "0 0.5rem",
                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                        minWidth: "fit-content",
                         color: theme.error
                     }}
                     config={{
@@ -355,8 +356,9 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 <TransparentButton
                     ButtonStyle={{
                         padding: "0",
-                        margin: "0 1rem",
+                        margin: "0 0.5rem",
                         fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                        minWidth: "fit-content",
                         color: theme.secondary
                     }}
                     onClick={onSave}
@@ -374,8 +376,9 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                     <TransparentButton
                         ButtonStyle={{
                             padding: "0",
-                            margin: "0 1rem",
+                            margin: "0 1.8rem",
                             fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                            minWidth: "fit-content",
                             opacity: data?.games?.length > 0 ? 1 : 0,
                             color: theme.error,
                         }}
@@ -393,8 +396,9 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                     : <TransparentButton
                         ButtonStyle={{
                             padding: "0",
-                            margin: "0 1rem",
+                            margin: "0 0.5rem",
                             fontSize: "clamp(0.8rem,1vw,0.9rem)",
+                            minWidth: "fit-content",
                             opacity: data?.games?.length > 0 ? 1 : 0,
                             color: theme.secondary,
                         }}
