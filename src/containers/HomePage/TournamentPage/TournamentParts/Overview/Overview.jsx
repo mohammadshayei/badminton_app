@@ -9,7 +9,7 @@ import { dynamicApi } from "../../../../../api/home";
 import ErrorDialog from "../../../../../components/UI/Error/ErrorDialog";
 import { stringFa } from "../../../../../assets/strings/stringFaCollection";
 import { Fragment } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import IMAGE from '../../../../../assets/images/user_avatar.svg';
 import { baseUrl } from "../../../../../constants/Config";
 
