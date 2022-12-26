@@ -184,6 +184,7 @@ const GameBox = ({
         <div className="match-game-details match-game-officials"
             style={{
                 backgroundColor: game.officials.umpire[0]._id ? theme.primary : theme.border_color,
+                color: game.officials.umpire[0]._id ? theme.on_primary : theme.on_background,
                 padding: game.officialsOpen ? "0.5rem" : "0",
                 maxHeight: game.officialsOpen ? "250px" : "1px",
             }}
