@@ -243,10 +243,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
     };
   }, []);
   useEffect(() => {
-    // setDisabledButton(true)
-    // setTimeout(() => {
-    //   setDisabledButton(false)
-    // }, 400);
+    setDisabledButton(true);
+    setTimeout(() => {
+      setDisabledButton(false);
+    }, 400);
     switch (info.team1.score) {
       case maxPoint - 1:
         if (
@@ -290,10 +290,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
     if (info.team2.score === 20) setWinPoint(null);
   }, [info.team1.score]);
   useEffect(() => {
-    // setDisabledButton(true)
-    // setTimeout(() => {
-    //   setDisabledButton(false)
-    // }, 400);
+    setDisabledButton(true);
+    setTimeout(() => {
+      setDisabledButton(false);
+    }, 400);
     switch (info.team2.score) {
       case maxPoint - 1:
         if (
