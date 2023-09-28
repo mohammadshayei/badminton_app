@@ -42,7 +42,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                             <Skeleton width={270} /> :
                             <>
                                 {tournament?.title}
-                                {tournament?.chief?._id === user?._id &&
+                                {((tournament?.chief?._id === user?._id) || user?.is_fekrafzar) &&
                                     <TransparentButton
                                         ButtonStyle={{ padding: 0, color: theme.on_secondary, marginRight: "1rem" }}
                                         onClick={onEdit}
@@ -99,7 +99,6 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         onClick={() => onSelectorClick(k)}
                         type={2}
                         style={{ borderWidth: '1px', margin: "0 0.25rem" }}
-                        isNew={k === "overview"}
                     />
                 )}
             </div>

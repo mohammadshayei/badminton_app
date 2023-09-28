@@ -282,6 +282,12 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                             />
                     }
                 </div>
+                {/* <div className="table-row-item">
+                    <TextComponent
+                        value={` 5  -  0 `}
+                        style={{ justifyContent: "center" }}
+                    />
+                </div> */}
                 <div className="table-row-item">
                     {createAccess ?
                         <CustomInput
@@ -307,26 +313,18 @@ const Match = ({ editedMatch, matchId, deleteMatch, addMatch, dateValue, onShowG
                 {
                     createAccess &&
                     <div className="table-row-item">
-                        {
-                            createAccess ?
-                                <CustomInput
-                                    elementType={elementTypes.dropDown}
-                                    // inputContainer={{ padding: "0" }}
-                                    items={referees ? referees : []}
-                                    onChange={e => onChange(e, 'referee')}
-                                    value={order.referee.text}
-                                    invalid={order.referee.invalid}
-                                    placeHolder={stringFa.undefined}
-                                    shouldValidate={order.teamA.shouldValidate}
-                                    touched={order.teamA.touched}
-                                    validationMessage={order.referee.validationMessage}
-                                />
-                                :
-                                <TextComponent
-                                    value={order.referee.text}
-                                    style={{ justifyContent: "center" }}
-                                />
-                        }
+                        <CustomInput
+                            elementType={elementTypes.dropDown}
+                            // inputContainer={{ padding: "0" }}
+                            items={referees ? referees : []}
+                            onChange={e => onChange(e, 'referee')}
+                            value={order.referee.text}
+                            invalid={order.referee.invalid}
+                            placeHolder={stringFa.undefined}
+                            shouldValidate={order.teamA.shouldValidate}
+                            touched={order.teamA.touched}
+                            validationMessage={order.referee.validationMessage}
+                        />
                     </div>
                 }
             </div>

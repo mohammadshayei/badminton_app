@@ -30,8 +30,9 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
     const [dialog, setDialog] = useState(null)
     const [games, setGames] = useState([])
     const [maxMatchCount, setMaxMatchCount] = useState(0)
+    const [isReferee, setIsReferee] = useState(false);
 
-    const { token, socket } = useSelector(state => state.auth)
+    const { token, socket, user } = useSelector(state => state.auth)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -315,6 +316,19 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
         }))
     }, [games, socket])
 
+    useEffect(() => {
+        if (!referees || !user) {
+            setIsReferee(false);
+            return;
+        }
+        referees.forEach(item => {
+            if (item.referee._id === user._id)
+                setIsReferee(true);
+        })
+        if (user.is_fekrafzar)
+            setIsReferee(true);
+    }, [user, referees]);
+
     return (
         <div className="teams-matches"
             style={{
@@ -437,7 +451,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                     color: theme.on_surface
                                 }}
                             >{game.title}</div>
-                            {token && game.status === 3 &&
+                            {game.status === 3 && isReferee &&
                                 <div className="match-game-report"
                                     style={{ color: theme.secondary }}
                                     onClick={() => getReport(game._id)}

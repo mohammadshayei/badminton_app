@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./TeamsPage.scss"
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../../styles/ThemeProvider";
 import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
@@ -50,10 +50,8 @@ const TeamsPage = () => {
             } catch (error) {
                 setLoading(false)
                 setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
-
             }
         })()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token])
 
     return <div className="teams-page">
@@ -133,7 +131,6 @@ const TeamsPage = () => {
                             </div>
                         </div>
                 }
-
                 <div className="teams-container"
                     style={{
                         backgroundColor: theme.surface

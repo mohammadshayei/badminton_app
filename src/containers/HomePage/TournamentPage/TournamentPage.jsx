@@ -167,9 +167,9 @@ const TournamentPage = ({ id }) => {
     }
 
     useEffect(() => {
-        if (!user) return;
         let updatedFilterSelectors
         if (tournament?.free_ranking) {
+            if (!user) return;
             updatedFilterSelectors = {
                 overviewTournament: {
                     text: "نتایج",
@@ -207,25 +207,28 @@ const TournamentPage = ({ id }) => {
                 teamMatch: {
                     text: "مسابقات تیمی",
                     selected: false,
-                },
-                team: {
-                    text: "تیم ها",
-                    selected: false,
-                },
-                player: {
-                    text: "بازیکن ها",
-                    selected: false,
-                },
-                referee: {
-                    text: "داور ها",
-                    selected: false,
-                },
-                gym: {
-                    text: "سالن ها",
-                    selected: false,
-                },
-
+                }
             }
+            if (user)
+                updatedFilterSelectors = {
+                    ...updatedFilterSelectors,
+                    team: {
+                        text: "تیم ها",
+                        selected: false,
+                    },
+                    player: {
+                        text: "بازیکن ها",
+                        selected: false,
+                    },
+                    referee: {
+                        text: "داور ها",
+                        selected: false,
+                    },
+                    gym: {
+                        text: "سالن ها",
+                        selected: false,
+                    },
+                }
         }
 
         for (const filter in updatedFilterSelectors) {
@@ -326,6 +329,8 @@ const TournamentPage = ({ id }) => {
                     setCreateAccess(false)
             }
         }
+        if (user?.is_fekrafzar)
+            setCreateAccess(true)
     }, [part, user, tournament?.chief, teamOwner, todayMatchAccess])
 
     useEffect(() => {
