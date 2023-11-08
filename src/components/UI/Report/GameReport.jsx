@@ -25,8 +25,9 @@ const GameReport = () => {
     const searchParams = new URLSearchParams(locaiton.search);
     const id = searchParams.get("id");
     const navigate = useNavigate();
+
     useEffect(() => {
-        if (!id) return;
+        if (!id || !token) return;
         (async () => {
             const result = await getGame(id, token)
             if (result.success) {
@@ -35,7 +36,7 @@ const GameReport = () => {
                 alert(result.error)
             }
         })()
-    }, [id])
+    }, [id, token])
     const download = () => {
         const input = document.getElementById('GamePrint');
         html2canvas(input)
@@ -140,7 +141,7 @@ const GameReport = () => {
                                     setWon={gameWon === 'team2' ? true : false}
                                 />
                                 <div className='shuttl'>
-                                    <p>Shuttls : {game.shuttls}</p>
+                                    <p>Shuttles : {game.shuttls}</p>
                                 </div>
                             </div>
                             <div className="right-header">
@@ -148,10 +149,12 @@ const GameReport = () => {
                                     Court : {game.land_number}
                                 </p>
                                 <p>
-                                    Umpire : {game.referee.username}
+                                    Umpire :
+                                    {/* {game.referee.username} */}
                                 </p>
                                 <p>
-                                    Service Judge : {game.service_referee ? game.service_referee.username : stringFa.undefined}
+                                    Service Judge :
+                                    {/* {game.service_referee ? game.service_referee.username : stringFa.undefined} */}
                                 </p>
                                 <p>
                                     Start match : {matchTime.start}

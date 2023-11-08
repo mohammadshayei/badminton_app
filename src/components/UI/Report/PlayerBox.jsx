@@ -17,9 +17,7 @@ const PlayerBox = (props) => {
             }
             <p className='player-name'>Member Name</p>
             <div className={`base-class ${props.isLeftSide ? 'left' : 'right'}`}>
-                <p>
-                    {props.positionTeam}
-                </p>
+                {props.positionTeam}
             </div>
         </div>
     )

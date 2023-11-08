@@ -1,224 +1,225 @@
 .game-report-wrapper {
-	font-family: Arial, Helvetica, sans-serif;
-	padding: 2rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #f5f5f5;
-	.actions-box {
-		width: 100%;
-		padding: 2rem;
-		display: flex;
-		align-items: center;
-		justify-content: space-evenly;
-	}
-	.game-report {
-		width: 297mm;
-		height: 210mm;
-		// border: 1px #d3d3d3 solid;
-		background-color: white;
-		padding: 2rem 2rem;
-		.header-report {
-			.signature{
-				display: flex;
-				width: 100%;
-				justify-content: space-evenly;
-				margin-top: 3rem;
-			}
-			width: 100%;
-			font-weight: bold;
-			.diagram-title {
-				width: 100%;
-				text-align: center;
-			}
-			.header-content {
-				display: flex;
-				width: 100%;
-				margin-top: 1rem;
-				.left-header {
-					margin-top: 1rem;
-					p {
-						font-size: 0.6rem;
-						margin-bottom: 0.4rem;
-						white-space: nowrap;
-					}
-					p:last-child {
-						margin-bottom: 0;
-					}
-				}
-				.middle-header {
-					width: 100%;
-					padding: 0 2rem 2rem 2rem;
-					display: flex;
-					align-items: center;
-					justify-content: space-evenly;
-					position: relative;
-					.player-box {
-						width: 15rem;
-						border: 3px solid black;
-						border-bottom-width: 2px;
-						position: relative;
-						margin-top: 0.2rem;
-						.circle {
-							position: absolute;
-							top: 50%;
-							left: 50%;
-							transform: translate(-50%, -50%);
-							width: 140px;
-							height: 100px;
-							border: 2px solid black;
-							border-radius: 50%;
-						}
-						.player-name {
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							border-bottom: 1px solid black;
-							line-height: 1.1rem;
-							font-size: 12px;
-							p {
-								margin: 0.1rem 0;
-							}
-						}
-						p {
-							text-align: center;
-						}
-						&:last-child {
-							background-color: rgb(235, 235, 235);
-						}
-						.base-class {
-							position: absolute;
-							width: 23px;
-							height: 23px;
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							border: 3px solid black;
-							top: -3px;
-						}
-						.left {
-							left: -26px;
-							border-right: none;
-						}
-						.right {
-							right: -26px;
-							border-left: none;
-						}
-					}
-					.score-box {
-						text-align: center;
-						margin-top: -1.5rem;
-						.scores-of-set {
-							display: flex;
-							justify-content: space-around;
-							border-left: 3px solid #000;
-							border-right: 3px solid #000;
-							line-height: 1.2rem;
-							width: 4.5rem;
-							&:nth-child(2) {
-								border-top: 3px solid #000;
-								border-bottom: 1px solid #000;
-							}
-							&:last-child {
-								border-top: 1px solid #000;
-								border-bottom: 3px solid #000;
-							}
-						}
-					}
-					.shuttl {
-						position: absolute;
-						bottom: 0.5rem;
-						right: 6rem;
-						font-size: 0.6rem;
-					}
-				}
-				.right-header {
-					padding: 0 1rem;
-					p {
-						font-size: 0.6rem;
-						line-height: 1.1rem;
-						white-space: nowrap;
-					}
-				}
-			}
-		}
-	}
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f5f5f5;
+  .actions-box {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .game-report {
+    width: 297mm;
+    height: 210mm;
+    // border: 1px #d3d3d3 solid;
+    background-color: white;
+    padding: 2rem 2rem;
+    .header-report {
+      .signature {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        margin-top: 3rem;
+      }
+      width: 100%;
+      font-weight: bold;
+      .diagram-title {
+        width: 100%;
+        text-align: center;
+      }
+      .header-content {
+        display: flex;
+        width: 100%;
+        margin-top: 1rem;
+        .left-header {
+          margin-top: 1rem;
+          p {
+            font-size: 0.6rem;
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
+          }
+          p:last-child {
+            margin-bottom: 0;
+          }
+        }
+        .middle-header {
+          width: 100%;
+          padding: 0 2rem 2rem 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          position: relative;
+          .player-box {
+            width: 15rem;
+            border: 3px solid black;
+            border-bottom-width: 2px;
+            position: relative;
+            margin-top: 0.2rem;
+            .circle {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 160px;
+              height: 100px;
+              border: 2px solid black;
+              border-radius: 50%;
+            }
+            .player-name {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-bottom: 1px solid black;
+              line-height: 1.1rem;
+              font-size: 12px;
+              p {
+                margin: 0.1rem 0;
+              }
+            }
+            p {
+              text-align: center;
+            }
+            &:last-child {
+              background-color: rgb(235, 235, 235);
+            }
+            .base-class {
+              position: absolute;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding-top: 3px;
+              width: 23px;
+              height: 23px;
+              border: 3px solid black;
+              top: -3px;
+            }
+            .left {
+              left: -26px;
+              border-right: none;
+            }
+            .right {
+              right: -26px;
+              border-left: none;
+            }
+          }
+          .score-box {
+            text-align: center;
+            margin-top: -1.5rem;
+            .scores-of-set {
+              display: flex;
+              justify-content: space-around;
+              border-left: 3px solid #000;
+              border-right: 3px solid #000;
+              line-height: 1.2rem;
+              width: 4.5rem;
+              &:nth-child(2) {
+                border-top: 3px solid #000;
+                border-bottom: 1px solid #000;
+              }
+              &:last-child {
+                border-top: 1px solid #000;
+                border-bottom: 3px solid #000;
+              }
+            }
+          }
+          .shuttl {
+            position: absolute;
+            bottom: 0.5rem;
+            right: 6rem;
+            font-size: 0.6rem;
+          }
+        }
+        .right-header {
+          padding: 0 1rem;
+          p {
+            font-size: 0.6rem;
+            line-height: 1.1rem;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
 }
 
 .events-wrapper-report {
-	// background-color: rgb(235, 235, 235);
-	background-color: white;
-	margin-bottom: 0.4rem;
-	padding: 0;
-	color: #000000;
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	min-height: 20mm;
-	// font-size: 2vw;
-	font-weight: normal;
-	.history-table-report {
-		position: relative;
-		display: flex;
-		flex-direction: row;
-		overflow: visible;
-		height: 100%;
-		max-width: 100%;
-		.table-column-report {
-			border: 1px solid rgb(0, 0, 0);
-			border-bottom: none;
-			.circle {
-				position: absolute;
-				height: 112%;
-				width: 12mm;
-				top: 50%;
-				transform: translate(-30%, -50%);
-				border: 1px solid black;
-				border-radius: 50%;
-				.line {
-					position: absolute;
-					border-top: 1px solid black;
-					top: 50%;
-					width: 12.5mm;
-					transform: rotate(160deg) translateX(5%);
-				}
-			}
-			.smaller-circle {
-				height: 90%;
-				transform: translate(-30%, -60%);
-			}
-			.rotated-line {
-				position: absolute;
-				border-top: 2px solid black;
-				top: -85%;
-				width: 19.5mm;
-				transform: rotate(105deg) translateX(140%);
-			}
-			.table-cell-report {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				direction: ltr;
-				border-bottom: 1px solid rgb(0, 0, 0);
-				min-width: 5mm;
-				width: 100%;
-				padding-top: 0.2rem;
-				font-size: 12px;
-				.name-in-cell-r {
-					display: flex;
-					justify-content: flex-start;
-					// width: 100%;
-					.player-name-div-r {
-						// overflow: hidden;
-						white-space: nowrap;
-						// text-overflow: ellipsis;
-						direction: rtl;
-						// max-width: 85%;
-					}
-				}
-			}
-		}
-	}
+  // background-color: rgb(235, 235, 235);
+  background-color: white;
+  margin-bottom: 0.4rem;
+  padding: 0;
+  color: #000000;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-height: 20mm;
+  // font-size: 2vw;
+  font-weight: normal;
+  .history-table-report {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    overflow: visible;
+    height: 100%;
+    max-width: 100%;
+    .table-column-report {
+      border: 1px solid rgb(0, 0, 0);
+      border-bottom: none;
+      .circle {
+        position: absolute;
+        height: 112%;
+        width: 12mm;
+        top: 50%;
+        transform: translate(-30%, -50%);
+        border: 1px solid black;
+        border-radius: 50%;
+        .line {
+          position: absolute;
+          border-top: 1px solid black;
+          top: 50%;
+          width: 12.5mm;
+          transform: rotate(160deg) translateX(5%);
+        }
+      }
+      .smaller-circle {
+        height: 90%;
+        transform: translate(-30%, -60%);
+      }
+      .rotated-line {
+        position: absolute;
+        border-top: 2px solid black;
+        top: -85%;
+        width: 19.5mm;
+        transform: rotate(105deg) translateX(140%);
+      }
+      .table-cell-report {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        direction: ltr;
+        border-bottom: 1px solid rgb(0, 0, 0);
+        min-width: 5mm;
+        width: 100%;
+        padding-top: 0.2rem;
+        font-size: 12px;
+        .name-in-cell-r {
+          display: flex;
+          justify-content: flex-start;
+          // width: 100%;
+          .player-name-div-r {
+            // overflow: hidden;
+            white-space: nowrap;
+            // text-overflow: ellipsis;
+            direction: rtl;
+            // max-width: 85%;
+          }
+        }
+      }
+    }
+  }
 }
