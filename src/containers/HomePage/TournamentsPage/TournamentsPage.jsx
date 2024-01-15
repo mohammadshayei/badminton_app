@@ -81,8 +81,6 @@ const TournamentsPage = () => {
         let updatedFilteredTournaments;
         if (key === 'owner')
             updatedFilteredTournaments = tournaments.filter(item => item.owner)
-        else if (key === 'now')
-            updatedFilteredTournaments = [];  // this should remove before final release
         else
             updatedFilteredTournaments = tournaments.filter(item => item.state === key)
         setfilteredTournaments(updatedFilteredTournaments)
