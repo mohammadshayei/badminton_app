@@ -1,0 +1,202 @@
+.game-report {
+  width: 297mm;
+  height: 210mm;
+  background-color: white;
+  padding: 2rem 2rem;
+}
+
+.game-report .header-report {
+  width: 100%;
+  font-weight: bold;
+}
+
+.game-report .header-report .signature {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: 3rem;
+}
+
+.game-report .header-report .diagram-title {
+  width: 100%;
+  text-align: center;
+}
+
+.game-report .header-report .header-content {
+  display: flex;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.game-report .header-report .header-content .left-header {
+  display: inline-flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.game-report .header-report .header-content .left-header span {
+  font-size: 0.6rem;
+  margin-bottom: 0.4rem;
+  white-space: nowrap;
+}
+
+.game-report .header-report .header-content .left-header span:last-child {
+  margin-bottom: 0;
+}
+
+.game-report .header-report .header-content .right-header {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+.game-report .header-report .header-content .right-header span {
+  font-size: 0.6rem;
+  line-height: 1.1rem;
+  white-space: nowrap;
+}
+
+.game-report .header-report .header-content .middle-header {
+  width: 100%;
+  padding: 0 2rem 2rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+.game-report .header-report .header-content .middle-header .player-box {
+  width: 15rem;
+  border: 3px solid black;
+  border-bottom-width: 2px;
+  position: relative;
+  margin-top: 0.2rem;
+}
+
+.game-report .header-report .header-content .middle-header .player-box .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 100px;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .player-box
+  .player-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid black;
+  line-height: 1.1rem;
+  font-size: 12px;
+}
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .player-box
+  .player-name
+  span {
+  margin: 0.1rem 0;
+}
+.game-report .header-report .header-content .middle-header .player-box span {
+  text-align: center;
+}
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .player-box:last-child {
+  background-color: rgb(235, 235, 235);
+}
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .player-box
+  .base-class {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3px;
+  width: 23px;
+  height: 23px;
+  border: 3px solid black;
+  top: -3px;
+}
+.game-report .header-report .header-content .middle-header .player-box .left {
+  left: -26px;
+  border-right: none;
+}
+.game-report .header-report .header-content .middle-header .player-box .right {
+  right: -26px;
+  border-left: none;
+}
+
+.game-report .header-report .header-content .middle-header .score-box {
+  text-align: center;
+  margin-top: -1.5rem;
+}
+
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .score-box
+  .scores-of-set {
+  display: flex;
+  justify-content: space-around;
+  border-left: 3px solid #000;
+  border-right: 3px solid #000;
+  line-height: 1.2rem;
+  width: 4.5rem;
+}
+
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .score-box
+  .scores-of-set:nth-child(2) {
+  border-top: 3px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.game-report
+  .header-report
+  .header-content
+  .middle-header
+  .score-box
+  .scores-of-set:last-child {
+  border-top: 1px solid #000;
+  border-bottom: 3px solid #000;
+}
+
+.game-report .header-report .header-content .middle-header .shuttl {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 6rem;
+  font-size: 0.6rem;
+}
+
+@media print {
+  .game-report {
+    overflow: visible;
+  }
+  .wrapper-style {
+    display: none;
+  }
+  .watermark {
+    display: block;
+    counter-increment: page;
+    position: fixed;
+  }
+}

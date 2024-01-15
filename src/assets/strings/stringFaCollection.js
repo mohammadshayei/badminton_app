@@ -201,7 +201,8 @@ export const stringFa = {
   lost_sets: "گیم بازنده",
   earned_points: "پوئن کسب شده",
   lost_points: "پوئن واگذار شده",
-  new:"جدید"
+  new: "جدید",
+  print: "پرینت"
 };
 
 export const daysName = [

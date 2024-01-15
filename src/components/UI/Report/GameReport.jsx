@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Report.scss'
+import "./ReportPage.css"
 import Button from "../../../components/UI/Button/Button"
-import { useEffect, useState } from 'react';
-import html2canvas from 'html2canvas'
-import { jsPDF } from "jspdf";
+import { useEffect, useRef, useState } from 'react';
 import { stringFa } from '../../../assets/strings/stringFaCollection';
 import { getGame } from '../../../api/home';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import PlayerBox from './PlayerBox';
 import SetReport from './SetReport';
 import OneTable from './OneTable';
 import TransparentButton from '../Button/TransparentButton/TransparentButton';
+import { useReactToPrint } from 'react-to-print';
 
 const GameReport = () => {
     const [game, setGame] = useState(null)
@@ -25,6 +26,7 @@ const GameReport = () => {
     const searchParams = new URLSearchParams(locaiton.search);
     const id = searchParams.get("id");
     const navigate = useNavigate();
+    const pageRef = useRef(null);
 
     useEffect(() => {
         if (!id || !token) return;
@@ -37,20 +39,37 @@ const GameReport = () => {
             }
         })()
     }, [id, token])
-    const download = () => {
-        const input = document.getElementById('GamePrint');
-        html2canvas(input)
-            .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('l', 'mm', [297, 210]);
-                pdf.addImage(imgData, 'JPEG', 0, 0);
-                pdf.save(`${game.tournament.title}_${game.game_number}.pdf`);
-            })
-            ;
+
+    const print = () => {
+        doPrint();
     }
+
     const onBack = () => {
         navigate(-1)
     }
+
+    const calTableCount = (n) => {
+        setTableCount(e => e + n)
+    }
+
+    const doPrint = useReactToPrint({
+        pageStyle: `@media print {
+            @page {
+              size: 297mm 210mm !important;
+              margin: 0 !important;
+
+            }
+          }`,
+        content: () => pageRef.current,
+    });
+
+    const handleKeyDown = (e) => {
+        if (e.ctrlKey && e.key === "p") {
+            e.preventDefault();
+            print();
+        }
+    };
+
     useEffect(() => {
         if (game) {
             const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -78,9 +97,14 @@ const GameReport = () => {
             else if (game.teamB.setWon === 2) setGameWon('team2')
         }
     }, [game])
-    const calTableCount = (n) => {
-        setTableCount(e => e + n)
-    }
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
+
     return (
         <div className='game-report-wrapper'>
             <div className="actions-box">
@@ -90,27 +114,24 @@ const GameReport = () => {
                     {stringFa.back}
                 </TransparentButton>
                 <Button
-                    onClick={download}
-                    ButtonStyle={{
-                    }}
+                    onClick={print}
                 >
-                    {stringFa.download}
+                    {stringFa.print}
                 </Button>
-
             </div>
             {game &&
-                <div id="GamePrint" className="game-report" >
+                <div ref={pageRef} id="GamePrint" className="game-report" >
                     <div className="header-report">
                         <div className="diagram-title">
-                            <p>
+                            <span>
                                 DIAGRAM {game.game_number}
-                            </p>
+                            </span>
                         </div>
                         <div className="header-content">
                             <div className="left-header">
-                                <p >Event : {game.tournament.title}</p>
-                                <p>No.R16 - # 19 </p>
-                                <p>Date : {date}&nbsp;&nbsp;&nbsp;Time : {time} </p>
+                                <span >Event : {game.tournament.title}</span>
+                                <span>No.R16 - # 19 </span>
+                                <span>Date : {date}&nbsp;&nbsp;&nbsp;Time : {time} </span>
                             </div>
                             <div className="middle-header">
                                 <PlayerBox
@@ -120,17 +141,17 @@ const GameReport = () => {
                                     setWon={gameWon === 'team1' ? true : false}
                                 />
                                 <div className='score-box'>
-                                    <p>score</p>
+                                    <span>score</span>
                                     {
                                         [...Array(3)].map((item, index) => {
                                             return (game.sets[index] ?
-                                                <p key={game.sets[index].set._id} className='scores-of-set'>
-                                                    <p>{game.sets[index].set.teamA.score}</p> : <p>{game.sets[index].set.teamB.score}</p>
-                                                </p>
+                                                <div key={game.sets[index].set._id} className='scores-of-set'>
+                                                    <span>{game.sets[index].set.teamA.score}</span> : <span>{game.sets[index].set.teamB.score}</span>
+                                                </div>
                                                 :
-                                                <p key={index} className='scores-of-set'>
+                                                <span key={index} className='scores-of-set'>
                                                     :
-                                                </p>)
+                                                </span>)
                                         })
                                     }
                                 </div>
@@ -141,30 +162,30 @@ const GameReport = () => {
                                     setWon={gameWon === 'team2' ? true : false}
                                 />
                                 <div className='shuttl'>
-                                    <p>Shuttles : {game.shuttls}</p>
+                                    <span>Shuttles : {game.shuttls}</span>
                                 </div>
                             </div>
                             <div className="right-header">
-                                <p>
+                                <span>
                                     Court : {game.land_number}
-                                </p>
-                                <p>
+                                </span>
+                                <span>
                                     Umpire :
                                     {/* {game.referee.username} */}
-                                </p>
-                                <p>
+                                </span>
+                                <span>
                                     Service Judge :
                                     {/* {game.service_referee ? game.service_referee.username : stringFa.undefined} */}
-                                </p>
-                                <p>
+                                </span>
+                                <span>
                                     Start match : {matchTime.start}
-                                </p>
-                                <p>
+                                </span>
+                                <span>
                                     End match : {matchTime.end}
-                                </p>
-                                <p>
+                                </span>
+                                <span>
                                     Duration(Min) : {matchTime.duration}
-                                </p>
+                                </span>
 
                             </div>
                         </div>
@@ -206,15 +227,15 @@ const GameReport = () => {
                             }
                         </div>
                         <div className='signature'>
-                            <p>
+                            <span>
                                 Umpire's Signature..........................................
-                            </p>
-                            <p>
+                            </span>
+                            <span>
                                 Referee's Signature..........................................
-                            </p>
-                            <p>
+                            </span>
+                            <span>
                                 Results Service..........................................
-                            </p>
+                            </span>
                         </div>
                     </div>
                 </div>
