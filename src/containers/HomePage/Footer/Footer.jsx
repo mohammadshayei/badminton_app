@@ -6,7 +6,7 @@ const Footer = () => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
-    const major = 2, minor = 0, patch = 36;
+    const major = 2, minor = 0, patch = 46;
 
     return <div className="home-footer"
         style={{
@@ -16,7 +16,7 @@ const Footer = () => {
         <div className="footer-text-wrapper two-lines">
             <p>{`${stringFa.sports_setoos_software} `}
                 {`${stringFa.version} ${major}.${minor}.${patch}`}
-                {` | © 2022`}
+                {` | © 2024`}
             </p>
             <p className="devider"></p>
             <p>{stringFa.copyright}</p>
