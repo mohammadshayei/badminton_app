@@ -63,8 +63,8 @@ const TournamentsPage = () => {
                     setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
                     return;
                 }
-                setTournaments(fetchedData.data.tournaments)
-                setLives(fetchedData.data.lives)
+                // setTournaments(fetchedData.data.tournaments)
+                // setLives(fetchedData.data.lives)
                 setLoading(false)
             } catch (error) {
                 setLoading(false)
@@ -84,8 +84,8 @@ const TournamentsPage = () => {
         else
             updatedFilteredTournaments = tournaments.filter(item => item.state === key)
         setfilteredTournaments(updatedFilteredTournaments)
-
     }, [tournaments, filterSelectors])
+
     useEffect(() => {
         let baseFilterSelector = {
             finished: {
