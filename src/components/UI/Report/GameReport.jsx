@@ -170,12 +170,10 @@ const GameReport = () => {
                                     Court : {game.land_number}
                                 </span>
                                 <span>
-                                    Umpire :
-                                    {/* {game.referee.username} */}
+                                    Umpire : {game.referee.username}
                                 </span>
                                 <span>
-                                    Service Judge :
-                                    {/* {game.service_referee ? game.service_referee.username : stringFa.undefined} */}
+                                    Service Judge : {game.service_referee?.username || ''}
                                 </span>
                                 <span>
                                     Start match : {matchTime.start}
@@ -190,7 +188,7 @@ const GameReport = () => {
                             </div>
                         </div>
                         <div className='tables-report'>
-                            {game?.sets.map(item =>
+                            {game?.sets?.map(item =>
                                 <SetReport
                                     key={item.set._id}
                                     calTableCount={calTableCount}
@@ -210,21 +208,18 @@ const GameReport = () => {
                                         score: item.set.teamB.score
                                     }}
                                     empty={false}
-                                />)
-                            }
-
-                            {
-                                [...Array(6 - tableCount)].map((e, i) =>
-                                    <OneTable
-                                        key={`${i}item.set._id`}
-                                        isSingle={game.teamA.players.length === 1}
-                                        playerTeamB={game.teamB.players}
-                                        playerTeamA={game.teamA.players}
-                                        events={[]}
-                                        empty={true}
-                                    />
-                                )
-                            }
+                                />
+                            )}
+                            {[...Array(6 - tableCount)].map((_, i) =>
+                                <OneTable
+                                    key={`item_${i}`}
+                                    isSingle={game.teamA.players.length === 1}
+                                    playerTeamB={game.teamB.players}
+                                    playerTeamA={game.teamA.players}
+                                    events={[]}
+                                    empty={true}
+                                />
+                            )}
                         </div>
                         <div className='signature'>
                             <span>

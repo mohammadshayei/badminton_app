@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import OneTable from './OneTable'
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
     teamBDetail, calTableCount }) => {
@@ -96,12 +97,11 @@ const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
             }
         }
     }, [updatedEvents])
+
     return (
-        < div >
-            {
-                body && body
-            }
-        </div >
+        <div>
+            {body}
+        </div>
     )
 }
 

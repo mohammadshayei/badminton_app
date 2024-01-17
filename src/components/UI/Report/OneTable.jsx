@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react"
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 const OneTable = ({
     isSingle, events, playerTeamA, playerTeamB,
@@ -151,48 +152,43 @@ const OneTable = ({
         )
         setLog(newLog);
     }, [])
+
     return (
         <div className="events-wrapper-report">
             <div className="history-table-report" >
-                {
-                    [...Array(34)].map((e, ci) =>
-                        <div key={ci} className="table-column-report"
-                            style={ci === 0 ? columnStyle : {
-                                borderRight: (ci === 1 || ci === 33) &&
-                                    "3px solid rgb(60, 60, 60)",
-                            }}
-                        >
-                            {ci === log.length - 1 && ci !== 0 &&
-                                <div className={`circle ${playerTeamA.length === 1 && "smaller-circle"}`}>
-                                    <div className="line" />
-                                </div>
-                            }
-                            {
-                                log[ci] && (log[ci][0].content === '' && log[ci][1].content === '' && log[ci][2].content === '' && log[ci][3].content === '') &&
-                                (log[ci - 1][0].content === '20' || log[ci - 1][1].content === '20' || log[ci - 1][2].content === '20' || log[ci - 1][3].content === '20') &&
-                                <div className="rotated-line" />
-                            }
-                            {
-                                ([...Array(4)].map((e, ri) =>
-                                    <div key={ri} className="table-cell-report"
-                                        style={{
-                                            borderTop: (ri === 0) && "3px solid rgb(60, 60, 60)",
-                                            borderBottom: (ri === 1 || ri === 3) && "3px solid rgb(60, 60, 60)",
-                                            height: '25%',
-                                            padding: ci === 0 && "0 0.2rem",
-                                            background: ri > 1 && "rgba(190, 190, 190, 0.5)",
-                                            fontSize: ci === 0 && "11px",
-                                            justifyContent: ci === 0 && "flex-start"
-                                        }}
-                                    >
-                                        {(log[ci]) && log[ci][ri].content}
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    )
-                }
-
+                {[...Array(34)].map((_, ci) =>
+                    <div key={ci} className="table-column-report"
+                        style={ci === 0 ? columnStyle : {
+                            borderRight: (ci === 1 || ci === 33) &&
+                                "3px solid rgb(60, 60, 60)",
+                        }}
+                    >
+                        {ci === log.length - 1 && ci !== 0 &&
+                            <div className={`circle ${playerTeamA.length === 1 && "smaller-circle"}`}>
+                                <div className="line" />
+                            </div>
+                        }
+                        {log[ci] && (log[ci][0].content === '' && log[ci][1].content === '' && log[ci][2].content === '' && log[ci][3].content === '') &&
+                            (log[ci - 1][0].content === '20' || log[ci - 1][1].content === '20' || log[ci - 1][2].content === '20' || log[ci - 1][3].content === '20') &&
+                            <div className="rotated-line" />
+                        }
+                        {[...Array(4)].map((e, ri) =>
+                            <div key={ri} className="table-cell-report"
+                                style={{
+                                    borderTop: (ri === 0) && "3px solid rgb(60, 60, 60)",
+                                    borderBottom: (ri === 1 || ri === 3) && "3px solid rgb(60, 60, 60)",
+                                    height: '25%',
+                                    padding: ci === 0 && "0 0.2rem",
+                                    background: ri > 1 && "rgba(190, 190, 190, 0.5)",
+                                    fontSize: ci === 0 && "11px",
+                                    justifyContent: ci === 0 && "flex-start"
+                                }}
+                            >
+                                {(log[ci]) && log[ci][ri].content}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div >
     )

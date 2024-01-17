@@ -293,7 +293,7 @@ export const updateGame = async (data, token) => {
 };
 export const getGame = async (id, token) => {
   const result = await axios.post(
-    `${baseUrl}api/get_game    `,
+    `${baseUrl}api/get_game`,
     { id },
     { headers: { "auth-token": token } }
   );

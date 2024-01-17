@@ -32,6 +32,7 @@
   display: inline-flex;
   flex-direction: column;
   margin-top: 1rem;
+  width: 180px;
 }
 
 .game-report .header-report .header-content .left-header span {
@@ -47,7 +48,7 @@
 .game-report .header-report .header-content .right-header {
   display: inline-flex;
   flex-direction: column;
-  padding: 0 1rem;
+  width: 180px;
 }
 
 .game-report .header-report .header-content .right-header span {
