@@ -19,7 +19,6 @@
   .tournament-content {
     width: 100%;
     display: flex;
-    padding-top: 1rem;
     .tournament-list-items {
       width: 100%;
       flex-direction: column;
@@ -35,7 +34,6 @@
       }
       .tournament-item {
         border-bottom: 1px solid;
-        padding-bottom: 0.5rem;
         cursor: pointer;
       }
     }
