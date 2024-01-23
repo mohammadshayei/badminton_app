@@ -162,7 +162,6 @@ const MainPage = () => {
 
   useEffect(() => {
     if (socket && info._id && info.readyForSendData) {
-      console.log(info.events)
       let payload = {
         teamA: {
           isRightTeam: info.team1.isRightTeam,

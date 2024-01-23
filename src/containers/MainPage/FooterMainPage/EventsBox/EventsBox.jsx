@@ -1,14 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "./EventsBox.scss";
-import { useTheme } from "../../../../styles/ThemeProvider.js";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import * as infoActions from "../../../../store/actions/setInfo";
 
 const EventsBox = (props) => {
   const [log, setLog] = useState([]);
-  const themeState = useTheme();
-  const theme = themeState.computedTheme;
+
   const info = useSelector((state) => state.info);
 
   const columnStyle = {
@@ -135,74 +134,66 @@ const EventsBox = (props) => {
         [...newLog],
         [
           {
-            content: `${
-              info.initTeam1.server === 1
-                ? "S"
-                : info.initTeam1.receiver === 1 &&
-                  info.team1.players.length === 2
+            content: `${info.initTeam1.server === 1
+              ? "S"
+              : info.initTeam1.receiver === 1 &&
+                info.team1.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
           {
-            content: `${
-              info.initTeam1.server === 2
-                ? "S"
-                : info.initTeam1.receiver === 2 &&
-                  info.team1.players.length === 2
+            content: `${info.initTeam1.server === 2
+              ? "S"
+              : info.initTeam1.receiver === 2 &&
+                info.team1.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
           {
-            content: `${
-              info.initTeam2.server === 1
-                ? "S"
-                : info.initTeam2.receiver === 1 &&
-                  info.team2.players.length === 2
+            content: `${info.initTeam2.server === 1
+              ? "S"
+              : info.initTeam2.receiver === 1 &&
+                info.team2.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
           {
-            content: `${
-              info.initTeam2.server === 2
-                ? "S"
-                : info.initTeam2.receiver === 2 &&
-                  info.team2.players.length === 2
+            content: `${info.initTeam2.server === 2
+              ? "S"
+              : info.initTeam2.receiver === 2 &&
+                info.team2.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
         ],
         [
           {
-            content: `${
-              info.initTeam1.server === 1 || info.initTeam1.receiver === 1
-                ? "0"
-                : ""
-            }`,
+            content: `${info.initTeam1.server === 1 || info.initTeam1.receiver === 1
+              ? "0"
+              : ""
+              }`,
           },
           {
-            content: `${
-              info.initTeam1.server === 2 || info.initTeam1.receiver === 2
-                ? "0"
-                : ""
-            }`,
+            content: `${info.initTeam1.server === 2 || info.initTeam1.receiver === 2
+              ? "0"
+              : ""
+              }`,
           },
           {
-            content: `${
-              info.initTeam2.server === 1 || info.initTeam2.receiver === 1
-                ? "0"
-                : ""
-            }`,
+            content: `${info.initTeam2.server === 1 || info.initTeam2.receiver === 1
+              ? "0"
+              : ""
+              }`,
           },
           {
-            content: `${
-              info.initTeam2.server === 2 || info.initTeam2.receiver === 2
-                ? "0"
-                : ""
-            }`,
+            content: `${info.initTeam2.server === 2 || info.initTeam2.receiver === 2
+              ? "0"
+              : ""
+              }`,
           },
         ],
       ];
@@ -319,62 +310,54 @@ const EventsBox = (props) => {
         [...newLog],
         [
           {
-            content: `${
-              info.team1.server === 1
-                ? "S"
-                : info.team1.receiver === 1 && info.team1.players.length === 2
+            content: `${info.team1.server === 1
+              ? "S"
+              : info.team1.receiver === 1 && info.team1.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
           {
-            content: `${
-              info.team1.server === 2
-                ? "S"
-                : info.team1.receiver === 2 && info.team1.players.length === 2
+            content: `${info.team1.server === 2
+              ? "S"
+              : info.team1.receiver === 2 && info.team1.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
           {
-            content: `${
-              info.team2.server === 1
-                ? "S"
-                : info.team2.receiver === 1 && info.team2.players.length === 2
+            content: `${info.team2.server === 1
+              ? "S"
+              : info.team2.receiver === 1 && info.team2.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
           {
-            content: `${
-              info.team2.server === 2
-                ? "S"
-                : info.team2.receiver === 2 && info.team2.players.length === 2
+            content: `${info.team2.server === 2
+              ? "S"
+              : info.team2.receiver === 2 && info.team2.players.length === 2
                 ? "R"
                 : ""
-            }`,
+              }`,
           },
         ],
         [
           {
-            content: `${
-              info.team1.server === 1 || info.team1.receiver === 1 ? "0" : ""
-            }`,
+            content: `${info.team1.server === 1 || info.team1.receiver === 1 ? "0" : ""
+              }`,
           },
           {
-            content: `${
-              info.team1.server === 2 || info.team1.receiver === 2 ? "0" : ""
-            }`,
+            content: `${info.team1.server === 2 || info.team1.receiver === 2 ? "0" : ""
+              }`,
           },
           {
-            content: `${
-              info.team2.server === 1 || info.team2.receiver === 1 ? "0" : ""
-            }`,
+            content: `${info.team2.server === 1 || info.team2.receiver === 1 ? "0" : ""
+              }`,
           },
           {
-            content: `${
-              info.team2.server === 2 || info.team2.receiver === 2 ? "0" : ""
-            }`,
+            content: `${info.team2.server === 2 || info.team2.receiver === 2 ? "0" : ""
+              }`,
           },
         ],
       ]);
@@ -482,7 +465,10 @@ const EventsBox = (props) => {
           updatedLog.splice(updatedLog.length - 1, 1);
         }
       } else {
-        updatedLog.splice(updatedLog.length - 1, 1);
+        let removeCount = 1
+        if (updatedLog[updatedLog.length - 2]?.find((item) => item.content === "F"))
+          removeCount = 2
+        updatedLog.splice(updatedLog.length - removeCount, removeCount);
       }
       setLog(updatedLog);
     }
