@@ -8,6 +8,8 @@ import Modal from "../../../../components/UI/Modal/Modal";
 import { useEffect, useState } from "react";
 import GameResult from "./GameResult/GameResult";
 import TextComponent from "../../../../components/UI/TextComponent/TextComponent";
+import { FaUser, FaUserGroup } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 const GameBox = ({
     game,
@@ -30,6 +32,20 @@ const GameBox = ({
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
+    const { user } = useSelector((state) => state.auth);
+
+    const dropdownKeyDownHandler = (e, gameKey, teamKey, playerIndex, type) => {
+        switch (e.key) {
+            case "Delete":
+                let value = { id: "", text: "" }
+                onChange(value, gameKey, teamKey, playerIndex, type)
+                break;
+
+            default:
+                break;
+        }
+    };
+
     useEffect(() => {
         if (!game._id) return;
         let gameBox = document.getElementById(`game_${game._id}`);
@@ -45,7 +61,8 @@ const GameBox = ({
 
     return <div id={`game_${game._id}`} className="tournament-game-box"
         style={{
-            backgroundColor: theme.surface
+            backgroundColor: theme.surface,
+            opacity: game.status === 3 ? 0.9 : 1
         }}
     >
         {
@@ -57,18 +74,18 @@ const GameBox = ({
         <div className="match-game-header">
             <div className="match-game-number">
                 {
-                    createAccess ?
+                    createAccess && game.status < 2 ?
                         <CustomInput
                             elementConfig={{
-                                placeholder: stringFa.number_of_game,
+                                placeholder: stringFa.number_of_game
                             }}
                             inputContainer={{
                                 padding: "0",
-                                width: "100px",
+                                width: "60px",
                             }}
                             inputStyle={{
                                 fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
-                                minWidth: "100px",
+                                minWidth: "60px",
                                 direction: "ltr"
                             }}
                             onChange={(e) => onChangeGameInfo(e, game._id)}
@@ -81,33 +98,33 @@ const GameBox = ({
                         />
                 }
             </div>
-            <div className="match-game-index"
+            <div
+                className="match-game-index"
                 style={{
-                    backgroundColor: game.status > -1 ? theme.primary : theme.darken_border_color, //if done -> theme.primary
+                    backgroundColor: game.status > 1 ?  // if done                    
+                        theme.primary :
+                        theme.darken_border_color,
                     color: theme.on_primary,
-                    cursor: toggleType ? 'pointer' : 'auto',
-                    animationName: game.status > -1 ? "unset" : "shadow-pulse"
+                    cursor: (toggleType && game.status < 2) ? 'pointer' : 'default',
+                    animationName: game.status > 1 ? "unset" : "shadow-pulse"
                 }}
-                onClick={() => toggleType && toggleType(game._id)}
-            >{game.title}
+                onClick={() => (toggleType && game.status < 2) && toggleType(game._id)}
+            >
+                {game ?
+                    game.players?.a?.length > 1 ?
+                        <FaUserGroup className="double-index" /> :
+                        <FaUser className="single-index" /> :
+                    null
+                }
+                <span className="match-game-index-text">
+                    {game.title}
+                </span>
             </div>
-            {game.status > 1 &&
-                <div className="match-game-report"
-                    style={{ color: theme.secondary }}
-                >
-                    {game.status === 3 &&
-                        <a href={`/report?id=${game._id}`} style={{ cursor: 'pointer', color: theme.secondary }}>{stringFa.game_scoresheet}</a>
-                    }
-                    {game.status === 2 &&
-                        <div className="live-indicator" />
-                    }
-                </div>
-            }
             {
                 landNumbers &&
                 <div className="match-game-number game-court">
                     {
-                        createAccess ?
+                        createAccess && game.status < 2 ?
                             <CustomInput
                                 placeHolder={'court'}
                                 elementType={elementTypes.dropDown}
@@ -116,22 +133,23 @@ const GameBox = ({
                                 value={game.court.value}
                                 inputStyle={{
                                     fontSize: "clamp(0.7rem, 1.5vw, 0.9rem)",
-                                    minWidth: "50px",
+                                    minWidth: "70px",
                                     direction: "ltr",
                                     animationName: game.court.value ? "unset" : "border-pulse"
                                 }}
                                 inputContainer={{
                                     padding: "0",
-                                    width: "100px",
+                                    width: "70px",
                                 }}
                             />
                             :
-                            <div className="not-access_game_court">
-                                <TextComponent
-                                    value={game.court.value}
-                                    title={'شماره زمین '}
-                                />
-                            </div>
+                            <TextComponent
+                                value={game.court.value}
+                                title={'شماره زمین '}
+                                style={{
+                                    width: "fit-content"
+                                }}
+                            />
                     }
                 </div>
             }
@@ -147,7 +165,7 @@ const GameBox = ({
                             {[...new Array(v.length)].map((_, k3) =>
                                 <div key={k3} className="detail-item">
                                     {
-                                        createAccess ?
+                                        createAccess && game.status < 2 ?
                                             <CustomInput
                                                 placeHolder={stringFa.undefined}
                                                 elementType={elementTypes.dropDown}
@@ -172,12 +190,23 @@ const GameBox = ({
                                             :
                                             <TextComponent
                                                 value={game.players[k2][k3].value}
-                                            // title={'نام سالن '}
                                             />
                                     }
                                 </div>
                             )}
                         </div>
+                        {game.status === 3 && game.scores &&
+                            <div className="game-result">
+                                {game.scores[k2]?.map((item, k4) =>
+                                    <p style={{ fontWeight: item.winner && 'bold' }} key={k4}>
+                                        {item.score}
+                                    </p>
+                                )}
+                            </div>
+                        }
+                        {game.status === 3 && game.scores && k2 === 'a' ?
+                            <p className="dash">-</p> : ''
+                        }
                     </div>)
             }
         </div>
@@ -185,7 +214,7 @@ const GameBox = ({
             style={{
                 backgroundColor: game.officials.umpire[0]._id ? theme.primary : theme.border_color,
                 color: game.officials.umpire[0]._id ? theme.on_primary : theme.on_background,
-                padding: game.officialsOpen ? "0.5rem" : "0",
+                padding: game.officialsOpen && createAccess ? "0 0.3rem 0.3rem" : "0",
                 maxHeight: game.officialsOpen ? "250px" : "1px",
             }}
         >
@@ -194,7 +223,6 @@ const GameBox = ({
                     <div key={k2} className={`game-detail-section ${k2 === 'serviceJudge' ? "left" : ''}`}
                         style={{ opacity: game.officialsOpen ? 1 : 0 }}
                     >
-
                         {[...new Array(v.length)].map((_, k3) =>
                             <div key={k3} className="detail-items">
                                 {
@@ -213,6 +241,9 @@ const GameBox = ({
                                                     }
                                                 })}
                                                 inputContainer={{ padding: "0" }}
+                                                elementConfig={{
+                                                    onKeyDown: (e) => dropdownKeyDownHandler(e, game._id, k2, k3, 'official')
+                                                }}
                                                 onChange={(e) => onChange(e, game._id, k2, k3, 'official')}
                                                 value={game.officials[k2][k3].value}
                                                 inputStyle={{
@@ -220,25 +251,20 @@ const GameBox = ({
                                                 }}
                                             />
                                         </>
-
                                         :
                                         <TextComponent
                                             value={game.officials[k2][k3].value}
                                             title={k2 === 'serviceJudge' ? 'داور سرویس' : 'داور'}
-
                                         />
-
                                 }
-
                             </div>
                         )}
                     </div>)
             }
         </div>
-
         <div className="match-game-buttons">
             {
-                createAccess &&
+                (user?.is_fekrafzar || (createAccess && game.status < 2)) &&
                 <>
                     <TransparentButton
                         ButtonStyle={{
@@ -248,7 +274,8 @@ const GameBox = ({
                             color: theme.error
                         }}
                         config={{
-                            disabled: toggleType ? !(game?.fetched) :
+                            disabled: toggleType ?
+                                (!(game?.fetched) || (game.status > 1 && !user?.is_fekrafzar)) :
                                 game?._id.length === 1
                         }}
                         onClick={() => onRemove(game._id)}
@@ -304,6 +331,18 @@ const GameBox = ({
                     {stringFa.record_result}
                 </Button>
             } */}
+            {createAccess && game.status > 1 &&
+                <div className="match-game-report"
+                    style={{ color: theme.secondary }}
+                >
+                    {game.status === 3 &&
+                        <a href={`/report?id=${game._id}`} style={{ cursor: 'pointer', color: theme.secondary }}>{stringFa.game_scoresheet}</a>
+                    }
+                    {game.status === 2 &&
+                        <div className="live-indicator" />
+                    }
+                </div>
+            }
         </div>
     </div >;
 };
