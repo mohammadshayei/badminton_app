@@ -26,7 +26,6 @@
     .tournament-content {
       width: 100%;
       display: flex;
-      padding-top: 1rem;
       .tournament-list-items {
         width: 100%;
         display: flex;
@@ -43,7 +42,6 @@
         }
         .tournament-item {
           border-bottom: 1px solid;
-          padding-bottom: 0.5rem;
           cursor: pointer;
           margin: 0.5rem 0;
           .tournament-item-bar {

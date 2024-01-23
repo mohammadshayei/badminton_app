@@ -5,12 +5,25 @@
   padding: 0;
   z-index: 9;
   padding: 0 0.5rem;
+  .loading-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.5em;
+    width: fit-content;
+    align-items: flex-end;
+    .loading-spinner {
+      font-size: 22px;
+      margin-bottom: 0;
+    }
+  }
   .search-icon {
     position: absolute;
-    opacity: 0.5;
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    top: calc(2.6rem + 0.5em);
-    left: 1em;
+    opacity: 0.3;
+    font-size: 1.2em;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.5em;
   }
   .founds {
     position: relative;
@@ -40,15 +53,16 @@
     }
     .open {
       height: fit-content;
-      max-height: 20vh;
-      padding: 0.2rem 0.8rem;
+      max-height: 30vh;
+      padding: 0.2rem 0.5rem;
       .found-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        margin: 0.5rem 0;
-        border-radius: 10px;
+        margin-block: 0.25rem;
+        padding-inline: 0.3rem;
+        border-radius: 8px;
         cursor: pointer;
         transition: background-color 200ms ease;
         &:hover {

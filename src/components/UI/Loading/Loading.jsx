@@ -10,9 +10,11 @@ const Loading = (props) => {
     return (
         <div className='loading-container' style={{ color: theme.on_background, ...props.style }}>
             <Icon className='loading-spinner' icon="line-md:loading-twotone-loop" color={theme.primary} />
-            <p className='loading'>
-                {stringFa.loading}
-            </p>
+            {!props.small &&
+                <p className='loading'>
+                    {stringFa.loading}
+                </p>
+            }
         </div>
     )
 }
