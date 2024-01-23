@@ -572,76 +572,73 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
         <div className="day-selector-container">
           {tournamentDays
             ? tournamentDays.map((day) => (
-                <Day
-                  key={day._id}
-                  day={day}
-                  selectDay={() => selectDay(day._id)}
-                />
-              ))
+              <Day
+                key={day._id}
+                day={day}
+                selectDay={() => selectDay(day._id)}
+              />
+            ))
             : [...Array(5).keys()].map((v) => (
-                <Skeleton key={v} className="day" style={{ border: "none" }} />
-              ))}
+              <Skeleton key={v} className="day" style={{ border: "none" }} />
+            ))}
         </div>
-        <div className="gym-selector">
+        <div className="date-of-day">
           {createAccess ? (
             <>
-              <div>نام سالن</div>
               <CustomInput
-                placeHolder={stringFa.undefined}
-                elementType={elementTypes.dropDown}
-                onChange={onChangeGym}
-                items={gyms.map((item) => {
-                  return {
-                    id: item.gym._id,
-                    text: item.gym.title,
-                  };
-                })}
-                shouldValidate={true}
-                invalid={error === "gym"}
-                touched={true}
-                value={gym.value}
-                inputContainer={{ padding: "0" }}
+                title={stringFa.date}
+                invalid={error === "date"}
+                elementType={elementTypes.datePicker}
+                value={dateValue}
+                inputContainer={{ paddingBottom: "0" }}
+                onChange={onChangeDatePicker}
+                validation={{ bdRequired: true }}
+                elementConfig={{
+                  minDate: gameDate ? new Date(gameDate.start) : null,
+                  maxDate: gameDate ? new Date(gameDate.end) : null,
+                }}
+              />
+              <IoTrashBin
+                className={`icon-trash ${games?.length === 0 && dateValue ? "" : "icon-disabled"
+                  }`}
+                onClick={onClearDate}
+                color={theme.error}
               />
             </>
           ) : (
-            <TextComponent value={gym.value} title={"نام سالن "} />
+            <TextComponent
+              value={
+                dateValue
+                  ? new Date(dateValue).toLocaleDateString("fa-IR")
+                  : stringFa.undefined
+              }
+              title={stringFa.date}
+            />
           )}
         </div>
-      </div>
-      <div className="date-of-day">
-        {createAccess ? (
-          <>
+        <div className="gym-selector">
+          {createAccess ?
             <CustomInput
-              title={stringFa.date}
-              invalid={error === "date"}
-              elementType={elementTypes.datePicker}
-              value={dateValue}
-              inputContainer={{ paddingBottom: "0" }}
-              onChange={onChangeDatePicker}
-              validation={{ bdRequired: true }}
-              elementConfig={{
-                minDate: gameDate ? new Date(gameDate.start) : null,
-                maxDate: gameDate ? new Date(gameDate.end) : null,
-              }}
+              title={`نام سالن`}
+              placeHolder={stringFa.undefined}
+              elementType={elementTypes.dropDown}
+              onChange={onChangeGym}
+              items={gyms.map((item) => {
+                return {
+                  id: item.gym._id,
+                  text: item.gym.title,
+                };
+              })}
+              shouldValidate={true}
+              invalid={error === "gym"}
+              touched={true}
+              value={gym.value}
+              inputContainer={{ padding: "0" }}
             />
-            <IoTrashBin
-              className={`icon-trash ${
-                games?.length === 0 && dateValue ? "" : "icon-disabled"
-              }`}
-              onClick={onClearDate}
-              color={theme.error}
-            />
-          </>
-        ) : (
-          <TextComponent
-            value={
-              dateValue
-                ? new Date(dateValue).toLocaleDateString("fa-IR")
-                : stringFa.undefined
-            }
-            title={stringFa.date}
-          />
-        )}
+            :
+            <TextComponent value={gym.value} title={"نام سالن "} />
+          }
+        </div>
       </div>
       {createAccess && (
         <TransparentButton

@@ -54,9 +54,6 @@
         }
       }
     }
-    .gym-selector {
-      margin-right: auto;
-    }
   }
   .date-of-day {
     // display: flex;
@@ -67,15 +64,14 @@
     display: flex;
     width: 100%;
     max-width: 10rem;
-    margin-bottom: 0.5rem;
+    margin-inline-start: auto;
+    margin-inline-end: 15px;
     .icon-trash {
-      position: absolute;
-      right: calc(100% + 0.5rem);
-      top: 70%;
-      transform: translateY(-50%);
       cursor: pointer;
+      margin-block: auto 10px;
+      margin-inline-start: 10px;
       &:active {
-        transform: translateY(-50%) scale(0.9);
+        transform: scale(0.9);
       }
     }
     .icon-disabled {
