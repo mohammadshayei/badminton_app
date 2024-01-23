@@ -106,7 +106,7 @@ const Selector = (props) => {
             return;
           let teamWon =
             info.team1.scores[info.team1.scores.length - 1] >
-            info.team2.scores[info.team2.scores.length - 1]
+              info.team2.scores[info.team2.scores.length - 1]
               ? "team1"
               : "team2";
           players = [
@@ -161,7 +161,7 @@ const Selector = (props) => {
         (info.team1.receiver === 0 || info.team2.receiver === 0)
       ) {
         setloading(true);
-        if (!props.exitable) props.setShow(false);
+        if (!props.exitable && !props.createSet) props.setShow(false);
         else {
           const payload = {
             gameId: props.selectedGameId,

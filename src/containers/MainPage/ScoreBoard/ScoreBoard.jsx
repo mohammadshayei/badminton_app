@@ -222,7 +222,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
     if (info.setOver) {
       clearEventsAndAddToTotalEvents();
     }
-  }, [info.events]);
+  }, [info.setOver]);
   useEffect(() => {
     if (socket && gameStarted && game) {
       const payload = {
@@ -342,7 +342,8 @@ const ScoreBoard = ({ disable, setDisable }) => {
         (info.team1.setWon !== 0 || info.team2.setWon !== 0) &&
         info.team1.setWon !== 2 &&
         info.team2.setWon !== 2 &&
-        endSetRequestSent
+        endSetRequestSent &&
+        info.team1.players?.length === 1
       ) {
         createNewSet();
         setEndSetRequestSent(false);
@@ -540,16 +541,16 @@ const ScoreBoard = ({ disable, setDisable }) => {
           ? "down-left"
           : "up-left"
         : parseInt(info.events[index].content) % 2 === 0
-        ? "up-right"
-        : "down-right";
+          ? "up-right"
+          : "down-right";
     } else {
       temp = info.team2.isRightTeam
         ? parseInt(info.events[index].content) % 2 === 0
           ? "down-left"
           : "up-left"
         : parseInt(info.events[index].content) % 2 === 0
-        ? "up-right"
-        : "down-right";
+          ? "up-right"
+          : "down-right";
     }
     setServerDirection(temp);
   }, [info.eventCounter]);
@@ -623,7 +624,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
       )}
       {chooseServer && (
         <Modal show={chooseServer}>
-          <Selector setShow={setChooseServer} selectedGame={gameId} />
+          <Selector setShow={setChooseServer} selectedGameId={gameId} createSet={true} />
         </Modal>
       )}
       <div
