@@ -7,7 +7,7 @@
   color: whitesmoke;
   font-size: clamp(1rem, 8vw, 12vh);
   padding: 1rem;
-  direction: rtl;
+  direction: ltr;
   .player-block-view {
     display: flex;
     flex-direction: column;
@@ -65,10 +65,12 @@
     .player-block-view {
       flex-direction: row;
       .players-name {
-        align-items: flex-end;
+        align-items: flex-start;
         width: 80%;
         direction: ltr;
         .player-name {
+          display: flex;
+          align-items: center;
           max-width: 100%;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -83,8 +85,8 @@
           position: absolute;
           margin: 0;
           top: 0;
-          left: 1rem;
-          transform: translateY(-10%);
+          right: 1rem;
+          // transform: translateY(-10%);
         }
         .score-digit {
           position: absolute;
