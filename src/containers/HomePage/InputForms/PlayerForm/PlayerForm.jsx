@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
 import InputForm from "../../../../components/UI/InputForm/InputForm";
@@ -26,6 +27,42 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
             },
             elementType: elementTypes.titleInput,
             validationMessage: stringFa.name_family_error,
+            invalid: true,
+            validation: {
+                required: true,
+                minLength: 3,
+            },
+            shouldValidate: true,
+            isFocused: false,
+            touched: false,
+            hidden: true,
+        },
+        firstName: {
+            value: '',
+            title: stringFa.first_name,
+            elementConfig: {
+                type: 'text',
+            },
+            elementType: elementTypes.titleInput,
+            validationMessage: stringFa.frist_name_error,
+            invalid: true,
+            validation: {
+                required: true,
+                minLength: 3,
+            },
+            shouldValidate: true,
+            isFocused: false,
+            touched: false,
+            hidden: false,
+        },
+        lastName: {
+            value: '',
+            title: stringFa.last_name,
+            elementConfig: {
+                type: 'text',
+            },
+            elementType: elementTypes.titleInput,
+            validationMessage: stringFa.last_name_error,
             invalid: true,
             validation: {
                 required: true,
