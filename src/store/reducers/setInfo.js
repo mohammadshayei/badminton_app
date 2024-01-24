@@ -261,8 +261,8 @@ const switchServer = (state) => {
       server = isTopServer
         ? state[teamServer].receiver
         : state[teamServer].receiver === 2
-        ? 1
-        : 2;
+          ? 1
+          : 2;
     }
 
     if (state[teamReceiver].isTop) {
@@ -275,8 +275,8 @@ const switchServer = (state) => {
       receiver = isTopServer
         ? state[teamReceiver].server
         : state[teamReceiver].server === 2
-        ? 1
-        : 2;
+          ? 1
+          : 2;
     }
   } else server = 1;
   newCounter = state.eventCounter;

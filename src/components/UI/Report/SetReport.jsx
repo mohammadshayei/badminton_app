@@ -78,10 +78,9 @@ const SetReport = ({ events, playerTeamB, playerTeamA, teamADetail,
             }
         }
     }, [])
-
     useEffect(() => {
         if (updatedEvents.length > 0) {
-            if (updatedEvents.length > 31) {
+            if (updatedEvents.length > 29) {
                 calTableCount(2)
                 setBody(
                     <>

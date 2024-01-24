@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 const OneTable = ({
     isSingle, events, playerTeamA, playerTeamB,
     isOne, teamADetail, teamBDetail, empty, isInPrev }) => {
-    // console.log(events)
     const [log, setLog] = useState([])
     const columnStyle = {
         height: "20mm",
@@ -54,7 +53,19 @@ const OneTable = ({
             { content: '' },
             { content: '' },
             { content: '' }]]
+            if (events.length === 0)
+                newLog = [...newLog,
+                [{ content: '' },
+                { content: '' },
+                { content: '' },
+                { content: '' }],
+                [{ content: `${teamADetail.score}` },
+                { content: '' },
+                { content: '' },
+                { content: `${teamBDetail.score}` }]]
+
         }
+
 
         let checkTwoPoint = false, twoPoint = false;
         events.forEach((event, i) => {

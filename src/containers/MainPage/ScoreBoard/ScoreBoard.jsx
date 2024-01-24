@@ -176,7 +176,6 @@ const ScoreBoard = ({ disable, setDisable }) => {
     }
     let payload = {
       setId,
-      events: info.events,
       teamA: {
         score: info.team1.score,
         setWon: teamName === "team1" ? true : false,
