@@ -148,7 +148,7 @@ const addEvent = (state, action) => {
 };
 
 const removeEventFromStack = (state, action) => {
-  let updatedEvents = [...state.events];
+  let updatedEvents = JSON.parse(JSON.stringify(state.events));
   let event = updatedEvents[updatedEvents.length - 1];
   let newCounter = state.eventCounter;
   let lastPoint = state.lastPoint;

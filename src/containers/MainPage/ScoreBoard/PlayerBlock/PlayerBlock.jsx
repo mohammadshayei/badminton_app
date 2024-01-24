@@ -48,6 +48,8 @@ const PlayerBlock = (props) => {
         foul = "Ret"
       else if (info.foulHappend === "Disqualified")
         foul = "Dis"
+      // else if (info.foulHappend === "Service Court Error")
+      //   foul = "C"
       else
         foul = info.foulHappend.substring(0, 1)
       addEvent({ type: info.foulHappend, time: "", by: id, content: foul, detail: null });
