@@ -57,9 +57,8 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                                     data[k].server ? "#00000077" : "transparent"
                             }}
                         >
-                            {console.log(v)}
                             <ReactCountryFlag
-                                countryCode="IR"
+                                countryCode={v.players[0].player.nationality}
                                 svg
                                 style={{
                                     width: '1.25em',
