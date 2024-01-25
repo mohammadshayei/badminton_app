@@ -1,24 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import './WaitPage.scss'
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getLiveGames } from '../../api/liveGame';
 import ErrorDialog from '../../components/UI/Error/ErrorDialog';
 import { useTheme } from '../../styles/ThemeProvider';
-import * as gameActions from "../../store/actions/gameInfo"
+// import * as gameActions from "../../store/actions/gameInfo"
 import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css'
-
-import './WaitPage.scss'
+import 'react-slideshow-image/dist/styles.css';
 import { baseUrl } from '../../constants/Config';
 import { stringFa } from '../../assets/strings/stringFaCollection';
+
 const WaitPage = () => {
-    const [tokenId, setTokenId] = useState("");
+    // const [tokenId, setTokenId] = useState("");
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
     const [games, setGames] = useState(null)
 
     const socket = useSelector(state => state.auth.socket)
-
 
     const locaiton = useLocation();
     let navigate = useNavigate();
@@ -30,25 +30,14 @@ const WaitPage = () => {
     const gymId = searchParams.get("gymId");
     const landNumber = searchParams.get("landNumber");
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    const setSelectedGameView = (game) => {
-        dispatch(gameActions.setGameView(game));
-    };
-    const slideImages = [
-        {
-            url: 'images/slide_1.jpg',
-        },
-        // {
-        //     url: 'images/slide_2.jpg',
-        // },
-        // {
-        //     url: 'images/slide_3.jpg',
-        // },
-        // {
-        //     url: 'images/slide_4.jpg',
-        // },
-    ];
+    // const setSelectedGameView = (game) => {
+    //     dispatch(gameActions.setGameView(game));
+    // };
+
+    const slideImages = ['BACK02.svg', 'BACK03.svg'];
+
     useEffect(() => {
         (async () => {
             setLoading(true)
@@ -97,24 +86,24 @@ const WaitPage = () => {
     return (
         <div className='wait-page-wrapper'
             style={{
-                background: `linear-gradient(210deg,${theme.primary},${theme.primary_variant})`,
+                // background: `linear-gradient(210deg,${theme.primary},${theme.primary_variant})`,
+                background: '#e62643',
                 color: theme.on_primary,
-
             }}
         >
             {/* <div className='title'>
                 <p>نرم افزاری فکر افزار</p>
             </div> */}
-            <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
-                <img src={`${baseUrl}images/slide_1.jpg`} alt="" />
-                <p
-                    style={{ color: theme.primary }}
-                    className='url'>http://sports.setoos.ir</p>
-            </div>
-            {/* <Slide arrows={false} > */}
-            {/* {slideImages.map((slideImage, index) => (
-                ))} */}
-            {/* </Slide> */}
+            <Slide arrows={false} duration={10000}>
+                {slideImages.map((slideImage, index) => (
+                    <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
+                        <img src={`${baseUrl}images/${slideImage}`} alt="" />
+                        {/* <p
+                            style={{ color: theme.primary }}
+                            className='url'>http://sports.setoos.ir</p> */}
+                    </div>
+                ))}
+            </Slide>
             <div className='wait'>
                 <p>
                     {stringFa.wait_to_start_the_game}
