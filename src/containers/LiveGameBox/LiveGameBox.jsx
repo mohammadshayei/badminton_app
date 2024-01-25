@@ -9,6 +9,7 @@ import { memo, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { GiTennisCourt } from "react-icons/gi";
 import { FaReply } from "react-icons/fa";
+import ReactCountryFlag from "react-country-flag";
 
 const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration, style }) => {
     const [teamAScore, setTeamAScore] = useState(0);
@@ -192,6 +193,13 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                     }}
                 >
                     <div className="players-and-shuttle">
+                        <ReactCountryFlag
+                            countryCode={game?.teamA.players[0].player.nationality}
+                            svg
+                            style={{
+                                marginInlineEnd: '5px'
+                            }}
+                        />
                         <div className="team-players">
                             <div className='team-players-score'>
                                 <span title={game?.teamA.players[0].player.username}>
@@ -254,6 +262,13 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 </div>
                 <div className="team">
                     <div className="players-and-shuttle">
+                        <ReactCountryFlag
+                            countryCode={game?.teamB.players[0].player.nationality}
+                            svg
+                            style={{
+                                marginInlineEnd: '5px'
+                            }}
+                        />
                         <div className="team-players">
                             <div className='team-players-score'>
                                 <span title={game?.teamB.players[0].player.username}>
