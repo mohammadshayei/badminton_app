@@ -41,6 +41,7 @@ const initialState = {
     server: 0,
     receiver: 1,
   },
+  renderTriger: 0,
 };
 
 const increaseScore = (state, action) => {
@@ -324,13 +325,18 @@ const switchServer = (state) => {
 const switchSide = (state, action) => {
   return {
     ...state,
+    renderTriger: state.renderTriger === 0 ? 1 : 0,
     team1: {
       ...state.team1,
       isRightTeam: !state.team1.isRightTeam,
+      isTop: !state.team1.isRightTeam ? false : true,
+
     },
     team2: {
       ...state.team2,
       isRightTeam: !state.team2.isRightTeam,
+      isTop: !state.team2.isRightTeam ? false : true,
+
     },
   };
 };
