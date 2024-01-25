@@ -121,7 +121,9 @@ const Overview = ({ tournamentId, createAccess }) => {
                 })
                 setDateValue(fetchedData.data.selectedDay.date ? fetchedData.data.selectedDay.date : '')
                 setTournamentDays(updatedTournamentsDay)
-                let updatedGames = fetchedData.data.selectedDay.games.map(item => {
+                let updatedGames = fetchedData.data.selectedDay.games
+                .sort((a,b)=>parseInt(a.game.game_number)-parseInt(b.game.game_number))
+                .map(item => {
                     return {
                         _id: item.game._id,
                         title: `بازی شماره ${item.game.game_number}`,
