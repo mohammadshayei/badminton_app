@@ -73,6 +73,42 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
             touched: false,
             hidden: false,
         },
+        nationality: {
+            value: '',
+            title: stringFa.nationality,
+            elementConfig: {
+                type: 'text',
+            },
+            elementType: elementTypes.titleInput,
+            validationMessage: stringFa.nationality_error,
+            invalid: true,
+            validation: {
+                required: true,
+                minLength: 1,
+            },
+            shouldValidate: true,
+            isFocused: false,
+            touched: false,
+            hidden: false,
+        },
+        sex: {
+            value: 'مرد',
+            title: stringFa.sex,
+            elementConfig: {
+                type: 'text',
+            },
+            elementType: elementTypes.titleInput,
+            validationMessage: stringFa.sex_error,
+            invalid: false,
+            validation: {
+                required: true,
+                minLength: 2,
+            },
+            shouldValidate: true,
+            isFocused: false,
+            touched: false,
+            hidden: false,
+        },
         id: {
             value: '',
             title: stringFa.national_number,
@@ -168,7 +204,11 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
         try {
 
             let payload = {
-                username: order.username.value,
+                username: `${order.firstName.value} ${order.lastName.value}`,
+                firstName: order.firstName.value,
+                lastName: order.lastName.value,
+                nationality: order.nationality.value,
+                sex: order.sex.value,
                 playerId: content._id,
                 teamId: order.team.id,
                 nationalNumber: order.id.value,
@@ -181,7 +221,7 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
                     type={result.success ? 'success' : "error"}
                 >{result.data.message}</ErrorDialog>)
             if (result.success) {
-                onUpdateItem({ _id: content._id, username: order.username.value, selected: true })
+                onUpdateItem({ _id: content._id, username: `${order.firstName.value} ${order.lastName.value}`, selected: true })
                 if (window.innerWidth < 780)
                     onBack()
             }
@@ -198,7 +238,11 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
         setDialog(null);
         try {
             let payload = {
-                username: order.username.value,
+                username: `${order.firstName.value} ${order.lastName.value}`,
+                firstName: order.firstName.value,
+                lastName: order.lastName.value,
+                sex: order.sex.value,
+                nationality: order.nationality.value,
                 teamId: order.team.id,
                 nationalNumber: order.id.value,
                 birthDate: new Date(order.birthDate.value),
@@ -213,7 +257,7 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
             if (created.success) {
                 onAddItem({
                     _id: created.data.player,
-                    username: order.username.value,
+                    username: `${order.firstName.value} ${order.lastName.value}`,
                     selected: true
                 })
                 if (window.innerWidth < 780)
@@ -238,6 +282,18 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
 
         updatedOrder.username.invalid = true;
         updatedOrder.username.value = '';
+
+        updatedOrder.firstName.invalid = true;
+        updatedOrder.firstName.value = '';
+
+        updatedOrder.lastName.invalid = true;
+        updatedOrder.lastName.value = '';
+
+        updatedOrder.sex.invalid = false;
+        updatedOrder.sex.value = 'مرد';
+
+        updatedOrder.nationality.invalid = true;
+        updatedOrder.nationality.value = '';
 
         updatedOrder.birthDate.value = '';
         updatedOrder.birthDate.invalid = true;
@@ -266,6 +322,18 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
 
             updatedOrder.username.value = content.username;
             updatedOrder.username.invalid = false;
+
+            updatedOrder.firstName.invalid = false;
+            updatedOrder.firstName.value = content.firstName;
+
+            updatedOrder.lastName.invalid = false;
+            updatedOrder.lastName.value = content.lastName;
+
+            updatedOrder.nationality.invalid = false;
+            updatedOrder.nationality.value = content.nationality;
+
+            updatedOrder.sex.invalid = false;
+            updatedOrder.sex.value = content.sex;
 
             updatedOrder.birthDate.value = content.birth_date;
             updatedOrder.birthDate.invalid = false;

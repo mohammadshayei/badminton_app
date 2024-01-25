@@ -120,41 +120,41 @@ const PlayerBlock = (props) => {
   useEffect(() => {
     let key = info[props.teamKey].server > 0 ? "server" : "receiver"
     if (props.playerD) {
-      if (key === "server")
-        if (info[props.teamKey].isTop) {
-          setdynamicStyle({
-            name1: info[props.teamKey][key] === 1 ? 1 : 4,
-            image1: info[props.teamKey][key] === 1 ? 2 : 3,
-            name2: info[props.teamKey][key] === 1 ? 4 : 1,
-            image2: info[props.teamKey][key] === 1 ? 3 : 2,
-          })
-        } else {
-          setdynamicStyle({
-            name1: info[props.teamKey][key] === 1 ? 4 : 1,
-            image1: info[props.teamKey][key] === 1 ? 3 : 2,
-            name2: info[props.teamKey][key] === 1 ? 1 : 4,
-            image2: info[props.teamKey][key] === 1 ? 2 : 3,
-          })
-        }
-      else
-        if (info.team1.score === 0 && info.team2.score === 0)
-          if (info[props.teamKey].isTop) {
-            setdynamicStyle({
-              name1: info[props.teamKey][key] === 1 ? 1 : 4,
-              image1: info[props.teamKey][key] === 1 ? 2 : 3,
-              name2: info[props.teamKey][key] === 1 ? 4 : 1,
-              image2: info[props.teamKey][key] === 1 ? 3 : 2,
-            })
-          } else {
-            setdynamicStyle({
-              name1: info[props.teamKey][key] === 1 ? 4 : 1,
-              image1: info[props.teamKey][key] === 1 ? 3 : 2,
-              name2: info[props.teamKey][key] === 1 ? 1 : 4,
-              image2: info[props.teamKey][key] === 1 ? 2 : 3,
-            })
-          }
+      if (info[props.teamKey].isTop) {
+        setdynamicStyle({
+          name1: info[props.teamKey][key] === 1 ? 1 : 4,
+          image1: info[props.teamKey][key] === 1 ? 2 : 3,
+          name2: info[props.teamKey][key] === 1 ? 4 : 1,
+          image2: info[props.teamKey][key] === 1 ? 3 : 2,
+        })
+      } else {
+        setdynamicStyle({
+          name1: info[props.teamKey][key] === 1 ? 4 : 1,
+          image1: info[props.teamKey][key] === 1 ? 3 : 2,
+          name2: info[props.teamKey][key] === 1 ? 1 : 4,
+          image2: info[props.teamKey][key] === 1 ? 2 : 3,
+        })
+      }
+      // if (key === "server")
+      // else
+      //   if (info.team1.score === 0 && info.team2.score === 0)
+      //     if (info[props.teamKey].isTop) {
+      //       setdynamicStyle({
+      //         name1: info[props.teamKey][key] === 1 ? 1 : 4,
+      //         image1: info[props.teamKey][key] === 1 ? 2 : 3,
+      //         name2: info[props.teamKey][key] === 1 ? 4 : 1,
+      //         image2: info[props.teamKey][key] === 1 ? 3 : 2,
+      //       })
+      //     } else {
+      //       setdynamicStyle({
+      //         name1: info[props.teamKey][key] === 1 ? 4 : 1,
+      //         image1: info[props.teamKey][key] === 1 ? 3 : 2,
+      //         name2: info[props.teamKey][key] === 1 ? 1 : 4,
+      //         image2: info[props.teamKey][key] === 1 ? 2 : 3,
+      //       })
+      //     }
     }
-  }, [props.score, info[props.teamKey].isTop])
+  }, [props.score, info[props.teamKey].isTop, info.renderTriger])
 
   return (
     <div className={`player-block-container ${props.position === "left" && "rev"}`}
