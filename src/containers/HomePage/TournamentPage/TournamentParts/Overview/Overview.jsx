@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./Overview.scss"
 import { useTheme } from "../../../../../styles/ThemeProvider.js";
 import { useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import IMAGE from '../../../../../assets/images/user_avatar.svg';
 import { baseUrl } from "../../../../../constants/Config";
 import RoundSelector from "../../../../../components/UI/RoundSelector/RoundSelector.jsx";
+import ReactCountryFlag from "react-country-flag";
 
 const Overview = ({ tournamentId, createAccess }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
@@ -24,7 +26,7 @@ const Overview = ({ tournamentId, createAccess }) => {
     const [sex, setSex] = useState('مرد')
     const [gameType, setGameType] = useState('')
 
-    const { token, socket } = useSelector(state => state.auth)
+    const { token } = useSelector(state => state.auth)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -101,7 +103,6 @@ const Overview = ({ tournamentId, createAccess }) => {
         })()
     }, [tournamentId])
 
-
     useEffect(() => {
         if (!games || games.length === 0) setFilteredGames([])
         let updatedGames = [...games]
@@ -150,7 +151,6 @@ const Overview = ({ tournamentId, createAccess }) => {
         )
 
     }, [games, gameType, sex])
-
 
     return (
         <div className="tournament-overview-container">
@@ -220,6 +220,14 @@ const Overview = ({ tournamentId, createAccess }) => {
                                     <Fragment key={key}>
                                         <div className={`match-game-team ${key === "b" ? "left" : ''}`}>
                                             <div className="players">
+                                                <ReactCountryFlag
+                                                    countryCode={players[0].nationality}
+                                                    svg
+                                                    style={{
+                                                        width: '1.75em',
+                                                        height: '1.75em'
+                                                    }}
+                                                />
                                                 {players.map((player, i) =>
                                                     <div key={player._id} className="player"
                                                         style={{
