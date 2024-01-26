@@ -19,7 +19,7 @@ import "./TeamForm.scss"
 const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, removeLoading, tournamentId, setShowInputForm, onAddItem, onRemoveItemFromTournament }) => {
     const [formIsValid, setFormIsValid] = useState(true)
     const [order, setOrder] = useState({
-       
+
         ownerPhoneId: {
             value: '',
             title: stringFa.owner_phone_id,
@@ -97,7 +97,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
             minLen: 10,
             status: 0,
         },
-         ownerName: {
+        ownerName: {
             value: '',
             title: stringFa.technical_connector_name,
             elementConfig: {
@@ -738,7 +738,7 @@ const TeamForm = ({ itemLoading, createAccess, onUpdateItem, onBack, content, re
                     onChange={onChangeImage} />
                 <img
                     src={imageSrc ? imageSrc : TEAM_IMAGE}
-                    alt="avatar" />
+                    alt="avatar" loading="lazy" />
                 {createAccess &&
                     <div className="upload-image-wrapper" >
                         <AiFillCamera className='camera' />

@@ -33,7 +33,7 @@ const TournamentBox = ({ title, chiefName, ageCategory, image, gameDate, onClick
         <div className="box-indicator"
             style={{ color: theme.on_surface }}
         >   {loading ? <Skeleton className="image-skeleton" circle={true} /> :
-            image ? <img src={`${baseUrl}uploads/tournaments/${image}`} alt='' /> :
+            image ? <img src={`${baseUrl}uploads/tournaments/${image}`} alt='tournament logo' loading="lazy" /> :
                 <GiTrophyCup />
             }
             {/* <Icon icon="iconoir:tournament" /> */}

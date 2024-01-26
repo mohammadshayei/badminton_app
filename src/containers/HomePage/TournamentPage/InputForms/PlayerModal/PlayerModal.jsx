@@ -261,7 +261,7 @@ const PlayerModal = () => {
                             ref={imageRef}
                             onChange={onChangeImage} />
 
-                        <img src={imageSrc === '' ? IMAGE : imageSrc} alt="avatar" />
+                        <img src={imageSrc === '' ? IMAGE : imageSrc} alt="avatar" loading="lazy" />
                         <div className="upload-image-wrapper"   >
                             <AiFillCamera className='camera' />
                         </div>

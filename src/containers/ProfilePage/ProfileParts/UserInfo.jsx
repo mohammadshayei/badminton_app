@@ -209,7 +209,7 @@ const UserInfo = ({ setDialog }) => {
                         onChange={onChangeImage} />
                     <img
                         src={imageSrc === '' ? PROFILE_IMAGE : imageSrc}
-                        alt="avatar" />
+                        alt="avatar" loading="lazy"/>
                     <div className="upload-image-wrapper" >
                         <AiFillCamera className='camera' />
                     </div>

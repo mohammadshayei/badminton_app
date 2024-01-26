@@ -44,6 +44,7 @@ const StadiumScoreBoard = ({ data, gameScores, game, count, allCount }) => {
                                     maxWidth: v.players.length === 1 ? "80%" : "50%",
                                     marginTop: v.players.length === 1 ? "1.5rem" : "0"
                                 }}
+                                loading="lazy"
                             />
                             {v.players[1] &&
                                 <img
@@ -51,7 +52,7 @@ const StadiumScoreBoard = ({ data, gameScores, game, count, allCount }) => {
                                     src={v.players[1].player.image !== '' ?
                                         `${baseUrl}uploads/players/${v.players[1].player.image}` :
                                         PROFILE_IMAGE}
-                                    alt="profile_image" />
+                                    alt="profile_image" loading="lazy"/>
                             }
                             {v.players[1] && <div className="player-name"
                                 style={{

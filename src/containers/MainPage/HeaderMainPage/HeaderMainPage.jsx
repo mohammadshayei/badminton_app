@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 import { useState } from "react";
 import "./HeaderMainPage.scss";
 import Events from "../EventsModule/Events"
@@ -94,7 +95,7 @@ const HeaderMainPage = () => {
         {stringFa.exit}
       </Button>
       <div className="add-shuttle" style={{ opacity: info.foulHappend ? 0 : 1 }}>
-        <img src={shuttle_image} className="shuttle-img" alt="shuttle" />
+        <img src={shuttle_image} className="shuttle-img" alt="shuttle" loading="lazy" />
         <div className="ball-counter">
           <p>{info.balls}</p>
         </div>

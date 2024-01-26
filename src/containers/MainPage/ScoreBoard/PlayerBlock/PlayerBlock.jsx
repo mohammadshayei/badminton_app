@@ -206,7 +206,7 @@ const PlayerBlock = (props) => {
             style={{
               boxShadow: props.server === 1 ? "0 0 0 1.5vh #F7FF00" :
                 (props.playerD && props.receiver === 1) && `0 0 0 1.5vh ${theme.primary}`
-            }} />
+            }} loading="lazy" />
         </div>
         {props.playerD &&
           <div className={`player-img ${info.foulHappend && 'blink'}`}
@@ -223,6 +223,7 @@ const PlayerBlock = (props) => {
                 boxShadow: props.server === 2 ? "0 0 0 1.5vh #F7FF00" :
                   props.receiver === 2 && `0 0 0 1.5vh ${theme.primary}`
               }}
+              loading="lazy"
             />
           </div>
         }

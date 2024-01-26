@@ -132,7 +132,7 @@ const TeamPage = ({ id }) => {
         {dialog}
         <Header
             title={team?.title}
-            image={team?.image ? <img src={`${baseUrl}uploads/teams/${team.image}`} alt='' /> : <img src={DEFAULT_LOGO} alt="logo" />}
+            image={team?.image ? <img src={`${baseUrl}uploads/teams/${team.image}`} alt='' loading="lazy" /> : <img src={DEFAULT_LOGO} alt="logo" loading="lazy" />}
             owner={team?.ownerId}
             id={id}
             loading={loading}

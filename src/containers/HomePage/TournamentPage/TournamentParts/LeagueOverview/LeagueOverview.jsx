@@ -54,7 +54,7 @@ const LeagueOverview = ({ tournamentId }) => {
                             <td>{i + 1}</td>
                             <td>
                                 <div className="team-name">
-                                    <img src={item._id.image ? `${baseUrl}uploads/teams/${item._id.image}` : DEFAULT_LOGO} alt="logo" />
+                                    <img src={item._id.image ? `${baseUrl}uploads/teams/${item._id.image}` : DEFAULT_LOGO} alt="logo" loading="lazy" />
                                     <p>{item._id.name}</p>
                                 </div>
                             </td>

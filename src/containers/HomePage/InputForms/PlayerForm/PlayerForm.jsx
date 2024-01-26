@@ -434,7 +434,7 @@ const PlayerForm = ({ teamMode, itemLoading, createAccess, onUpdateItem, onAddIt
                     onChange={onChangeImage} />
                 <img
                     src={imageSrc ? imageSrc : PROFILE_IMAGE}
-                    alt="avatar" />
+                    alt="avatar" loading="lazy" />
                 <div className="upload-image-wrapper" >
                     <AiFillCamera className='camera' />
                 </div>

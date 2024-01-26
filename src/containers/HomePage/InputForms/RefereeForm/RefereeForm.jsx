@@ -94,7 +94,7 @@ const RefereeForm = ({ itemLoading, creator, content, onBack, removeLoading, onR
             <div className="profile-avatar" >
                 <img
                     src={imageSrc ? imageSrc : PROFILE_IMAGE}
-                    alt="avatar" />
+                    alt="avatar" loading="lazy" />
             </div>
             <InputForm
                 order={order}

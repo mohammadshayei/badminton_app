@@ -32,7 +32,7 @@ const Header = ({ tournament, loading, filterSelectors, onSelectorClick }) => {
                         <Skeleton
                             className="image-skeleton"
                             circle={true} /> :
-                        tournament?.image ? <img src={`${baseUrl}uploads/tournaments/${tournament?.image}`} alt='' /> :
+                        tournament?.image ? <img src={`${baseUrl}uploads/tournaments/${tournament?.image}`} alt='' loading="lazy" /> :
                             <GiTrophyCup />
                     }
                 </div>

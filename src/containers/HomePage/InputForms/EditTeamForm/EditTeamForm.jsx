@@ -724,7 +724,7 @@ const EditTeamForm = () => {
                     onChange={onChangeImage} />
                 <img
                     src={imageSrc ? imageSrc : TEAM_IMAGE}
-                    alt="avatar" />
+                    alt="avatar" loading="lazy" />
                 {createAccess &&
                     <div className="upload-image-wrapper" >
                         <AiFillCamera className='camera' />

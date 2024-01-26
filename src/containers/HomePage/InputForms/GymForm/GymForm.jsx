@@ -278,7 +278,7 @@ const GymForm = ({ itemLoading, createAccess, onUpdateItem, onAddItem, content, 
                 onChange={onChangeImage} />
             <img
                 src={imageSrc ? imageSrc : IMAGE}
-                alt="default" />
+                alt="default" loading="lazy" />
             <div className="add-image-btn" onClick={uploadButtonClickHandler}>
                 <IoAdd />
             </div>

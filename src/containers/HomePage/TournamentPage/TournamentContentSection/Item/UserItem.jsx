@@ -17,7 +17,7 @@ const UserItem = (props) => {
             <img
                 onDragStart={(e) => e.preventDefault()}
                 src={props.image !== '' ? `${baseUrl}uploads/players/${props.image}` : IMAGE}
-                alt="avatar" />
+                alt="avatar" loading="lazy" />
             <p>{props.username}</p>
         </div>
     )

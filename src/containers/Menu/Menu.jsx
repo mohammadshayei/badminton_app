@@ -79,7 +79,7 @@ const Menu = (props) => {
             <div className="sidebar-menu-items">
                 <ul className="pages">
                     <li className={`app-bar-item ${props.selectedPageIndex === 1 && "selected-page"}`} onClick={() => onMenuClickHandler(1)}>
-                        <img src={tournament} className="list-icon img-icon" alt="tournaments-icon" />
+                        <img src={tournament} className="list-icon img-icon" alt="tournaments-icon" loading="lazy"/>
                         <span className="menu-item">{stringFa.tournaments}</span>
                     </li>
                     <li className={`app-bar-item ${props.selectedPageIndex === 2 && "selected-page"}`} onClick={() => onMenuClickHandler(2)}>
@@ -87,7 +87,7 @@ const Menu = (props) => {
                         <span className="menu-item">{stringFa.teams}</span>
                     </li>
                     {token && <li className={`app-bar-item  ${props.selectedPageIndex === 3 && "selected-page"}`} onClick={() => onMenuClickHandler(3)}>
-                        <img src={umpire} className="list-icon img-icon" alt="my-games-icon" />
+                        <img src={umpire} className="list-icon img-icon" alt="my-games-icon" loading="lazy"/>
                         <span className="menu-item">{stringFa.my_games}</span>
                     </li>}
                     <li className={`app-bar-item seprator ${props.selectedPageIndex === 4 && "selected-page"}`} onClick={() => onMenuClickHandler(4)}>

@@ -153,7 +153,7 @@ const TournamentsPage = () => {
         <div className="ads-and-tournaments">
             <div className="tournaments-wrapper">
                 <div className="ads-container">
-                    <img src={Ads2} alt="ads"
+                    <img src={Ads2} alt="ads" loading="lazy"
                     //  onClick={() => window.location.replace('https://iranbadminton.org/')} 
                     />
                 </div>
@@ -184,7 +184,7 @@ const TournamentsPage = () => {
                 }
             </div>
             <div className="ads-container">
-                <img src={Ads} alt="ads"
+                <img src={Ads} alt="ads" loading="lazy"
                 // onClick={() => window.location.replace('https://iranbadminton.org/')} 
                 />
             </div>

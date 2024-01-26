@@ -470,7 +470,7 @@ const TeamsMatches = ({ onShowGame, matchId, createAccess, tournamentId, gameDat
                                                             marginTop: i > 0 ? "0.25rem" : 0
                                                         }}
                                                     >
-                                                        <img className="player-image" src={!player.image ? IMAGE : `${baseUrl}uploads/players/${player.image}`} alt="avatar" />
+                                                        <img className="player-image" src={!player.image ? IMAGE : `${baseUrl}uploads/players/${player.image}`} alt="avatar" loading="lazy" />
                                                         <div className="player-name">{player.username}</div>
                                                     </div>
                                                 )}

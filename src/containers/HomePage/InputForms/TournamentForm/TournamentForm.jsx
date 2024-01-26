@@ -552,7 +552,7 @@ const TournamentForm = () => {
                 onChange={onChangeImage} />
             {imageSrc ? <img
                 src={imageSrc}
-                alt="avatar" /> :
+                alt="avatar" loading="lazy" /> :
                 <div className="profile-image"
                     style={{
                         backgroundColor: theme.surface,

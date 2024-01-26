@@ -90,7 +90,7 @@ const TeamsPage = () => {
                                 onClick={() => onTeamClickHandler(team._id)}
                             >
                                 <div className="team-logo">
-                                    <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
+                                    <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" loading="lazy" />
                                 </div>
                                 <div className="team-name">{team.name}</div>
                                 <div className="tournaments">
@@ -137,7 +137,7 @@ const TeamsPage = () => {
                     }}
                 >
                     <div className="ads-container">
-                        <img src={Ads2} alt="ads"
+                        <img src={Ads2} alt="ads" loading="lazy"
                         // onClick={() => window.location.replace('https://iranbadminton.org/')}
                         />
                     </div>
@@ -164,7 +164,7 @@ const TeamsPage = () => {
                                     onClick={() => onTeamClickHandler(team._id, 2)}
                                 >
                                     <div className="team-logo">
-                                        <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" />
+                                        <img src={team.image ? `${baseUrl}uploads/teams/${team.image}` : DEFAULT_LOGO} alt="logo" loading="lazy" />
                                     </div>
                                     <div className="team-name">
                                         {team.name}
@@ -178,7 +178,7 @@ const TeamsPage = () => {
                 </div>
             </div>
             <div className="ads-container">
-                <img src={Ads} alt="ads"
+                <img src={Ads} alt="ads" loading="lazy"
                 //  onClick={() => window.location.replace('https://iranbadminton.org/')} 
                 />
             </div>

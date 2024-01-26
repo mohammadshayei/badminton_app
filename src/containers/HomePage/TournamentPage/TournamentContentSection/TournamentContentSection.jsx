@@ -308,7 +308,7 @@ const TournamentContentSection = (props) => {
                         :
                         <div className='no-item-content'
                             style={{ color: theme.on_background }}>
-                            <img src={lamp} alt="" />
+                            <img src={lamp} alt="" loading="lazy" />
                             موردی برای نمایش وجود ندارد
                         </div>}
                     {footer}
