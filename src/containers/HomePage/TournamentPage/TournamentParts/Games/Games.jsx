@@ -334,6 +334,7 @@ const Games = ({ tournamentId, createAccess, gameDate }) => {
               _id: fetchedTournament.data.id,
               game_number: updatedGames[gameIndex].gameNumber,
               land_number: updatedGames[gameIndex].court.value,
+              gymId: gym.id,
               teamAPlayers: updatedGames[gameIndex].players.a.map((item) => {
                 return {
                   _id: item._id,
