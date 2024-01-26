@@ -414,7 +414,6 @@ const TournamentForm = () => {
                 path = 'edit_tournament'
                 payload = { ...payload, tournamentId: id }
             }
-            console.log(payload)
             const result = await formDataDynamic(imagePath, payload, token, path)
             if (!result.success) {
                 setDialog(<ErrorDialog type="error">{result.data.message}</ErrorDialog>)

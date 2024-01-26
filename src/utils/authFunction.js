@@ -13,7 +13,6 @@ export const checkValidaty = (value, rules) => {
   }
   if (rules.bdRequired) {
     isValid = value && isValid;
-    console.log(isValid);
   }
 
   if (rules.minLength) {

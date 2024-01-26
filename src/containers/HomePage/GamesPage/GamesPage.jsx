@@ -41,7 +41,6 @@ const GamesPage = () => {
   const [password, setPassword] = useState('')
   const [filteredGames, setFilteredGames] = useState([])
 
-
   const themeState = useTheme();
   const theme = themeState.computedTheme;
 
@@ -154,7 +153,7 @@ const GamesPage = () => {
     } else
       setSelectedCourt('')
     setFilteredGames(filteredGames)
-  }, [court, games, gym])
+  }, [court, games, gym,])
   useEffect(() => {
     if (!token || !user) return;
     setLoading(true)
@@ -238,7 +237,9 @@ const GamesPage = () => {
       let updatedGames = games.filter(item => item._id !== gameId)
       setGames(updatedGames)
     }))
-  }, [socket, dataFetched, user]);
+  }, [socket, dataFetched, user, games]);
+
+
   return (
     <div className="games-page">
       {dialog}
