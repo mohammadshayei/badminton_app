@@ -19,6 +19,9 @@ const Overview = ({ tournamentId, createAccess }) => {
     const [loading, setLoading] = useState(false)
     const [dateValue, setDateValue] = useState('')
     const [games, setGames] = useState([])
+    const [filteredGames, setFilteredGames] = useState([])
+    const [sex, setSex] = useState('زن')
+    const [gameType, setGameType] = useState('single')
     const { token, socket } = useSelector(state => state.auth)
 
 
@@ -48,48 +51,10 @@ const Overview = ({ tournamentId, createAccess }) => {
                 dayId: key,
             }
             const result = await dynamicApi(payload, token, 'get_overview_free_ranking_day')
-            if (!result.success) {
+            if (!result.success)
                 setDialog(<ErrorDialog type="error"> {result.data.message}</ErrorDialog >)
-            }
-            else {
-                let updatedGames = result.data.selectedDay.games.map(item => {
-                    return {
-                        _id: item.game._id,
-                        title: `بازی شماره ${item.game.game_number}`,
-                        players: {
-                            a: item.game.teamA.players.map(i => {
-                                return {
-                                    _id: i.player._id,
-                                    username: i.player.username,
-                                    image: i.player.image
-                                }
-                            }), b: item.game.teamB.players.map(i => {
-                                return {
-                                    _id: i.player._id,
-                                    username: i.player.username,
-                                    image: i.player.image
-                                }
-                            }),
-                        },
-                        status: item.game.status,
-                        scores: {
-                            a: item.game.sets.map(i => {
-                                return {
-                                    score: i.set.teamA.score,
-                                    winner: i.set.teamA.setWon
-                                }
-                            }),
-                            b: item.game.sets.map(i => {
-                                return {
-                                    score: i.set.teamB.score,
-                                    winner: i.set.teamB.setWon
-                                }
-                            }),
-                        }
-                    }
-                })
-                setGames(updatedGames)
-            }
+            else
+                setGames(result.data.selectedDay.games)
             setLoading(false)
         } catch (error) {
             setLoading(false)
@@ -121,8 +86,27 @@ const Overview = ({ tournamentId, createAccess }) => {
                 })
                 setDateValue(fetchedData.data.selectedDay.date ? fetchedData.data.selectedDay.date : '')
                 setTournamentDays(updatedTournamentsDay)
-                let updatedGames = fetchedData.data.selectedDay.games
-                .sort((a,b)=>parseInt(a.game.game_number)-parseInt(b.game.game_number))
+                setGames(fetchedData.data.selectedDay.games)
+                setLoading(false)
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+                setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
+            }
+            setLoading(false)
+        })()
+    }, [tournamentId])
+
+
+    useEffect(() => {
+        if (!games || games.length === 0) setFilteredGames([])
+        let updatedGames = [...games]
+        if (sex)
+            updatedGames = updatedGames.filter(item => item.game.teamA.players[0].player.sex === sex)
+        if (gameType)
+            updatedGames = updatedGames.filter(item => item.game.game_type === gameType)
+        setFilteredGames(
+            updatedGames.sort((a, b) => parseInt(a.game.game_number) - parseInt(b.game.game_number))
                 .map(item => {
                     return {
                         _id: item.game._id,
@@ -159,16 +143,11 @@ const Overview = ({ tournamentId, createAccess }) => {
                         }
                     }
                 })
-                setGames(updatedGames)
-                setLoading(false)
-            } catch (error) {
-                console.log(error)
-                setLoading(false)
-                setDialog(<ErrorDialog type="error">{stringFa.error_occured}</ErrorDialog>)
-            }
-            setLoading(false)
-        })()
-    }, [tournamentId])
+        )
+
+    }, [games, gameType, sex])
+
+
     return (
         <div className="tournament-overview-container">
             {dialog}
@@ -194,7 +173,7 @@ const Overview = ({ tournamentId, createAccess }) => {
             </div>
             <div className="games-container">
                 {
-                    games?.length > 0 ? games.map((game) =>
+                    filteredGames?.length > 0 ? filteredGames.map((game) =>
                         <div key={game._id} className="a-match-game"
                             style={{
                                 borderColor: theme.darken_border_color
