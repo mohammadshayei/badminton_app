@@ -1,8 +1,12 @@
 .text-component-wrapper {
   width: 100%;
+  overflow: hidden;
   display: flex;
   p {
-    white-space: nowrap;
     margin: 0 0.25rem;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
