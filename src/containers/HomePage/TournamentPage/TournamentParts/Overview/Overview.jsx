@@ -12,6 +12,7 @@ import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import IMAGE from '../../../../../assets/images/user_avatar.svg';
 import { baseUrl } from "../../../../../constants/Config";
+import RoundSelector from "../../../../../components/UI/RoundSelector/RoundSelector.jsx";
 
 const Overview = ({ tournamentId, createAccess }) => {
     const [tournamentDays, setTournamentDays] = useState([]);
@@ -20,10 +21,10 @@ const Overview = ({ tournamentId, createAccess }) => {
     const [dateValue, setDateValue] = useState('')
     const [games, setGames] = useState([])
     const [filteredGames, setFilteredGames] = useState([])
-    const [sex, setSex] = useState('زن')
-    const [gameType, setGameType] = useState('single')
-    const { token, socket } = useSelector(state => state.auth)
+    const [sex, setSex] = useState('مرد')
+    const [gameType, setGameType] = useState('')
 
+    const { token, socket } = useSelector(state => state.auth)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -66,6 +67,9 @@ const Overview = ({ tournamentId, createAccess }) => {
     }
     const onGoToLiveScore = (id) => {
         navigate(`/scoreboard_view?gameId=${id}`)
+    }
+    const onSelectorClick = (sexValue) => {
+        setSex(sexValue)
     }
 
     useEffect(() => {
@@ -169,6 +173,24 @@ const Overview = ({ tournamentId, createAccess }) => {
                             />
                         )
                     }
+                </div>
+                <div className="tournament-filter-selector">
+                    <RoundSelector
+                        selector={'men_id'}
+                        text={'men'}
+                        selected={sex === 'مرد'}
+                        onClick={() => onSelectorClick('مرد')}
+                        type={1}
+                        style={{ borderWidth: '1px', margin: "0 0.25rem" }}
+                    />
+                    <RoundSelector
+                        selector={'women_id'}
+                        text={'women'}
+                        selected={sex === 'زن'}
+                        onClick={() => onSelectorClick('زن')}
+                        type={1}
+                        style={{ borderWidth: '1px', margin: "0 0.25rem" }}
+                    />
                 </div>
             </div>
             <div className="games-container">
