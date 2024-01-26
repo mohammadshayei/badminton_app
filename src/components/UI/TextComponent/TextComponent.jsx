@@ -7,7 +7,7 @@ const TextComponent = ({ title, value, style }) => {
 
   return (
     <div className='text-component-wrapper' style={{ ...style }}>
-      {title && <p>{title}:</p>}
+      {title && <span>{title}:</span>}
       <p
         style={{
           color: value ? theme.on_background : theme.darken_border_color,
