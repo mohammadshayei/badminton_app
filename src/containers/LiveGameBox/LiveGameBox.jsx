@@ -197,7 +197,9 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                             countryCode={game?.teamA.players[0].player.nationality}
                             svg
                             style={{
-                                marginInlineEnd: '5px'
+                                width: '1.75em',
+                                height: '1.75em',
+                                marginLeft: '10px'
                             }}
                         />
                         <div className="team-players">
@@ -266,7 +268,9 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                             countryCode={game?.teamB.players[0].player.nationality}
                             svg
                             style={{
-                                marginInlineEnd: '5px'
+                                width: '1.75em',
+                                height: '1.75em',
+                                marginLeft: '10px'
                             }}
                         />
                         <div className="team-players">
