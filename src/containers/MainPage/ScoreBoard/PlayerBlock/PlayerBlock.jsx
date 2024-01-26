@@ -165,7 +165,6 @@ const PlayerBlock = (props) => {
         <p className={`set`}
           style={{
             fontSize: `${Math.min(window.innerWidth * 0.1, window.innerHeight * 0.15)}px`,
-            lineHeight: `${Math.min(window.innerWidth * 0.1, window.innerHeight * 0.15)}px`,
           }}
         >
           {props.setWon}
@@ -174,7 +173,6 @@ const PlayerBlock = (props) => {
           <div className={`prev-score ${props.position === "right" && "rev-prev-score"}`}
             style={{
               fontSize: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.035)}px`,
-              lineHeight: `${Math.min(window.innerWidth * 0.02, window.innerHeight * 0.035)}px`,
             }}
           >
             {props.scores.map((s, i) =>
@@ -187,11 +185,9 @@ const PlayerBlock = (props) => {
       <div className={`player-block-action-container`}>
         <p className="player-name"
           style={{
-            fontSize: `${Math.min(window.innerWidth * 0.045, window.innerHeight * 0.07)}px`,
+            fontSize: `${Math.min(window.innerWidth * 0.045, window.innerHeight * 0.05)}px`,
             gridRowStart: dynamicStyle.name1 ? dynamicStyle.name1 : props.playerD ? 1 : 4,
-            padding: props.position === "left" ?
-              dynamicStyle.name1 === 1 ? "0 1.5rem 0 0" : "0" :
-              dynamicStyle.name1 === 1 ? "0 0 0 1rem" : "0"
+            padding: props.position === "left" ? "0 1.5rem 0 0" : "0 0 0 1rem"
           }}
         >{props.player && props.player.name}</p>
         <div className={`player-img ${info.foulHappend && 'blink'}`}
@@ -204,8 +200,9 @@ const PlayerBlock = (props) => {
             `${baseUrl}uploads/players/${props.player.avatar}` :
             PROFILE_IMAGE} alt="badminton player"
             style={{
-              boxShadow: props.server === 1 ? "0 0 0 1.5vh #F7FF00" :
-                (props.playerD && props.receiver === 1) && `0 0 0 1.5vh ${theme.primary}`
+              padding: '1.5vh',
+              boxShadow: props.server === 1 ? "0 0 0 1.5vh #F7FF00 inset" :
+                (props.playerD && props.receiver === 1) && `0 0 0 1.5vh ${theme.primary} inset`
             }} loading="lazy" />
         </div>
         {props.playerD &&
@@ -220,8 +217,9 @@ const PlayerBlock = (props) => {
               PROFILE_IMAGE}
               alt="badminton second player"
               style={{
-                boxShadow: props.server === 2 ? "0 0 0 1.5vh #F7FF00" :
-                  props.receiver === 2 && `0 0 0 1.5vh ${theme.primary}`
+                padding: '1.5vh',
+                boxShadow: props.server === 2 ? "0 0 0 1.5vh #F7FF00 inset" :
+                  props.receiver === 2 && `0 0 0 1.5vh ${theme.primary} inset`
               }}
               loading="lazy"
             />
@@ -230,11 +228,9 @@ const PlayerBlock = (props) => {
         {props.playerD &&
           <p className="player-name"
             style={{
-              fontSize: `${Math.min(window.innerWidth * 0.045, window.innerHeight * 0.07)}px`,
+              fontSize: `${Math.min(window.innerWidth * 0.045, window.innerHeight * 0.05)}px`,
               gridRowStart: dynamicStyle.name2 ? dynamicStyle.name2 : 4,
-              padding: props.position === "left" ?
-                dynamicStyle.name2 === 1 ? "0 1.5rem 0 0" : "0" :
-                dynamicStyle.name2 === 1 ? "0 0 0 1rem" : "0"
+              padding: props.position === "left" ? "0 1.5rem 0 0" : "0 0 0 1rem"
             }}
           >
             {props.playerD.name}
@@ -242,7 +238,6 @@ const PlayerBlock = (props) => {
         <p className="score-text"
           style={{
             fontSize: `${Math.min(window.innerWidth * 0.2, window.innerHeight * 0.3)}px`,
-            lineHeight: `${Math.min(window.innerWidth * 0.2, window.innerHeight * 0.3)}px`,
             ...scoreStyle
           }}>
           {props.score}

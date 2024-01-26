@@ -16,7 +16,6 @@
     .player-block-action-container {
       display: grid;
       grid-template-columns: repeat(3, auto);
-      row-gap: 2vh;
       flex: 1;
       .player-block-icon {
         --icon-size: min(max(2.5rem, 4vw), 6vh);
@@ -45,8 +44,10 @@
         align-items: center;
         text-align: center;
         color: #f7ff00;
-        font-size: clamp(1rem, 4.5vw, 7vh);
-        white-space: nowrap;
+        font-size: clamp(1rem, 4.5vw, 5vh);
+        line-height: 1.2;
+        height: 100px;
+        // white-space: nowrap;
         overflow: visible;
       }
       .player-img {
@@ -72,7 +73,8 @@
         justify-content: center;
         align-items: center;
         font-size: clamp(5rem, 20vw, 30vh);
-        line-height: clamp(5rem, 20vw, 20vh);
+        line-height: 1;
+        font-family: caption, sans-serif;
         font-weight: bold;
       }
     }
@@ -89,7 +91,7 @@
         color: #0fe600;
         text-shadow: 0 0 20px #0fe600;
         font-size: clamp(2.5rem, 10vw, 15vh);
-        line-height: clamp(2.5rem, 10vw, 15vh);
+        line-height: 1;
       }
       .prev-score {
         background-color: #313131;
@@ -100,6 +102,7 @@
         padding: 0.3rem 1rem;
         border-bottom-left-radius: 10px;
         font-size: clamp(0.8vh, 2vw, 3.5vh);
+        line-height: 1;
         color: #f7ff00;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
       }
