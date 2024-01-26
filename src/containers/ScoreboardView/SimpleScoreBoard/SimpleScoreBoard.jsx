@@ -63,16 +63,27 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                                 style={{
                                     width: '1.25em',
                                     height: '1.25em',
-                                    marginInline: '20px'
+                                    margin: '0 20px'
                                 }}
                             />
                             <div className="players-name">
-                                <div className="player-name">
+                                <div
+                                    className="player-name"
+                                    style={{
+                                        whiteSpace: v.players[1] ? 'nowrap' : 'wrap'
+                                    }}
+                                >
                                     {`${`${v.players[0].player.name}`.substring(0, 1)}.${v.players[0].player.family}`}
                                 </div>
-                                {v.players[1] && <div className="player-name">
-                                    {`${`${v.players[1].player.name}`.substring(0, 1)}.${v.players[1].player.family}`}
-                                </div>}
+                                {v.players[1] &&
+                                    <div
+                                        className="player-name"
+                                        style={{
+                                            whiteSpace: v.players[1] ? 'nowrap' : 'wrap'
+                                        }}
+                                    >
+                                        {`${`${v.players[1].player.name}`.substring(0, 1)}.${v.players[1].player.family}`}
+                                    </div>}
                             </div>
                             <div id={k} className={`player-score-and-set ${k === "teamA" ? 'score-and-set-rev' : ''}`}>
                                 {!gameScores && <div className="set-score"
