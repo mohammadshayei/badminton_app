@@ -98,7 +98,7 @@ const AssignLand = ({ games }) => {
             if (result.success) {
                 setTournaments(result.data.tournaments)
                 updatedOrder.tournaments.items = [];
-                result.data.tournaments.forEach(tournament => {
+                result.data.tournaments?.reverse().forEach(tournament => {
                     updatedOrder.tournaments.items = [...updatedOrder.tournaments.items,
                     { text: tournament.title, id: tournament._id }]
                 });
