@@ -9,16 +9,20 @@ import { useTheme } from '../../styles/ThemeProvider';
 // import * as gameActions from "../../store/actions/gameInfo"
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-import { baseUrl } from '../../constants/Config';
 import { stringFa } from '../../assets/strings/stringFaCollection';
+import { fetchTournaments } from '../../api/home';
+import { baseUrl } from '../../constants/Config';
 
 const WaitPage = () => {
     // const [tokenId, setTokenId] = useState("");
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
     const [games, setGames] = useState(null)
+    const [tournaments, setTournaments] = useState([])
+    const [assignedTournament, setAssignedTournament] = useState({})
 
     const socket = useSelector(state => state.auth.socket)
+    const token = useSelector(state => state.auth.token)
 
     const locaiton = useLocation();
     let navigate = useNavigate();
@@ -29,14 +33,9 @@ const WaitPage = () => {
     const searchParams = new URLSearchParams(locaiton.search);
     const gymId = searchParams.get("gymId");
     const landNumber = searchParams.get("landNumber");
+    const tournamentId = searchParams.get("tournametId");
 
-    // const dispatch = useDispatch();
-
-    // const setSelectedGameView = (game) => {
-    //     dispatch(gameActions.setGameView(game));
-    // };
-
-    const slideImages = ['BACK02.svg', 'BACK03.svg'];
+    // const slideImages = ['BACK02.svg', 'BACK03.svg'];
 
     useEffect(() => {
         (async () => {
@@ -51,6 +50,7 @@ const WaitPage = () => {
             setLoading(false)
         })()
     }, [])
+
     useEffect(() => {
         if (socket && games) {
             socket.on('get_live_game', (payload => {
@@ -67,6 +67,26 @@ const WaitPage = () => {
                 socket.off("get_live_game");
         }
     }, [socket, games])
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true)
+                const fetchedData = await fetchTournaments(token)
+                if (!fetchedData.success) {
+                    setDialog(<ErrorDialog type="error">{fetchedData.data.message}</ErrorDialog>)
+                    setLoading(false)
+                    return;
+                }
+                setTournaments(fetchedData.data.tournaments)
+                setLoading(false)
+            } catch (error) {
+                console.error(error);
+                setLoading(false)
+            }
+        })()
+    }, [token])
+
     useEffect(() => {
         if (games && gymId && landNumber) {
             const game = games.find(item => {
@@ -83,26 +103,35 @@ const WaitPage = () => {
 
     }, [games, gymId, landNumber])
 
+    useEffect(() => {
+        if (!tournamentId) return;
+        let updatedTournamets = [...tournaments];
+        const foundTournament = updatedTournamets.find(t => t._id === tournamentId);
+        if (!foundTournament) return;
+        console.log(foundTournament);
+        setAssignedTournament(foundTournament);
+    }, [tournamentId, tournaments])
+
     return (
         <div className='wait-page-wrapper'
             style={{
-                // background: `linear-gradient(210deg,${theme.primary},${theme.primary_variant})`,
-                background: '#e62643',
-                color: theme.on_primary,
+                background: assignedTournament.color || theme.background_color,  //#e62643
+                color: theme.on_background,
             }}
         >
-            {/* <div className='title'>
-                <p>نرم افزاری فکر افزار</p>
-            </div> */}
             <Slide arrows={false} duration={10000}>
-                {slideImages.map((slideImage, index) => (
-                    <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
-                        <img src={`${baseUrl}images/${slideImage}`} alt="" />
-                        {/* <p
-                            style={{ color: theme.primary }}
-                            className='url'>http://sports.setoos.ir</p> */}
-                    </div>
-                ))}
+                {/* {slideImages.map((slideImage, index) => ( */}
+                <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
+                    <p
+                        className='title'
+                    >
+                        {assignedTournament.title}
+                    </p>
+                </div>
+                <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
+                    <img src={`${baseUrl}uploads/tournaments/${assignedTournament.image}`} alt="" />
+                </div>
+                {/* ))} */}
             </Slide>
             <div className='wait'>
                 <p>

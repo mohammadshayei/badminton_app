@@ -2,33 +2,27 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  .title {
-    width: 100%;
-    // height: 4rem;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    p {
-      font-size: 25px;
-      font-weight: 500;
-    }
-  }
   .each-slide {
-    width: 100%;
-    height: calc(100vh);
     position: relative;
+    display: flex;
+    justify-content: center;
+    height: calc(100vh);
+    width: 100%;
     // height: calc(100vh - 8rem);
     // padding: 1rem;
-    img {
-      width: 100%;
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 90vw;
       height: 100%;
+      font-size: 11vh;
+      font-weight: 800;
     }
-    .url {
-      position: absolute;
-      bottom: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2.5rem;
+    img {
+      height: 65vh;
+      margin: auto;
     }
   }
   .wait {

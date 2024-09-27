@@ -16,9 +16,7 @@ import { AiOutlineEye } from 'react-icons/ai'
 const LiveGames = () => {
     const [loading, setLoading] = useState(false)
     const [duration, setDuration] = useState([]);
-    const [games, setGames] = useState([
-
-    ]);
+    const [games, setGames] = useState([]);
     const [gamesFetched, setGamesFetched] = useState(false)
     const [gamesScores, setGamesScores] = useState([])
     const [endGamesScores, setEndGamesScores] = useState([])

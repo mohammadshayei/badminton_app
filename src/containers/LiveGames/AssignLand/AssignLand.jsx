@@ -64,7 +64,7 @@ const AssignLand = ({ games }) => {
             shouldValidate: true,
             isFocused: false,
             touched: false,
-            listStyle:{maxHeight:90}
+            listStyle: { maxHeight: 90 }
         }
     })
     const token = useSelector(state => state.auth.token)
@@ -86,7 +86,7 @@ const AssignLand = ({ games }) => {
         if (game) {
             navigate(`/scoreboard_view?gameId=${game._id}&gymId=${order.gyms.id}&landNumber=${order.lands.value}`)
         } else {
-            navigate(`/wait?gymId=${order.gyms.id}&landNumber=${order.lands.value}`)
+            navigate(`/wait?tournametId=${order.tournaments.id}&gymId=${order.gyms.id}&landNumber=${order.lands.value}`)
         }
     }
 
