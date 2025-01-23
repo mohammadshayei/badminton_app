@@ -4,7 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import { useTheme } from "../../../styles/ThemeProvider";
 import ReactCountryFlag from "react-country-flag";
 
-const SimpleScoreBoard = ({ data, gameScores }) => {
+const SimpleScoreBoard = ({ data, gameScores, international = true }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
@@ -36,8 +36,9 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
 
     return <div className="simple-scoreboard-container"
         style={{
-            fontSize: `${Math.min(window.innerWidth * 0.1, window.innerHeight * 0.17)}px`,
-            lineHeight: 1.2,
+            fontSize: `${Math.min((window.innerWidth - (window.innerWidth * 0.2)) * 0.1, window.innerHeight * 0.17)}px`,
+            lineHeight: 1.35,
+            direction: international ? 'ltr' : 'rtl',
         }}
     >
         {
@@ -57,23 +58,31 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                                     data[k].server ? "#00000077" : "transparent"
                             }}
                         >
-                            <ReactCountryFlag
-                                countryCode={v.players[0].player.nationality}
-                                svg
+                            {international &&
+                                <ReactCountryFlag
+                                    countryCode={v.players[0].player.nationality}
+                                    svg
+                                    style={{
+                                        width: '1.25em',
+                                        height: '1.25em',
+                                        margin: '0 20px'
+                                    }}
+                                />
+                            }
+                            <div
+                                className="players-name"
                                 style={{
-                                    width: '1.25em',
-                                    height: '1.25em',
-                                    margin: '0 20px'
+                                    direction: international ? 'ltr' : 'rtl',
+                                    paddingRight: international ? 0 : 20
                                 }}
-                            />
-                            <div className="players-name">
+                            >
                                 <div
                                     className="player-name"
                                     style={{
                                         whiteSpace: v.players[1] ? 'nowrap' : 'wrap'
                                     }}
                                 >
-                                    {`${`${v.players[0].player.name}`.substring(0, 1)}.${v.players[0].player.family}`}
+                                    {`${`${v.players[0].player.name}`.substring(0, 1)}. ${v.players[0].player.family}`}
                                 </div>
                                 {v.players[1] &&
                                     <div
@@ -82,7 +91,7 @@ const SimpleScoreBoard = ({ data, gameScores }) => {
                                             whiteSpace: v.players[1] ? 'nowrap' : 'wrap'
                                         }}
                                     >
-                                        {`${`${v.players[1].player.name}`.substring(0, 1)}.${v.players[1].player.family}`}
+                                        {`${`${v.players[1].player.name}`.substring(0, 1)}. ${v.players[1].player.family}`}
                                     </div>}
                             </div>
                             <div id={k} className={`player-score-and-set ${k === "teamA" ? 'score-and-set-rev' : ''}`}>

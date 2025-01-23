@@ -128,9 +128,11 @@ const WaitPage = () => {
                         {assignedTournament.title}
                     </p>
                 </div>
-                <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
-                    <img src={`${baseUrl}uploads/tournaments/${assignedTournament.image}`} alt="" />
-                </div>
+                {assignedTournament.image &&
+                    <div className="each-slide" onDragStart={(e) => { e.preventDefault(); }}>
+                        <img src={`${baseUrl}uploads/tournaments/${assignedTournament.image}`} alt="" />
+                    </div>
+                }
                 {/* ))} */}
             </Slide>
             <div className='wait'>

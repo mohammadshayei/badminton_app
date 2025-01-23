@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getGame } from "../../api/scoreboard";
 import ErrorDialog from "../../components/UI/Error/ErrorDialog";
 import SimpleScoreBoard from "./SimpleScoreBoard/SimpleScoreBoard";
-import StadiumScoreBoard from "./StadiumScoreBoard/StadiumScoreBoard";
+// import StadiumScoreBoard from "./StadiumScoreBoard/StadiumScoreBoard";
 import RawData from "./RawData";
 
 const ScoreboardView = () => {
@@ -20,7 +20,6 @@ const ScoreboardView = () => {
     const [dialog, setDialog] = useState(null);
     const [loading, setLoading] = useState(false);
     const [dataSet, setDataSet] = useState(false)
-    const [selectedSkin, setSelectedSkin] = useState(null);
 
     // const game = useSelector(state => state.gameInfo.gameView)
     const socket = useSelector(state => state.auth.socket)
@@ -213,39 +212,18 @@ const ScoreboardView = () => {
     //             navigate(`/wait?gymId=${gymId}&landNumber=${landNumber}`)
     //         }, 30000);
     //     }
-
     // }, [setWonner])
-
-    useEffect(() => {
-        switch (mode) {
-            case "html":
-                setSelectedSkin(
-                    <RawData data={data} />
-                )
-                break;
-            default:
-                setSelectedSkin(
-                    <SimpleScoreBoard
-                        data={data}
-                        gameScores={gameScores}
-                    />
-                    // <StadiumScoreBoard
-                    //     data={data}
-                    //     gameScores={gameScores}
-                    //     game={game}
-                    //     count={count}
-                    //     allCount={allCount}
-                    // />
-                )
-                break;
-        }
-    }, [data, gameScores, game, count, allCount, mode]);
-
 
     return (
         <div className="scoreboard-viewers">
             {dialog}
-            {selectedSkin}
+            {mode === "html" ?
+                <RawData data={data} /> :
+                <SimpleScoreBoard
+                    data={data}
+                    gameScores={gameScores}
+                />
+            }
         </div>
     )
 }
