@@ -15,7 +15,7 @@ import GameReport from "./components/UI/Report/GameReport";
 import WaitPage from "./containers/WaitPage/WaitPage";
 import { getIp } from "./api/auth";
 import { SkeletonTheme } from 'react-loading-skeleton'
-import { useTheme } from "./styles/ThemeProvider";
+import { useTheme } from "./styles/ThemeProvider.jsx";
 
 function App() {
 

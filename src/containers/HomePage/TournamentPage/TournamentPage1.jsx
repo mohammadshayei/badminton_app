@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import PlayerModal from "./InputForms/PlayerModal/PlayerModal";
 import GymModal from "./InputForms/GymModal/GymModal";
 import GameModal from "./InputForms/GameModal/GameModal";
-import { useTheme } from "../../../styles/ThemeProvider.js";
+import { useTheme } from "../../../styles/ThemeProvider.jsx";
 import { FaMedal, FaBalanceScale } from 'react-icons/fa'
 import { MdOutlineEmojiTransportation, MdOutlineSportsHandball } from 'react-icons/md'
 

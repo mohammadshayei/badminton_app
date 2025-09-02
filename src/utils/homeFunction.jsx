@@ -1,5 +1,5 @@
-import CustomInput, { elementTypes } from "../components/UI/CustomInput/CustomInput";
-import { checkValidaty } from "./authFunction";
+import CustomInput, { elementTypes } from "../components/UI/CustomInput/CustomInput.jsx";
+import { checkValidaty } from "./authFunction.js";
 
 export const onChangeMultiPage = (e, page, key, elementType, order, setFormIsValid, setOrder) => {
     let updatedOrder = { ...order };
@@ -39,7 +39,7 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
         const [key1, value1] = Object.entries(order[page])[index]
         if (!value1.isHalf || !secondExist) {
             element = (
-                <div key={key1} className={`pair-item-container ${value1.isHalf && 'pair-half-item-container'}`}>
+                <div key={key1} className={`pair-item-container ${value1.isHalf ? 'pair-half-item-container' : ''}`}>
                     <CustomInput
                         {...value1}
                         onChange={(e) => onChangeMultiPage(e, page, key1, value1.elementType, order, setFormIsValid, setOrder)}
@@ -68,7 +68,7 @@ export const setUpMultiPage = (order, page, setFormIsValid, setOrder, setBody) =
                 )
             } else {
                 element = (
-                    <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf && 'pair-half-item-container'}`}>
+                    <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf ? 'pair-half-item-container' : ''}`}>
                         <CustomInput
                             {...value1}
                             onChange={(e) => onChangeMultiPage(e, page, key1, value1.elementType, order, setFormIsValid, setOrder)}
@@ -145,7 +145,7 @@ export const setUpSinglePage =
             const [key1, value1] = Object.entries(order)[index]
             if (!value1.isHalf || !secondExist) {
                 element = (
-                    <div key={key1} className={`pair-item-container ${value1.isHalf && 'pair-half-item-container'}`}>
+                    <div key={key1} className={`pair-item-container ${value1.isHalf ? 'pair-half-item-container' : ''}`}>
                         <CustomInput
                             {...value1}
                             onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}
@@ -174,7 +174,7 @@ export const setUpSinglePage =
                     )
                 } else {
                     element = (
-                        <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf && 'pair-half-item-container'}`}>
+                        <div key={key2} className={`pair-item-container ${value1.isHalf && value2.isHalf ? 'pair-half-item-container' : ''}`}>
                             <CustomInput
                                 {...value1}
                                 onChange={(e, indexArray) => onChangeSinglePage(e, key1, value1.elementType, order, setFormIsValid, setOrder, indexArray)}

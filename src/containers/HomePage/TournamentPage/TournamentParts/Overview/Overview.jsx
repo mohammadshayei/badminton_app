@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./Overview.scss"
-import { useTheme } from "../../../../../styles/ThemeProvider.js";
+import { useTheme } from "../../../../../styles/ThemeProvider.jsx";
 import { useEffect, useState } from 'react';
 import React from 'react'
 import { useSelector } from "react-redux";

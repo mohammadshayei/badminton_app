@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import "./ErrorDialog.scss";
 import ReactDom from "react-dom";
-import { useTheme } from "../../../styles/ThemeProvider.js";
+import { useTheme } from "../../../styles/ThemeProvider.jsx";
 // import Button from "./../Button/Button";
 import { IoWarning } from "react-icons/io5";
 import { useAnimatePresence } from "use-animate-presence";

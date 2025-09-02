@@ -4,7 +4,7 @@ import ErrorDialog from "../../../components/UI/Error/ErrorDialog";
 import "./GlobalSection.scss"
 import Loading from "../../../components/UI/Loading/Loading";
 import { useSelector } from "react-redux";
-import { useTheme } from "../../../styles/ThemeProvider.js";
+import { useTheme } from "../../../styles/ThemeProvider.jsx";
 import LiveGameBox from "../../LiveGameBox/LiveGameBox";
 import { stringFa } from "../../../assets/strings/stringFaCollection";
 
