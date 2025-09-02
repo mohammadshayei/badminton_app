@@ -6,14 +6,14 @@ const FooterScoreBoard = (props) => {
   const [data, _] = useState([
     {
       id: 1,
-      teamA: "11",
-      teamB: "21",
+      teamA: "0",
+      teamB: "0",
       finished: true,
     },
     {
       id: 2,
-      teamA: "21",
-      teamB: "15",
+      teamA: "0",
+      teamB: "0",
       finished: true,
     },
     {

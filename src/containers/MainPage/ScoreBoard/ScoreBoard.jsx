@@ -30,7 +30,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const [breakTime, setBreakTime] = useState(0);
   const [timer, setTimer] = useState("00:00");
   const [halfTime, setHalfTime] = useState(false);
-  const [maxPoint, setMaxPoint] = useState(21);
+  const [maxPoint, setMaxPoint] = useState(15);
   const [teamWon, setTeamWon] = useState(null);
   const [loading, setLoading] = useState(false);
   const [endSetRequestSent, setEndSetRequestSent] = useState(false);
@@ -202,7 +202,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
   const setOverConfirmed = (team) => {
     setOver({ teamKey: team });
     endSet(team);
-    setMaxPoint(21);
+    setMaxPoint(15);
     setUndoLastPoint(false);
   };
 
@@ -249,12 +249,12 @@ const ScoreBoard = ({ disable, setDisable }) => {
     switch (info.team1.score) {
       case maxPoint - 1:
         if (
-          (info.team1.score === 20 || info.team1.score === 29) &&
-          info.team2.score !== 29
+          (info.team1.score === 14 || info.team1.score === 20) &&
+          info.team2.score !== 20
         )
           setWinPoint(info.team1.setWon === 1 ? "match point" : "game point");
         else setWinPoint(null);
-        if (info.team2.score === maxPoint - 1 && maxPoint < 30) {
+        if (info.team2.score === maxPoint - 1 && maxPoint < 21) {
           setMaxPoint(maxPoint + 1);
         }
         break;
@@ -269,11 +269,12 @@ const ScoreBoard = ({ disable, setDisable }) => {
         setDisable(true);
         setHalfTime(false);
         break;
-      case 10:
-        if (info.team2.score < 11) setBreakTime(1);
+      case 7:
+        if (info.team1.setWon + info.team2.setWon < 2) break;
+        if (info.team2.score < 8) setBreakTime(1);
         break;
-      case 11:
-        if (info.team2.score < 11) {
+      case 8:
+        if (info.team2.score < 8 && info.team1.setWon + info.team2.setWon === 2) {
           if (info.team1.setWon + info.team2.setWon === 2) switchSide();
           if (!halfTime) {
             setHalfTime(true);
@@ -286,7 +287,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
       default:
         break;
     }
-    if (info.team2.score === 20) setWinPoint(null);
+    if (info.team2.score === 14) setWinPoint(null);
   }, [info.team1.score]);
   useEffect(() => {
     setDisabledButton(true);
@@ -296,12 +297,12 @@ const ScoreBoard = ({ disable, setDisable }) => {
     switch (info.team2.score) {
       case maxPoint - 1:
         if (
-          (info.team2.score === 20 || info.team2.score === 29) &&
-          info.team1.score !== 29
+          (info.team2.score === 14 || info.team2.score === 20) &&
+          info.team1.score !== 20
         )
           setWinPoint(info.team2.setWon === 1 ? "match point" : "game point");
         else setWinPoint(null);
-        if (info.team1.score === maxPoint - 1 && maxPoint < 30) {
+        if (info.team1.score === maxPoint - 1 && maxPoint < 21) {
           setMaxPoint(maxPoint + 1);
         }
         break;
@@ -316,11 +317,12 @@ const ScoreBoard = ({ disable, setDisable }) => {
         setDisable(true);
         setHalfTime(false);
         break;
-      case 10:
-        if (info.team1.score < 11) setBreakTime(1);
+      case 7:
+        if (info.team1.setWon + info.team2.setWon < 2) break;
+        if (info.team1.score < 8) setBreakTime(1);
         break;
-      case 11:
-        if (info.team1.score < 11) {
+      case 8:
+        if (info.team1.score < 8 && info.team1.setWon + info.team2.setWon === 2) {
           if (info.team1.setWon + info.team2.setWon === 2) switchSide();
           if (!halfTime) {
             setHalfTime(true);
@@ -333,7 +335,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
       default:
         break;
     }
-    if (info.team1.score === 20) setWinPoint(null);
+    if (info.team1.score === 14) setWinPoint(null);
   }, [info.team2.score]);
   useEffect(() => {
     (async () => {
@@ -478,7 +480,7 @@ const ScoreBoard = ({ disable, setDisable }) => {
         setOver({ teamKey: teamWon, isForce: true });
         setDisable(true);
         setHalfTime(false);
-        setMaxPoint(21);
+        setMaxPoint(15);
         const payload = {
           id: gameId,
           status: 3,

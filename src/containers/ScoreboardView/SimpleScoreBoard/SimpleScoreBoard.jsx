@@ -112,7 +112,7 @@ const SimpleScoreBoard = ({ data, gameScores, international = true }) => {
                                             {gameScores[k].map((item) =>
                                                 <p
                                                     style={{
-                                                        color: item >= 21 ? theme.success : theme.error,
+                                                        color: item >= 15 ? theme.success : theme.error,
                                                         textShadow: "none"
                                                     }}
                                                 >{item}</p>
