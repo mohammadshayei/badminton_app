@@ -257,7 +257,7 @@ const TournamentForm = () => {
         },
         city: {
             value: '',
-            title: stringFa.city,
+            title: "رنگ زمینه",
             elementConfig: {
                 type: 'text',
             },
@@ -272,7 +272,7 @@ const TournamentForm = () => {
         },
         town: {
             value: '',
-            title: stringFa.town,
+            title: "رنگ متن",
             elementConfig: {
                 type: 'text',
             },

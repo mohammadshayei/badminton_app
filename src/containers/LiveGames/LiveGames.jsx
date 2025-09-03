@@ -306,9 +306,11 @@ const LiveGames = () => {
                 }
             </div>
             <div className='button-container'>
-                <div className="online-user">
-                    {usersOnlineCount} <AiOutlineEye style={{ transform: "translateY(3px)" }} />
-                </div>
+                {usersOnlineCount?.length > 0 &&
+                    <div className="online-user">
+                        {usersOnlineCount} <AiOutlineEye style={{ transform: "translateY(3px)" }} />
+                    </div>
+                }
                 <Button
                     onClick={() => { setShowModal(true) }}
                 >

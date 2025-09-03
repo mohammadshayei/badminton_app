@@ -199,7 +199,9 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                             style={{
                                 width: '1.75em',
                                 height: '1.75em',
-                                marginLeft: '10px'
+                                marginLeft: '10px',
+                                objectFit: 'cover',
+                                borderRadius: 999
                             }}
                         />
                         <div className="team-players">
@@ -270,7 +272,9 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                             style={{
                                 width: '1.75em',
                                 height: '1.75em',
-                                marginLeft: '10px'
+                                marginLeft: '10px',
+                                objectFit: 'cover',
+                                borderRadius: 999
                             }}
                         />
                         <div className="team-players">

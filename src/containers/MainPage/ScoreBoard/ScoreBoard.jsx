@@ -270,11 +270,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
         setHalfTime(false);
         break;
       case 7:
-        if (info.team1.setWon + info.team2.setWon < 2) break;
         if (info.team2.score < 8) setBreakTime(1);
         break;
       case 8:
-        if (info.team2.score < 8 && info.team1.setWon + info.team2.setWon === 2) {
+        if (info.team2.score < 8) {
           if (info.team1.setWon + info.team2.setWon === 2) switchSide();
           if (!halfTime) {
             setHalfTime(true);
@@ -318,11 +317,10 @@ const ScoreBoard = ({ disable, setDisable }) => {
         setHalfTime(false);
         break;
       case 7:
-        if (info.team1.setWon + info.team2.setWon < 2) break;
         if (info.team1.score < 8) setBreakTime(1);
         break;
       case 8:
-        if (info.team1.score < 8 && info.team1.setWon + info.team2.setWon === 2) {
+        if (info.team1.score < 8) {
           if (info.team1.setWon + info.team2.setWon === 2) switchSide();
           if (!halfTime) {
             setHalfTime(true);
@@ -366,7 +364,6 @@ const ScoreBoard = ({ disable, setDisable }) => {
         if (result.success) {
           setDisable(true);
         } else {
-          setDialog(null);
           setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>);
         }
         if (socket) {
@@ -490,7 +487,6 @@ const ScoreBoard = ({ disable, setDisable }) => {
         if (result.success) {
           setDisable(true);
         } else {
-          setDialog(null);
           setDialog(<ErrorDialog type="error">{result.error}</ErrorDialog>);
         }
         let payloadSet = {

@@ -27,21 +27,21 @@ const HomePage = () => {
   const [page, setPage] = useState(null);
   const [selectedPageIndex, setSelectedPageIndex] = useState(1);
 
-
   const themeState = useTheme();
   const theme = themeState.computedTheme;
   let { id } = useParams();
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const showMenu = useSelector(state => state.detail.showMenu);
   const { token } = useSelector(state => state.auth);
-
 
   const setMenuStatus = (status) => {
     dispatch(detailActions.setMenuStatus(status));
   };
+
   useEffect(() => {
     if (id) {
       if (location.pathname.includes('/tournaments'))
@@ -119,6 +119,7 @@ const HomePage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, id, token]);
+
   return (
     <div
       className={`home-page-wrapper ${showMenu ? "menu-open" : ""}`}

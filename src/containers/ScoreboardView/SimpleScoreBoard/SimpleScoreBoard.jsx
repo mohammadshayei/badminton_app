@@ -65,7 +65,9 @@ const SimpleScoreBoard = ({ data, gameScores, international = true }) => {
                                     style={{
                                         width: '1.25em',
                                         height: '1.25em',
-                                        margin: '0 20px'
+                                        margin: '0 20px',
+                                        objectFit: 'cover',
+                                        borderRadius: 999
                                     }}
                                 />
                             }

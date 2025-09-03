@@ -36,6 +36,7 @@ const GameBox = ({
 
     const dropdownKeyDownHandler = (e, gameKey, teamKey, playerIndex, type) => {
         switch (e.key) {
+            case "Backspace":
             case "Delete":
                 let value = { id: "", text: "" }
                 onChange(value, gameKey, teamKey, playerIndex, type)

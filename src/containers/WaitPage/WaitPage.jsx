@@ -108,15 +108,14 @@ const WaitPage = () => {
         let updatedTournamets = [...tournaments];
         const foundTournament = updatedTournamets.find(t => t._id === tournamentId);
         if (!foundTournament) return;
-        console.log(foundTournament);
         setAssignedTournament(foundTournament);
     }, [tournamentId, tournaments])
 
     return (
         <div className='wait-page-wrapper'
             style={{
-                background: assignedTournament.color || theme.background_color,  //#e62643
-                color: theme.on_background,
+                background: assignedTournament.city || theme.background_color,
+                color: assignedTournament.town || theme.on_background,
             }}
         >
             <Slide arrows={false} duration={10000}>
