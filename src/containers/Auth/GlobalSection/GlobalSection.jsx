@@ -31,7 +31,11 @@ const HeaderAuth = () => {
         games.forEach(game => {
             var diffInMs = Math.abs(today - new Date(game.game_time.start))
             var diffInMin = Math.trunc(diffInMs / (1000 * 60));
-            newDurations = [...newDurations, `${diffInMin} '`];
+            const hours = Math.floor(diffInMin / 60);
+            const minutes = diffInMin % 60;
+            const hh = String(hours).padStart(2, '0');
+            const mm = String(minutes).padStart(2, '0');
+            newDurations = [...newDurations, `${hh}:${mm}`];
         });
         setDuration(newDurations);
     }

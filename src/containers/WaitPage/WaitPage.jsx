@@ -104,9 +104,11 @@ const WaitPage = () => {
     }, [games, gymId, landNumber])
 
     useEffect(() => {
-        if (!tournamentId) return;
+        const LocalTournamentId = localStorage.getItem("tourId") || tournamentId;
+        if (!LocalTournamentId) return;
+        localStorage.setItem("tourId", LocalTournamentId);
         let updatedTournamets = [...tournaments];
-        const foundTournament = updatedTournamets.find(t => t._id === tournamentId);
+        const foundTournament = updatedTournamets.find(t => t._id === LocalTournamentId);
         if (!foundTournament) return;
         setAssignedTournament(foundTournament);
     }, [tournamentId, tournaments])

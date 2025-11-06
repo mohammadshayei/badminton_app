@@ -36,7 +36,11 @@ const LiveGames = () => {
         games.forEach(game => {
             var diffInMs = Math.abs(today - new Date(game.game_time.start))
             var diffInMin = Math.trunc(diffInMs / (1000 * 60));
-            newDurations = [...newDurations, `${diffInMin}min`];
+            const hours = Math.floor(diffInMin / 60);
+            const minutes = diffInMin % 60;
+            const hh = String(hours).padStart(2, '0');
+            const mm = String(minutes).padStart(2, '0');
+            newDurations = [...newDurations, `${hh}:${mm}`];
         });
         setDuration(newDurations);
     }
@@ -66,6 +70,7 @@ const LiveGames = () => {
         })();
         return () => controller?.abort();
     }, [])
+
     useEffect(() => {
         if (socket && games) {
             if (timer === 0) {
@@ -97,7 +102,6 @@ const LiveGames = () => {
                 socket.off("get_change_event_set");
         }
     }, [socket, games, timer])
-
 
     useEffect(() => {
         if (!socket || !games) return;
@@ -180,6 +184,7 @@ const LiveGames = () => {
                 socket.off("send_viewer_game");
         }
     }, [socket, gamesViewers]);
+
     useEffect(() => {
         if (socket) {
             socket.on('send_sub_count', (payload => {
@@ -258,9 +263,6 @@ const LiveGames = () => {
         }
     }, [endGamesScores, socket, gamesFetched])
 
-
-
-
     useEffect(() => {
         if (!games) return;
         getDuration();
@@ -272,7 +274,6 @@ const LiveGames = () => {
             clearInterval(interval);
         };
     }, [gamesFetched]);
-
 
     return (
         <div className="live-games-page-wrapper">

@@ -7,7 +7,6 @@ import { useTheme } from "../../styles/ThemeProvider";
 import { useNavigate } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import { GiTennisCourt } from "react-icons/gi";
 import { FaReply } from "react-icons/fa";
 import ReactCountryFlag from "react-country-flag";
 
@@ -28,10 +27,10 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
     }
     const onNavigateTournamentGames = (e, game) => {
         e.stopPropagation()
-        //http://sports.setoos.ir/tournaments/984c8c140e904a37a1cc92af829500a5?part=teamMatch&matchId=a1e4a0b807ab43ccbc093a97fe11ed23
-        // touranemnt id , mathc
+        // touranemnt id , match
         navigate(`/tournaments/${game.tournament._id}?part=teamMatch&matchId=${game.match}`)
     }
+
     useEffect(() => {
         let updatedTeamAScore, updatedServerA;
         var scoreA = document.getElementById(game?._id + "A");
@@ -140,6 +139,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
             setEndScores(updatedEndScores)
         }
     }, [endGamesScores])
+
     return <div
         className="live-game-box"
         onClick={() => gameClickHandler(game?._id)}
@@ -164,34 +164,15 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                         <FaReply color={theme.primary} />
                     </p>}
             </div>
-
-            <div className="show-status">
-                <div className="online-viewers"
-                    style={{
-                        color: theme.darken_border_color
-                    }}
-                >
-                    <p>{gamesViewers && gamesViewers[game?._id] ? gamesViewers[game?._id].count : 0}</p>
-                    <AiOutlineEye />
-                </div>
-                <div className="court" style={{ color: theme.secondary }}>
-                    <p>{game?.land_number || <Skeleton width="1vw" />}</p>
-                    <GiTennisCourt />
-                </div>
-                <div className="duration">
-                    {duration ? duration : <div className="loading-time">...</div>}
-                    {/* <div className="loading-time">...</div> */}
-                </div>
-                <div className="live-indicator" />
-            </div>
         </div>
-        <div className="live-game-box-details">
+        <div
+            className="live-game-box-details"
+            style={{
+                borderColor: theme.border_color
+            }}
+        >
             <div className="name-score">
-                <div className="team devider"
-                    style={{
-                        borderColor: theme.border_color
-                    }}
-                >
+                <div className="team">
                     <div className="players-and-shuttle">
                         <ReactCountryFlag
                             countryCode={game?.teamA.players[0].player.nationality}
@@ -236,6 +217,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                 endScores.map((item, index) =>
                                     <p key={index}
                                         style={{
+                                            color: item.a > item.b ? theme.primary : theme.on_surface,
                                             fontWeight: item.a > item.b ? "800" : "200",
                                             opacity: item.a > item.b ? "1" : "0.5",
                                             margin: "0 0.5rem",
@@ -249,6 +231,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                         scores.map((item, index) =>
                                             <p key={index}
                                                 style={{
+                                                    color: item.a > item.b ? theme.primary : theme.on_surface,
                                                     fontWeight: item.a > item.b ? "800" : "200",
                                                     opacity: item.a > item.b ? "1" : "0.5",
                                                     margin: "0 0.5rem",
@@ -306,6 +289,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                         {endScores.length > 0 ? endScores.map((item, index) =>
                             <p key={index}
                                 style={{
+                                    color: item.b > item.a ? theme.primary : theme.on_surface,
                                     fontWeight: item.b > item.a ? "800" : "200",
                                     opacity: item.b > item.a ? "1" : "0.5",
                                     margin: "0 0.5rem",
@@ -317,6 +301,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                 {scores.map((item, index) =>
                                     <p key={index}
                                         style={{
+                                            color: item.b > item.a ? theme.primary : theme.on_surface,
                                             fontWeight: item.b > item.a ? "800" : "200",
                                             opacity: item.b > item.a ? "1" : "0.5",
                                             margin: "0 0.5rem",
@@ -331,6 +316,31 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                         }
 
                     </div>
+                </div>
+            </div>
+        </div>
+        <div className="live-game-box-footer">
+            <div className="duration">
+                {duration ? duration : <div className="loading-time">...</div>}
+            </div>
+            <div className="live-indicator" />
+            <div className="show-status">
+                {gamesViewers?.[game?._id]?.count > 0 &&
+                    <>
+                        <div className="online-viewers"
+                            style={{
+                                color: theme.darken_border_color
+                            }}
+                        >
+                            <p>{gamesViewers[game?._id].count}</p>
+                            <AiOutlineEye />
+                        </div>
+                        <div className="dot-devider" style={{ backgroundColor: theme.border_color }} />
+                    </>
+                }
+                <div className="court" style={{ color: theme.secondary }}>
+                    <p>{game?.land_number || <Skeleton width="1vw" />}</p>
+                    <p>Court</p>
                 </div>
             </div>
         </div>

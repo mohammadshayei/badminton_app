@@ -368,17 +368,13 @@ const GamesPage = () => {
                         backgroundColor: theme.border_color
                       }}
                     >
-                      <p className="game-box-title-text" title={item.title}>{item.title}</p>
+                      {/* <p className="game-box-title-text" title={item.title}>{item.title}</p> */}
                       {item.lock ? <FaLock color={theme.error} /> : <FaLockOpen color={theme.success} />}
                       <div className="game-number-and-court">
                         <p
                           style={{ color: theme.secondary }}
                         >
-                          {item.land_number}
-                        </p>
-                        <GiTennisCourt color={theme.secondary} />
-                        <p className="game-box-game-number">
-                          {item.game_number}
+                          {`Court ${item.land_number}`}
                         </p>
                       </div>
                     </div>
