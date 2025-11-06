@@ -4,7 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import { useTheme } from "../../../styles/ThemeProvider";
 import ReactCountryFlag from "react-country-flag";
 
-const SimpleScoreBoard = ({ data, gameScores, international = true }) => {
+const SimpleScoreBoard = ({ data, gameScores, international = false }) => {
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
@@ -84,7 +84,10 @@ const SimpleScoreBoard = ({ data, gameScores, international = true }) => {
                                         whiteSpace: v.players[1] ? 'nowrap' : 'wrap'
                                     }}
                                 >
-                                    {`${`${v.players[0].player.name}`.substring(0, 1)}. ${v.players[0].player.family}`}
+                                    {v.players[0]?.player?.family ?
+                                        `${`${v.players[0].player.name}`.substring(0, 1)}. ${v.players[0].player.family}` :
+                                        `${v.players[0].player.username}`
+                                    }
                                 </div>
                                 {v.players[1] &&
                                     <div
@@ -93,7 +96,10 @@ const SimpleScoreBoard = ({ data, gameScores, international = true }) => {
                                             whiteSpace: v.players[1] ? 'nowrap' : 'wrap'
                                         }}
                                     >
-                                        {`${`${v.players[1].player.name}`.substring(0, 1)}. ${v.players[1].player.family}`}
+                                        {v.players[1]?.player?.family ?
+                                            `${`${v.players[1].player.name}`.substring(0, 1)}. ${v.players[1].player.family}` :
+                                            `${v.players[1].player.username}`
+                                        }
                                     </div>}
                             </div>
                             <div id={k} className={`player-score-and-set ${k === "teamA" ? 'score-and-set-rev' : ''}`}>

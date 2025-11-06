@@ -10,7 +10,7 @@ import Skeleton from "react-loading-skeleton";
 import { FaReply } from "react-icons/fa";
 import ReactCountryFlag from "react-country-flag";
 
-const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration, style }) => {
+const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesStats, duration, style, international = false }) => {
     const [teamAScore, setTeamAScore] = useState(0);
     const [teamBScore, setTeamBScore] = useState(0);
     const [serverA, setServerA] = useState(0)
@@ -174,7 +174,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
             <div className="name-score">
                 <div className="team">
                     <div className="players-and-shuttle">
-                        <ReactCountryFlag
+                        {international && <ReactCountryFlag
                             countryCode={game?.teamA.players[0].player.nationality}
                             svg
                             style={{
@@ -184,7 +184,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                 objectFit: 'cover',
                                 borderRadius: 999
                             }}
-                        />
+                        />}
                         <div className="team-players">
                             <div className='team-players-score'>
                                 <span title={game?.teamA.players[0].player.username}>
@@ -249,7 +249,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                 </div>
                 <div className="team">
                     <div className="players-and-shuttle">
-                        <ReactCountryFlag
+                        {international && <ReactCountryFlag
                             countryCode={game?.teamB.players[0].player.nationality}
                             svg
                             style={{
@@ -259,7 +259,7 @@ const LiveGameBox = ({ endGamesScores, gamesScores, game, gamesViewers, gamesSta
                                 objectFit: 'cover',
                                 borderRadius: 999
                             }}
-                        />
+                        />}
                         <div className="team-players">
                             <div className='team-players-score'>
                                 <span title={game?.teamB.players[0].player.username}>
