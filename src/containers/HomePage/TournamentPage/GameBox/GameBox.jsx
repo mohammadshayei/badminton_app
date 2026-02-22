@@ -63,6 +63,7 @@ const GameBox = ({
     return <div id={`game_${game._id}`} className="tournament-game-box"
         style={{
             backgroundColor: theme.surface,
+            minHeight: game.officialsOpen ? 235 : 185,
             opacity: game.status === 3 ? 0.9 : 1
         }}
     >
@@ -228,7 +229,7 @@ const GameBox = ({
                             <div key={k3} className="detail-items">
                                 {
                                     createAccess ?
-                                        <>
+                                        <div className="game-referee">
                                             <div className="detail-name">
                                                 {k2 === 'serviceJudge' ? 'داور سرویس' : 'داور'}
                                             </div>
@@ -251,7 +252,7 @@ const GameBox = ({
                                                     animationName: game.officials[k2][k3].value ? "unset" : "border-pulse"
                                                 }}
                                             />
-                                        </>
+                                        </div>
                                         :
                                         <TextComponent
                                             value={game.officials[k2][k3].value}

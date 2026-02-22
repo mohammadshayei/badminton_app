@@ -27,49 +27,53 @@ function useOnClickOutside(ref, reff, handler) {
     }, [ref, handler]);
 }
 
-
 const DropDown = (props) => {
     const [drop, setDrop] = useState(false)
     const [searchValue, setSearchValue] = useState('')
     const [filterItems, setFilterItems] = useState([])
+
     const themeState = useTheme();
     const theme = themeState.computedTheme;
 
     const divRef = useRef();
     const inRef = useRef();
+
     useOnClickOutside(inRef, divRef, () => {
         setDrop(false);
+        setSearchValue('');
     });
 
     useEffect(() => {
         if (searchValue) {
-            setFilterItems(props.items.filter(item => item.text.includes(searchValue)))
+            setFilterItems(props.items.filter(item => `${item.text}`.toLowerCase()?.includes(`${searchValue}`.toLowerCase())))
         }
         else {
             setFilterItems(props.items)
         }
     }, [searchValue, props.items])
 
-
     const itemClickHandler = (item) => {
         props.onChange(item)
         setDrop(false)
         setSearchValue('')
     }
+
     // useEffect(() => {
     //     if (drop)
     //         divRef.current.scrollIntoViewIfNeeded({ behavior: 'smooth', inline: 'center' })
     // }, [drop])
+
     return (
         <div
             {...props.elementConfig}
             className='dropdown-container'
             style={props.containerStyle}
-
         >
-            <p className='title-class-name'
+            <p
+                className='title-class-name'
                 style={{ display: props.title ? "flex" : "none" }}
-            >{props.title}
+            >
+                {props.title}
                 <span className="required"
                     style={{
                         color: theme.error
@@ -78,7 +82,8 @@ const DropDown = (props) => {
                     {(props.validation) && (props.validation.required && '*')}
                 </span>
             </p>
-            <div ref={inRef} className='dropdown-input'
+            <div
+                ref={inRef} className='dropdown-input'
                 style={{
                     backgroundColor: theme.surface,
                     color: theme.on_surface,
@@ -93,15 +98,18 @@ const DropDown = (props) => {
                         setSearchValue(searchValue.substring(0, searchValue.length - 1))
                 }}
                 onKeyPress={(e) => { setSearchValue(searchValue + e.key) }}
-                // onBlur={() => setSearchValue('')}
+            // onBlur={() => setSearchValue('')}
             >
-                <p
-                    style={{
-                        opacity: props.value ? 1 : 0.5
-                    }}
-                >
-                    {props.value ? props.value : props.placeHolder ? props.placeHolder : 'انتخاب کنید'}
-                </p>
+                {searchValue ?
+                    <p style={{ color: theme.secondary, fontWeight: 600 }} >{searchValue}</p> :
+                    <p
+                        style={{
+                            opacity: props.value ? 1 : 0.5
+                        }}
+                    >
+                        {props.value ? props.value : props.placeHolder ? props.placeHolder : 'انتخاب کنید'}
+                    </p>
+                }
                 <div className={`dropdown-indicator-icon ${drop && "rotate"}`}>
                     <BiChevronDown />
                 </div>
@@ -119,7 +127,23 @@ const DropDown = (props) => {
                     <ul>
                         {filterItems.length > 0 ?
                             (filterItems.map((i) =>
-                                <li key={i.id} onClick={() => itemClickHandler(i)}>{i.text}</li>))
+                                <li
+                                    key={i.id}
+                                    className={`list-item ${i.id === props.value ? 'selected-list-item' : ''}`}
+                                    style={{
+                                        "--primary": theme.primary,
+                                        "--on-primary": theme.on_primary
+                                    }}
+                                    onClick={() => itemClickHandler(i)}
+                                >
+                                    <div className="list-icon">
+                                        {i.icon}
+                                    </div>
+                                    <span className="list-text">
+                                        {i.text}
+                                    </span>
+                                </li>
+                            ))
                             :
                             <p className="no-item">موردی تعریف نشده</p>
                         }

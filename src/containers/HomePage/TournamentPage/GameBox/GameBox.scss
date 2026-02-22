@@ -84,11 +84,15 @@
           align-items: center;
           margin-inline: 0.3rem;
         }
+        .game-referee{
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }
   .match-game-officials {
-    min-height: 1px;
+    min-height: fit-content;
     .detail-name {
       text-align: center;
       font-size: 12px;

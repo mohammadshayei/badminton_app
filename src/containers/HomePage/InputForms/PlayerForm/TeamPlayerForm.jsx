@@ -13,6 +13,7 @@ import TransparentButton from "../../../../components/UI/Button/TransparentButto
 import ErrorDialog from "../../../../components/UI/Error/ErrorDialog";
 import { dynamicApi, formDataDynamic } from "../../../../api/home";
 import { baseUrl } from "../../../../constants/Config";
+import { countries } from "../../../../constants/countries";
 
 
 const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
@@ -21,23 +22,49 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
     removeLoading, onPlayerItemFromTeam }) => {
     const [formIsValid, setFormIsValid] = useState(false)
     const [order, setOrder] = useState({
-        username: {
-            value: '',
-            title: stringFa.name_family,
+        firstName: {
+            title: stringFa.first_name,
+            elementType: elementTypes.titleInput,
+            value: "",
             elementConfig: {
                 type: 'text',
             },
-            elementType: elementTypes.titleInput,
-            validationMessage: stringFa.name_family_error,
-            invalid: true,
+            validationMessage: stringFa.frist_name_error,
+            invalid: false,
             validation: {
-                required: true,
-                minLength: 3,
+                required: true
             },
             shouldValidate: true,
             isFocused: false,
             touched: false,
-            hidden: false,
+        },
+        lastName: {
+            title: stringFa.last_name,
+            elementType: elementTypes.titleInput,
+            value: "",
+            elementConfig: {
+                type: 'text',
+            },
+            validationMessage: stringFa.last_name_error,
+            invalid: false,
+            validation: {
+                required: true
+            },
+            shouldValidate: true,
+            isFocused: false,
+            touched: false,
+        },
+        nationality: {
+            title: stringFa.nationality,
+            elementType: elementTypes.dropDown,
+            items: [...countries],
+            value: "IR",
+        },
+        sex: {
+            title: stringFa.sex,
+            elementType: elementTypes.dropDown,
+            items: [{ id: "مرد", text: "مرد" }, { id: "زن", text: "زن" }],
+            value: "",
         },
         id: {
             value: '',
@@ -48,18 +75,15 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
             },
             elementType: elementTypes.titleInput,
             validationMessage: stringFa.national_number_error,
-            invalid: true,
+            invalid: false,
             validation: {
-                required: true,
+                required: false,
                 isNumeric: true,
                 minLength: 10,
                 maxLength: 10,
-
             },
-            shouldValidate: true,
             isFocused: false,
             touched: false,
-            hidden: false,
             changed: false,
             url: "search_player_national_number",
             payloadKey: "nationalNumber",
@@ -71,25 +95,25 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
             value: '',
             title: stringFa.birth_data,
             elementType: elementTypes.datePicker,
-            validationMessage: '',
-            invalid: true,
-            validation: {
-                bdRequired: true,
+            validationMessage: ''
+        },
+        username: {
+            value: '',
+            title: stringFa.name_family,
+            elementConfig: {
+                type: 'text',
+                disabled: true
             },
-            shouldValidate: true,
-            isFocused: false,
-            touched: false,
+            elementType: elementTypes.titleInput,
         },
     })
     const [imageSrc, setImageSrc] = useState('')
     const [imagePath, setImagePath] = useState('')
     const [dialog, setDialog] = useState(null)
     const [loading, setLoading] = useState(false)
-    const [teamLoading, setTeamLoading] = useState(false)
     const [changed, setChanged] = useState(false)
 
-
-    const { token, user } = useSelector(state => state.auth)
+    const { token } = useSelector(state => state.auth)
 
     const themeState = useTheme();
     const theme = themeState.computedTheme;
@@ -112,7 +136,11 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
         setDialog(null);
         try {
             let payload = {
-                username: order.username.value,
+                firstName: order.firstName.value,
+                lastName: order.lastName.value,
+                nationality: order.nationality.value,
+                sex: order.sex.value,
+                username: `${order.firstName.value} ${order.lastName.value}`,
                 playerId: content._id,
                 teamId: teamId,
                 nationalNumber: order.id.value,
@@ -137,6 +165,7 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
         setLoading(false)
         setChanged(false)
     }
+
     const onSave = async () => {
         setLoading(true)
         setDialog(null);
@@ -160,7 +189,7 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
                     selected: true
                 })
                 if (window.innerWidth < 780)
-                    setShowInputForm(false)
+                    onBack()
                 // clear()
             }
         } catch (error) {
@@ -169,46 +198,23 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
         }
         setLoading(false)
         setChanged(false)
-
     }
 
     const clear = () => {
         setFormIsValid(false)
         setImageSrc('')
         let updatedOrder = { ...order }
-        updatedOrder.id.invalid = true;
+        updatedOrder.firstName.value = '';
+        updatedOrder.firstName.invalid = false;
+        updatedOrder.lastName.value = '';
+        updatedOrder.lastName.invalid = false;
+        updatedOrder.nationality.value = 'IR';
+        updatedOrder.sex.value = 'مرد';
         updatedOrder.id.value = '';
-
-        updatedOrder.username.invalid = true;
         updatedOrder.username.value = '';
-
         updatedOrder.birthDate.value = '';
-        updatedOrder.birthDate.invalid = true;
-
         setOrder(updatedOrder)
     }
-
-    useLayoutEffect(() => {
-        setImageSrc('')
-        if (content) {
-            setFormIsValid(true)
-            if (content.image)
-                setImageSrc(`${baseUrl}uploads/players/${content.image}`)
-            let updatedOrder = { ...order }
-            updatedOrder.id.value = content.national_number;
-            updatedOrder.id.invalid = false;
-
-            updatedOrder.username.value = content.username;
-            updatedOrder.username.invalid = false;
-
-            updatedOrder.birthDate.value = content.birth_date;
-            updatedOrder.birthDate.invalid = false;
-
-            setOrder(updatedOrder)
-        } else {
-            clear()
-        }
-    }, [content])
 
     useEffect(() => {
         if (!order.id.checkNeeded) return;
@@ -243,15 +249,36 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
         })()
     }, [order.id.checkNeeded])
 
+    useLayoutEffect(() => {
+        setImageSrc('')
+        if (content) {
+            setFormIsValid(true)
+            if (content.image)
+                setImageSrc(`${baseUrl}uploads/players/${content.image}`)
+            let updatedOrder = { ...order }
+            updatedOrder.firstName.value = content.firstName;
+            updatedOrder.firstName.invalid = content.firstName ? false : true;
+            updatedOrder.lastName.value = content.lastName;
+            updatedOrder.lastName.invalid = content.lastName ? false : true;
+            updatedOrder.nationality.value = content.nationality;
+            updatedOrder.sex.value = content.sex;
+            updatedOrder.id.value = content.national_number;
+            updatedOrder.username.value = content.username;
+            updatedOrder.birthDate.value = content.birth_date;
+            setOrder(updatedOrder)
+        } else {
+            clear()
+        }
+    }, [content])
 
     return (
-        <div className="input-wrapper">
+        <div className="input-wrapper" style={{ background: theme.surface }}>
             {dialog}
             <div
                 className="back-section"
                 onClick={onBack}
             >
-                <RiArrowLeftSLine />
+                {stringFa.cancel}
             </div>
             <div className="profile-avatar" onClick={uploadButtonClickHandler}>
                 <input type="file"
@@ -300,7 +327,7 @@ const TeamPlayerForm = ({ teamId, itemLoading, createAccess,
                                 {stringFa.remove_player_from_team}
                             </Button> :
                             <TransparentButton
-                                onClick={() => { setShowInputForm(false) }}
+                                onClick={onBack}
                             >
                                 {stringFa.cancel}
                             </TransparentButton>

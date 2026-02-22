@@ -24,11 +24,10 @@ const InputForm = ({ setChanged, createAccess, itemLoading, order, setOrder, set
                         <CustomInput
                             {...v}
                             onChange={(e, indexArray) => {
-                                if (v.validation.isNumeric) {
+                                if (v.validation?.isNumeric) {
                                     checkNumericInput(e)
                                 }
-                                if (setChanged)
-                                    setChanged(true)
+                                if (setChanged) setChanged(true)
                                 if (v.elementType === elementTypes.switchInput
                                     || v.elementType === elementTypes.datePicker || v.elementType === elementTypes.dropDown)
                                     onChange(e, k, order, setOrder, setFormIsValid)

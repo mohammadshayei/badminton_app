@@ -60,15 +60,41 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       overflow: auto;
       ul {
-        li {
+        .list-item {
+          display: flex;
+          align-items: center;
+          gap: 5px;
           list-style: none;
-          padding: 0.1em 0.5em;
+          padding: 6px;
           border-radius: 5px;
           cursor: pointer;
+          transition: all 0.5s ease;
           &:hover {
             background: rgba(0, 0, 0, 0.1);
           }
-          transition: all 0.5s ease;
+          &:not(:last-child) {
+            margin-bottom: 3px;
+          }
+          .list-icon{
+            display: flex;
+            align-items: center;
+            line-height: 1;
+            font-size: 22px;
+            padding-top: 5px;
+          }
+          .list-text{
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+          }
+        }
+        .selected-list-item {
+          background: var(--primary);
+          color: var(--on-primary);
+          cursor: default;
+          &:hover{
+            background: var(--primary);
+          }
         }
         .no-item {
           width: 100%;

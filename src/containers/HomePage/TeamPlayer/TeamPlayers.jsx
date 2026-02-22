@@ -10,13 +10,12 @@ import Skeleton from 'react-loading-skeleton'
 import { useTheme } from '../../../styles/ThemeProvider'
 import TeamItem from '../TournamentPage/Items/TeamItem'
 import { Icon } from '@iconify/react';
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './TeamPlayers.scss'
 import { useEffect } from 'react'
 import TeamPlayerForm from '../InputForms/PlayerForm/TeamPlayerForm'
 
-const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, create }) => {
-
+const TeamPlayers = ({ createAccess, setDialog, loading, data, teamId }) => {
   const [searchListItems, setSearchListItem] = useState([])
   const [searchValue, setSearchValue] = useState('')
   const [listItem, setListItem] = useState([])
@@ -26,13 +25,16 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
   const [contentLoading, setContentLoading] = useState(false)
   const [removeLoading, setRemoveLoading] = useState(false)
   const [content, setContent] = useState(false)
+
   const { token } = useSelector(state => state.auth)
   const navigate = useNavigate()
-
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search);
+  const create = searchParams.get("create");
+  const itemId = searchParams.get("item");
 
   const themeState = useTheme();
   const theme = themeState.computedTheme;
-
 
   const onSearch = async (event) => {
     setSearchValue(event.target.value);
@@ -52,7 +54,6 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
       setSearchLoading(false)
     }
     setSearchLoading(false)
-
   }
   const onAddItem = (item) => {
     let updatedList = listItem.map(item => { return { ...item, selected: false } })
@@ -103,6 +104,7 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
     }
     setRemoveLoading(false)
   }
+
   const onUpdateItem = (item) => {
     let updatedListItem = [...listItem]
     let findIndex = updatedListItem.findIndex(i => i._id === item._id)
@@ -110,22 +112,18 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
     updatedListItem[findIndex] = item;
     setListItem(updatedListItem)
   }
+
   const onBack = () => {
-    if (content)
-      navigate(`/teams/${teamId}?part=players`)
-    else setShowInputForm(false)
+    navigate(`/teams/${teamId}?part=players`)
+    setShowInputForm(false)
   }
+
   const onAddItemClickHandler = () => {
     navigate(`/teams/${teamId}?part=players&create=1`)
   }
+
   const onItemClick = (itemId) => {
     navigate(`/teams/${teamId}?part=players&item=${itemId}`)
-    setListItem(lst => lst.map(item => {
-      return {
-        ...item,
-        selected: item._id === itemId ? true : false
-      }
-    }))
   }
 
   useEffect(() => {
@@ -134,7 +132,6 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
       return {
         _id: item.player._id,
         username: item.player.username,
-        selected: false
       }
     }))
 
@@ -143,21 +140,11 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
   useEffect(() => {
     if (searchValue.length > 0) {
       setFilteredListItems(
-        searchListItems.filter(item => listItem
-          .findIndex(i => i._id === item._id) > -1))
+        searchListItems.filter(item => item && listItem.findIndex(i => i && (i._id === item._id)) > -1))
     }
     else
       setFilteredListItems(listItem)
   }, [listItem, searchListItems])
-  useEffect(() => {
-    if (!itemId || !data?.players) return;
-    setListItem(lst => lst.map(item => {
-      return {
-        ...item,
-        selected: itemId === item._id ? true : false
-      }
-    }))
-  }, [data?.players, itemId])
 
   useEffect(() => {
     if (!itemId) {
@@ -191,14 +178,9 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
   useEffect(() => {
     if (create === '1') {
       setShowInputForm(true)
-      setListItem(lst => lst.map(item => {
-        return {
-          ...item,
-          selected: false
-        }
-      }))
     }
   }, [create])
+
   return (
     <div className='tournament-body'>
       <div className='tournament-search'>
@@ -206,8 +188,8 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
           searchValue={searchValue}
           searchPlaceHolder={`جستجو بازیکن`}
           searchListItems={
-            searchListItems.filter(item => listItem
-              .findIndex(i => i._id === item._id) < 0)}
+            searchListItems?.filter(item => item && listItem?.findIndex(i => i && (`${i._id}` === `${item._id}`)) < 0)
+          }
           onSearch={onSearch}
           searchLoading={searchLoading}
           onAddItemToTournament={onAddItemToTournament}
@@ -242,18 +224,42 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
                   style={{ border: "none" }}
                 />) :
               filteredListItems.length > 0 ?
-                filteredListItems.map((item, index) =>
-                  <TeamItem
-                    key={item._id}
-                    index={index + 1}
-                    indexNeeded={false}
-                    item={item}
-                    selector={() => {
-                      return 'username'
+                <div className='list-box'>
+                  <div
+                    className='list-header' 
+                    style={{
+                      backgroundColor: theme.secondary,
+                      color: theme.on_primary
                     }}
-                    onClick={() => onItemClick(item._id)}
-                  />
-                )
+                  >
+                    <div>
+                      {`بازیکنان${filteredListItems?.length > 0 ? ` - ${filteredListItems?.length} نفر` : ''}`}
+                    </div>
+                  </div>
+                  <div className='list-body'>
+                    <div
+                      className='list-column'
+                      style={{
+                        backgroundColor: theme.secondary
+                      }}
+                    >
+                    </div>
+                    <div className='list-content' style={{ backgroundColor: theme.surface }} >
+                      {filteredListItems.map((item, index) =>
+                        <TeamItem
+                          key={item._id}
+                          index={index + 1}
+                          indexNeeded={true}
+                          item={item}
+                          selector={() => {
+                            return 'username'
+                          }}
+                          onClick={() => onItemClick(item._id)}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
                 : <div className='not_found'>
                   <Icon
                     icon="uit:exclamation-circle"
@@ -271,7 +277,6 @@ const TeamPlayers = ({ createAccess, setDialog, loading, data, itemId, teamId, c
             backgroundColor: window.innerWidth > 720 ? theme.background_color : theme.surface,
             display: showInputForm ? 'flex' : 'none',
           }}>
-
           <TeamPlayerForm
             content={content}
             setShowInputForm={setShowInputForm}

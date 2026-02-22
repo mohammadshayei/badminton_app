@@ -70,6 +70,7 @@ const TournamentPage = ({ id }) => {
     const onAddItemClickHandler = () => {
         navigate(`/tournaments/${tournament._id}?part=${part}&create=1`)
     }
+    
     const onAddItemToTournament = async (item) => {
         try {
             const result = await dynamicApi(

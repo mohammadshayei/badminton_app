@@ -87,12 +87,13 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
     useEffect(() => {
         if (!data) return;
         setLoading(true)
-        let updatedPricing
+        const basePrice = 2500000;
+        let updatedPricing;
         if (data.days < 2) {
             updatedPricing = [
                 {
                     days: 1,
-                    price: separatorComma(1000000),
+                    price: separatorComma(basePrice),
                     hover: false,
                     disabled: false
                 },
@@ -107,13 +108,13 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
             updatedPricing = [
                 {
                     days: data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2,
-                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * 1000000),
+                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days - 1) / 2) * basePrice),
                     hover: false,
                     disabled: false
                 },
                 {
                     days: data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2,
-                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * 1000000),
+                    price: separatorComma((data.days % 2 === 0 ? data.days / 2 : (data.days + 1) / 2) * basePrice),
                     hover: false,
                     disabled: false
                 },
@@ -233,7 +234,6 @@ const MemberShipInfo = ({ data, setData, teamId, setDialog }) => {
                                 />
                             </div>
                         )}
-                        <p>توجه : %9 مالیات بر ارزش افزوده به قیمت ها اضافه می‌شود.</p>
                         <div className="subscription-details">
                             <Icon
                                 icon="akar-icons:check"

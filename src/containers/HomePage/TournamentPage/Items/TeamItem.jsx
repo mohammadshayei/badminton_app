@@ -1,9 +1,15 @@
+import { useLocation } from "react-router";
 import CreditBar from "../../../../components/UI/CreditBar/CreditBar";
 import { useTheme } from "../../../../styles/ThemeProvider";
 
 const TeamItem = ({ item, index, indexNeeded, selector, onClick, isReferee }) => {
+
     const themeState = useTheme();
     const theme = themeState.computedTheme;
+
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search);
+    const itemId = searchParams.get("item");
 
     return (
         <div
@@ -14,11 +20,11 @@ const TeamItem = ({ item, index, indexNeeded, selector, onClick, isReferee }) =>
             onClick={onClick}
         >
             {indexNeeded ?
-                <p style={{ color: window.innerWidth >= 780 && item.selected && theme.primary }}>
+                <p style={{ color: window.innerWidth >= 780 && (item._id === itemId) && theme.primary }}>
                     {index}. {item[selector()]}
                 </p>
                 : <p
-                    style={{ color: window.innerWidth >= 780 && item.selected && theme.primary }}>
+                    style={{ color: window.innerWidth >= 780 && (item._id === itemId) && theme.primary }}>
                     {item[selector()]}
                 </p>
             }

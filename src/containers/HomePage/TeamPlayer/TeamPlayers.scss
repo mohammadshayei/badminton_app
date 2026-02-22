@@ -1,12 +1,13 @@
 .tournament-body {
   width: 100%;
   position: relative;
+  padding: 0 5rem;
   .tournament-search {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 2rem 0;
     .button-add {
       display: flex;
       align-items: center;
@@ -19,11 +20,50 @@
   .tournament-content {
     width: 100%;
     display: flex;
+    gap: 50px;
     .tournament-list-items {
       width: 100%;
       flex-direction: column;
-      max-width: 20rem;
-      padding: 1rem;
+      .list-box{
+        border-radius: 20px;
+        background-color: #fff;
+        margin-bottom: 4rem;
+        .list-header{
+          border-top-right-radius: 20px;
+          border-top-left-radius: 20px;
+          padding: 20px;
+          padding-right: 30px;
+          font-size: 18px;
+          font-weight: 600;
+        }
+        .list-body{
+          position: relative;
+          display: flex;
+          .list-column{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            opacity: 50%;
+            border-bottom-right-radius: 20px;
+          }
+          .list-content{
+            padding: 10px 20px;
+            margin-right: 40px;
+            flex: 1;
+            border-bottom-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            overflow: hidden;
+            .tournament-item {
+              border-bottom: 1px solid;
+              padding: 10px;
+              width: 100%;
+              cursor: pointer;
+            }
+          }
+        }
+      }
       .not_found {
         display: flex;
         flex-direction: column;
@@ -31,10 +71,6 @@
         width: 100%;
         padding: 0.5rem;
         opacity: 0.8;
-      }
-      .tournament-item {
-        border-bottom: 1px solid;
-        cursor: pointer;
       }
     }
     .hide {
@@ -52,6 +88,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        border-radius: 20px;
+        padding: 12px;
         .profile-avatar {
           top: 0;
           display: flex;
@@ -129,9 +167,9 @@
         .back-section {
           position: absolute;
           display: flex;
-          left: 0;
-          top: 0;
-          font-size: 40px;
+          left: 15px;
+          top: 15px;
+          font-size: 20px;
           border-radius: 50%;
           cursor: pointer;
           z-index: 10;
@@ -176,8 +214,8 @@
             }
           }
           .back-section {
-            top: 0;
-            left: 0;
+            left: 15px;
+            top: 15px;
           }
           .gym-back {
             left: 20px;

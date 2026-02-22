@@ -28,7 +28,6 @@ const TeamPage = ({ id }) => {
         },
     }
 
-
     const [team, setTeam] = useState();
     const [createAccess, setCreateAccess] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -41,10 +40,6 @@ const TeamPage = ({ id }) => {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search);
     const part = searchParams.get("part");
-    const item = searchParams.get("item");
-    const create = searchParams.get("create");
-
-
 
     const onSelectorClick = (key) => {
         let updatedFilterSelectors = { ...filterSelectors };
@@ -157,9 +152,7 @@ const TeamPage = ({ id }) => {
                         data={data}
                         loading={loading}
                         setDialog={setDialog}
-                        itemId={item}
                         teamId={id}
-                        create={create}
                         createAccess={createAccess}
                     />
         }
